@@ -12,7 +12,7 @@ const int MainMenu::NUMBER_OF_OPTIONS = 2;
 
 MainMenu::MainMenu()
 : bg(new Image("resource/title_proto.jpg")),
-  font(new Engine::Font("resource/jack.ttf", 40)),
+  font(new Engine::Font("resource/jack.ttf", 44)),
   minorFont(new Engine::Font("resource/liberation.ttf", 24)),
   eventQueue(new Engine::Event::Queue()),
   selected(0)
@@ -23,6 +23,7 @@ MainMenu::MENU_OPTION MainMenu::show()
 	//TODO
 
 	bool running = true;
+	selected = 0;
 
 	while(running)
 	{

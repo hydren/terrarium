@@ -154,6 +154,9 @@ void Game::handleInput()
 				player->animation->setCurrent("still-left");
 				isKeyLeftPressed = false;
 				break;
+			case Engine::Event::Key::ESCAPE:
+				running = false;
+				break;
 			default:
 				break;
 			}

@@ -1,3 +1,6 @@
 
 * Can't compile the game on LAB2 when Allegro libs compiled on LAB3 are on .local/lib
 * Minor sprite glitch when too many blocks on the screen
+* Need to rethink the visible area mechanism to make avoid scrolling the visible area when in the boundaries of the map
+* Need to create a valid *.tmx map loader and saver.
+* Need to adapt the generators to the current Map classes.

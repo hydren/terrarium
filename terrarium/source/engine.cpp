@@ -136,6 +136,7 @@ namespace Engine
 
 			case ALLEGRO_KEY_ENTER: return Event::Key::ENTER;
 			case ALLEGRO_KEY_SPACE: return Event::Key::SPACE;
+			case ALLEGRO_KEY_ESCAPE: return Event::Key::ESCAPE;
 
 			//TODO map more buttons...
 

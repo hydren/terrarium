@@ -70,6 +70,7 @@ namespace Engine
 			ARROW_RIGHT,
 			ENTER,
 			SPACE,
+			ESCAPE,
 			UNKNOWN
 		};};
 

@@ -12,7 +12,7 @@ const int MainMenu::NUMBER_OF_OPTIONS = 2;
 
 MainMenu::MainMenu()
 : bg(new Image("resource/title_proto.jpg")),
-  font(new Engine::Font("resource/liberation.ttf", 32)),
+  font(new Engine::Font("resource/jack.ttf", 40)),
   minorFont(new Engine::Font("resource/liberation.ttf", 24)),
   eventQueue(new Engine::Event::Queue()),
   selected(0)
@@ -77,9 +77,9 @@ MainMenu::MENU_OPTION MainMenu::show()
 
 		bg->draw();
 		font->draw_text("Project Terrarium", 84, 25, Engine::Color::ORANGE);
-		minorFont->draw_text("Load map from file", 64, 192, Engine::Color::BLUE);
-		minorFont->draw_text("Exit", 64, 224, Engine::Color::BLUE);
-		minorFont->draw_text("->", 32, 192 + selected*32, Engine::Color::RED);
+		minorFont->draw_text("Load map from file", 96, 192, Engine::Color::BLUE);
+		minorFont->draw_text("Exit", 96, 224, Engine::Color::BLUE);
+		minorFont->draw_text(">>", 64, 192 + selected*32, Engine::Color::RED);
 		Engine::display->refresh();
 
 	}

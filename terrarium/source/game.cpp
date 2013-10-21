@@ -43,41 +43,39 @@ void Game::start()
 	anim->add("walk-right", 56, 84, 0.3, 4);
 	anim->setCurrent("still-right");
 	Body* b = new Body(1,1,convertToMeters(16),convertToMeters(80));
-	Entity* e = new Entity(anim, b);
-	e->body->setDynamic();
-	e->body->addBodytoWorld(world);
-	e->body->body->SetFixedRotation(true);
+	player = new Entity(anim, b);
+	player->body->setDynamic();
+	player->body->addBodytoWorld(world);
+	player->body->body->SetFixedRotation(true);
 
-	entities.push_back(e);
-	player = entities[0];
 	green_box = new Image("resource/tileset-dirt.png");
 
-	FileInputStream stream("resource/map.tmx");
-	String s = "";
-	while (stream.good())
-	{
-		s += stream.get();
-	}
-
-	s = s.substr(0, s.size()-1); //removing EOF
-
-	using namespace rapidxml;
-
-	xml_document<> doc;
-
-	char * c = (char *) s.c_str();
-
-	doc.parse<0>(c);
-
-	COUT << "Name of my first node is: " << doc.first_node()->name() << "\n";
-	xml_node<> *node = doc.first_node();
-	COUT << "Node foobar has value " << node->value() << "\n";
-	for (xml_attribute<> *attr = node->first_attribute();
-	     attr; attr = attr->next_attribute())
-	{
-	    COUT << "Node foobar has attribute " << attr->name() << " ";
-	    COUT << "with value " << attr->value() << "\n";
-	}
+//	FileInputStream stream("resource/map.tmx");
+//	String s = "";
+//	while (stream.good())
+//	{
+//		s += stream.get();
+//	}
+//
+//	s = s.substr(0, s.size()-1); //removing EOF
+//
+//	using namespace rapidxml;
+//
+//	xml_document<> doc;
+//
+//	char * c = (char *) s.c_str();
+//
+//	doc.parse<0>(c);
+//
+//	COUT << "Name of my first node is: " << doc.first_node()->name() << "\n";
+//	xml_node<> *node = doc.first_node();
+//	COUT << "Node foobar has value " << node->value() << "\n";
+//	for (xml_attribute<> *attr = node->first_attribute();
+//	     attr; attr = attr->next_attribute())
+//	{
+//	    COUT << "Node foobar has attribute " << attr->name() << " ";
+//	    COUT << "with value " << attr->value() << "\n";
+//	}
 
 
 	delete map;
@@ -95,7 +93,7 @@ void Game::start()
 
 	Map::saveRawMapToFile(string("resource/rawmap.txt"), map);
 
-	delete e;
+	delete player;
 	delete i;
 }
 
@@ -227,8 +225,10 @@ void Game::drawScene()
 
 	map->draw();
 
+	player->draw(&visibleArea); //draw player
 
-	/* drawing all */
+
+	/* drawing others entities */
 	for(vector<Entity*>::iterator it = entities.begin() ; it != entities.end(); ++it){
 		if (*it != NULL) (*it)->draw(&visibleArea);
 	}

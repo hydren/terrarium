@@ -142,7 +142,7 @@ Exception::Exception(const char *format, ...)
     va_end(args);
 }
 
-FILE* Util::createFile(const String& str_filename, bool abortOnFailure)
+FILE* Util::createCFile(const String& str_filename, bool abortOnFailure)
 {
     char* filename;
     filename = new char[str_filename.size()];
@@ -165,7 +165,7 @@ FILE* Util::createFile(const String& str_filename, bool abortOnFailure)
     return file;
 }
 
-FILE* Util::loadFile(const String& str_filename, bool abortOnFailure)
+FILE* Util::loadCFile(const String& str_filename, bool abortOnFailure)
 {
     char* filename;
     filename = new char[str_filename.size()];
@@ -188,7 +188,7 @@ FILE* Util::loadFile(const String& str_filename, bool abortOnFailure)
     return file;
 }
 
-void Util::closeFile(FILE *file)
+void Util::closeCFile(FILE *file)
 {
     fclose(file);
 }

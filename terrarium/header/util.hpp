@@ -110,12 +110,12 @@ namespace Math
 	}
 }
 
-//class to provide some goodies
+//class to provide some old C goodies
 namespace Util
 {
-    FILE* loadFile(const String& filename, bool abortOnFailure=false);
-    FILE* createFile(const String& filename, bool abortOnFailure=false);
-    void closeFile(FILE* file);
+    FILE* loadCFile(const String& filename, bool abortOnFailure=false);
+    FILE* createCFile(const String& filename, bool abortOnFailure=false);
+    void closeCFile(FILE* file);
 };
 
 /* Class created to behave like the Java's Exception

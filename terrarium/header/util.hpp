@@ -8,10 +8,6 @@
 #ifndef UTIL_HPP_
 #define UTIL_HPP_
 
-#ifndef UTIL_HPP_INCLUDED
-#define UTIL_HPP_INCLUDED
-
-
 //utilities, multi-purpose things
 
 #include <iostream>
@@ -48,7 +44,7 @@ using std::ofstream;
 //Same as std::cerr
 #define CERR std::cerr
 
-/* Same as '= 0'
+/* Same as '=0'
  * Used right after method declaration. Ex: int giveNumber(const int x) abstract;
  * Means that this function has no implementation, making the containing class abstract, impossible to instanciate it.
  * The only way to instanciate, is to instanciate a subclass of it that is not abstract.
@@ -57,7 +53,7 @@ using std::ofstream;
  * Dog dog;
  * Animal& another_dog = dog;
  */
-#define abstract = 0
+#define abstract =0
 
 // Same as ':'
 #define extends :
@@ -172,23 +168,6 @@ struct Rect
 float convertToMeters(float pixels);
 
 float convertToPixels(float meters);
-
-/*NOTES:
- * A "pure" virtual member is a virtual method that is declared to be = 0. Example:
- *
- * virtual void foo() = 0;
- *
- * To make the code more readable, there is a macro named "abstract" that is defined as "= 0".
- * With this you can declare pure virtual methods like this:
- *
- * virtual void foo() abstract; //cool huh?
- *
- * You can even make CodeLite recognize "abstract" as a keyword, making it appear with the same color as ther others keywords!
- * To do this go to Settings -> Syntax Highlighting and Fonts -> Customize -> C++ keyword -> Set 0, and add "abstract" to the list.
-*/
-
-#endif // UTIL_HPP_INCLUDED
-
 
 
 #endif /* UTIL_HPP_ */

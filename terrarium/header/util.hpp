@@ -44,9 +44,12 @@ using std::ofstream;
 //Same as std::cerr
 #define CERR std::cerr
 
+/** Automatic bridge macro, to encapsulate the implementation and speed up compilation time. It also cleans the global namespace.
+ * This technique is called PImpl idiom, Compiler firewall idiom, handle classes, Cheshire Cat, etc... */
+#define encapsulated struct Implementation; Implementation *implementation
+#define encapsulation(DAD_CLASS) struct DAD_CLASS::Implementation
 
 // Just being hipster
-
 #define abstract =0
 #define null NULL
 #define repeat while(true)

@@ -9,8 +9,9 @@
 #define MAIN_MENU_HPP_
 
 #include "util.hpp"
-#include "image.hpp"
 #include "engine.hpp"
+
+using Engine::Image;
 
 class MainMenu
 {
@@ -22,7 +23,7 @@ class MainMenu
 	Image* bg;
 	Engine::Font* font;
 	Engine::Font* minorFont;
-	Engine::Event::Queue* eventQueue;
+	Engine::EventQueue* eventQueue;
 	int selected;
 
 	public:

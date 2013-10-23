@@ -11,34 +11,6 @@ Engine::Display* Engine::display; //declaration of display (because it is an EXT
 
 namespace Engine
 {
-	Color::Color(unsigned char r, unsigned char g, unsigned char b)
-	: r(r), g(g), b(b)
-	{}
-
-	const Color
-	Color::WHITE		(255, 255, 255),
-	Color::GREY			(127, 127, 127),
-	Color::BLACK		(  0,   0,   0),
-	Color::RED			(255,   0,   0),
-	Color::MAROON		(127,   0,   0),
-	Color::YELLOW		(255, 255,   0),
-	Color::OLIVE		(127, 127,   0),
-	Color::GREEN		(  0, 255,   0),
-	Color::DARK_GREEN	(  0, 127,   0),
-	Color::CYAN			(  0, 255, 255),
-	Color::TEAL			(  0, 127, 127),
-	Color::BLUE			(  0,   0, 255),
-	Color::NAVY			(  0,   0, 127),
-	Color::MAGENTA		(255,   0, 255),
-	Color::PURPLE		(127,   0, 127),
-
-	Color::LIGHT_GREY	(192, 192, 192),
-	Color::DARK_GREY	( 96,  96,  96),
-	Color::ORANGE		(255, 127,   0),
-	Color::PINK			(255, 192, 192),
-	Color::BROWN		(144,  92,  48);
-	//TODO add more colors
-
 	void initialize()
 	{
 		al_init();
@@ -99,6 +71,47 @@ namespace Engine
 	void Display::clear()
 	{
 		al_clear_to_color(al_map_rgb(0,0,0));
+	}
+
+	Image::Image(String filename)
+	: bitmap(al_load_bitmap(filename.c_str()))
+	{
+		if ( bitmap == NULL)
+			throw Exception("AllegroAPI Constructor - Could not load image: " + filename);
+	}
+
+	Image::~Image()
+	{
+		al_destroy_bitmap(this->bitmap);
+	}
+
+	void Image::draw(float x, float y, float from_x, float from_y, float w, float h)
+	{
+		//COUT << x << " " << y << " " << from_x << " " << from_y << " " << w << " " << h << " " << ENDL;
+		if(w == -1 && h == -1) //draw all source region
+			al_draw_bitmap(this->bitmap, x, y, 0);
+		else
+			al_draw_bitmap_region(this->bitmap, from_x, from_y, w, h, x, y, 0);
+	}
+
+	void Image::draw_rotated(float x, float y, float ax, float ay, float angle, float from_x, float from_y, float w, float h)
+	{
+		if(w == -1 && h == -1) //draw all source region
+			al_draw_rotated_bitmap(this->bitmap, ax, ay, x, y, angle, 0);
+		else
+			al_draw_tinted_scaled_rotated_bitmap_region(this->bitmap, from_x, from_y, w, h, al_map_rgba_f(1, 1, 1, 1), ax, ay, x, y, 1, 1, angle, 0);
+	}
+
+	void Image::blit(Image& img2, float x, float y, float from_x, float from_y, float h, float w)
+	{
+		al_set_target_bitmap( img2.bitmap );
+
+		if(w == -1 && h == -1) //draw all source region
+			al_draw_bitmap(this->bitmap, x, y, 0);
+		else
+			al_draw_bitmap_region(this->bitmap, from_x, from_y, w, h, x, y, 0);
+
+		al_set_target_backbuffer(al_get_current_display());
 	}
 
 	Event::Event()
@@ -166,7 +179,7 @@ namespace Engine
 		return this->allegroEvent->mouse.y;
 	}
 
-	Event::Queue::Queue()
+	EventQueue::EventQueue()
 	: allegroEventQueue(al_create_event_queue()),
 	  allegroEvent(new ALLEGRO_EVENT())
 	{
@@ -178,21 +191,49 @@ namespace Engine
 		al_register_event_source(allegroEventQueue, al_get_mouse_event_source());
 	}
 
-	bool Event::Queue::isEmpty()
+	bool EventQueue::isEmpty()
 	{
 		return al_is_event_queue_empty(this->allegroEventQueue);
 	}
 
-	Event* Event::Queue::waitForEvent()
+	Event* EventQueue::waitForEvent()
 	{
 		al_wait_for_event(allegroEventQueue, allegroEvent);
 		return new Event(allegroEvent);
 	}
 
-	void Event::Queue::waitForEvent(Event* container)
+	void EventQueue::waitForEvent(Event* container)
 	{
 		al_wait_for_event(allegroEventQueue, container->allegroEvent);
 	}
+
+	Color::Color(unsigned char r, unsigned char g, unsigned char b)
+	: r(r), g(g), b(b)
+	{}
+
+	const Color
+	Color::WHITE		(255, 255, 255),
+	Color::GREY			(127, 127, 127),
+	Color::BLACK		(  0,   0,   0),
+	Color::RED			(255,   0,   0),
+	Color::MAROON		(127,   0,   0),
+	Color::YELLOW		(255, 255,   0),
+	Color::OLIVE		(127, 127,   0),
+	Color::GREEN		(  0, 255,   0),
+	Color::DARK_GREEN	(  0, 127,   0),
+	Color::CYAN			(  0, 255, 255),
+	Color::TEAL			(  0, 127, 127),
+	Color::BLUE			(  0,   0, 255),
+	Color::NAVY			(  0,   0, 127),
+	Color::MAGENTA		(255,   0, 255),
+	Color::PURPLE		(127,   0, 127),
+
+	Color::LIGHT_GREY	(192, 192, 192),
+	Color::DARK_GREY	( 96,  96,  96),
+	Color::ORANGE		(255, 127,   0),
+	Color::PINK			(255, 192, 192),
+	Color::BROWN		(144,  92,  48);
+	//TODO add more colors
 
 	Font::Font(String filename, int size, bool antialiasing, bool hinting, bool kerning)
 	: allegroFont( al_load_ttf_font(filename.c_str(), size, (antialiasing? 0 : ALLEGRO_TTF_MONOCHROME)	| (hinting? 0 : ALLEGRO_TTF_NO_AUTOHINT) | (kerning? 0 : ALLEGRO_TTF_NO_KERNING)) ) //I know, very weird...

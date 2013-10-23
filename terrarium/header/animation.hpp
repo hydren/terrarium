@@ -9,7 +9,9 @@
 #define ANIMATION_HPP_
 
 #include "util.hpp"
-#include "image.hpp"
+#include "engine.hpp"
+
+using Engine::Image;
 
 struct Dimensions
 {

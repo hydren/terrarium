@@ -15,7 +15,7 @@ Game::Game()
 visibleArea(0,0,640,480),
 map(NULL),
 green_box(NULL),
-eventQueue(new Engine::Event::Queue()),
+eventQueue(new Engine::EventQueue()),
 font(new Engine::Font("resource/liberation.ttf", 14)),
 running(true),
 jumping(false),

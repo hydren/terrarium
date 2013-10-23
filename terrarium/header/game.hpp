@@ -9,12 +9,10 @@
 #define GAME_HPP_
 
 #include "body.hpp"
-#include "image.hpp"
 #include "entity.hpp"
 #include "engine.hpp"
 #include "block.hpp"
 #include "map.hpp"
-
 
 struct Game
 {
@@ -30,7 +28,7 @@ struct Game
 
 	Image* green_box;
 
-	Engine::Event::Queue* eventQueue;
+	Engine::EventQueue* eventQueue;
 	Engine::Font* font;
 
 	b2World* world;

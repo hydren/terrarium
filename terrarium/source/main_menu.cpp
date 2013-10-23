@@ -14,7 +14,7 @@ MainMenu::MainMenu()
 : bg(new Image("resource/title_proto.jpg")),
   font(new Engine::Font("resource/jack.ttf", 44)),
   minorFont(new Engine::Font("resource/liberation.ttf", 24)),
-  eventQueue(new Engine::Event::Queue()),
+  eventQueue(new Engine::EventQueue()),
   selected(0)
 {}
 

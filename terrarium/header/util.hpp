@@ -44,35 +44,20 @@ using std::ofstream;
 //Same as std::cerr
 #define CERR std::cerr
 
-/* Same as '=0'
- * Used right after method declaration. Ex: int giveNumber(const int x) abstract;
- * Means that this function has no implementation, making the containing class abstract, impossible to instanciate it.
- * The only way to instanciate, is to instanciate a subclass of it that is not abstract.
- * You can, however, declare a pointer to this class, or a reference.
- * Ex: Animal* cat = new Cat();
- * Dog dog;
- * Animal& another_dog = dog;
- */
-#define abstract =0
-
-// Same as ':'
-#define extends :
-
-// Same as ':'
-#define sets :
-
-// Java mode null
-#define null NULL
 
 // Just being hipster
+
+#define abstract =0
+#define null NULL
+#define repeat while(true)
+#define extends :
+#define sets :
+
 typedef ifstream FileInputStream;
-
 typedef ofstream FileOutputStream;
-
-// Same as std::string
 typedef string String;
 
-//adds almost java-like abilities to String. It's still not converting char*+int and alike to String
+//adds almost java-like capabilities to String. It's still not converting char*+int and alike to String
 String operator + (String a, String b);
 
 String operator + (String a, int b);

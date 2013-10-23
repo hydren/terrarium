@@ -33,6 +33,8 @@ namespace Engine
 	 * */
 	class Display
 	{
+		friend class EventQueue;
+
 		private:
 
 		ALLEGRO_DISPLAY* allegroDisplay;
@@ -64,7 +66,6 @@ namespace Engine
 		 */
 		void clear();
 
-		friend class EventQueue;
 	};
 
 	/** A pointer to the main display instance */
@@ -72,6 +73,8 @@ namespace Engine
 
 	class Image
 	{
+		friend class Display; //needed to give the Display access to the underlying bitmap
+
 		private:
 		ALLEGRO_BITMAP* bitmap;
 
@@ -106,8 +109,6 @@ namespace Engine
 		 * from_x and from_y specifies the position, w and h specifies the size of the selected area.
 		 */
 		void blit(Image& img2, float x=0, float y=0, float from_x=0, float from_y=0, float h=-1, float w=-1);
-
-		friend class Display; //needed to give the Display access to the underlying bitmap
 	};
 
 	/**
@@ -115,13 +116,15 @@ namespace Engine
 	 * */
 	class Event
 	{
+		friend class EventQueue;
+
 		private:
-		public:
 		ALLEGRO_EVENT* allegroEvent;
 
-		Event();
 		Event(ALLEGRO_EVENT* ev);
+		Event();
 
+		public:
 
 		struct Type{ enum value
 		{
@@ -165,7 +168,6 @@ namespace Engine
 		int getEventMouseX();
 
 		int getEventMouseY();
-
 	};
 
 	class EventQueue

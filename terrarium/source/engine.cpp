@@ -114,13 +114,16 @@ namespace Engine
 		al_set_target_backbuffer(al_get_current_display());
 	}
 
-	Event::Event()
-	: allegroEvent(new ALLEGRO_EVENT())
-	{}
 
 	Event::Event(ALLEGRO_EVENT* ev)
 	: allegroEvent(ev)
 	{}
+
+	Event::Event()
+	: allegroEvent(new ALLEGRO_EVENT())
+	{}
+
+
 
 	Event::Type::value Event::getEventType()
 	{

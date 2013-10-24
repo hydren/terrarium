@@ -47,7 +47,7 @@ using std::ofstream;
 /** Automatic bridge macro, to encapsulate the implementation and speed up compilation time. It also cleans the global namespace.
  * This technique is called PImpl idiom, Compiler firewall idiom, handle classes, Cheshire Cat, etc... */
 #define encapsulated struct Implementation; Implementation *implementation
-#define encapsulation(DAD_CLASS) struct DAD_CLASS::Implementation
+#define encapsulation(PARENT_CLASS) struct PARENT_CLASS::Implementation
 
 // Just being hipster
 #define abstract =0
@@ -93,14 +93,6 @@ namespace Math
 		return i < 0 ? -i : i;
 	}
 }
-
-//class to provide some old C goodies
-namespace Util
-{
-    FILE* loadCFile(const String& filename, bool abortOnFailure=false);
-    FILE* createCFile(const String& filename, bool abortOnFailure=false);
-    void closeCFile(FILE* file);
-};
 
 /* Class created to behave like the Java's Exception
  * Contains a String msg, with the error message

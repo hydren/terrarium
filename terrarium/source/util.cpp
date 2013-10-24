@@ -142,56 +142,6 @@ Exception::Exception(const char *format, ...)
     va_end(args);
 }
 
-FILE* Util::createCFile(const String& str_filename, bool abortOnFailure)
-{
-    char* filename;
-    filename = new char[str_filename.size()];
-    filename = strcpy(filename, str_filename.c_str());
-    //just to avoid some problems with fgets including '\n' in strings
-    if(filename[strlen(filename)-1] == '\n') filename[strlen(filename)-1] = '\0';
-
-    FILE* file;
-    if( (file = fopen(filename, "w")) == NULL )
-    {
-        if(abortOnFailure) exit(-1);
-        else
-        {
-            String msg="";
-            msg = msg+"Couldn't load file "+filename;
-            throw Exception(msg);
-        }
-    }
-
-    return file;
-}
-
-FILE* Util::loadCFile(const String& str_filename, bool abortOnFailure)
-{
-    char* filename;
-    filename = new char[str_filename.size()];
-    filename = strcpy(filename, str_filename.c_str());
-    //just to avoid some problems with fgets including '\n' in strings
-    if(filename[strlen(filename)-1] == '\n') filename[strlen(filename)-1] = '\0';
-
-    FILE* file;
-    if( (file = fopen(filename, "rw")) == NULL )
-    {
-        if(abortOnFailure) exit(-1);
-        else
-        {
-            String msg="";
-            msg = msg+"Couldn't load file "+filename;
-            throw Exception(msg);
-        }
-    }
-
-    return file;
-}
-
-void Util::closeCFile(FILE *file)
-{
-    fclose(file);
-}
 
 bool Rect::intersects(const Rect& box )
 {

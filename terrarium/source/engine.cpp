@@ -40,27 +40,38 @@ namespace Engine
 		al_rest(seconds);
 	}
 
-	Display::Display(int width, int height, String title, Image* icon)
-	: allegroDisplay(al_create_display(width, height))
+	struct Display::Implementation //experimental feature
 	{
-		if(allegroDisplay == NULL) throw Exception("Could not create display! Error "+al_get_errno());
-		al_set_window_title(allegroDisplay, title.c_str());
-		if(icon != NULL) al_set_display_icon(allegroDisplay, icon->bitmap);
+		ALLEGRO_DISPLAY* allegroDisplay;
+	};
+
+	Display::Display(int width, int height, String title, Image* icon)
+	{
+		this->implementation = new Implementation();
+		this->implementation->allegroDisplay = al_create_display(width, height);
+
+		if(this->implementation->allegroDisplay == NULL)
+			throw Exception("Could not create display! Error "+al_get_errno());
+
+		al_set_window_title(this->implementation->allegroDisplay, title.c_str());
+
+		if(icon != NULL)
+			al_set_display_icon(this->implementation->allegroDisplay, icon->bitmap);
 	}
 
 	Display::~Display()
 	{
-		al_destroy_display(allegroDisplay);
+		al_destroy_display(this->implementation->allegroDisplay);
 	}
 
 	void Display::setTitle(const String& title)
 	{
-		al_set_window_title(allegroDisplay, title.c_str());
+		al_set_window_title(this->implementation->allegroDisplay, title.c_str());
 	}
 
 	void Display::setIcon(Image* image)
 	{
-		al_set_display_icon(allegroDisplay, image->bitmap);
+		al_set_display_icon(this->implementation->allegroDisplay, image->bitmap);
 	}
 
 	void Display::refresh()
@@ -164,11 +175,11 @@ namespace Engine
 	{
 		switch(this->allegroEvent->mouse.button)
 		{
-			case ALLEGRO_MOUSE_BUTTON_LEFT:			return Event::MouseButton::LEFT;
-			case ALLEGRO_MOUSE_BUTTON_RIGHT:		return Event::MouseButton::RIGHT;
-			case ALLEGRO_MOUSE_BUTTON_MIDDLE:		return Event::MouseButton::MIDDLE;
+			case 1:		return Event::MouseButton::LEFT;
+			case 2:		return Event::MouseButton::RIGHT;
+			case 3:		return Event::MouseButton::MIDDLE;
 
-			default:								return Event::MouseButton::UNKNOWN;
+			default:	return Event::MouseButton::UNKNOWN;
 		}
 	}
 
@@ -189,7 +200,7 @@ namespace Engine
 		if(allegroEventQueue == NULL)
 			throw Exception("Could not create event queue");
 
-		al_register_event_source(allegroEventQueue, al_get_display_event_source(Engine::display->allegroDisplay));
+		al_register_event_source(allegroEventQueue, al_get_display_event_source(Engine::display->implementation->allegroDisplay));
 		al_register_event_source(allegroEventQueue, al_get_keyboard_event_source());
 		al_register_event_source(allegroEventQueue, al_get_mouse_event_source());
 	}

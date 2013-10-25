@@ -28,21 +28,11 @@ using std::vector;
 using std::pair;
 using std::ifstream;
 using std::ofstream;
+using std::cout;
+using std::endl;
+using std::cerr;
 
 // * * * * * Useful macros
-
-#define ALLEGRO_MOUSE_BUTTON_LEFT 1
-#define ALLEGRO_MOUSE_BUTTON_RIGHT 2
-#define ALLEGRO_MOUSE_BUTTON_MIDDLE 3
-
-//Same as std::cout
-#define COUT std::cout
-
-//Same as std::endl
-#define ENDL std::endl
-
-//Same as std::cerr
-#define CERR std::cerr
 
 /** Automatic bridge macro, to encapsulate the implementation and speed up compilation time. It also cleans the global namespace.
  * This technique is called PImpl idiom, Compiler firewall idiom, handle classes, Cheshire Cat, etc... */
@@ -105,9 +95,8 @@ class Exception
     public:
 
     Exception(std::string str)
-    {
-        msg = str;
-    }
+    : msg(str)
+    {}
 
     Exception(const char* format, ...);
 

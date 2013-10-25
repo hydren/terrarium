@@ -14,7 +14,7 @@ grid(), background(bg), visibleArea(visibleArea)
 }
 
 Map::Map(Image* bg, int columns, int lines, Rect* visibleArea) :
-grid(), background(NULL), visibleArea(visibleArea)
+grid(), background(null), visibleArea(visibleArea)
 {
 	grid.resize(columns, vector<Block*>(lines));//fill the matrix with null
 	AnimationSet* staticAnim = new AnimationSet(bg); //lets create an animation with a single image, given as parameter
@@ -27,7 +27,7 @@ grid(), background(NULL), visibleArea(visibleArea)
  *  Deprecated */
 Map* Map::loadRawMapFromFile(String filename, b2World* world)
 {
-	Map* map=NULL;
+	Map* map=null;
 
 	vector< vector<int> > matrix;
 
@@ -84,7 +84,7 @@ Map* Map::loadRawMapFromFile(String filename, b2World* world)
 
 	Image* img = new Image("resource/tileset-dirt.png");
 
-	COUT << "map dimensions: " << matrix_corrected.size() << " " << matrix_corrected[0].size() << ENDL;
+	cout << "map dimensions: " << matrix_corrected.size() << " " << matrix_corrected[0].size() << endl;
 	map = new Map(new Image("resource/background.jpg"), matrix_corrected.size(), matrix_corrected[0].size(), NULL);
 
 	for(unsigned int i = 0; i < matrix_corrected.size() ; i++)

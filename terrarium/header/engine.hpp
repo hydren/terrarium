@@ -37,7 +37,8 @@ namespace Engine
 
 		private:
 
-		ALLEGRO_DISPLAY* allegroDisplay;
+		struct Implementation;
+		Implementation* implementation;
 
 		public:
 

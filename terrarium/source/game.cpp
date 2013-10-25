@@ -26,7 +26,7 @@ isKeyLeftPressed(false)
 {
 
 	if(eventQueue == null)
-		COUT << "DEU ROLO" << ENDL;
+		cout << "DEU ROLO" << endl;
 
 
 	b2Vec2 gravity(0.0f, 10.0f);

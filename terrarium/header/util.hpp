@@ -52,7 +52,6 @@ using std::ofstream;
 // Just being hipster
 #define abstract =0
 #define null NULL
-#define repeat while(true)
 #define extends :
 #define sets :
 

@@ -6,9 +6,6 @@
  */
 
 #include "../header/game.hpp"
-#include "../header/rapidxml.hpp"
-
-
 
 Game::Game()
 : player(NULL),
@@ -49,34 +46,6 @@ void Game::start()
 	player->body->body->SetFixedRotation(true);
 
 	green_box = new Image("resource/tileset-dirt.png");
-
-//	FileInputStream stream("resource/map.tmx");
-//	String s = "";
-//	while (stream.good())
-//	{
-//		s += stream.get();
-//	}
-//
-//	s = s.substr(0, s.size()-1); //removing EOF
-//
-//	using namespace rapidxml;
-//
-//	xml_document<> doc;
-//
-//	char * c = (char *) s.c_str();
-//
-//	doc.parse<0>(c);
-//
-//	COUT << "Name of my first node is: " << doc.first_node()->name() << "\n";
-//	xml_node<> *node = doc.first_node();
-//	COUT << "Node foobar has value " << node->value() << "\n";
-//	for (xml_attribute<> *attr = node->first_attribute();
-//	     attr; attr = attr->next_attribute())
-//	{
-//	    COUT << "Node foobar has attribute " << attr->name() << " ";
-//	    COUT << "with value " << attr->value() << "\n";
-//	}
-
 
 	delete map;
 	map = Map::loadRawMapFromFile(string("resource/rawmap.txt"), world);

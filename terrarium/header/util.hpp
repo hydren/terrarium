@@ -11,16 +11,10 @@
 //utilities, multi-purpose things
 
 #include <iostream>
-#include <fstream>
-#include <sstream>
-#include <cstdarg>
-#include <cstdio>
-#include <cstring>
-#include <cstdlib>
-#include <cmath>
 #include <string>
-#include <map>
 #include <vector>
+#include <map>
+#include <fstream>
 
 using std::string;
 using std::map;

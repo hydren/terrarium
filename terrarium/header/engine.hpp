@@ -8,10 +8,6 @@
 #ifndef ENGINE_HPP_
 #define ENGINE_HPP_
 
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
 #include "util.hpp"
 
 namespace Engine
@@ -77,15 +73,17 @@ namespace Engine
 		friend class Display; //needed to give the Display access to the underlying bitmap
 
 		private:
-		ALLEGRO_BITMAP* bitmap;
+
+		struct Implementation;
+		Implementation* implementation;
 
 		public:
 
 		Image(String filename);
 		~Image();
 
-		float getWidth() { return al_get_bitmap_width(bitmap); } //TODO possibly incorrect!
-		float getHeight() { return al_get_bitmap_height(bitmap); }
+		float getWidth();
+		float getHeight();
 
 	    //to be able to use it on std::vector
 	    Image& operator = (const Image& t)
@@ -120,9 +118,10 @@ namespace Engine
 		friend class EventQueue;
 
 		private:
-		ALLEGRO_EVENT* allegroEvent;
 
-		Event(ALLEGRO_EVENT* ev);
+		struct Implementation;
+		Implementation* implementation;
+
 		Event();
 
 		public:
@@ -174,8 +173,9 @@ namespace Engine
 	class EventQueue
 	{
 		private:
-		ALLEGRO_EVENT_QUEUE* allegroEventQueue;
-		ALLEGRO_EVENT* allegroEvent;
+
+		struct Implementation;
+		Implementation* implementation;
 
 		public:
 
@@ -207,7 +207,8 @@ namespace Engine
 	{
 		private:
 
-		ALLEGRO_FONT* allegroFont;
+		struct Implementation;
+		Implementation* implementation;
 
 		public:
 

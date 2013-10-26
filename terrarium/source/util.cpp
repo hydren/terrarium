@@ -7,6 +7,9 @@
 
 #include "../header/util.hpp"
 
+#include <cstdarg>
+#include <sstream>
+
 // ====================  adding almost java-like habilities to String
 
 String operator + (String a, String b)

@@ -25,7 +25,7 @@ grid(), background(null), visibleArea(visibleArea)
 
 /** Loads old raw text map files, based on the terrarium "SDL" prototype.
  *  Deprecated */
-Map* Map::loadRawMapFromFile(String filename, b2World* world)
+Map* Map::loadRawMapFromFile(String filename, World* world)
 {
 	Map* map=null;
 
@@ -94,7 +94,7 @@ Map* Map::loadRawMapFromFile(String filename, b2World* world)
 			if(matrix_corrected[i][j] == 1)
 			{
 				map->grid[i][j] = new Block( img, i, j);
-				map->grid[i][j]->body->addBodytoWorld(world);
+				world->addBody(map->grid[i][j]->body);
 				map->retile(map->grid[i][j]);
 			}
 		}
@@ -102,7 +102,7 @@ Map* Map::loadRawMapFromFile(String filename, b2World* world)
 	return map;
 }
 
-Map* Map::loadRawMapFromFile(char* filename, b2World* world)
+Map* Map::loadRawMapFromFile(char* filename, World* world)
 {
 	return loadRawMapFromFile(String(filename), world);
 }

@@ -10,10 +10,14 @@
 
 #include "block.hpp"
 
+#include "physics.hpp"
+
+using Physics::World;
+
 struct Map
 {
 	/** The map grid, with all block slots */
-	std::vector< std::vector<Block*> > grid;
+	vector< vector<Block*> > grid;
 
 	/** Default is a black background */
 	AnimationSet *background;
@@ -25,8 +29,8 @@ struct Map
 
 	Map(Image* bg, int columns, int lines, Rect* visibleArea);
 
-	static Map* loadRawMapFromFile(String filename, b2World* world);
-	static Map* loadRawMapFromFile(char* filename, b2World* world);
+	static Map* loadRawMapFromFile(String filename, World* world);
+	static Map* loadRawMapFromFile(char* filename, World* world);
 
 	static void saveRawMapToFile(String filename, Map* map);
 

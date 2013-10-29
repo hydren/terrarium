@@ -7,6 +7,9 @@
 
 #include "../header/game.hpp"
 
+using Physics::World;
+using Physics::Vector;
+
 Game::Game()
 : player(NULL),
 visibleArea(0,0,640,480),
@@ -26,8 +29,8 @@ isKeyLeftPressed(false)
 		cout << "DEU ROLO" << endl;
 
 
-	b2Vec2 gravity(0.0f, 10.0f);
-	world = new b2World(gravity);
+	Vector gravity(0.0f, 10.0f);
+	world = new World(gravity);
 }
 
 void Game::start()
@@ -42,8 +45,8 @@ void Game::start()
 	Body* b = new Body(1,1,convertToMeters(16),convertToMeters(80));
 	player = new Entity(anim, b);
 	player->body->setDynamic();
-	player->body->addBodytoWorld(world);
-	player->body->body->SetFixedRotation(true);
+	world->addBody(player->body);
+	player->body->setFixedRotation();
 
 	green_box = new Image("resource/tileset-dirt.png");
 
@@ -70,28 +73,28 @@ void Game::handleInput()
 {
 
 	if(isKeyUpPressed && !jumping) {
-		b2Vec2 v = player->body->body->GetLinearVelocity();
+		Vector v = player->body->getVelocity();
 		if(v.y >= -2.0f) {
-			player->body->body->ApplyLinearImpulse(b2Vec2(0.0f, -0.05f), b2Vec2(player->body->getX(), player->body->getY()));
+			player->body->applyImpulse(Vector(0.0f, -0.05f), Vector(player->body->getX(), player->body->getY()));
 			jumping = true;
 		}
 	}
 	if(isKeyDownPressed) {
-		b2Vec2 v = player->body->body->GetLinearVelocity();
+		Vector v = player->body->getVelocity();
 		if(v.y <= 2.0f)
-			player->body->body->ApplyForceToCenter(b2Vec2(0.0f, 0.2f));
+			player->body->applyForceToCenter(Vector(0.0f, 0.2f));
 	}
 	if(isKeyRightPressed) {
 		player->animation->setCurrent("walk-right");
-		b2Vec2 v = player->body->body->GetLinearVelocity();
+		Vector v = player->body->getVelocity();
 		if(v.x <= 2.0f)
-			player->body->body->ApplyForceToCenter(b2Vec2(0.2f, 0.0f));
+			player->body->applyForceToCenter(Vector(0.2f, 0.0f));
 	}
 	if(isKeyLeftPressed) {
 		player->animation->setCurrent("walk-left");
-		b2Vec2 v = player->body->body->GetLinearVelocity();
+		Vector v = player->body->getVelocity();
 		if(v.x >= -2.0f)
-			player->body->body->ApplyForceToCenter(b2Vec2(-0.2f, 0.0f));
+			player->body->applyForceToCenter(Vector(-0.2f, 0.0f));
 	}
 
 	while(! eventQueue->isEmpty() )
@@ -160,7 +163,7 @@ void Game::handleInput()
 					if (map->grid[mx][my] == NULL)
 					{
 						map->grid[mx][my] = new Block(green_box, mx, my);
-						map->grid[mx][my]->body->addBodytoWorld(world);
+						world->addBody(map->grid[mx][my]->body);
 						map->retile(map->grid[mx][my]);
 					}
 
@@ -175,7 +178,7 @@ void Game::handleInput()
 				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
 					if (map->grid[mx][my] != NULL)
 					{
-						map->grid[mx][my]->body->destroyBody(world);
+						world->destroyBody(map->grid[mx][my]->body);
 						delete map->grid[mx][my];
 						map->grid[mx][my] = NULL;
 						map->retileNeighbourhood(mx, my);
@@ -189,7 +192,7 @@ void Game::handleInput()
 void Game::drawScene()
 {
 	Engine::display->clear();
-	world->Step((1.0f / 60.0f), 6, 2);
+	world->step((1.0f / 60.0f), 6, 2);
 	/* needs to draw HUD */
 
 	map->draw();

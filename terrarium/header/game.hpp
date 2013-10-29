@@ -8,7 +8,6 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
-#include "body.hpp"
 #include "entity.hpp"
 #include "engine.hpp"
 #include "block.hpp"
@@ -31,7 +30,7 @@ struct Game
 	Engine::EventQueue* eventQueue;
 	Engine::Font* font;
 
-	b2World* world;
+	Physics::World* world;
 
 	bool running, jumping;
 	bool isKeyUpPressed, isKeyDownPressed, isKeyRightPressed, isKeyLeftPressed;

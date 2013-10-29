@@ -16,7 +16,7 @@ body(b)
 
 void Entity::draw()
 {
-	animation->draw(convertToPixels(body->getX()), convertToPixels(body->getY()), (float) body->body->GetAngle());
+	animation->draw(convertToPixels(body->getX()), convertToPixels(body->getY()), (float) body->getAngle());
 }
 
 void Entity::draw(const Rect* visibleAreaPosition)
@@ -25,5 +25,5 @@ void Entity::draw(const Rect* visibleAreaPosition)
 			animation->draw(convertToPixels(body->getX()), convertToPixels(body->getY()));
 		}
 		else
-			animation->draw(convertToPixels(body->getX()) - visibleAreaPosition->x, convertToPixels(body->getY()) - visibleAreaPosition->y, body->body->GetAngle());
+			animation->draw(convertToPixels(body->getX()) - visibleAreaPosition->x, convertToPixels(body->getY()) - visibleAreaPosition->y, body->getAngle());
 }

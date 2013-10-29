@@ -9,7 +9,9 @@
 #define ENTITY_HPP_
 
 #include "animation.hpp"
-#include "body.hpp"
+#include "physics.hpp"
+
+using Physics::Body;
 
 class Entity
 {

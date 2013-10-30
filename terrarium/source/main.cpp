@@ -7,8 +7,8 @@
 
 #include <cstdlib>
 #include "../header/engine.hpp"
-#include "../header/game.hpp"
 #include "../header/main_menu.hpp"
+#include "../header/game.hpp"
 
 using std::cout;
 using std::endl;
@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 	try
 	{
 		Engine::initialize();
-		Engine::display = new Engine::Display(640, 480, "Nice screen");
+		Engine::display = new Engine::Display(640, 480, "Project Terrarium");
 
 
 		MainMenu menu;
@@ -40,10 +40,11 @@ int main(int argc, char** argv)
 		out:
 
 		delete Engine::display;
+		Engine::finalize();
 	}
 	catch(Exception& e)
 	{
-		std::cout << e.message() << std::endl;
+		cout << e.message() << endl;
 	}
 	return EXIT_SUCCESS;
 }

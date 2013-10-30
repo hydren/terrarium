@@ -12,12 +12,12 @@
 
 namespace Engine
 {
-	//to avoid annoying declaration order issues...
+	//pre-declaring these classes to avoid annoying declaration order issues...
 	class Image;
 	class EventQueue;
 
 	/** Initialize underlying engine software. You MUST call this before trying anything */
-	void initialize(); //TODO throw an exception if call any method before a call to initialize()
+	void initialize(); //TODO throw an exception if any Engine method is called before one call to initialize() method
 
 	/** Shutdown underlying engine software. */
 	void finalize();
@@ -29,9 +29,7 @@ namespace Engine
 	 * */
 	class Display
 	{
-		friend class EventQueue;
-
-		private:
+		friend class EventQueue; //need to give the event queue access to the internal display
 
 		struct Implementation;
 		Implementation* implementation;
@@ -71,8 +69,6 @@ namespace Engine
 	class Image
 	{
 		friend class Display; //needed to give the Display access to the underlying bitmap
-
-		private:
 
 		struct Implementation;
 		Implementation* implementation;
@@ -115,9 +111,7 @@ namespace Engine
 	 * */
 	class Event
 	{
-		friend class EventQueue;
-
-		private:
+		friend class EventQueue; //event queue must be able to access the inner event object
 
 		struct Implementation;
 		Implementation* implementation;
@@ -172,8 +166,6 @@ namespace Engine
 
 	class EventQueue
 	{
-		private:
-
 		struct Implementation;
 		Implementation* implementation;
 
@@ -205,8 +197,6 @@ namespace Engine
 
 	class Font
 	{
-		private:
-
 		struct Implementation;
 		Implementation* implementation;
 

@@ -10,8 +10,10 @@
 
 namespace Physics
 {
+	//pre-declaring these classes to avoid annoying declaration order issues...
 	class World;
 
+	/** A simple 3D vector */
 	struct Vector
 	{
 		float x, y, z;
@@ -19,14 +21,12 @@ namespace Physics
 		Vector();
 		Vector(float x1=0, float y1=0, float z1=0);
 		Vector(const Vector &v);
-
 	};
 
+	/** Represents a physical body */
 	class Body
 	{
 		friend class World;
-
-		private:
 
 		struct Implementation;
 		Implementation* implementation;
@@ -53,6 +53,7 @@ namespace Physics
 		void applyForceToCenter(Vector force);
 	};
 
+	/** Represents the world */
 	class World
 	{
 		struct Implementation;

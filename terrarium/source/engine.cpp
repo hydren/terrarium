@@ -7,6 +7,8 @@
 
 #include "../header/engine.hpp"
 
+/** Engine code based on Allegro5. */
+
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
@@ -16,7 +18,9 @@ Engine::Display* Engine::display; //declaration of display (because it is an EXT
 
 namespace Engine
 {
-	struct Display::Implementation //experimental feature
+	/** * Definition of the "implementation" struct's (experimental) * */
+	// PS: Felipe, don't be scared, it is innofensive. ^^
+	struct Display::Implementation
 	{
 		ALLEGRO_DISPLAY* allegroDisplay;
 	};
@@ -42,6 +46,7 @@ namespace Engine
 		ALLEGRO_FONT* allegroFont;
 	};
 
+	// initialize all allegro stuff
 	void initialize()
 	{
 		al_init();

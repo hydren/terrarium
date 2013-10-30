@@ -11,19 +11,8 @@
 
 namespace Physics
 {
-	Vector::Vector(float x1, float y1, float z1)
-	: x(x1), y(y1), z(z1)
-	{}
-
-	Vector::Vector(const Vector& v)
-	: x(v.x), y(v.y), z(v.z)
-	{}
-
-	Vector toVector(const b2Vec2 &b2v)
-	{
-		return Vector(b2v.x, b2v.y);
-	}
-
+	/** * Definition of the "implementation" struct's (experimental) * */
+	// PS: Felipe, don't be scared, it is innofensive. ^^
 	struct Body::Implementation
 	{
 		b2Body* body;
@@ -37,6 +26,21 @@ namespace Physics
 	{
 		b2World* b2world;
 	};
+
+
+
+	Vector::Vector(float x1, float y1, float z1)
+	: x(x1), y(y1), z(z1)
+	{}
+
+	Vector::Vector(const Vector& v)
+	: x(v.x), y(v.y), z(v.z)
+	{}
+
+	Vector toVector(const b2Vec2 &b2v)
+	{
+		return Vector(b2v.x, b2v.y);
+	}
 
 	/**
 	 * Everything must be passed in meters.

@@ -13,14 +13,13 @@
 
 using Physics::Body;
 
-class Entity
+struct Entity
 {
-	public:
 	AnimationSet *animation;
 	Body *body;
+	Rect* visibleAreaPosition;
 
-	public:
-	Entity(AnimationSet* anim=NULL, Body *b=NULL);
+	Entity(AnimationSet* anim=NULL, Body *b=NULL, Rect* visibleArea=null);
 
 	void draw();
 	void draw(const Rect * visibleAreaPosition);

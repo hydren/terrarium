@@ -43,7 +43,7 @@ void Game::start()
 	anim->add("walk-right", 56, 84, 0.3, 4);
 	anim->setCurrent("still-right");
 	Body* b = new Body(1,1,convertToMeters(16),convertToMeters(80));
-	player = new Entity(anim, b);
+	player = new Entity(anim, b, &visibleArea);
 	player->body->setDynamic();
 	world->addBody(player->body);
 	player->body->setFixedRotation();
@@ -51,7 +51,7 @@ void Game::start()
 	green_box = new Image("resource/tileset-dirt.png");
 
 	delete map;
-	map = Map::loadRawMapFromFile(string("resource/rawmap.txt"), world);
+	map = Map::loadRawMapFromFile(string("resource/rawmap.txt"), world); //TODO replace this old method. Return a grid instead of a map
 	map->visibleArea = &visibleArea;
 
 
@@ -197,12 +197,12 @@ void Game::drawScene()
 
 	map->draw();
 
-	player->draw(&visibleArea); //draw player
+	player->draw(); //draw player
 
 
 	/* drawing others entities */
 	for(vector<Entity*>::iterator it = entities.begin() ; it != entities.end(); ++it){
-		if (*it != NULL) (*it)->draw(&visibleArea);
+		if (*it != NULL) (*it)->draw();
 	}
 
 	/* later should be a character class */

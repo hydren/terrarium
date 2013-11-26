@@ -133,5 +133,29 @@ float convertToMeters(float pixels);
 
 float convertToPixels(float meters);
 
+namespace Util
+{
+	template <typename Type>
+	vector< vector <Type> > transpose(const vector< vector<Type> >& matrix)
+	{
+		//if empty, return a new empty
+		if(matrix.size() == 0)
+			return vector< vector<int> >();
+
+		//safety check
+		for(unsigned i = 0, size=matrix[0].size(); i < matrix.size(); i++)
+			if(matrix[i].size() != size)
+				throw Exception("Matrix with differing row sizes! " + matrix[i].size());
+
+		vector< vector<Type> > matrix_t(matrix[0].size(), vector<Type>(matrix.size()));
+
+		for(unsigned i = 0; i < matrix.size(); i++)
+			for(unsigned j = 0; j < matrix[i].size(); j++)
+				matrix_t[j][i] = matrix[i][j];
+
+		return matrix_t;
+	}
+}
+
 
 #endif /* UTIL_HPP_ */

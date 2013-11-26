@@ -73,16 +73,7 @@ Map* Map::loadRawMapFromFile(const String& filename, World* world)
 
 	stream.close();
 
-	std::vector< std::vector<int> > matrix_corrected;
-
-	    for(unsigned int i = 0 ; i<matrix[0].size() ; i++)
-	    {
-	        matrix_corrected.push_back( std::vector< int >());
-	        for(unsigned int j = 0 ; j<matrix.size() ; j++)
-	        {
-	            matrix_corrected[i].push_back( matrix[j][i] );
-	        }
-	    }
+	vector< vector<int> > matrix_corrected = Util::transpose(matrix);
 
 	Image* img = new Image("resource/tileset-dirt.png");
 
@@ -167,31 +158,51 @@ Map* Map::loadMapFromTMXFile(const String& filename, World* world)
 
 	int count=0;
 
+
+
 	for (rapidxml::xml_node<> *tile = n->first_node("tile"); tile; tile = tile->next_sibling())
 	{
-		row.push_back( atoi(tile->first_attribute("gid")->value()) );
-		if (++count == h)
+		row.push_back( parseInt(tile->first_attribute("gid")->value()) );
+		if (++count == w)
 		{
 			grid.push_back(row);
 			count = 0;
 			row.clear();
 		}
 	}
-	if(grid.size() < w)
+	if(grid.size() < (unsigned) h)
 		throw Exception("Error while generating map "+filename+"!");
 
-	Image* img = new Image("resource/tileset-dirt.png");
-
-	cout << "map dimensions: " << grid.size() << " " << grid[0].size() << endl;
-	map = new Map(new Image("resource/background.jpg"), grid.size(), grid[0].size(), NULL);
-
-	for(unsigned int i = 0; i < grid.size() ; i++)
+	for(unsigned i = 0; i < grid.size(); i ++)
 	{
-		for(unsigned int j = 0; j < grid[0].size() ; j++)
+		for(unsigned j = 0; j < grid[i].size(); j++)
+			cout << grid[i][j];
+		cout << endl;
+	}
+
+	cout << w << endl << h << endl;
+
+	vector< vector<int> > grid_t = Util::transpose(grid);
+
+	Image* imgDirt = new Image("resource/tileset-dirt.png");
+	Image* imgStone = new Image("resource/tileset-stone.png");
+
+	cout << "map dimensions: " << grid_t.size() << " " << grid_t[0].size() << endl;
+	map = new Map(new Image("resource/background.jpg"), w, h, NULL);
+
+	for(unsigned int i = 0; i < grid_t.size() ; i++)
+	{
+		for(unsigned int j = 0; j < grid_t[0].size() ; j++)
 		{
-			if(grid[i][j] == 1)
+			if(grid_t[i][j] == 1)
 			{
-				map->grid[i][j] = new Block( img, i, j);
+				map->grid[i][j] = new Block( imgDirt, i, j);
+				world->addBody(map->grid[i][j]->body);
+				map->retile(map->grid[i][j]);
+			}
+			else if(grid_t[i][j] == 2)
+			{
+				map->grid[i][j] = new Block( imgStone, i, j);
 				world->addBody(map->grid[i][j]->body);
 				map->retile(map->grid[i][j]);
 			}

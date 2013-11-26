@@ -51,7 +51,8 @@ void Game::start()
 	green_box = new Image("resource/tileset-dirt.png");
 
 	delete map;
-	map = Map::loadRawMapFromFile(string("resource/rawmap.txt"), world); //TODO replace this old method. Return a grid instead of a map
+//	map = Map::loadRawMapFromFile("resource/maps/rawmap.txt", world); //TODO replace this old method. Return a grid instead of a map
+	map = Map::loadMapFromTMXFile("resource/maps/map.tmx", world);
 	map->visibleArea = &visibleArea;
 
 
@@ -63,7 +64,8 @@ void Game::start()
 		drawScene();
 	}
 
-	Map::saveRawMapToFile(string("resource/rawmap.txt"), map);
+//	Map::saveRawMapToFile(string("resource/rawmap.txt"), map);
+	Map::saveRawMapToFile(string("resource/maps/rawmap_teste_tmx.txt"), map);
 
 	delete player;
 	delete i;

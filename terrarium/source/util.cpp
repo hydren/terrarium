@@ -133,6 +133,13 @@ String trim(const String& str)
     return str2;
 }
 
+int parseInt(const String& str)
+{
+	int i;
+	std::istringstream(str.c_str()) >> i;
+	return i;
+}
+
 //==============================================================================
 
 Exception::Exception(const char *format, ...)

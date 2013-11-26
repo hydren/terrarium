@@ -67,6 +67,8 @@ String operator + (char* a, String b);
 /** Returns a copy of the string, with leading and trailing whitespace omitted. */
 String trim(const String& str);
 
+int parseInt(const String& str);
+
 namespace Math
 {
 	const double PI = 3.14159265358979323846;
@@ -77,7 +79,7 @@ namespace Math
 	}
 }
 
-/* Class created to behave like the Java's Exception
+/** Class created to behave like the Java's Exception
  * Contains a String msg, with the error message
  */
 class Exception

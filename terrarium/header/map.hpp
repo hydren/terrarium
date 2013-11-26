@@ -29,10 +29,12 @@ struct Map
 
 	Map(Image* bg, int columns, int lines, Rect* visibleArea);
 
-	static Map* loadRawMapFromFile(String filename, World* world);
-	static Map* loadRawMapFromFile(char* filename, World* world);
+	static Map* loadRawMapFromFile(const String& filename, World* world);
+	static Map* loadRawMapFromFile(const char* filename, World* world);
+	static void saveRawMapToFile(const String& filename, Map* map);
 
-	static void saveRawMapToFile(String filename, Map* map);
+	static Map* loadMapFromTMXFile(const String& filename, World* world);
+
 
 	void retile(Block* b, bool recursive=true);
 

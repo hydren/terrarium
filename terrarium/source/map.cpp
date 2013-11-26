@@ -7,6 +7,8 @@
 
 #include "../header/map.hpp"
 
+#include "../header/rapidxml/rapidxml_utils.hpp"
+
 Map::Map(AnimationSet* bg, int columns, int lines, Rect* visibleArea) :
 grid(), background(bg), visibleArea(visibleArea)
 {
@@ -25,7 +27,7 @@ grid(), background(null), visibleArea(visibleArea)
 
 /** Loads old raw text map files, based on the terrarium "SDL" prototype.
  *  Deprecated */
-Map* Map::loadRawMapFromFile(String filename, World* world)
+Map* Map::loadRawMapFromFile(const String& filename, World* world)
 {
 	Map* map=null;
 
@@ -102,12 +104,12 @@ Map* Map::loadRawMapFromFile(String filename, World* world)
 	return map;
 }
 
-Map* Map::loadRawMapFromFile(char* filename, World* world)
+Map* Map::loadRawMapFromFile(const char* filename, World* world)
 {
 	return loadRawMapFromFile(String(filename), world);
 }
 
-void Map::saveRawMapToFile(String filename, Map* map)
+void Map::saveRawMapToFile(const String& filename, Map* map)
 {
 	FileOutputStream stream(filename.c_str());
 
@@ -128,6 +130,76 @@ void Map::saveRawMapToFile(String filename, Map* map)
 	stream.close();
 }
 
+//rapidxml::xml_node<>* MapParser::getNode(const string name, rapidxml::xml_node<>* parentNode) {
+//	return parentNode==NULL ? doc.first_node(name.c_str()) : parentNode->first_node(name.c_str());
+//}
+
+Map* Map::loadMapFromTMXFile(const String& filename, World* world)
+{
+	Map* map = null;
+
+	rapidxml::file<> *file = new rapidxml::file<>(filename.c_str());
+	rapidxml::xml_document<> doc;
+
+	cout << "parsing " << filename << "..." << endl;
+
+	doc.parse<0>( (char*)file->data() );
+
+	rapidxml::xml_node<>* nodeMap = doc.first_node("map");
+
+	if (nodeMap == NULL)
+	{
+		cout << "failure!" << endl;
+		throw Exception("Can't read node map from file "+filename);
+	}
+
+	int w = parseInt(nodeMap->first_attribute("width")->value());
+	int h = parseInt(nodeMap->first_attribute("height")->value());
+
+	rapidxml::xml_node<>* nodeLayer = nodeMap->first_node("layer");
+
+	rapidxml::xml_node<>* n = nodeLayer->first_node("data");
+
+//	generateGrid(w, h, nodeLayer->first_node("data"));
+
+	vector< vector<int> > grid;
+	vector<int> row;
+
+	int count=0;
+
+	for (rapidxml::xml_node<> *tile = n->first_node("tile"); tile; tile = tile->next_sibling())
+	{
+		row.push_back( atoi(tile->first_attribute("gid")->value()) );
+		if (++count == h)
+		{
+			grid.push_back(row);
+			count = 0;
+			row.clear();
+		}
+	}
+	if(grid.size() < w)
+		throw Exception("Error while generating map "+filename+"!");
+
+	Image* img = new Image("resource/tileset-dirt.png");
+
+	cout << "map dimensions: " << grid.size() << " " << grid[0].size() << endl;
+	map = new Map(new Image("resource/background.jpg"), grid.size(), grid[0].size(), NULL);
+
+	for(unsigned int i = 0; i < grid.size() ; i++)
+	{
+		for(unsigned int j = 0; j < grid[0].size() ; j++)
+		{
+			if(grid[i][j] == 1)
+			{
+				map->grid[i][j] = new Block( img, i, j);
+				world->addBody(map->grid[i][j]->body);
+				map->retile(map->grid[i][j]);
+			}
+		}
+	}
+
+	return map;
+}
 
 
 void Map::retileNeighbourhood(int x_grid_pos, int y_grid_pos)
@@ -237,9 +309,7 @@ void Map::draw()
 		for(int i = 0; i < grid_number_of_lines; i++)
 			for(int j = 0; j < grid_number_of_columns; j++)
 				if( grid[i][j] != NULL )
-				{
 					grid[i][j]->draw(NULL);
-				}
 
 	}
 }

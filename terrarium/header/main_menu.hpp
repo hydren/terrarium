@@ -13,6 +13,79 @@
 
 using Engine::Image;
 
+class Menu
+{
+	struct Entry
+	{
+		String label;
+		bool enabled;
+
+		Entry(String str)
+		: label(str),
+		  enabled(true)
+		{}
+	};
+
+	vector<Entry*> entries;
+	Entry* selected;
+
+	public:
+
+	Engine::Font* font;
+	Engine::Color color;
+	Rect bounds;
+
+	Menu(Rect bounds, Engine::Font* font, Engine::Color color)
+	: entries(),
+	  selected(null),
+	  font(font),
+	  color(color),
+	  bounds(bounds)
+	{}
+
+	void addEntry(String label, int index=-1)
+	{
+		if(index < 0)
+			entries.push_back(new Entry(label));
+		else
+			entries.insert(entries.begin()+index, new Entry(label));
+	}
+
+	void removeEntry(unsigned index)
+	{
+		if(entries[index] == selected)
+		{
+			if(entries.size() == 1)
+				selected = null;
+
+			else if(index == entries.size()-1)
+				selected = entries[index-1];
+
+			else
+				selected = entries[index+1];
+		}
+		entries.erase(entries.begin()+index);
+	}
+
+	Entry* operator [] (int index)
+	{
+		return entries[index];
+	}
+
+	void draw()
+	{
+		float distanceBetween = bounds.h / (float) entries.size();
+
+		float offset = 0;
+
+		for(unsigned i = 0; i < entries.size(); i++)
+		{
+			font->draw_text(entries[i]->label, bounds.x, bounds.y + offset, color);
+			offset += distanceBetween;
+		}
+	}
+};
+
 class MainMenu
 {
 	private:

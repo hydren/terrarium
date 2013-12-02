@@ -22,6 +22,10 @@ MainMenu::MENU_OPTION MainMenu::show()
 {
 	//TODO
 
+//	Menu m(Rect(100, 100, 300, 100), font, Engine::Color::CYAN);
+//	m.addEntry("Test 1");
+//	m.addEntry("Test 2");
+
 	bool running = true;
 	selected = 0;
 
@@ -81,6 +85,7 @@ MainMenu::MENU_OPTION MainMenu::show()
 		minorFont->draw_text("Load map from file", 96, 192, Engine::Color::BLUE);
 		minorFont->draw_text("Exit", 96, 224, Engine::Color::BLUE);
 		minorFont->draw_text(">>", 64, 192 + selected*32, Engine::Color::RED);
+//		m.draw();
 		Engine::display->refresh();
 
 	}

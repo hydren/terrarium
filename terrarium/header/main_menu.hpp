@@ -27,19 +27,20 @@ class Menu
 	};
 
 	vector<Entry*> entries;
-	Entry* selected;
+	int selectedIndex;
 
 	public:
 
 	Engine::Font* font;
-	Engine::Color color;
+	Engine::Color color, selectedColor;
 	Rect bounds;
 
 	Menu(Rect bounds, Engine::Font* font, Engine::Color color)
 	: entries(),
-	  selected(null),
+	  selectedIndex(-1),
 	  font(font),
 	  color(color),
+	  selectedColor(Engine::Color(255-color.r, 255-color.g, 255-color.b)),
 	  bounds(bounds)
 	{}
 
@@ -49,27 +50,88 @@ class Menu
 			entries.push_back(new Entry(label));
 		else
 			entries.insert(entries.begin()+index, new Entry(label));
+
+		if(entries.size() == 1)
+		{
+			selectedIndex = 0;
+		}
 	}
 
 	void removeEntry(unsigned index)
 	{
-		if(entries[index] == selected)
+		if(index < 0 || index > entries.size()-1)
+			return;
+
+		if(index == selectedIndex)
 		{
 			if(entries.size() == 1)
-				selected = null;
+			{
+				selectedIndex = -1;
+			}
 
 			else if(index == entries.size()-1)
-				selected = entries[index-1];
+			{
+				selectedIndex = index-1;
+			}
 
 			else
-				selected = entries[index+1];
+			{
+				selectedIndex = index+1;
+			}
 		}
 		entries.erase(entries.begin()+index);
+	}
+
+	Entry* getSelectedEntry()
+	{
+		return entries[selectedIndex];
+	}
+
+	int getSelectedEntryIndex()
+	{
+		return selectedIndex;
+	}
+
+	unsigned getNumberOfEntries()
+	{
+		return entries.size();
+	}
+
+	void setSelectedEntry(Entry* entry)
+	{
+		for(unsigned i = 0; i < entries.size(); i++)
+			if(entries[i] == entry)
+			{
+				selectedIndex = i;
+				break;
+			}
+	}
+
+	void setSelectedEntry(unsigned index)
+	{
+		if(index > entries.size()-1)
+			return;
+
+		selectedIndex = index;
 	}
 
 	Entry* operator [] (int index)
 	{
 		return entries[index];
+	}
+
+	Menu* operator --()
+	{
+		if(selectedIndex > 0)
+			selectedIndex--;
+		return this;
+	}
+
+	Menu* operator ++()
+	{
+		if(selectedIndex < entries.size()-1)
+			selectedIndex++;
+		return this;
 	}
 
 	void draw()
@@ -80,7 +142,11 @@ class Menu
 
 		for(unsigned i = 0; i < entries.size(); i++)
 		{
-			font->draw_text(entries[i]->label, bounds.x, bounds.y + offset, color);
+			if(i == selectedIndex)
+				font->draw_text(entries[i]->label, bounds.x, bounds.y + offset, selectedColor);
+			else
+				font->draw_text(entries[i]->label, bounds.x, bounds.y + offset, color);
+
 			offset += distanceBetween;
 		}
 	}
@@ -97,7 +163,6 @@ class MainMenu
 	Engine::Font* font;
 	Engine::Font* minorFont;
 	Engine::EventQueue* eventQueue;
-	int selected;
 
 	public:
 

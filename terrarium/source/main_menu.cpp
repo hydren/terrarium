@@ -14,20 +14,20 @@ MainMenu::MainMenu()
 : bg(new Image("resource/title_proto.jpg")),
   font(new Engine::Font("resource/jack.ttf", 44)),
   minorFont(new Engine::Font("resource/liberation.ttf", 24)),
-  eventQueue(new Engine::EventQueue()),
-  selected(0)
+  eventQueue(new Engine::EventQueue())
 {}
 
 MainMenu::MENU_OPTION MainMenu::show()
 {
 	//TODO
 
-//	Menu m(Rect(100, 100, 300, 100), font, Engine::Color::CYAN);
-//	m.addEntry("Test 1");
-//	m.addEntry("Test 2");
+	Menu m(Rect(64, 108, 300, 100), minorFont, Engine::Color::BLUE);
+	m.addEntry("Generate new map");
+	m.addEntry("Load map from file");
+	m.addEntry("Settings");
+	m.addEntry("Exit");
 
 	bool running = true;
-	selected = 0;
 
 	while(running)
 	{
@@ -45,13 +45,11 @@ MainMenu::MENU_OPTION MainMenu::show()
 				switch(ev->getEventKeyCode())
 				{
 					case Engine::Event::Key::ARROW_UP:
-						if(selected > 0)
-							selected--;
+						--m;
 
 					break;
 					case Engine::Event::Key::ARROW_DOWN:
-						if(selected < NUMBER_OF_OPTIONS-1)
-							selected++;
+						++m;
 
 					break;
 					case Engine::Event::Key::ARROW_RIGHT:
@@ -62,11 +60,11 @@ MainMenu::MENU_OPTION MainMenu::show()
 					break;
 
 					case Engine::Event::Key::ENTER:
-						switch(selected)
+						switch(m.getSelectedEntryIndex())
 						{
-							case 0:
-								return MainMenu::LOAD_MAP_FROM_FILE;
 							case 1:
+								return MainMenu::LOAD_MAP_FROM_FILE;
+							case 3:
 								return MainMenu::EXIT;
 							default: break;
 						}
@@ -82,10 +80,7 @@ MainMenu::MENU_OPTION MainMenu::show()
 
 		bg->draw();
 		font->draw_text("Project Terrarium", 84, 25, Engine::Color::ORANGE);
-		minorFont->draw_text("Load map from file", 96, 192, Engine::Color::BLUE);
-		minorFont->draw_text("Exit", 96, 224, Engine::Color::BLUE);
-		minorFont->draw_text(">>", 64, 192 + selected*32, Engine::Color::RED);
-//		m.draw();
+		m.draw();
 		Engine::display->refresh();
 
 	}

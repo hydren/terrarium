@@ -27,10 +27,10 @@ class Menu
 	};
 
 	vector<Entry*> entries;
-	int selectedIndex;
 
 	public:
 
+	unsigned selectedIndex;
 	Engine::Font* font;
 	Engine::Color color, selectedColor;
 	Rect bounds;
@@ -82,14 +82,14 @@ class Menu
 		entries.erase(entries.begin()+index);
 	}
 
+	Entry* operator [] (int index)
+	{
+		return entries[index];
+	}
+
 	Entry* getSelectedEntry()
 	{
 		return entries[selectedIndex];
-	}
-
-	int getSelectedEntryIndex()
-	{
-		return selectedIndex;
 	}
 
 	unsigned getNumberOfEntries()
@@ -107,6 +107,7 @@ class Menu
 			}
 	}
 
+	/** Safe way to set the selected index */
 	void setSelectedEntry(unsigned index)
 	{
 		if(index > entries.size()-1)
@@ -115,11 +116,8 @@ class Menu
 		selectedIndex = index;
 	}
 
-	Entry* operator [] (int index)
-	{
-		return entries[index];
-	}
 
+	/** Decrement the selected index in a safe way */
 	Menu* operator --()
 	{
 		if(selectedIndex > 0)
@@ -127,6 +125,7 @@ class Menu
 		return this;
 	}
 
+	/** Increment the selected index in a safe way */
 	Menu* operator ++()
 	{
 		if(selectedIndex < entries.size()-1)
@@ -134,6 +133,7 @@ class Menu
 		return this;
 	}
 
+	/** Draw the menu according the menu bounds and number of entries */
 	void draw()
 	{
 		float distanceBetween = bounds.h / (float) entries.size();
@@ -157,10 +157,8 @@ class MainMenu
 	private:
 	//nothing yet
 
-	static const int NUMBER_OF_OPTIONS;
-
-	Image* bg;
-	Engine::Font* font;
+	Image* background;
+	Engine::Font* mainFont;
 	Engine::Font* minorFont;
 	Engine::EventQueue* eventQueue;
 

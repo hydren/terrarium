@@ -7,25 +7,22 @@
 
 #include "../header/main_menu.hpp"
 
-//static initialization
-const int MainMenu::NUMBER_OF_OPTIONS = 2;
-
 MainMenu::MainMenu()
-: bg(new Image("resource/title_proto.jpg")),
-  font(new Engine::Font("resource/jack.ttf", 44)),
+: background(new Image("resource/title_proto.jpg")),
+  mainFont(new Engine::Font("resource/jack.ttf", 44)),
   minorFont(new Engine::Font("resource/liberation.ttf", 24)),
   eventQueue(new Engine::EventQueue())
 {}
 
 MainMenu::MENU_OPTION MainMenu::show()
 {
-	//TODO
+	//TODO Work in progress
 
-	Menu m(Rect(64, 108, 300, 100), minorFont, Engine::Color::BLUE);
-	m.addEntry("Generate new map");
-	m.addEntry("Load map from file");
-	m.addEntry("Settings");
-	m.addEntry("Exit");
+	Menu menu(Rect(64, 108, 300, 100), minorFont, Engine::Color::BLUE);
+	menu.addEntry("Generate new map");
+	menu.addEntry("Load map from file");
+	menu.addEntry("Settings");
+	menu.addEntry("Exit");
 
 	bool running = true;
 
@@ -45,22 +42,22 @@ MainMenu::MENU_OPTION MainMenu::show()
 				switch(ev->getEventKeyCode())
 				{
 					case Engine::Event::Key::ARROW_UP:
-						--m;
+						--menu;
+						break;
 
-					break;
 					case Engine::Event::Key::ARROW_DOWN:
-						++m;
+						++menu;
+						break;
 
-					break;
 					case Engine::Event::Key::ARROW_RIGHT:
+						break;
 
-					break;
 					case Engine::Event::Key::ARROW_LEFT:
-
-					break;
+						break;
 
 					case Engine::Event::Key::ENTER:
-						switch(m.getSelectedEntryIndex())
+
+						switch(menu.selectedIndex)
 						{
 							case 1:
 								return MainMenu::LOAD_MAP_FROM_FILE;
@@ -78,9 +75,9 @@ MainMenu::MENU_OPTION MainMenu::show()
 
 		//RENDER
 
-		bg->draw();
-		font->draw_text("Project Terrarium", 84, 25, Engine::Color::ORANGE);
-		m.draw();
+		background->draw();
+		mainFont->draw_text("Project Terrarium", 84, 25, Engine::Color::ORANGE);
+		menu.draw();
 		Engine::display->refresh();
 
 	}

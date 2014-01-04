@@ -76,6 +76,18 @@ namespace Engine
 		al_rest(seconds);
 	}
 
+	list<String> getFilenamesWithinDirectory(const String& directoryPath)
+	{
+		ALLEGRO_FS_ENTRY* directory = al_create_fs_entry(directoryPath.c_str());
+		al_open_directory(directory);
+
+		list<String> filenames;
+		for(ALLEGRO_FS_ENTRY* entry = al_read_directory(directory); entry != null; entry = al_read_directory(directory))
+		{
+			filenames.push_back(al_get_fs_entry_name(entry));
+		}
+		return filenames;
+	}
 
 
 	Display::Display(int width, int height, String title, Image* icon)

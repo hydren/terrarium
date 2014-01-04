@@ -20,6 +20,11 @@ int main(int argc, char** argv)
 		Engine::initialize();
 		Engine::display = new Engine::Display(640, 480, "Project Terrarium");
 
+		cout << "Lets test the directory listing method" << endl;
+		list<String> dirs = Engine::getFilenamesWithinDirectory(".");
+		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
+			cout << *it << endl;
+
 
 		MainMenu menu;
 		while(true) switch(menu.show())

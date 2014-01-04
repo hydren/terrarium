@@ -24,6 +24,8 @@ namespace Engine
 
 	void rest(double seconds=0.05f);
 
+	list<String> getFilenamesWithinDirectory(const String& directoryPath);
+
 	/**
 	 * A class representing a display.
 	 * */

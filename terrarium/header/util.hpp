@@ -11,20 +11,22 @@
 //utilities, multi-purpose things
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <map>
-#include <fstream>
+#include <list>
 
-using std::string;
-using std::map;
-using std::vector;
-using std::pair;
+using std::cout;
+using std::cerr;
+using std::endl;
 using std::ifstream;
 using std::ofstream;
-using std::cout;
-using std::endl;
-using std::cerr;
+using std::string;
+using std::vector;
+using std::map;
+using std::list;
+using std::pair;
 
 // * * * * * Useful macros
 

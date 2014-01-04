@@ -121,10 +121,6 @@ void Map::saveRawMapToFile(const String& filename, Map* map)
 	stream.close();
 }
 
-//rapidxml::xml_node<>* MapParser::getNode(const string name, rapidxml::xml_node<>* parentNode) {
-//	return parentNode==NULL ? doc.first_node(name.c_str()) : parentNode->first_node(name.c_str());
-//}
-
 Map* Map::loadMapFromTMXFile(const String& filename, World* world)
 {
 	Map* map = null;

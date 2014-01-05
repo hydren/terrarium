@@ -16,6 +16,7 @@
 #include <vector>
 #include <map>
 #include <list>
+#include <cstdarg>
 
 using std::cout;
 using std::cerr;

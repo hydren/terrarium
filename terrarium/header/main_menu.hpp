@@ -164,7 +164,6 @@ class MainMenu
 
 	public:
 
-
 	MainMenu();
 
 	enum MENU_OPTION

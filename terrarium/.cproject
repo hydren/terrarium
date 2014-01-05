@@ -5,12 +5,12 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<externalSettings/>
 				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -43,6 +43,7 @@
 									<listOptionValue builtIn="false" value="allegro_image"/>
 									<listOptionValue builtIn="false" value="allegro_font"/>
 									<listOptionValue builtIn="false" value="allegro_ttf"/>
+									<listOptionValue builtIn="false" value="allegro_primitives"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.674705372" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -68,12 +69,12 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.release.1559054341" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<externalSettings/>
 				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -118,12 +119,12 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812" moduleId="org.eclipse.cdt.core.settings" name="Debug Linux">
 				<externalSettings/>
 				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -154,11 +155,12 @@
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.682996417" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="Box2D"/>
 									<listOptionValue builtIn="false" value="allegro"/>
 									<listOptionValue builtIn="false" value="allegro_image"/>
-									<listOptionValue builtIn="false" value="Box2D"/>
 									<listOptionValue builtIn="false" value="allegro_font"/>
 									<listOptionValue builtIn="false" value="allegro_ttf"/>
+									<listOptionValue builtIn="false" value="allegro_primitives"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.2019949638" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -184,12 +186,12 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.1418517789" moduleId="org.eclipse.cdt.core.settings" name="Debug Linux tweaked">
 				<externalSettings/>
 				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -222,11 +224,12 @@
 									<listOptionValue builtIn="false" value="/home/carlosfaruolo/.local/lib"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.126869703" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" value="Box2D"/>
 									<listOptionValue builtIn="false" value="allegro"/>
+									<listOptionValue builtIn="false" value="allegro_image"/>
 									<listOptionValue builtIn="false" value="allegro_font"/>
 									<listOptionValue builtIn="false" value="allegro_ttf"/>
-									<listOptionValue builtIn="false" value="allegro_image"/>
-									<listOptionValue builtIn="false" value="Box2D"/>
+									<listOptionValue builtIn="false" value="allegro_primitives"/>
 								</option>
 								<option id="gnu.cpp.link.option.userobjs.1154340006" name="Other objects" superClass="gnu.cpp.link.option.userobjs"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.856381121" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
@@ -253,12 +256,12 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563" moduleId="org.eclipse.cdt.core.settings" name="Debug Windows">
 				<externalSettings/>
 				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -291,6 +294,7 @@
 									<listOptionValue builtIn="false" value="allegro_image-5.0.10-mt"/>
 									<listOptionValue builtIn="false" value="allegro_font-5.0.10-mt"/>
 									<listOptionValue builtIn="false" value="allegro_ttf-5.0.10-mt"/>
+									<listOptionValue builtIn="false" value="allegro_primitives-5.0.10-mt"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.92578800" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

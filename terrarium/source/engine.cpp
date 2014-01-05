@@ -10,6 +10,7 @@
 /** Engine code based on Allegro5. */
 
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
@@ -53,6 +54,7 @@ namespace Engine
 		al_init_image_addon();
 		al_init_font_addon();
 		al_init_ttf_addon();
+		al_init_primitives_addon();
 
 		if(!al_install_keyboard())
 		{
@@ -129,14 +131,62 @@ namespace Engine
 		al_clear_to_color(al_map_rgb(0,0,0));
 	}
 
-
-
 	Image::Image(String filename)
 	{
 		this->implementation = new Implementation;
 		this->implementation->bitmap = al_load_bitmap(filename.c_str());
-		if ( this->implementation->bitmap == NULL)
+		if ( this->implementation->bitmap == null)
 			throw Exception("AllegroAPI Constructor - Could not load image: " + filename);
+	}
+
+	/**
+	 * Creates a colored shape. Depending on the shape, differents arguments are used.
+	 *
+	 * RECTANGLE				width, height, thickness
+	 * FILLED_RECTANGLE			width, height
+	 *
+	 * All of them must be int.
+	 * */
+	Image::Image(Shape shape, Color color, ...)
+	{
+		this->implementation = new Implementation;
+		this->implementation->bitmap = null;
+
+		va_list alist;
+		va_start(alist, color);
+
+		ALLEGRO_COLOR c =  al_map_rgb(color.r, color.g, color.b);
+		switch(shape)
+		{
+			case Image::RECTANGLE:
+			{
+				float width = va_arg(alist, int);
+				float height = va_arg(alist, int);
+				float thickness = va_arg(alist, int);
+
+				ALLEGRO_BITMAP* b = al_create_bitmap(width, height);
+				al_set_target_bitmap(b);
+				al_draw_rectangle(0, 0, width, height, c, thickness);
+				al_set_target_backbuffer(display->implementation->allegroDisplay);
+				this->implementation->bitmap = b;
+				break;
+			}
+			case Image::FILLED_RECTANGLE:
+			{
+				float width = va_arg(alist, int);
+				float height = va_arg(alist, int);
+
+				ALLEGRO_BITMAP* b = al_create_bitmap(width, height);
+				al_set_target_bitmap(b);
+				al_draw_filled_rectangle(0, 0, width, height, c);
+				al_set_target_backbuffer(display->implementation->allegroDisplay);
+				this->implementation->bitmap = b;
+				break;
+			}
+			//TODO finish other cases with other shapes
+
+			default: break;
+		}
 	}
 
 	Image::~Image()
@@ -302,11 +352,13 @@ namespace Engine
 	Color::BROWN		(144,  92,  48);
 	//TODO add more colors
 
+
+
 	Font::Font(String filename, int size, bool antialiasing, bool hinting, bool kerning)
 	{
 		this->implementation = new Implementation;
 
-		//I know, very weird...
+		//I know, pretty odd...
 		this->implementation->allegroFont = al_load_ttf_font(filename.c_str(), size, (antialiasing? 0 : ALLEGRO_TTF_MONOCHROME)	| (hinting? 0 : ALLEGRO_TTF_NO_AUTOHINT) | (kerning? 0 : ALLEGRO_TTF_NO_KERNING));
 
 		if(this->implementation->allegroFont == null)

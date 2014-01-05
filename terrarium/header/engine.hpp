@@ -15,6 +15,7 @@ namespace Engine
 	//pre-declaring these classes to avoid annoying declaration order issues...
 	class Image;
 	class EventQueue;
+	class Color;
 
 	/** Initialize underlying engine software. You MUST call this before trying anything */
 	void initialize(); //TODO throw an exception if any Engine method is called before one call to initialize() method
@@ -31,7 +32,8 @@ namespace Engine
 	 * */
 	class Display
 	{
-		friend class EventQueue; //need to give the event queue access to the internal display
+		friend class EventQueue; //needed to give the event queue access to the internal display
+		friend class Image; //needed to give access to the image for bliting operations
 
 		struct Implementation;
 		Implementation* implementation;
@@ -51,6 +53,8 @@ namespace Engine
 
 		/** Change the window icon. */
 		void setIcon(Image* image);
+
+
 
 		/**
 		 * Function to refresh/flush all thing rendered in the screen. Without this you'll probably get a black screen showing nothing.
@@ -77,6 +81,12 @@ namespace Engine
 
 		public:
 
+		enum Shape
+		{
+			TRIANGLE, FILLED_TRIANGLE, RECTANGLE, FILLED_RECTANGLE, ROUNDED_RECTANGLE, FILLED_ROUNDED_RECTANGLE, ELLIPSE, FILLED_ELLIPSE, CIRCLE, FILLED_CIRCLE
+		};
+
+		Image(Shape shape, Color color, ...);
 		Image(String filename);
 		~Image();
 
@@ -106,6 +116,7 @@ namespace Engine
 		 * from_x and from_y specifies the position, w and h specifies the size of the selected area.
 		 */
 		void blit(Image& img2, float x=0, float y=0, float from_x=0, float from_y=0, float h=-1, float w=-1);
+
 	};
 
 	/**

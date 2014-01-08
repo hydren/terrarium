@@ -152,17 +152,17 @@ namespace Engine
 		this->implementation = new Implementation;
 		this->implementation->bitmap = null;
 
-		va_list alist;
-		va_start(alist, color);
+		va_list arglist; //to gather the arguments
+		va_start(arglist, color); //prepare to load args
 
 		ALLEGRO_COLOR c =  al_map_rgb(color.r, color.g, color.b);
 		switch(shape)
 		{
 			case Image::RECTANGLE:
 			{
-				float width = va_arg(alist, int);
-				float height = va_arg(alist, int);
-				float thickness = va_arg(alist, int);
+				float width = va_arg(arglist, int);
+				float height = va_arg(arglist, int);
+				float thickness = va_arg(arglist, int);
 
 				ALLEGRO_BITMAP* b = al_create_bitmap(width, height);
 				al_set_target_bitmap(b);
@@ -173,8 +173,8 @@ namespace Engine
 			}
 			case Image::FILLED_RECTANGLE:
 			{
-				float width = va_arg(alist, int);
-				float height = va_arg(alist, int);
+				float width = va_arg(arglist, int);
+				float height = va_arg(arglist, int);
 
 				ALLEGRO_BITMAP* b = al_create_bitmap(width, height);
 				al_set_target_bitmap(b);
@@ -187,6 +187,8 @@ namespace Engine
 
 			default: break;
 		}
+
+		va_end(arglist); //finalize using arglist, reseting the macro
 	}
 
 	Image::~Image()

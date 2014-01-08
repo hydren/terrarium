@@ -235,4 +235,12 @@ float convertToPixels(float meters)
 	return 100.0f * meters;
 }
 
+bool Util::stringEndsWith (String const& str, String const& ending) //TODO move to a String subclass
+{
+    if (str.length() >= ending.length()) {
+        return (0 == str.compare (str.length() - ending.length(), ending.length(), ending));
+    } else {
+        return false;
+    }
+}
 

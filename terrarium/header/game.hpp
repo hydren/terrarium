@@ -10,14 +10,20 @@
 
 #include "entity.hpp"
 #include "engine.hpp"
+#include "menu.hpp"
 #include "block.hpp"
 #include "map.hpp"
 
 struct Game
 {
+	Game(const String& map_path);
+	void start();
+
+	private:
 	vector<Entity*> entities;
 	vector<Image*> images;
 	vector<Block*> blocks;
+
 
 	Entity* player;
 
@@ -27,8 +33,10 @@ struct Game
 
 	Image* green_box;
 
-	Engine::EventQueue* eventQueue;
 	Engine::Font* font;
+	Menu* inGameMenu;
+
+	Engine::EventQueue* eventQueue;
 
 	Physics::World* world;
 
@@ -38,8 +46,8 @@ struct Game
 	void handleInput();
 	void drawScene();
 	void drawDebug();
+	void drawInGameMenu();
 	void physics();
-	void start();
 
 	Game();
 

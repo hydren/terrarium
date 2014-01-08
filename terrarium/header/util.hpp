@@ -158,6 +158,8 @@ namespace Util
 
 		return matrix_t;
 	}
+
+	bool stringEndsWith (String const& str, String const& ending);
 }
 
 

@@ -6,8 +6,13 @@
  */
 
 #include "../header/main_menu.hpp"
+#include "../header/game.hpp"
+#include "../header/menu.hpp"
 
 using Engine::Color;
+
+//functions declarations
+void loadGameWithMap(const String& map_path);
 
 MainMenu::MainMenu()
 : background(new Image("resource/title_proto.jpg")),
@@ -16,9 +21,13 @@ MainMenu::MainMenu()
   eventQueue(new Engine::EventQueue())
 {}
 
-MainMenu::MENU_OPTION MainMenu::show()
+void MainMenu::show()
 {
 	//TODO Work in progress
+
+	Image loading_image("./resource/loading.png");
+	loading_image.draw();
+	Engine::display->refresh();
 
 	Menu mainMenu(Rect(64, 108, 300, 100), minorFont, Color::BLUE);
 	mainMenu.addEntry("Generate new map");
@@ -86,19 +95,28 @@ MainMenu::MENU_OPTION MainMenu::show()
 						{
 							if(fileMenu.selectedIndex == fileMenu.getNumberOfEntries()-1)
 								chooseFile = false;
-							else return MainMenu::LOAD_MAP_FROM_FILE;
+							else
+							{
+								loading_image.draw();
+								Engine::display->refresh();
+
+								loadGameWithMap(fileMenu.getSelectedEntry()->label);
+								chooseFile = false;
+							}
 
 						}
-						else switch(mainMenu.selectedIndex)
+						else switch(mainMenu.selectedIndex) //this isn't elegant...
 						{
 							case 1:
-//								return MainMenu::LOAD_MAP_FROM_FILE;
 								chooseFile = true;
-
 								break;
+
 							case 3:
-								return MainMenu::EXIT;
-							default: break;
+								running = false;
+								break;
+
+							default:
+								break;
 						}
 						break;
 
@@ -123,5 +141,10 @@ MainMenu::MENU_OPTION MainMenu::show()
 
 	}
 
-	return MainMenu::EXIT;
+}
+
+void loadGameWithMap(const String& map_path)
+{
+	Game game(map_path);
+	game.start();
 }

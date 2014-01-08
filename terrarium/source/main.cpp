@@ -8,7 +8,6 @@
 #include <cstdlib>
 #include "../header/engine.hpp"
 #include "../header/main_menu.hpp"
-#include "../header/game.hpp"
 
 using std::cout;
 using std::endl;
@@ -20,29 +19,17 @@ int main(int argc, char** argv)
 		Engine::initialize();
 		Engine::display = new Engine::Display(640, 480, "Project Terrarium");
 
-		cout << "Lets test the directory listing method" << endl;
-		list<String> dirs = Engine::getFilenamesWithinDirectory("./resource/maps");
-		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
-			cout << *it << endl;
+//		cout << "Lets test the directory listing method" << endl;
+//		list<String> dirs = Engine::getFilenamesWithinDirectory("./resource/maps");
+//		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
+//			cout << *it << endl;
 
+		Image loading_image("./resource/loading.png");
+		loading_image.draw();
+		Engine::display->refresh();
 
 		MainMenu menu;
-		while(true) switch(menu.show())
-		{
-			case MainMenu::LOAD_MAP_FROM_FILE:
-			{
-				Game game;
-				game.start();
-			}
-			break;
-
-			case MainMenu::EXIT:
-			default:
-			{
-				goto out;
-			}
-		}
-		out:
+		menu.show();
 
 		delete Engine::display;
 		Engine::finalize();

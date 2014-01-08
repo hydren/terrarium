@@ -10,13 +10,14 @@
 using Physics::World;
 using Physics::Vector;
 
-Game::Game()
+Game::Game(const String& map_path)
 : player(NULL),
 visibleArea(0,0,640,480),
 map(NULL),
 green_box(NULL),
-eventQueue(new Engine::EventQueue()),
 font(new Engine::Font("resource/liberation.ttf", 14)),
+inGameMenu(new Menu(Rect(200, 200, 200, 200), font,Engine::Color::ORANGE)),
+eventQueue(new Engine::EventQueue()),
 running(true),
 jumping(false),
 isKeyUpPressed(false),
@@ -31,6 +32,16 @@ isKeyLeftPressed(false)
 
 	Vector gravity(0.0f, 10.0f);
 	world = new World(gravity);
+
+	delete map;
+
+	if(Util::stringEndsWith(map_path, ".tmx"))
+		map = Map::loadMapFromTMXFile(map_path, world); //TODO replace this old method. Return a grid instead of a map
+	else
+		map = Map::loadRawMapFromFile("resource/maps/rawmap.txt", world); //TODO replace this old method. Return a grid instead of a map
+
+	map->visibleArea = &visibleArea;
+
 }
 
 void Game::start()
@@ -50,12 +61,6 @@ void Game::start()
 
 	green_box = new Image("resource/tileset-dirt.png");
 
-	delete map;
-//	map = Map::loadRawMapFromFile("resource/maps/rawmap.txt", world); //TODO replace this old method. Return a grid instead of a map
-	map = Map::loadMapFromTMXFile("resource/maps/map.tmx", world);
-	map->visibleArea = &visibleArea;
-
-
 	while(running)
 	{
 		visibleArea.x = convertToPixels(player->body->getX()) - visibleArea.w/2.0;
@@ -64,8 +69,7 @@ void Game::start()
 		drawScene();
 	}
 
-//	Map::saveRawMapToFile(string("resource/rawmap.txt"), map);
-	Map::saveRawMapToFile(string("resource/maps/rawmap_teste_tmx.txt"), map);
+	Map::saveRawMapToFile(string("resource/maps/saved_map.txt"), map);
 
 	delete player;
 	delete i;
@@ -229,3 +233,9 @@ void Game::drawDebug()
 	font->draw_text(String("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, Engine::Color::WHITE);
 
 }
+
+void Game::drawInGameMenu()
+{
+
+}
+

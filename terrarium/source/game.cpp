@@ -16,10 +16,11 @@ visibleArea(0,0,640,480),
 map(NULL),
 green_box(NULL),
 font(new Engine::Font("resource/liberation.ttf", 14)),
-inGameMenu(new Menu(Rect(200, 200, 200, 200), font,Engine::Color::ORANGE)),
+inGameMenu(new Menu(Rect(200, 200, 200, 64), font,Engine::Color::ORANGE, true)),
 eventQueue(new Engine::EventQueue()),
 running(true),
 jumping(false),
+inGameMenuShowing(false),
 isKeyUpPressed(false),
 isKeyDownPressed(false),
 isKeyRightPressed(false),
@@ -42,6 +43,9 @@ isKeyLeftPressed(false)
 
 	map->visibleArea = &visibleArea;
 
+	inGameMenu->addEntry("Resume");
+	inGameMenu->addEntry("Save and exit");
+	inGameMenu->addEntry("Exit without saving");
 }
 
 void Game::start()
@@ -69,7 +73,7 @@ void Game::start()
 		drawScene();
 	}
 
-	Map::saveRawMapToFile(string("resource/maps/saved_map.txt"), map);
+
 
 	delete player;
 	delete i;
@@ -130,9 +134,6 @@ void Game::handleInput()
 				player->animation->setCurrent("still-left");
 				isKeyLeftPressed = false;
 				break;
-			case Engine::Event::Key::ESCAPE:
-				running = false;
-				break;
 			default:
 				break;
 			}
@@ -143,15 +144,43 @@ void Game::handleInput()
 			{
 			case Engine::Event::Key::ARROW_UP:
 				isKeyUpPressed = true;
+				if(inGameMenuShowing)
+					--*inGameMenu;
 				break;
 			case Engine::Event::Key::ARROW_DOWN:
 				isKeyDownPressed = true;
+				if(inGameMenuShowing)
+					++*inGameMenu;
 				break;
 			case Engine::Event::Key::ARROW_RIGHT:
 				isKeyRightPressed = true;
 				break;
 			case Engine::Event::Key::ARROW_LEFT:
 				isKeyLeftPressed = true;
+				break;
+			case Engine::Event::Key::ESCAPE:
+				if(inGameMenuShowing)
+					inGameMenuShowing=false;
+				else
+					inGameMenuShowing=true;
+				break;
+			case Engine::Event::Key::ENTER:
+				if(inGameMenuShowing)
+				{
+					switch(inGameMenu->selectedIndex)
+					{
+						case 0:
+							inGameMenuShowing=false;
+							break;
+						case 1:
+							Map::saveRawMapToFile(string("resource/maps/saved_map.txt"), map);
+							running=false;
+							break;
+						case 2:
+							running=false;
+							break;
+					}
+				}
 				break;
 			default:
 				break;
@@ -216,6 +245,9 @@ void Game::drawScene()
 	//DEBUG!!!
 	drawDebug();
 
+	if(inGameMenuShowing)
+		this->inGameMenu->draw();
+
 
 	Engine::display->refresh();
 }
@@ -231,11 +263,6 @@ void Game::drawDebug()
 	font->draw_text("SPEED", 0, 42, Engine::Color::WHITE);
 
 	font->draw_text(String("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, Engine::Color::WHITE);
-
-}
-
-void Game::drawInGameMenu()
-{
 
 }
 

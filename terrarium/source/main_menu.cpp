@@ -29,21 +29,15 @@ void MainMenu::show()
 	loading_image.draw();
 	Engine::display->refresh();
 
-	Menu mainMenu(Rect(64, 108, 300, 100), minorFont, Color::BLUE);
+	Menu mainMenu(Rect(64, 108, 300, 150), minorFont, Color::ORANGE, true);
 	mainMenu.addEntry("Generate new map");
 	mainMenu.addEntry("Load map from file");
 	mainMenu.addEntry("Settings");
 	mainMenu.addEntry("Exit");
 
-	Image fileDialogBackground(Image::FILLED_RECTANGLE, Color::RED, 300, 200);
+	Engine::Font* miniFont = new Engine::Font("resource/jack.ttf", 16);
 
-	Image* temp1 = new Image(Image::FILLED_RECTANGLE, Color::BLACK, 296, 174);
-	temp1->blit(fileDialogBackground, 2, 24);
-	delete temp1;
-
-	Engine::Font* miniFont = new Engine::Font("resource/jack.ttf", 10);
-
-	Menu fileMenu(Rect(204, 224, 294, 174), miniFont, Color::RED);
+	Menu fileMenu(Rect(32, 224, 294, 174), miniFont, Color::YELLOW, true, "Which file?");
 	list<String> dirs = Engine::getFilenamesWithinDirectory("./resource/maps");
 		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
 			fileMenu.addEntry(*it);
@@ -133,7 +127,6 @@ void MainMenu::show()
 		mainMenu.draw();
 		if(chooseFile)
 		{
-			fileDialogBackground.draw(200, 200);
 			minorFont->draw_text("Which file?", 202, 200, Color::BLACK);
 			fileMenu.draw();
 		}

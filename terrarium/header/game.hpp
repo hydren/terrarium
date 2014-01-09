@@ -40,7 +40,7 @@ struct Game
 
 	Physics::World* world;
 
-	bool running, jumping;
+	bool running, jumping, inGameMenuShowing;
 	bool isKeyUpPressed, isKeyDownPressed, isKeyRightPressed, isKeyLeftPressed;
 
 	void handleInput();

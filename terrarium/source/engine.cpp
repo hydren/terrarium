@@ -147,22 +147,19 @@ namespace Engine
 	 *
 	 * All of them must be int.
 	 * */
-	Image::Image(Shape shape, Color color, ...)
+	Image::Image(Shape shape, Color color, float arg1, float arg2, float arg3)
 	{
 		this->implementation = new Implementation;
 		this->implementation->bitmap = null;
-
-		va_list arglist; //to gather the arguments
-		va_start(arglist, color); //prepare to load args
 
 		ALLEGRO_COLOR c =  al_map_rgb(color.r, color.g, color.b);
 		switch(shape)
 		{
 			case Image::RECTANGLE:
 			{
-				float width = va_arg(arglist, int);
-				float height = va_arg(arglist, int);
-				float thickness = va_arg(arglist, int);
+				float width = arg1;
+				float height = arg2;
+				float thickness = arg3;
 
 				ALLEGRO_BITMAP* b = al_create_bitmap(width, height);
 				al_set_target_bitmap(b);
@@ -173,8 +170,8 @@ namespace Engine
 			}
 			case Image::FILLED_RECTANGLE:
 			{
-				float width = va_arg(arglist, int);
-				float height = va_arg(arglist, int);
+				float width = arg1;
+				float height = arg2;
 
 				ALLEGRO_BITMAP* b = al_create_bitmap(width, height);
 				al_set_target_bitmap(b);
@@ -187,8 +184,6 @@ namespace Engine
 
 			default: break;
 		}
-
-		va_end(arglist); //finalize using arglist, reseting the macro
 	}
 
 	Image::~Image()
@@ -372,6 +367,10 @@ namespace Engine
 		al_draw_text(this->implementation->allegroFont, al_map_rgb(color.r, color.g, color.b), x, y, ALLEGRO_ALIGN_LEFT, text.c_str());
 	}
 
+	int Font::getSize() const
+	{
+		return al_get_font_line_height(this->implementation->allegroFont);
+	}
 }
 
 

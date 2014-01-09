@@ -86,7 +86,7 @@ namespace Engine
 			TRIANGLE, FILLED_TRIANGLE, RECTANGLE, FILLED_RECTANGLE, ROUNDED_RECTANGLE, FILLED_ROUNDED_RECTANGLE, ELLIPSE, FILLED_ELLIPSE, CIRCLE, FILLED_CIRCLE
 		};
 
-		Image(Shape shape, Color color, ...);
+		Image(Shape shape, Color color, float arg1=-1, float arg2=-1, float arg3=-1);
 		Image(String filename);
 		~Image();
 
@@ -218,6 +218,8 @@ namespace Engine
 		Font(String filename, int size=12, bool antialiasing=true, bool hinting=true, bool kerning=true);
 
 		void draw_text(String text, float x=0, float y=0, Color color=Color::BLACK);
+
+		int getSize() const;
 	};
 
 }

@@ -7,9 +7,10 @@
 
 #include "../header/menu.hpp"
 
-Menu::Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui)
+Menu::Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui, String title)
  : entries(),
    bg(null),
+   title(null),
    selectedIndex(-1),
    font(font),
    fontColor(color),
@@ -19,9 +20,19 @@ Menu::Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui)
 	if(gui) //TODO NOT WORKING!!!
 	{
 		bg = new Engine::Image(Engine::Image::FILLED_RECTANGLE, selectedColor, bounds.w, bounds.h);
-		Engine::Image* temp = new Engine::Image(Engine::Image::FILLED_RECTANGLE, Engine::Color(0,0,0), bounds.w, bounds.h);
-		temp->blit(*bg, 2, 2);
-		delete temp;
+		if(title.compare("##NO_DEF##")==0)
+		{
+			Engine::Image* temp = new Engine::Image(Engine::Image::FILLED_RECTANGLE, Engine::Color(0,0,0), bounds.w-4, bounds.h-4);
+			temp->blit(*bg, 2, 2);
+			delete temp;
+		}
+		else
+		{
+			Engine::Image* temp = new Engine::Image(Engine::Image::FILLED_RECTANGLE, Engine::Color(0,0,0), bounds.w-4, bounds.h-4 - font->getSize());
+			temp->blit(*bg, 2, 2+font->getSize());
+			this->title = new String(title);
+			delete temp;
+		}
 	}
 }
 
@@ -79,16 +90,20 @@ void Menu::draw()
 	if(bg != null)
 		bg->draw(bounds.x, bounds.y);
 
-	float distanceBetween = bounds.h / (float) entries.size();
+	float distanceBetween = (bounds.h-font->getSize()) / ((float) entries.size() + (title==null?0:1));
 
-	float offset = 0;
+	float offset = (title==null?0:font->getSize());
+
+	if(title != null)
+		font->draw_text(*title, bounds.x, bounds.y, fontColor);
+
 
 	for(unsigned i = 0; i < entries.size(); i++)
 	{
 		if(i == selectedIndex)
-			font->draw_text(entries[i]->label, bounds.x, bounds.y + offset, selectedColor);
+			font->draw_text(entries[i]->label, bounds.x +(bg!=null?2:0), bounds.y + offset, selectedColor);
 		else
-			font->draw_text(entries[i]->label, bounds.x, bounds.y + offset, fontColor);
+			font->draw_text(entries[i]->label, bounds.x +(bg!=null?2:0), bounds.y + offset, fontColor);
 
 		offset += distanceBetween;
 	}

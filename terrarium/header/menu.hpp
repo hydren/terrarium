@@ -26,6 +26,7 @@ class Menu
 
 	vector<Entry*> entries;
 	Engine::Image* bg;
+	String* title;
 
 	public:
 
@@ -34,7 +35,7 @@ class Menu
 	Engine::Color fontColor, selectedColor;
 	Rect bounds;
 
-	Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui=false);
+	Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui=false, String title="##NO_DEF##" );
 
 
 	void addEntry(String label, int index=-1);

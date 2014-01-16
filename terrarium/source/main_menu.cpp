@@ -10,16 +10,33 @@
 #include "../header/menu.hpp"
 
 using Engine::Color;
+using Engine::Image;
+using Engine::Font;
+using Engine::EventQueue;
+
+//static here means not-global to other files
+static EventQueue* eventQueue;
+static Font* mainFont, *minorFont;
+static Image* background;
 
 //functions declarations
-void loadGameWithMap(const String& map_path);
+static void loadGameWithMap(const String& map_path);
 
 MainMenu::MainMenu()
-: background(new Image("resource/title_proto.jpg")),
-  mainFont(new Engine::Font("resource/jack.ttf", 44)),
-  minorFont(new Engine::Font("resource/liberation.ttf", 24)),
-  eventQueue(new Engine::EventQueue())
-{}
+{
+	mainFont = new Font("resource/jack.ttf", 44);
+	minorFont = new Font("resource/liberation.ttf", 24);
+	background = new Image("resource/title_proto.jpg");
+	eventQueue = new EventQueue();
+}
+
+MainMenu::~MainMenu()
+{
+	delete mainFont;
+	delete minorFont;
+	delete background;
+	delete eventQueue;
+}
 
 void MainMenu::show()
 {

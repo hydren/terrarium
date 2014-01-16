@@ -13,19 +13,11 @@
 
 using Engine::Image;
 
-class MainMenu
+struct MainMenu
 {
-	private:
-	//nothing yet
-
-	Image* background;
-	Engine::Font* mainFont;
-	Engine::Font* minorFont;
-	Engine::EventQueue* eventQueue;
-
-	public:
-
 	MainMenu();
+
+	~MainMenu();
 
 	/** Start the main menu */
 	void show();

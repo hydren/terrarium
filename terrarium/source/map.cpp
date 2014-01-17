@@ -6,8 +6,7 @@
  */
 
 #include "../header/map.hpp"
-
-#include "../header/rapidxml/rapidxml_utils.hpp"
+#include "../header/file_parser.hpp"
 
 Map::Map(AnimationSet* bg, int columns, int lines, Rect* visibleArea) :
 grid(), background(bg), visibleArea(visibleArea)
@@ -25,68 +24,44 @@ grid(), background(null), visibleArea(visibleArea)
 	background = staticAnim;
 }
 
-/** Loads old raw text map files, based on the terrarium "SDL" prototype.
- *  Deprecated */
-Map* Map::loadRawMapFromFile(const String& filename, World* world)
+
+Map* Map::loadMapFromFile(const string& filename, World* world)
 {
 	Map* map=null;
 
-	vector< vector<int> > matrix;
+	vector< vector<int> > file_grid;
+	if(String::endsWith(filename, ".tmx"))
+		file_grid = FileParser::parseGridFromTMXFile(filename);
+	else
+		file_grid = FileParser::parseGridFromRawTxtFile(filename);
 
-	FileInputStream stream(filename.c_str());
+	cout << "map dimensions: " << file_grid.size() << " " << file_grid[0].size() << endl;
 
+	Image* imgDirt = new Image("resource/tileset-dirt.png");
+	Image* imgStone = new Image("resource/tileset-stone.png");
+	Image* imgWater = new Image("resource/tileset-water.png");
 
-	if(stream.is_open())
+	map = new Map(new Image("resource/background.jpg"), file_grid.size(), file_grid[0].size(), NULL);
+
+	for(unsigned int i = 0; i < file_grid.size() ; i++)
 	{
-		String str;
-		while(stream.good())
+		for(unsigned int j = 0; j < file_grid[0].size() ; j++)
 		{
-			getline(stream, str);
-			if(str.size() > 0 && trim(str).size() > 0) //safety
+			if(file_grid[i][j] == 1)
 			{
-				matrix.push_back(vector<int>(str.length()/2));
-				for(unsigned int i = 0; i < str.length()/2; i++)
-				{
-					switch(str.c_str()[2*i])
-					{
-						case '0':
-						{
-							matrix.back()[i] = 0;
-							break;
-						}
-						case '1':
-						{
-							matrix.back()[i] = 1;
-							break;
-						}
-						default:
-						{
-							matrix.back()[i] = 0;
-							break;
-						}
-					}
-				}
+				map->grid[i][j] = new Block( imgDirt, i, j);
+				world->addBody(map->grid[i][j]->body);
+				map->retile(map->grid[i][j]);
 			}
-		}
-	}
-	else throw Exception("File not found! "+filename);
-
-	stream.close();
-
-	vector< vector<int> > matrix_corrected = Util::transpose(matrix);
-
-	Image* img = new Image("resource/tileset-dirt.png");
-
-	cout << "map dimensions: " << matrix_corrected.size() << " " << matrix_corrected[0].size() << endl;
-	map = new Map(new Image("resource/background.jpg"), matrix_corrected.size(), matrix_corrected[0].size(), NULL);
-
-	for(unsigned int i = 0; i < matrix_corrected.size() ; i++)
-	{
-		for(unsigned int j = 0; j < matrix_corrected[0].size() ; j++)
-		{
-			if(matrix_corrected[i][j] == 1)
+			else if(file_grid[i][j] == 2)
 			{
-				map->grid[i][j] = new Block( img, i, j);
+				map->grid[i][j] = new Block( imgStone, i, j);
+				world->addBody(map->grid[i][j]->body);
+				map->retile(map->grid[i][j]);
+			}
+			else if(file_grid[i][j] == 3)
+			{
+				map->grid[i][j] = new Block( imgWater, i, j);
 				world->addBody(map->grid[i][j]->body);
 				map->retile(map->grid[i][j]);
 			}
@@ -95,12 +70,7 @@ Map* Map::loadRawMapFromFile(const String& filename, World* world)
 	return map;
 }
 
-Map* Map::loadRawMapFromFile(const char* filename, World* world)
-{
-	return loadRawMapFromFile(String(filename), world);
-}
-
-void Map::saveRawMapToFile(const String& filename, Map* map)
+void Map::saveRawMapToFile(const string& filename, Map* map)
 {
 	FileOutputStream stream(filename.c_str());
 
@@ -121,94 +91,6 @@ void Map::saveRawMapToFile(const String& filename, Map* map)
 	stream.close();
 }
 
-Map* Map::loadMapFromTMXFile(const String& filename, World* world)
-{
-	Map* map = null;
-
-	rapidxml::file<> *file = new rapidxml::file<>(filename.c_str());
-	rapidxml::xml_document<> doc;
-
-	cout << "parsing " << filename << "..." << endl;
-
-	doc.parse<0>( (char*)file->data() );
-
-	rapidxml::xml_node<>* nodeMap = doc.first_node("map");
-
-	if (nodeMap == NULL)
-	{
-		cout << "failure!" << endl;
-		throw Exception("Can't read node map from file "+filename);
-	}
-
-	int w = parseInt(nodeMap->first_attribute("width")->value());
-	int h = parseInt(nodeMap->first_attribute("height")->value());
-
-	rapidxml::xml_node<>* nodeLayer = nodeMap->first_node("layer");
-
-	rapidxml::xml_node<>* n = nodeLayer->first_node("data");
-
-//	generateGrid(w, h, nodeLayer->first_node("data"));
-
-	vector< vector<int> > grid;
-	vector<int> row;
-
-	int count=0;
-
-
-
-	for (rapidxml::xml_node<> *tile = n->first_node("tile"); tile; tile = tile->next_sibling())
-	{
-		row.push_back( parseInt(tile->first_attribute("gid")->value()) );
-		if (++count == w)
-		{
-			grid.push_back(row);
-			count = 0;
-			row.clear();
-		}
-	}
-	if(grid.size() < (unsigned) h)
-		throw Exception("Error while generating map "+filename+"!");
-
-	for(unsigned i = 0; i < grid.size(); i ++)
-	{
-		for(unsigned j = 0; j < grid[i].size(); j++)
-			cout << grid[i][j];
-		cout << endl;
-	}
-
-	cout << w << endl << h << endl;
-
-	vector< vector<int> > grid_t = Util::transpose(grid);
-
-	Image* imgDirt = new Image("resource/tileset-dirt.png");
-	Image* imgStone = new Image("resource/tileset-stone.png");
-
-	cout << "map dimensions: " << grid_t.size() << " " << grid_t[0].size() << endl;
-	map = new Map(new Image("resource/background.jpg"), w, h, NULL);
-
-	for(unsigned int i = 0; i < grid_t.size() ; i++)
-	{
-		for(unsigned int j = 0; j < grid_t[0].size() ; j++)
-		{
-			if(grid_t[i][j] == 1)
-			{
-				map->grid[i][j] = new Block( imgDirt, i, j);
-				world->addBody(map->grid[i][j]->body);
-				map->retile(map->grid[i][j]);
-			}
-			else if(grid_t[i][j] == 2)
-			{
-				map->grid[i][j] = new Block( imgStone, i, j);
-				world->addBody(map->grid[i][j]->body);
-				map->retile(map->grid[i][j]);
-			}
-		}
-	}
-
-	return map;
-}
-
-
 void Map::retileNeighbourhood(int x_grid_pos, int y_grid_pos)
 {
 	if(x_grid_pos > 0) if(grid[x_grid_pos-1][y_grid_pos] != NULL)
@@ -228,7 +110,7 @@ void Map::retileNeighbourhood(int x_grid_pos, int y_grid_pos)
 /** Draws all the blocks in this map */
 void Map::retile(Block* b, bool recursive)
 {
-	String k;
+	string k;
 	bool hasLeft=false, hasRight=false, hasNorth=false, hasSouth=false;
 
 	//WIP tileset algorithm

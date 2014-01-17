@@ -15,10 +15,10 @@ class Menu
 {
 	struct Entry
 	{
-		String label;
+		string label;
 		bool enabled;
 
-		Entry(String str)
+		Entry(string str)
 		: label(str),
 		  enabled(true)
 		{}
@@ -26,7 +26,7 @@ class Menu
 
 	vector<Entry*> entries;
 	Engine::Image* bg;
-	String* title;
+	string* title;
 
 	public:
 
@@ -35,10 +35,10 @@ class Menu
 	Engine::Color fontColor, selectedColor;
 	Rect bounds;
 
-	Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui=false, String title="##NO_DEF##" );
+	Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui=false, string title="##NO_DEF##" );
 
 
-	void addEntry(String label, int index=-1);
+	void addEntry(string label, int index=-1);
 
 	void removeEntry(unsigned index);
 

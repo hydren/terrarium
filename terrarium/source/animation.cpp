@@ -17,10 +17,10 @@ sheet(sheet), current("default"), positionOf(), framesOf(), intervalOf(), dimens
 	dimensionsOf["default"].width = dimensionsOf["default"].height = 0;
 }
 
-void AnimationSet::add(String tag, int width, int height, double interval, int frames, bool setCurrent)
+void AnimationSet::add(string tag, int width, int height, double interval, int frames, bool setCurrent)
 {
 		int sum=0;
-		for( map<String, Dimensions>::iterator it = dimensionsOf.begin(); it != dimensionsOf.end(); ++it )
+		for( map<string, Dimensions>::iterator it = dimensionsOf.begin(); it != dimensionsOf.end(); ++it )
 		{
 			//pega a altura de cada animação e soma
 			sum += it->second.height;
@@ -53,7 +53,7 @@ void AnimationSet::draw(float x, float y, float angle)
 	}
 }
 
-void AnimationSet::setCurrent(String tag)
+void AnimationSet::setCurrent(string tag)
 {
 	current = tag;
 }

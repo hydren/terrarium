@@ -25,7 +25,7 @@ namespace Engine
 
 	void rest(double seconds=0.05f);
 
-	list<String> getFilenamesWithinDirectory(const String& directoryPath);
+	list<string> getFilenamesWithinDirectory(const string& directoryPath);
 
 	/**
 	 * A class representing a display.
@@ -43,13 +43,13 @@ namespace Engine
 		/**
 		 * Creates a display with the given size, title and icon.
 		 * */
-		Display(int width=800, int height=600, String title="", Image* icon=NULL);
+		Display(int width=800, int height=600, string title="", Image* icon=NULL);
 
 		//delete the display
 		~Display();
 
 		/** Change the window title. */
-		void setTitle(const String& title);
+		void setTitle(const string& title);
 
 		/** Change the window icon. */
 		void setIcon(Image* image);
@@ -87,7 +87,7 @@ namespace Engine
 		};
 
 		Image(Shape shape, Color color, float arg1=-1, float arg2=-1, float arg3=-1);
-		Image(String filename);
+		Image(string filename);
 		~Image();
 
 		float getWidth();
@@ -215,9 +215,9 @@ namespace Engine
 
 		public:
 
-		Font(String filename, int size=12, bool antialiasing=true, bool hinting=true, bool kerning=true);
+		Font(string filename, int size=12, bool antialiasing=true, bool hinting=true, bool kerning=true);
 
-		void draw_text(String text, float x=0, float y=0, Color color=Color::BLACK);
+		void draw_text(string text, float x=0, float y=0, Color color=Color::BLACK);
 
 		int getSize() const;
 	};

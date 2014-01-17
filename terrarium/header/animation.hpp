@@ -22,24 +22,24 @@ struct AnimationSet
 {
 	private:
 	Image* sheet;
-	String current;
+	string current;
 
 	//contains info about the animation, like the number of frames, interval per frame
-	map<String, int> positionOf;
-	map<String, int> framesOf;
-	map<String, double> intervalOf;
-	map<String, Dimensions> dimensionsOf;
+	map<string, int> positionOf;
+	map<string, int> framesOf;
+	map<string, double> intervalOf;
+	map<string, Dimensions> dimensionsOf;
 	double timeCounter;
 
 
 	public:
 	AnimationSet(Image* sheet);
 
-	void add(String tag, int width=-1, int height=-1, double interval=-1, int frames=1, bool setCurrent=true);
+	void add(string tag, int width=-1, int height=-1, double interval=-1, int frames=1, bool setCurrent=true);
 
 	void draw(float x=0, float y=0, float angle=0);
 
-	void setCurrent(String tag);
+	void setCurrent(string tag);
 };
 
 

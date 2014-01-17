@@ -10,7 +10,7 @@
 using Physics::World;
 using Physics::Vector;
 
-Game::Game(const String& map_path)
+Game::Game(const string& map_path)
 : player(NULL),
 visibleArea(0,0,640,480),
 map(NULL),
@@ -36,11 +36,7 @@ isKeyLeftPressed(false)
 
 	delete map;
 
-	if(Util::stringEndsWith(map_path, ".tmx"))
-		map = Map::loadMapFromTMXFile(map_path, world); //TODO replace this old method. Return a grid instead of a map
-	else
-		map = Map::loadRawMapFromFile("resource/maps/rawmap.txt", world); //TODO replace this old method. Return a grid instead of a map
-
+	map = Map::loadMapFromFile(map_path, world);
 	map->visibleArea = &visibleArea;
 
 	inGameMenu->addEntry("Resume");
@@ -57,7 +53,7 @@ void Game::start()
 	anim->add("walk-left", 56, 84, 0.3, 4);
 	anim->add("walk-right", 56, 84, 0.3, 4);
 	anim->setCurrent("still-right");
-	Body* b = new Body(1,1,convertToMeters(16),convertToMeters(80));
+	Body* b = new Body(1,1,Math::convertToMeters(16), Math::convertToMeters(80));
 	player = new Entity(anim, b, &visibleArea);
 	player->body->setDynamic();
 	world->addBody(player->body);
@@ -67,8 +63,8 @@ void Game::start()
 
 	while(running)
 	{
-		visibleArea.x = convertToPixels(player->body->getX()) - visibleArea.w/2.0;
-		visibleArea.y = convertToPixels(player->body->getY()) - visibleArea.h/2.0;
+		visibleArea.x = Math::convertToPixels(player->body->getX()) - visibleArea.w/2.0;
+		visibleArea.y = Math::convertToPixels(player->body->getY()) - visibleArea.h/2.0;
 		handleInput();
 		drawScene();
 	}
@@ -258,11 +254,11 @@ void Game::drawDebug()
 
 	font->draw_text("POSITION", 0, 14, Engine::Color::WHITE);
 
-	font->draw_text(String("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, Engine::Color::WHITE);
+	font->draw_text(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, Engine::Color::WHITE);
 
 	font->draw_text("SPEED", 0, 42, Engine::Color::WHITE);
 
-	font->draw_text(String("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, Engine::Color::WHITE);
+	font->draw_text(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, Engine::Color::WHITE);
 
 }
 

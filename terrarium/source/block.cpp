@@ -8,7 +8,7 @@
 #include "../header/block.hpp"
 
 Block::Block(Image* i, int x_grid, int y_grid):
-Entity(NULL, new Body(convertToMeters(x_grid*BLOCK_SIZE), convertToMeters(y_grid*BLOCK_SIZE), convertToMeters(BLOCK_SIZE))),
+Entity(null, new Body(Math::convertToMeters(x_grid*BLOCK_SIZE), Math::convertToMeters(y_grid*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE))),
 x_grid_pos(x_grid),
 y_grid_pos(y_grid)
 {
@@ -37,7 +37,7 @@ y_grid_pos(y_grid)
 
 /** Caution: the given animation should be correctly configured for blocks */
 Block::Block(AnimationSet* anim, int x_grid, int y_grid):
-Entity(anim, new Body(convertToMeters(x_grid*BLOCK_SIZE), convertToMeters(y_grid*BLOCK_SIZE), convertToMeters(BLOCK_SIZE))),
+Entity(anim, new Body(Math::convertToMeters(x_grid*BLOCK_SIZE), Math::convertToMeters(y_grid*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE))),
 x_grid_pos(x_grid),
 y_grid_pos(y_grid)
 {}
@@ -58,9 +58,9 @@ void Block::draw(const Rect* visibleAreaPosition)
 {
 	if(visibleAreaPosition == NULL){
 //	    animation->draw(x_grid_pos*BLOCK_SIZE, y_grid_pos*BLOCK_SIZE);
-		animation->draw(convertToPixels(body->getX()), convertToPixels(body->getY()));
+		animation->draw(Math::convertToPixels(body->getX()), Math::convertToPixels(body->getY()));
 	}
 	else
 //		animation->draw(x_grid_pos*BLOCK_SIZE - visibleAreaPosition->x, y_grid_pos*BLOCK_SIZE - visibleAreaPosition->y);
-		animation->draw(convertToPixels(body->getX()) - visibleAreaPosition->x, convertToPixels(body->getY()) - visibleAreaPosition->y);
+		animation->draw(Math::convertToPixels(body->getX()) - visibleAreaPosition->x, Math::convertToPixels(body->getY()) - visibleAreaPosition->y);
 }

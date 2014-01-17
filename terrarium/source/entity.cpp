@@ -17,8 +17,8 @@ visibleAreaPosition(visibleArea)
 void Entity::draw()
 {
 	if(visibleAreaPosition == NULL)
-		animation->draw(convertToPixels(body->getX()), convertToPixels(body->getY()));
+		animation->draw(Math::convertToPixels(body->getX()), Math::convertToPixels(body->getY()));
 
 	else
-		animation->draw(convertToPixels(body->getX()) - visibleAreaPosition->x, convertToPixels(body->getY()) - visibleAreaPosition->y, body->getAngle());
+		animation->draw(Math::convertToPixels(body->getX()) - visibleAreaPosition->x, Math::convertToPixels(body->getY()) - visibleAreaPosition->y, body->getAngle());
 }

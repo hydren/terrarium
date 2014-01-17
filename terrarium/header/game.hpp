@@ -16,7 +16,7 @@
 
 struct Game
 {
-	Game(const String& map_path);
+	Game(const string& map_path);
 	void start();
 
 	private:

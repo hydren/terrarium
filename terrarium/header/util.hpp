@@ -44,33 +44,39 @@ using std::pair;
 
 typedef ifstream FileInputStream;
 typedef ofstream FileOutputStream;
-typedef string String;
 
 //adds almost java-like capabilities to String. It's still not converting char*+int and alike to String
-String operator + (String a, String b);
+string operator + (string a, string b);
 
-String operator + (String a, int b);
-String operator + (String a, long b);
-String operator + (String a, short b);
-String operator + (String a, float b);
-String operator + (String a, double b);
-String operator + (String a, char b);
-String operator + (String a, char* b);
+string operator + (string a, int b);
+string operator + (string a, long b);
+string operator + (string a, short b);
+string operator + (string a, unsigned b);
+string operator + (string a, float b);
+string operator + (string a, double b);
+string operator + (string a, char b);
+string operator + (string a, char* b);
+
 
 //backwards versions
 
-String operator + (int a, String b);
-String operator + (long a, String b);
-String operator + (short a, String b);
-String operator + (float a, String b);
-String operator + (double a, String b);
-String operator + (char a, String b);
-String operator + (char* a, String b);
+string operator + (int a, string b);
+string operator + (long a, string b);
+string operator + (short a, string b);
+string operator + (unsigned a, string b);
+string operator + (float a, string b);
+string operator + (double a, string b);
+string operator + (char a, string b);
+string operator + (char* a, string b);
 
-/** Returns a copy of the string, with leading and trailing whitespace omitted. */
-String trim(const String& str);
+namespace String
+{
+	/** Returns a copy of the string, with leading and trailing whitespace omitted. */
+	string trim(const string& str);
 
-int parseInt(const String& str);
+	/** Returns true if the given string str ends with the given string ending */
+	bool endsWith (string const& str, string const& ending);
+}
 
 namespace Math
 {
@@ -80,6 +86,13 @@ namespace Math
 	{
 		return i < 0 ? -i : i;
 	}
+
+	/** Parses the string for matching an integer. */
+	int parseInt(const string& str);
+
+	float convertToMeters(float pixels);
+
+	float convertToPixels(float meters);
 }
 
 /** Class created to behave like the Java's Exception
@@ -89,17 +102,17 @@ class Exception
 {
     private:
 
-    String msg;
+    string msg;
 
     public:
 
-    Exception(std::string str)
+    Exception(string str)
     : msg(str)
     {}
 
     Exception(const char* format, ...);
 
-    std::string message() const { return msg; }
+    string message() const { return msg; }
 };
 
 /** Class that contains position and size of a box.
@@ -132,10 +145,6 @@ struct Rect
     int area();
 };
 
-float convertToMeters(float pixels);
-
-float convertToPixels(float meters);
-
 namespace Util
 {
 	template <typename Type>
@@ -158,8 +167,6 @@ namespace Util
 
 		return matrix_t;
 	}
-
-	bool stringEndsWith (String const& str, String const& ending);
 }
 
 

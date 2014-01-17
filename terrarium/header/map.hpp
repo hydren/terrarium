@@ -9,7 +9,6 @@
 #define MAP_HPP_
 
 #include "block.hpp"
-
 #include "physics.hpp"
 
 using Physics::World;
@@ -29,12 +28,8 @@ struct Map
 
 	Map(Image* bg, int columns, int lines, Rect* visibleArea);
 
-	static Map* loadRawMapFromFile(const String& filename, World* world);
-	static Map* loadRawMapFromFile(const char* filename, World* world);
-	static void saveRawMapToFile(const String& filename, Map* map);
-
-	static Map* loadMapFromTMXFile(const String& filename, World* world);
-
+	static Map* loadMapFromFile(const string& filename, World* world);
+	static void saveRawMapToFile(const string& filename, Map* map);
 
 	void retile(Block* b, bool recursive=true);
 

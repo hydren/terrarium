@@ -7,7 +7,7 @@
 
 #include "../header/menu.hpp"
 
-Menu::Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui, String title)
+Menu::Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui, string title)
  : entries(),
    bg(null),
    title(null),
@@ -30,13 +30,13 @@ Menu::Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui, Strin
 		{
 			Engine::Image* temp = new Engine::Image(Engine::Image::FILLED_RECTANGLE, Engine::Color(0,0,0), bounds.w-4, bounds.h-4 - font->getSize());
 			temp->blit(*bg, 2, 2+font->getSize());
-			this->title = new String(title);
+			this->title = new string(title);
 			delete temp;
 		}
 	}
 }
 
-void Menu::addEntry(String label, int index)
+void Menu::addEntry(string label, int index)
 {
 	if(index < 0)
 		entries.push_back(new Entry(label));

@@ -12,56 +12,63 @@
 
 // ====================  adding almost java-like habilities to String
 
-String operator + (String a, String b)
+string operator + (string a, string b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (String a, int b)
+string operator + (string a, int b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (String a, long b)
+string operator + (string a, long b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (String a, short b)
+string operator + (string a, short b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (String a, float b)
+string operator + (string a, unsigned b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (String a, double b)
+string operator + (string a, float b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (String a, char b)
+string operator + (string a, double b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (String a, char* b)
+string operator + (string a, char b)
+{
+    std::stringstream ss;
+    ss << a << b;
+    return ss.str();
+}
+
+string operator + (string a, char* b)
 {
     std::stringstream ss;
     ss << a << b;
@@ -70,49 +77,56 @@ String operator + (String a, char* b)
 
 //backwards versions
 
-String operator + (int a, String b)
+string operator + (int a, string b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (long a, String b)
+string operator + (long a, string b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (short a, String b)
+string operator + (short a, string b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (float a, String b)
+string operator + (unsigned a, string b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (double a, String b)
+string operator + (float a, string b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator + (char a, String b)
+string operator + (double a, string b)
 {
     std::stringstream ss;
     ss << a << b;
     return ss.str();
 }
 
-String operator +(char* a, String b)
+string operator + (char a, string b)
+{
+    std::stringstream ss;
+    ss << a << b;
+    return ss.str();
+}
+
+string operator +(char* a, string b)
 {
     std::stringstream ss;
     ss << a << b;
@@ -120,7 +134,7 @@ String operator +(char* a, String b)
 }
 
 /** Returns a copy of the string, with leading and trailing whitespace omitted. */
-String trim(const String& str)
+string String::trim(const string& str)
 {
 	string str2 = str;
 	size_t found;
@@ -133,11 +147,32 @@ String trim(const String& str)
     return str2;
 }
 
-int parseInt(const String& str)
+/** Returns true if the given string str ends with the given string ending */
+bool String::endsWith (string const& str, string const& ending) //TODO move to a String subclass
+{
+    if (str.length() >= ending.length()) {
+        return (0 == str.compare (str.length() - ending.length(), ending.length(), ending));
+    } else {
+        return false;
+    }
+}
+
+/** Parses the string for matching an integer. */
+int Math::parseInt(const string& str)
 {
 	int i;
 	std::istringstream(str.c_str()) >> i;
 	return i;
+}
+
+float Math::convertToMeters(float pixels)
+{
+	return 0.01f * pixels;
+}
+
+float Math::convertToPixels(float meters)
+{
+	return 100.0f * meters;
 }
 
 //==============================================================================
@@ -148,7 +183,7 @@ Exception::Exception(const char *format, ...)
     va_start(args, format);
     char buffer[1024];
     vsprintf(buffer, format, args);
-    msg = String(buffer);
+    msg = string(buffer);
     va_end(args);
 }
 
@@ -225,22 +260,4 @@ int Rect::area()
 	return w*h; //you don't say
 }
 
-float convertToMeters(float pixels)
-{
-	return 0.01f * pixels;
-}
-
-float convertToPixels(float meters)
-{
-	return 100.0f * meters;
-}
-
-bool Util::stringEndsWith (String const& str, String const& ending) //TODO move to a String subclass
-{
-    if (str.length() >= ending.length()) {
-        return (0 == str.compare (str.length() - ending.length(), ending.length(), ending));
-    } else {
-        return false;
-    }
-}
 

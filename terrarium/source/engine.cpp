@@ -78,12 +78,12 @@ namespace Engine
 		al_rest(seconds);
 	}
 
-	list<String> getFilenamesWithinDirectory(const String& directoryPath)
+	list<string> getFilenamesWithinDirectory(const string& directoryPath)
 	{
 		ALLEGRO_FS_ENTRY* directory = al_create_fs_entry(directoryPath.c_str());
 		al_open_directory(directory);
 
-		list<String> filenames;
+		list<string> filenames;
 		for(ALLEGRO_FS_ENTRY* entry = al_read_directory(directory); entry != null; entry = al_read_directory(directory))
 		{
 			filenames.push_back(al_get_fs_entry_name(entry));
@@ -92,7 +92,7 @@ namespace Engine
 	}
 
 
-	Display::Display(int width, int height, String title, Image* icon)
+	Display::Display(int width, int height, string title, Image* icon)
 	{
 		this->implementation = new Implementation;
 		this->implementation->allegroDisplay = al_create_display(width, height);
@@ -111,7 +111,7 @@ namespace Engine
 		al_destroy_display(this->implementation->allegroDisplay);
 	}
 
-	void Display::setTitle(const String& title)
+	void Display::setTitle(const string& title)
 	{
 		al_set_window_title(this->implementation->allegroDisplay, title.c_str());
 	}
@@ -131,7 +131,7 @@ namespace Engine
 		al_clear_to_color(al_map_rgb(0,0,0));
 	}
 
-	Image::Image(String filename)
+	Image::Image(string filename)
 	{
 		this->implementation = new Implementation;
 		this->implementation->bitmap = al_load_bitmap(filename.c_str());
@@ -351,7 +351,7 @@ namespace Engine
 
 
 
-	Font::Font(String filename, int size, bool antialiasing, bool hinting, bool kerning)
+	Font::Font(string filename, int size, bool antialiasing, bool hinting, bool kerning)
 	{
 		this->implementation = new Implementation;
 
@@ -362,7 +362,7 @@ namespace Engine
 			throw Exception("Font"+filename+" could not be loaded!");
 	}
 
-	void Font::draw_text(String text, float x, float y, Color color)
+	void Font::draw_text(string text, float x, float y, Color color)
 	{
 		al_draw_text(this->implementation->allegroFont, al_map_rgb(color.r, color.g, color.b), x, y, ALLEGRO_ALIGN_LEFT, text.c_str());
 	}

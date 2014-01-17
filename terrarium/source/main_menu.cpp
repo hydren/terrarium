@@ -20,7 +20,7 @@ static Font* mainFont, *minorFont;
 static Image* background;
 
 //functions declarations
-static void loadGameWithMap(const String& map_path);
+static void loadGameWithMap(const string& map_path);
 
 MainMenu::MainMenu()
 {
@@ -55,8 +55,8 @@ void MainMenu::show()
 	Engine::Font* miniFont = new Engine::Font("resource/jack.ttf", 16);
 
 	Menu fileMenu(Rect(32, 224, 294, 174), miniFont, Color::YELLOW, true, "Which file?");
-	list<String> dirs = Engine::getFilenamesWithinDirectory("./resource/maps");
-		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
+	list<string> dirs = Engine::getFilenamesWithinDirectory("./resource/maps");
+		for(list<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
 			fileMenu.addEntry(*it);
 	fileMenu.addEntry("< Cancel >");
 
@@ -153,7 +153,7 @@ void MainMenu::show()
 
 }
 
-void loadGameWithMap(const String& map_path)
+void loadGameWithMap(const string& map_path)
 {
 	Game game(map_path);
 	game.start();

@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include "../header/engine.hpp"
 #include "../header/main_menu.hpp"
+#include "../header/file_parser.hpp"
 
 using std::cout;
 using std::endl;

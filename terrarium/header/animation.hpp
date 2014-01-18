@@ -40,6 +40,8 @@ struct AnimationSet
 	void draw(float x=0, float y=0, float angle=0);
 
 	void setCurrent(string tag);
+
+	//TODO add methods for editing the animation set.
 };
 
 

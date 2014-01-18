@@ -19,8 +19,8 @@
 #include <cstdarg>
 
 using std::cout;
-using std::cerr;
 using std::endl;
+using std::cerr;
 using std::ifstream;
 using std::ofstream;
 using std::string;
@@ -46,6 +46,15 @@ typedef ifstream FileInputStream;
 typedef ofstream FileOutputStream;
 
 //adds almost java-like capabilities to String. It's still not converting char*+int and alike to String
+namespace String
+{
+	/** Returns a copy of the string, with leading and trailing whitespace omitted. */
+	string trim(const string& str);
+
+	/** Returns true if the given string str ends with the given string ending */
+	bool endsWith (string const& str, string const& ending);
+}
+
 string operator + (string a, string b);
 
 string operator + (string a, int b);
@@ -69,14 +78,25 @@ string operator + (double a, string b);
 string operator + (char a, string b);
 string operator + (char* a, string b);
 
-namespace String
+/** Class created to behave like the Java's Exception
+ * Contains a string messsage with the error message
+ */
+class Exception
 {
-	/** Returns a copy of the string, with leading and trailing whitespace omitted. */
-	string trim(const string& str);
+    private:
 
-	/** Returns true if the given string str ends with the given string ending */
-	bool endsWith (string const& str, string const& ending);
-}
+    string msg;
+
+    public:
+
+    Exception(string str)
+    : msg(str)
+    {}
+
+    Exception(const char* format, ...);
+
+    inline string message() const { return msg; }
+};
 
 namespace Math
 {
@@ -94,26 +114,6 @@ namespace Math
 
 	float convertToPixels(float meters);
 }
-
-/** Class created to behave like the Java's Exception
- * Contains a String msg, with the error message
- */
-class Exception
-{
-    private:
-
-    string msg;
-
-    public:
-
-    Exception(string str)
-    : msg(str)
-    {}
-
-    Exception(const char* format, ...);
-
-    string message() const { return msg; }
-};
 
 /** Class that contains position and size of a box.
  * It has a method to check for intersection between other Rect's.
@@ -168,6 +168,5 @@ namespace Util
 		return matrix_t;
 	}
 }
-
 
 #endif /* UTIL_HPP_ */

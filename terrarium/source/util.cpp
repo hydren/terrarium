@@ -12,127 +12,6 @@
 
 // ====================  adding almost java-like habilities to String
 
-string operator + (string a, string b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (string a, int b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (string a, long b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (string a, short b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (string a, unsigned b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (string a, float b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (string a, double b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (string a, char b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (string a, char* b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-//backwards versions
-
-string operator + (int a, string b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (long a, string b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (short a, string b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (unsigned a, string b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (float a, string b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (double a, string b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator + (char a, string b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
-string operator +(char* a, string b)
-{
-    std::stringstream ss;
-    ss << a << b;
-    return ss.str();
-}
-
 /** Returns a copy of the string, with leading and trailing whitespace omitted. */
 string String::trim(const string& str)
 {
@@ -148,7 +27,7 @@ string String::trim(const string& str)
 }
 
 /** Returns true if the given string str ends with the given string ending */
-bool String::endsWith (string const& str, string const& ending) //TODO move to a String subclass
+bool String::endsWith (string const& str, string const& ending)
 {
     if (str.length() >= ending.length()) {
         return (0 == str.compare (str.length() - ending.length(), ending.length(), ending));
@@ -156,6 +35,46 @@ bool String::endsWith (string const& str, string const& ending) //TODO move to a
         return false;
     }
 }
+
+//just to reduce redundant text
+#define CONCATENATION { std::stringstream ss; ss << a << b; return ss.str(); }
+
+string operator + (string a, string b) CONCATENATION;
+string operator + (string a, int b) CONCATENATION;
+string operator + (string a, long b) CONCATENATION
+string operator + (string a, short b) CONCATENATION;
+string operator + (string a, unsigned b) CONCATENATION;
+string operator + (string a, float b) CONCATENATION;
+string operator + (string a, double b) CONCATENATION;
+string operator + (string a, char b) CONCATENATION;
+string operator + (string a, char* b) CONCATENATION;
+
+//backwards versions
+
+string operator + (int a, string b) CONCATENATION;
+string operator + (long a, string b) CONCATENATION;
+string operator + (short a, string b) CONCATENATION;
+string operator + (unsigned a, string b) CONCATENATION;
+string operator + (float a, string b) CONCATENATION;
+string operator + (double a, string b) CONCATENATION;
+string operator + (char a, string b) CONCATENATION;
+string operator + (char* a, string b) CONCATENATION;
+
+//==============================================================================
+//================== Exception
+
+Exception::Exception(const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    char buffer[1024];
+    vsprintf(buffer, format, args);
+    msg = string(buffer);
+    va_end(args);
+}
+
+//==============================================================================
+//=================== Math namespace
 
 /** Parses the string for matching an integer. */
 int Math::parseInt(const string& str)
@@ -176,18 +95,9 @@ float Math::convertToPixels(float meters)
 }
 
 //==============================================================================
+//================== Rect
 
-Exception::Exception(const char *format, ...)
-{
-    va_list args;
-    va_start(args, format);
-    char buffer[1024];
-    vsprintf(buffer, format, args);
-    msg = string(buffer);
-    va_end(args);
-}
-
-
+//Returns true if this bounding box intersects with the given Rect.
 bool Rect::intersects(const Rect& box )
 {
 	if
@@ -222,7 +132,7 @@ bool Rect::intersects(const Rect& box )
 Rect Rect::intersection(const Rect& box)
 {
 	int x, y, h, w;
-	if(!intersects(box)) throw Exception("WARNING! Bounding boxes does not intersect!");
+	if(!intersects(box)) throw Exception("Bounding boxes does not intersect!");
 	if(this->x <= box.x){
 		x = box.x;
 		if(this->w >= box.x + box.w)

@@ -10,57 +10,87 @@
 using Physics::World;
 using Physics::Vector;
 
+using Engine::EventQueue;
+using Engine::Font;
+using Engine::Color;
+
+static vector<Entity*> entities;
+static vector<Image*> images;
+static vector<Block*> blocks;
+
+static Rect visibleArea;
+
+static Entity* player;
+static Map* game_map;
+static Image* tileset_dirt;
+static Font* font;
+static Menu* inGameMenu;
+static EventQueue* eventQueue;
+static World* world;
+
+static bool running, jumping, inGameMenuShowing;
+static bool isKeyUpPressed, isKeyDownPressed, isKeyRightPressed, isKeyLeftPressed;
+
+void handleInput();
+void drawScene();
+void drawDebug();
+//void physics();
+
 Game::Game(const string& map_path)
-: player(NULL),
-visibleArea(0,0,640,480),
-map(NULL),
-green_box(NULL),
-font(new Engine::Font("resource/liberation.ttf", 14)),
-inGameMenu(new Menu(Rect(200, 200, 200, 64), font,Engine::Color::ORANGE, true)),
-eventQueue(new Engine::EventQueue()),
-running(true),
-jumping(false),
-inGameMenuShowing(false),
-isKeyUpPressed(false),
-isKeyDownPressed(false),
-isKeyRightPressed(false),
-isKeyLeftPressed(false)
 {
+	visibleArea = Rect(0,0,640,480);
 
-	if(eventQueue == null)
-		cout << "DEU ROLO" << endl;
+	//loading font
+	font = new Engine::Font("resource/liberation.ttf", 14);
 
-
-	Vector gravity(0.0f, 10.0f);
-	world = new World(gravity);
-
-	delete map;
-
-	map = Map::loadMapFromFile(map_path, world);
-	map->visibleArea = &visibleArea;
-
+	//loading ingame menu
+	inGameMenu = new Menu(Rect(200, 200, 200, 64), font, Color::ORANGE, true);
 	inGameMenu->addEntry("Resume");
 	inGameMenu->addEntry("Save and exit");
 	inGameMenu->addEntry("Exit without saving");
-}
 
-void Game::start()
-{
-	Image* i = new Image("resource/pijamaman-1.png");
-	AnimationSet* anim = new AnimationSet(i);
+	//loading event queue
+	eventQueue = new Engine::EventQueue();
+
+	//setting flags
+	running = true;
+	jumping = false;
+	inGameMenuShowing = false;
+	isKeyUpPressed = false;
+	isKeyDownPressed = false;
+	isKeyRightPressed = false;
+	isKeyLeftPressed = false;
+
+	//loading world
+	Vector gravity(0.0f, 10.0f);
+	world = new World(gravity);
+
+	//loading map
+	game_map = Map::loadMapFromFile(map_path, world);
+	game_map->visibleArea = &visibleArea;
+
+	//loading player graphics
+	Image* player_img = new Image("resource/pijamaman-1.png");
+	AnimationSet* anim = new AnimationSet(player_img);
 	anim->add("still-left", 56, 84, 1, 1);
 	anim->add("still-right", 56, 84, 1, 1);
-	anim->add("walk-left", 56, 84, 0.3, 4);
-	anim->add("walk-right", 56, 84, 0.3, 4);
+	anim->add("walk-left", 56, 84, 0.1, 4);
+	anim->add("walk-right", 56, 84, 0.1, 4);
 	anim->setCurrent("still-right");
+
+	//loading player physics
 	Body* b = new Body(1,1,Math::convertToMeters(16), Math::convertToMeters(80));
 	player = new Entity(anim, b, &visibleArea);
 	player->body->setDynamic();
 	world->addBody(player->body);
 	player->body->setFixedRotation();
 
-	green_box = new Image("resource/tileset-dirt.png");
+	//loading dirt tileset
+	tileset_dirt = new Image("resource/tileset-dirt.png");
+}
 
+void Game::start()
+{
 	while(running)
 	{
 		visibleArea.x = Math::convertToPixels(player->body->getX()) - visibleArea.w/2.0;
@@ -69,13 +99,10 @@ void Game::start()
 		drawScene();
 	}
 
-
-
 	delete player;
-	delete i;
 }
 
-void Game::handleInput()
+void handleInput()
 {
 
 	if(isKeyUpPressed && !jumping) {
@@ -169,7 +196,7 @@ void Game::handleInput()
 							inGameMenuShowing=false;
 							break;
 						case 1:
-							Map::saveRawMapToFile(string("resource/maps/saved_map.txt"), map);
+							Map::saveRawMapToFile(string("resource/maps/saved_map.txt"), game_map);
 							running=false;
 							break;
 						case 2:
@@ -190,12 +217,12 @@ void Game::handleInput()
 				unsigned int mx = (visibleArea.x + ev->getEventMouseX())/BLOCK_SIZE;
 				unsigned int my = (visibleArea.y + ev->getEventMouseY())/BLOCK_SIZE;
 
-				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
-					if (map->grid[mx][my] == NULL)
+				if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
+					if (game_map->grid[mx][my] == NULL)
 					{
-						map->grid[mx][my] = new Block(green_box, mx, my);
-						world->addBody(map->grid[mx][my]->body);
-						map->retile(map->grid[mx][my]);
+						game_map->grid[mx][my] = new Block(tileset_dirt, mx, my);
+						world->addBody(game_map->grid[mx][my]->body);
+						game_map->retile(game_map->grid[mx][my]);
 					}
 
 			}
@@ -206,13 +233,13 @@ void Game::handleInput()
 
 				if(mx < 0) mx = 0; // safety
 				if(my < 0) my = 0; // safety
-				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
-					if (map->grid[mx][my] != NULL)
+				if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
+					if (game_map->grid[mx][my] != NULL)
 					{
-						world->destroyBody(map->grid[mx][my]->body);
-						delete map->grid[mx][my];
-						map->grid[mx][my] = NULL;
-						map->retileNeighbourhood(mx, my);
+						world->destroyBody(game_map->grid[mx][my]->body);
+						delete game_map->grid[mx][my];
+						game_map->grid[mx][my] = NULL;
+						game_map->retileNeighbourhood(mx, my);
 					}
 			}
 		}
@@ -220,13 +247,13 @@ void Game::handleInput()
 
 }
 
-void Game::drawScene()
+void drawScene()
 {
 	Engine::display->clear();
 	world->step((1.0f / 60.0f), 6, 2);
 	/* needs to draw HUD */
 
-	map->draw();
+	game_map->draw();
 
 	player->draw(); //draw player
 
@@ -242,13 +269,13 @@ void Game::drawScene()
 	drawDebug();
 
 	if(inGameMenuShowing)
-		this->inGameMenu->draw();
+		inGameMenu->draw();
 
 
 	Engine::display->refresh();
 }
 
-void Game::drawDebug()
+void drawDebug()
 {
 	font->draw_text("## DEBUG BUILD ##", 245, 0, Engine::Color::RED);
 

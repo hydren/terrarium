@@ -20,8 +20,8 @@ public:
 	int x_grid_pos, y_grid_pos;
 
 	//constructors
-	Block(Image* i, int x_grid, int y_grid);
-	Block(AnimationSet* anim, int x_grid, int y_grid);
+	Block(Image* i, int x_grid, int y_grid, bool ignoreCollision=false);
+	Block(AnimationSet* anim, int x_grid, int y_grid, bool ignoreCollision=false);
 
 	~Block();
 

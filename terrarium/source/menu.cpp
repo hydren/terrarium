@@ -100,10 +100,14 @@ void Menu::draw()
 
 	for(unsigned i = 0; i < entries.size(); i++)
 	{
+		//quick dirty fix TODO remove this and do a better structure
+		string str = entries[i]->label;
+		if(str.length() > 20) do str = "..."+str.substr(4); while(str.length() > 20);
+
 		if(i == selectedIndex)
-			font->draw_text(entries[i]->label, bounds.x +(bg!=null?2:0), bounds.y + offset, selectedColor);
+			font->draw_text(str, bounds.x +(bg!=null?2:0), bounds.y + offset, selectedColor);
 		else
-			font->draw_text(entries[i]->label, bounds.x +(bg!=null?2:0), bounds.y + offset, fontColor);
+			font->draw_text(str, bounds.x +(bg!=null?2:0), bounds.y + offset, fontColor);
 
 		offset += distanceBetween;
 	}

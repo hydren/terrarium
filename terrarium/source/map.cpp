@@ -61,7 +61,7 @@ Map* Map::loadMapFromFile(const string& filename, World* world)
 			}
 			else if(file_grid[i][j] == 3)
 			{
-				map->grid[i][j] = new Block( imgWater, i, j);
+				map->grid[i][j] = new Block( imgWater, i, j, true);
 				world->addBody(map->grid[i][j]->body);
 				map->retile(map->grid[i][j]);
 			}

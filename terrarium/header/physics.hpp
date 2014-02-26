@@ -33,7 +33,7 @@ namespace Physics
 
 		public:
 
-		Body(double x, double y, double size);
+		Body(double x, double y, double size, bool ignoreCollisions=false);
 		Body(double x, double y, double width, double height);
 		~Body(); //TODO
 

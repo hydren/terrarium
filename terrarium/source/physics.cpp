@@ -58,7 +58,7 @@ namespace Physics
 	}
 
 	//Constructor used by Block class to create a edge chain. Used on map creation.
-	Body::Body(double x, double y, double size)
+	Body::Body(double x, double y, double size, bool ignoreCollisions)
 	{
 		this->implementation = new Implementation;
 
@@ -74,6 +74,9 @@ namespace Physics
 		this->implementation->chain.CreateLoop(vs, 4);
 
 		this->implementation->fixtureDef.shape = &(this->implementation->chain);
+
+		if(ignoreCollisions) //makes this body unable to collide with any other body
+			this->implementation->fixtureDef.filter.maskBits = 0x0000;
 	}
 
 

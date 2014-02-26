@@ -5,5 +5,5 @@ TODO:
 
 * Check minor sprite glitch when too many blocks on the screen (reproducible on DCC's PCs)
 * Need to remake the visible area mechanism to avoid scrolling the visible area when the player is in the boundaries of the map
-* Need to create a valid *.tmx map loader and saver.
+* Need to create a valid *.tmx map loader and saver. 75% DONE, needs valid TMX saver
 * Need to adapt the generators to the current Map classes.

@@ -105,25 +105,25 @@ void Game::start()
 void handleInput()
 {
 
-	if(isKeyUpPressed && !jumping) {
+	if(not inGameMenuShowing and isKeyUpPressed and !jumping) {
 		Vector v = player->body->getVelocity();
 		if(v.y >= -2.0f) {
 			player->body->applyImpulse(Vector(0.0f, -0.05f), Vector(player->body->getX(), player->body->getY()));
 			jumping = true;
 		}
 	}
-	if(isKeyDownPressed) {
+	if(not inGameMenuShowing and isKeyDownPressed) {
 		Vector v = player->body->getVelocity();
 		if(v.y <= 2.0f)
 			player->body->applyForceToCenter(Vector(0.0f, 0.2f));
 	}
-	if(isKeyRightPressed) {
+	if(not inGameMenuShowing and isKeyRightPressed) {
 		player->animation->setCurrent("walk-right");
 		Vector v = player->body->getVelocity();
 		if(v.x <= 2.0f)
 			player->body->applyForceToCenter(Vector(0.2f, 0.0f));
 	}
-	if(isKeyLeftPressed) {
+	if(not inGameMenuShowing and isKeyLeftPressed) {
 		player->animation->setCurrent("walk-left");
 		Vector v = player->body->getVelocity();
 		if(v.x >= -2.0f)

@@ -19,9 +19,11 @@ private:
 public:
 	int x_grid_pos, y_grid_pos;
 
+	int typeID;
+
 	//constructors
-	Block(Image* i, int x_grid, int y_grid, bool ignoreCollision=false);
-	Block(AnimationSet* anim, int x_grid, int y_grid, bool ignoreCollision=false);
+	Block(Image* i, int x_grid, int y_grid, int typeID, bool ignoreCollision=false);
+	Block(AnimationSet* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision=false);
 
 	~Block();
 

@@ -7,10 +7,11 @@
 
 #include "../headers/block.hpp"
 
-Block::Block(Image* i, int x_grid, int y_grid, bool ignoreCollision):
+Block::Block(Image* i, int x_grid, int y_grid, int typeID, bool ignoreCollision):
 Entity(null, new Body(Math::convertToMeters(x_grid*BLOCK_SIZE), Math::convertToMeters(y_grid*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE), ignoreCollision)),
 x_grid_pos(x_grid),
-y_grid_pos(y_grid)
+y_grid_pos(y_grid),
+typeID(typeID)
 {
 	animation = new AnimationSet(i);
 
@@ -36,10 +37,11 @@ y_grid_pos(y_grid)
 }
 
 /** Caution: the given animation should be correctly configured for blocks */
-Block::Block(AnimationSet* anim, int x_grid, int y_grid, bool ignoreCollision):
+Block::Block(AnimationSet* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision):
 Entity(anim, new Body(Math::convertToMeters(x_grid*BLOCK_SIZE), Math::convertToMeters(y_grid*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE), ignoreCollision)),
 x_grid_pos(x_grid),
-y_grid_pos(y_grid)
+y_grid_pos(y_grid),
+typeID(typeID)
 {}
 
 Block::~Block() {

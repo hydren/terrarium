@@ -220,7 +220,7 @@ void handleInput()
 				if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
 					if (game_map->grid[mx][my] == NULL)
 					{
-						game_map->grid[mx][my] = new Block(tileset_dirt, mx, my);
+						game_map->grid[mx][my] = new Block(tileset_dirt, mx, my, 1);
 						world->addBody(game_map->grid[mx][my]->body);
 						game_map->retile(game_map->grid[mx][my]);
 					}
@@ -253,10 +253,11 @@ void drawScene()
 	world->step((1.0f / 60.0f), 6, 2);
 	/* needs to draw HUD */
 
-	game_map->draw();
+	game_map->draw_bg_player();
 
 	player->draw(); //draw player
 
+	game_map->draw_fg_player();
 
 	/* drawing others entities */
 	for(vector<Entity*>::iterator it = entities.begin() ; it != entities.end(); ++it){

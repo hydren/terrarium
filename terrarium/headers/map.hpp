@@ -39,6 +39,12 @@ struct Map
 
 	/** Draws all the blocks in this map */
 	void draw();
+
+	/** Draws all the blocks that backgrounds the player */
+	void draw_bg_player();
+
+	/** Draws all the blocks that foregrounds the player */
+	void draw_fg_player();
 };
 
 

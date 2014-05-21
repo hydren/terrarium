@@ -6,9 +6,9 @@
  */
 
 #include <cstdlib>
-#include "../header/engine.hpp"
-#include "../header/main_menu.hpp"
-#include "../header/file_parser.hpp"
+#include "../headers/engine.hpp"
+#include "../headers/main_menu.hpp"
+#include "../headers/file_parser.hpp"
 
 using std::cout;
 using std::endl;
@@ -21,11 +21,11 @@ int main(int argc, char** argv)
 		Engine::display = new Engine::Display(640, 480, "Project Terrarium");
 
 //		cout << "Lets test the directory listing method" << endl;
-//		list<String> dirs = Engine::getFilenamesWithinDirectory("./resource/maps");
+//		list<String> dirs = Engine::getFilenamesWithinDirectory("./resources/maps");
 //		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
 //			cout << *it << endl;
 
-		Image loading_image("./resource/loading.png");
+		Image loading_image("./resources/loading.png");
 		loading_image.draw();
 		Engine::display->refresh();
 

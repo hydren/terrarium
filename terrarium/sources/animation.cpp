@@ -5,7 +5,7 @@
  *      Author: felipe
  */
 
-#include "../header/animation.hpp"
+#include "../headers/animation.hpp"
 
 #include <allegro5/allegro.h>
 

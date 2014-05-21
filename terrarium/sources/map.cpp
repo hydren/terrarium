@@ -5,8 +5,8 @@
  *      Author: carlosfaruolo
  */
 
-#include "../header/map.hpp"
-#include "../header/file_parser.hpp"
+#include "../headers/map.hpp"
+#include "../headers/file_parser.hpp"
 
 Map::Map(AnimationSet* bg, int columns, int lines, Rect* visibleArea) :
 grid(), background(bg), visibleArea(visibleArea)
@@ -37,11 +37,11 @@ Map* Map::loadMapFromFile(const string& filename, World* world)
 
 	cout << "map dimensions: " << file_grid.size() << " " << file_grid[0].size() << endl;
 
-	Image* imgDirt = new Image("resource/tileset-dirt.png");
-	Image* imgStone = new Image("resource/tileset-stone.png");
-	Image* imgWater = new Image("resource/tileset-water.png");
+	Image* imgDirt = new Image("resources/tileset-dirt.png");
+	Image* imgStone = new Image("resources/tileset-stone.png");
+	Image* imgWater = new Image("resources/tileset-water.png");
 
-	map = new Map(new Image("resource/background.jpg"), file_grid.size(), file_grid[0].size(), NULL);
+	map = new Map(new Image("resources/background.jpg"), file_grid.size(), file_grid[0].size(), NULL);
 
 	for(unsigned int i = 0; i < file_grid.size() ; i++)
 	{

@@ -5,9 +5,9 @@
  *      Author: felipe
  */
 
-#include "../header/file_parser.hpp"
-#include "../header/rapidxml/rapidxml.hpp"
-#include "../header/rapidxml/rapidxml_utils.hpp"
+#include "../headers/file_parser.hpp"
+#include "../headers/rapidxml/rapidxml.hpp"
+#include "../headers/rapidxml/rapidxml_utils.hpp"
 
 
 namespace FileParser

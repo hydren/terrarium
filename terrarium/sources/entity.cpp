@@ -5,7 +5,7 @@
  *      Author: felipe
  */
 
-#include "../header/entity.hpp"
+#include "../headers/entity.hpp"
 
 Entity::Entity(AnimationSet* anim, Body *b, Rect* visibleArea) :
 animation(anim),

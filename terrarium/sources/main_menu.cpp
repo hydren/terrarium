@@ -5,9 +5,9 @@
  *      Author: carlosfaruolo
  */
 
-#include "../header/main_menu.hpp"
-#include "../header/game.hpp"
-#include "../header/menu.hpp"
+#include "../headers/main_menu.hpp"
+#include "../headers/game.hpp"
+#include "../headers/menu.hpp"
 
 using Engine::Color;
 using Engine::Image;
@@ -24,9 +24,9 @@ static void loadGameWithMap(const string& map_path);
 
 MainMenu::MainMenu()
 {
-	mainFont = new Font("resource/jack.ttf", 44);
-	minorFont = new Font("resource/liberation.ttf", 24);
-	background = new Image("resource/title_proto.jpg");
+	mainFont = new Font("resources/jack.ttf", 44);
+	minorFont = new Font("resources/liberation.ttf", 24);
+	background = new Image("resources/title_proto.jpg");
 	eventQueue = new EventQueue();
 }
 
@@ -42,7 +42,7 @@ void MainMenu::show()
 {
 	//TODO Work in progress
 
-	Image loading_image("./resource/loading.png");
+	Image loading_image("./resources/loading.png");
 	loading_image.draw();
 	Engine::display->refresh();
 
@@ -52,10 +52,10 @@ void MainMenu::show()
 	mainMenu.addEntry("Settings");
 	mainMenu.addEntry("Exit");
 
-	Engine::Font* miniFont = new Engine::Font("resource/jack.ttf", 16);
+	Engine::Font* miniFont = new Engine::Font("resources/jack.ttf", 16);
 
 	Menu fileMenu(Rect(32, 224, 294, 174), miniFont, Color::YELLOW, true, "Which file?");
-	list<string> dirs = Engine::getFilenamesWithinDirectory("./resource/maps");
+	list<string> dirs = Engine::getFilenamesWithinDirectory("./resources/maps");
 		for(list<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
 			fileMenu.addEntry(*it);
 	fileMenu.addEntry("< Cancel >");

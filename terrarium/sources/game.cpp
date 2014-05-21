@@ -5,7 +5,7 @@
  *      Author: felipe
  */
 
-#include "../header/game.hpp"
+#include "../headers/game.hpp"
 
 using Physics::World;
 using Physics::Vector;
@@ -41,7 +41,7 @@ Game::Game(const string& map_path)
 	visibleArea = Rect(0,0,640,480);
 
 	//loading font
-	font = new Engine::Font("resource/liberation.ttf", 14);
+	font = new Engine::Font("resources/liberation.ttf", 14);
 
 	//loading ingame menu
 	inGameMenu = new Menu(Rect(200, 200, 200, 64), font, Color::ORANGE, true);
@@ -70,7 +70,7 @@ Game::Game(const string& map_path)
 	game_map->visibleArea = &visibleArea;
 
 	//loading player graphics
-	Image* player_img = new Image("resource/pijamaman-1.png");
+	Image* player_img = new Image("resources/pijamaman-1.png");
 	AnimationSet* anim = new AnimationSet(player_img);
 	anim->add("still-left", 56, 84, 1, 1);
 	anim->add("still-right", 56, 84, 1, 1);
@@ -86,7 +86,7 @@ Game::Game(const string& map_path)
 	player->body->setFixedRotation();
 
 	//loading dirt tileset
-	tileset_dirt = new Image("resource/tileset-dirt.png");
+	tileset_dirt = new Image("resources/tileset-dirt.png");
 }
 
 void Game::start()
@@ -196,7 +196,7 @@ void handleInput()
 							inGameMenuShowing=false;
 							break;
 						case 1:
-							Map::saveRawMapToFile(string("resource/maps/saved_map.txt"), game_map);
+							Map::saveRawMapToFile(string("resources/maps/saved_map.txt"), game_map);
 							running=false;
 							break;
 						case 2:

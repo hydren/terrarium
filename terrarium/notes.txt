@@ -2,7 +2,7 @@
 - For the tweaked debug, note that it's not possible to compile the game on LAB2 when Allegro libs compiled on LAB3 are on .local/lib
 
 TODO:
-
+* Create a way to show up grass layer and remove dirty fixes to show them as plain dirt blocks.
 * Check minor sprite glitch when too many blocks on the screen (reproducible on DCC's PCs)
 * Need to remake the visible area mechanism to avoid scrolling the visible area when the player is in the boundaries of the map
 * Need to create a valid *.tmx map loader and saver. 75% DONE, needs valid TMX saver

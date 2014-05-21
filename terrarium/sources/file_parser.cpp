@@ -52,6 +52,11 @@ namespace FileParser
 								matrix.back()[i] = 3;
 								break;
 							}
+							case '4':
+							{
+								matrix.back()[i] = 1;//TODO remove this dirty fix
+								break;
+							}
 							default:
 							{
 								matrix.back()[i] = 0;

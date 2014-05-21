@@ -47,7 +47,8 @@ Map* Map::loadMapFromFile(const string& filename, World* world)
 	{
 		for(unsigned int j = 0; j < file_grid[0].size() ; j++)
 		{
-			if(file_grid[i][j] == 1)
+			if(file_grid[i][j] == 1
+					or file_grid[i][j] == 4) //TODO remove this dirty fix
 			{
 				map->grid[i][j] = new Block( imgDirt, i, j, 1);
 				world->addBody(map->grid[i][j]->body);

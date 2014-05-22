@@ -45,6 +45,8 @@ struct Map
 
 	/** Draws all the blocks that foregrounds the player */
 	void draw_fg_player();
+
+	Rect computeDimensions();
 };
 
 

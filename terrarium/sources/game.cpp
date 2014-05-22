@@ -87,14 +87,27 @@ Game::Game(const string& map_path)
 
 	//loading dirt tileset
 	tileset_dirt = new Image("resources/tileset-dirt.png");
+	cout << game_map->computeDimensions().w << " " << game_map->computeDimensions().h << endl;
 }
 
 void Game::start()
 {
 	while(running)
 	{
-		visibleArea.x = Math::convertToPixels(player->body->getX()) - visibleArea.w/2.0;
-		visibleArea.y = Math::convertToPixels(player->body->getY()) - visibleArea.h/2.0;
+		//visisble area quick n' dirt fix
+		{
+			visibleArea.x = Math::convertToPixels(player->body->getX()) - visibleArea.w/2.0;
+			visibleArea.y = Math::convertToPixels(player->body->getY()) - visibleArea.h/2.0;
+			if(visibleArea.x + visibleArea.w > game_map->computeDimensions().w)
+				visibleArea.x = game_map->computeDimensions().w - visibleArea.w;
+			if(visibleArea.x < 0)
+				visibleArea.x = 0;
+			if(visibleArea.y + visibleArea.h > game_map->computeDimensions().h)
+				visibleArea.y = game_map->computeDimensions().h - visibleArea.h;
+			if(visibleArea.y < 0)
+				visibleArea.y = 0;
+		}
+
 		handleInput();
 		drawScene();
 	}

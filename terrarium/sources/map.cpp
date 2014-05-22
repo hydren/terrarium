@@ -154,6 +154,11 @@ void Map::retile(Block* b, bool recursive)
 	}
 }
 
+Rect Map::computeDimensions()
+{
+	return Rect(0, 0, grid.size()*BLOCK_SIZE, (grid.size() > 0 ? grid[0].size()*BLOCK_SIZE : 0) );
+}
+
 void Map::addBlock(int x, int y)
 {
 //	grid[x][y] = new Block()

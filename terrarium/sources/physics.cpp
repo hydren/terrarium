@@ -11,14 +11,12 @@
 
 namespace Physics
 {
-	/** * Definition of the "implementation" struct's (experimental) * */
-	// PS: Felipe, don't be scared, it is innofensive. ^^
+	//Implementation using Box2D library
+
 	struct Body::Implementation
 	{
 		b2Body* body;
 		b2BodyDef bodyDef;
-		b2PolygonShape polygon;
-		b2ChainShape chain;
 		b2FixtureDef fixtureDef;
 	};
 
@@ -27,7 +25,7 @@ namespace Physics
 		b2World* b2world;
 	};
 
-
+	/////////////////////////////////////////
 
 	Vector::Vector(float x1, float y1, float z1)
 	: x(x1), y(y1), z(z1)
@@ -52,9 +50,9 @@ namespace Physics
 
 		this->implementation->bodyDef.position.Set(x+(width/2.0f), y+(height/2.0f));
 
-		this->implementation->polygon.SetAsBox((width)/2.0f, (height)/2.0f);
-
-		this->implementation->fixtureDef.shape = &(this->implementation->polygon);
+		b2PolygonShape* polygon = new b2PolygonShape;
+		polygon->SetAsBox((width)/2.0f, (height)/2.0f);
+		this->implementation->fixtureDef.shape = polygon;
 	}
 
 	//Constructor used by Block class to create a edge chain. Used on map creation.
@@ -71,9 +69,9 @@ namespace Physics
 		vs[2].Set(size/2.0f, size/2.0f);
 		vs[3].Set(-size/2.0f, size/2.0f);
 
-		this->implementation->chain.CreateLoop(vs, 4);
-
-		this->implementation->fixtureDef.shape = &(this->implementation->chain);
+		b2ChainShape* chain = new b2ChainShape;
+		chain->CreateLoop(vs, 4);
+		this->implementation->fixtureDef.shape = chain;
 
 		if(ignoreCollisions) //makes this body unable to collide with any other body
 			this->implementation->fixtureDef.filter.maskBits = 0x0000;

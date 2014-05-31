@@ -74,7 +74,7 @@ void MainMenu::show()
 			{
 				running=false;
 			}
-			else if(ev->getEventType() == Engine::Event::Type::KEY_RELEASE)
+			else if(ev->getEventType() == Engine::Event::Type::KEY_PRESS)
 			{
 				switch(ev->getEventKeyCode())
 				{
@@ -111,8 +111,10 @@ void MainMenu::show()
 								loading_image.draw();
 								Engine::display->refresh();
 
+								eventQueue->ignoreEvents();
 								loadGameWithMap(fileMenu.getSelectedEntry()->label);
 								chooseFile = false;
+								eventQueue->listenEvents();
 							}
 
 						}
@@ -131,8 +133,8 @@ void MainMenu::show()
 						}
 						break;
 
-				default:
-					break;
+					default:
+						break;
 				}
 			}
 		}

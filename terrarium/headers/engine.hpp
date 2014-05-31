@@ -191,6 +191,9 @@ namespace Engine
 		Event* waitForEvent();
 		void waitForEvent(Event* container);
 
+		void ignoreEvents();
+		void listenEvents();
+		void flushEvents();
 	};
 
 	struct Color

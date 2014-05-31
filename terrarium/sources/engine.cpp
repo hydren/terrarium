@@ -321,6 +321,27 @@ namespace Engine
 		al_wait_for_event(this->implementation->allegroEventQueue, container->implementation->allegroEvent);
 	}
 
+	void EventQueue::ignoreEvents()
+	{
+		al_unregister_event_source(this->implementation->allegroEventQueue, al_get_display_event_source(Engine::display->implementation->allegroDisplay));
+		al_unregister_event_source(this->implementation->allegroEventQueue, al_get_keyboard_event_source());
+		al_unregister_event_source(this->implementation->allegroEventQueue, al_get_mouse_event_source());
+		al_flush_event_queue(this->implementation->allegroEventQueue);
+	}
+
+	void EventQueue::listenEvents()
+	{
+		al_flush_event_queue(this->implementation->allegroEventQueue);
+		al_register_event_source(this->implementation->allegroEventQueue, al_get_display_event_source(Engine::display->implementation->allegroDisplay));
+		al_register_event_source(this->implementation->allegroEventQueue, al_get_keyboard_event_source());
+		al_register_event_source(this->implementation->allegroEventQueue, al_get_mouse_event_source());
+	}
+
+	void EventQueue::flushEvents()
+	{
+		al_flush_event_queue(this->implementation->allegroEventQueue);
+	}
+
 	Color::Color(unsigned char r, unsigned char g, unsigned char b)
 	: r(r), g(g), b(b)
 	{}

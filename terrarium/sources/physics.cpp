@@ -135,12 +135,12 @@ namespace Physics
 
 	void Body::applyImpulse(Vector impulse, Vector point)
 	{
-		this->implementation->body->ApplyLinearImpulse(b2Vec2(impulse.x, impulse.y), b2Vec2(point.x, point.y));
+		this->implementation->body->ApplyLinearImpulse(b2Vec2(impulse.x, impulse.y), b2Vec2(point.x, point.y), true);
 	}
 
 	void Body::applyForceToCenter(Vector force)
 	{
-		this->implementation->body->ApplyForceToCenter(b2Vec2(force.x, force.y));
+		this->implementation->body->ApplyForceToCenter(b2Vec2(force.x, force.y), true);
 	}
 
 	World::World(Vector gravity)

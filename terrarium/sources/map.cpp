@@ -35,7 +35,7 @@ Map* Map::loadMapFromFile(const string& filename, World* world)
 	else
 		file_grid = FileParser::parseGridFromRawTxtFile(filename);
 
-	cout << "map dimensions: " << file_grid.size() << " " << file_grid[0].size() << endl;
+	cout << "map size (in blocks): " << file_grid.size() << "x" << file_grid[0].size() << endl;
 
 	Image* imgDirt = new Image("resources/tileset-dirt.png");
 	Image* imgStone = new Image("resources/tileset-stone.png");

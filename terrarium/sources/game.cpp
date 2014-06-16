@@ -87,7 +87,7 @@ Game::Game(const string& map_path)
 
 	//loading dirt tileset
 	tileset_dirt = new Image("resources/tileset-dirt.png");
-	cout << game_map->computeDimensions().w << " " << game_map->computeDimensions().h << endl;
+	cout << "map size (in pixels): " << game_map->computeDimensions().w << "x" << game_map->computeDimensions().h << endl;
 }
 
 void Game::start()

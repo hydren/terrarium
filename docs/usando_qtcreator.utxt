@@ -1,0 +1,60 @@
+Last Update: 18/09/2012
+
+FAQ (em construção) :
+
+QtCreator com MinGW/GCC e SDL 1.2, usando qmake:
+
+Windows:
+==Baixe aqui:
+http://qt.nokia.com/downloads/
+OBS: baixe o qt sdk mesmo, pois o qtcreator sozinho nao inclui o qmake  :(
+
+==SVN
+Baixe o Apache Subversion no dropbox (FKGeneralPurpose->Terrarium), ou aqui:
+http://www.visualsvn.com/downloads/
+OBS: baixe o apache subversion command line tools (o primeiro)
+Ele vem "stand-alone", ou seja, bota ele em qualquer pasta, tipo C:\Arquivos de Programas (x86)\, mas memorize a pasta pra depois configurar o Qt
+OBS2: Gente, se vc ja tem ele do CodeLite, nao precisa baixar de novo! É só lembrar onde botou o svn.
+
+==Instalar:
+Instale o Qt SDK. Eu só precisei instalar o QtCreator+QtLibrary4.8.1 (eu acho). Normalmente ele instala um monte de coisas (hartman, symbian, 2 versoes do qt library desktop, sources, e por ai vai...). Ai fica muito grande. Se vc quiser baixar só o necessário, lembra de escolher 'custom' no começo da instalação. A instalacao cai pra ~2GB.
+O instalador online demora muito, e as vezes nao buga e para de baixar. Talvez seja melhor o instador offline. Eu, depois de 3 tentativas, consegui pelo instalador online :/
+Depois de instalar o Qt SDK, abre o QtCreator e vai em Tools->Options->Version Control->Subversion. No campo 'subversion command', coloca o svn.exe que ta lá na pasta onde esta o Apache Subversion. Deve estar dentro da pasta bin. Marque 'authentication' e coloque o seu login e senha do assembla. Não, o Qt não mostra um popup pedindo senha. Se vc nao colocar agora, quando der checkout, ele autista quando o assembla pede a senha...
+Feito isso, dê apply e ok.
+Agora, se vc instalou um MinGW junto com o Qt, vc tem que colocar aquelas "paradinhas" de SDL nesse minGW. Ele normalmente fica dentro da pasta do Qt. As "paradinhas" de SDL estao no dropbox: sdl-devel-pack-for-mingw.exe
+
+Agora, já que eu criei o projeto e dei commit, basta dar um checkout (lembre-se que checkout é diferente de update; checkout a principio so faz uma vez no inicio, quando nao se tem uma copia do projeto) 
+
+==Checkout:
+Vá em File->New file or Project
+Escolha Project from version control
+Escolha Subversion Checkout
+No campo 'repository', coloque a url do repositorio do assembla. (Esqueceu? Tá aqui: https://subversion.assembla.com/svn/project_terrarium/trunk/  )
+No campo 'checkout path', coloque o diretorio onde ele vai criar a pasta do projeto. Crie uma pasta tipo "svn-terrarium" pra colocar a pasta do projeto. É importante!
+No campo 'checkout directory' coloque o nome da pasta que ele vai criar do projeto. Escolha "project". Isso também é importante!
+Desse jeito, deve ficar assim:
+      path:     C:\Uma\Pasta\Random\svn-terrarium-ou-outra-coisa\
+  directory:  project
+Isso é importante porque o qt vai criar uma pasta de build fora da pasta do 'checkout directory'. Imediatamente fora. Desse jeito, as pastas de build ficam dentro da sua pasta svn-terrarium, e nao solto na sua pasta random. Assim:
+   C:\Uma\Pasta\Random\svn-terrarium-ou-outra-coisa\project                      arquivos fonte
+   C:\Uma\Pasta\Random\svn-terrarium-ou-outra-coisa\build-whatever        executavel compilado, dll do sdl e (talvez do mingw)
+
+Ufa! Dê next. Veja ele baixando e aparecer depois succeeded. Dê Finish. Pronto!
+
+As opcoes de SVN estao em Tools->Subversion
+
+OBS: é importante que o nome do checkout directory seja 'project', pois as imagens vao estar la, e o programa esta programado (you dont say!) pra abrir essas imagens dentro da pasta '../project/images/'
+
+==Criando o projeto de C/C++ usando qmake no QtCreator e colocando no repositorio de SVN (O abacaxi)
+
+O QtCreator tem um bug que o impede de criar um projeto versionado pelo svn pelo wizard. Desse jeito, temos que criar um projeto plain C++ (confira a descrição! O projeto tem que ser de qmake e NAO incluir a biblioteca do Qt). 
+Depois de criado, ajuste ele do jeito que vc quer colocar no repositorio e salve. 
+Depois de salvo, feche o qt creator. Agora, para colocar o projeto num sistem a de versionamento e o qt reconhecer isso, temos que usar o svn por fora, seja pelo tortoiseSVN, rapidSVN ou por linha de comando.
+Depois disso, pode abrir o projeto pelo qt que ele vai reconhecer que esta versionado e vai mostrar as "tools" de subversion.
+Eu tive que fazer uma "branch" no nosso repositorio para poder separar uma copia da versao de codelite do projeto. Em svn, branch e tag funcionam do mesmo jeito: fazer uma copia do trunk (comando svn copy). Essa copia feita pelo svn mantem o historico. 
+A diferenca esta em como a gente usa essas copias. Se nós fazemos a cópia para trabalhar nela paralelamente ao "trunk" (tronco do projeto), isso é um "branch" (um ramo do projeto). Se a copia servir simplesmente como uma "foto", um "estado", semelhante a um "savestate" de emulador, do projeto, então dizemos que é uma "tag" (rótulo?). Normalmente se fazem 'tags' pra marcar versões bem definidas, por exemplo, "version-1.0-release", "2.5-final", etc.
+Eu fiz uma tag: "codelite-based"
+
+svn copy https://subversion.assembla.com/svn/project_terrarium/trunk https://subversion.assembla.com/svn/project_terrarium/codelite-based
+
+depois mexi a vontade no trunk para torna-lo o que ele é agora.

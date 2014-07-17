@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeLite_Workspace Name="workspace" Database="./workspace.tags">
+  <Project Name="project_terrarium" Path="project_terrarium/project_terrarium.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="no">
+      <Project Name="project_terrarium" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="no">
+      <Project Name="project_terrarium" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Debug windows" Selected="no">
+      <Project Name="project_terrarium" ConfigName="Debug Windows"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Debug linux" Selected="yes">
+      <Project Name="project_terrarium" ConfigName="Debug Linux"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

@@ -1,0 +1,1 @@
+./DebugLinux/sdl.o ./DebugLinux/main.o ./DebugLinux/entity.o ./DebugLinux/actor.o ./DebugLinux/util.o ./DebugLinux/block.o ./DebugLinux/animated_entity.o

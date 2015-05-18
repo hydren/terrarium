@@ -31,10 +31,16 @@ using std::pair;
 
 // * * * * * Useful macros
 
-/** Automatic bridge macro, to encapsulate the implementation and speed up compilation time. It also cleans the global namespace.
+/* Automatic bridge macro, to encapsulate the implementation and speed up compilation time. It also cleans the global namespace.
  * This technique is called PImpl idiom, Compiler firewall idiom, handle classes, Cheshire Cat, etc... */
 #define encapsulated struct Implementation; Implementation *implementation
 #define encapsulation(PARENT_CLASS) struct PARENT_CLASS::Implementation
+
+//foreach useful macro
+#define foreach(TYPE, ELEMENT, COLLECTION_TYPE, COLLECTION)\
+for(COLLECTION_TYPE::iterator ELEMENT##MACRO_TEMP_IT = (COLLECTION).begin(); ELEMENT##MACRO_TEMP_IT != (COLLECTION).end(); ++ELEMENT##MACRO_TEMP_IT)\
+for(bool ELEMENT##MACRO_TEMP_B = true; ELEMENT##MACRO_TEMP_B;)\
+for(TYPE ELEMENT = *(ELEMENT##MACRO_TEMP_IT); ELEMENT##MACRO_TEMP_B; ELEMENT##MACRO_TEMP_B = false)
 
 // Just being hipster
 #define abstract =0
@@ -42,108 +48,24 @@ using std::pair;
 #define extends :
 #define sets :
 
+#include "utils/util_string.hpp"
+#include "utils/util_exception.hpp"
+#include "utils/util_math.hpp"
+
 typedef ifstream FileInputStream;
 typedef ofstream FileOutputStream;
 
-//adds almost java-like capabilities to String. It's still not converting char*+int and alike to String
-namespace String
+template<typename T>
+T max(T a, T b)
 {
-	/** Returns a copy of the string, with leading and trailing whitespace omitted. */
-	string trim(const string& str);
-
-	/** Returns true if the given string str ends with the given string ending */
-	bool endsWith (string const& str, string const& ending);
+	return (a > b)? a : b;
 }
 
-string operator + (string a, string b);
-
-string operator + (string a, int b);
-string operator + (string a, long b);
-string operator + (string a, short b);
-string operator + (string a, unsigned b);
-string operator + (string a, float b);
-string operator + (string a, double b);
-string operator + (string a, char b);
-string operator + (string a, char* b);
-
-
-//backwards versions
-
-string operator + (int a, string b);
-string operator + (long a, string b);
-string operator + (short a, string b);
-string operator + (unsigned a, string b);
-string operator + (float a, string b);
-string operator + (double a, string b);
-string operator + (char a, string b);
-string operator + (char* a, string b);
-
-/** Class created to behave like the Java's Exception
- * Contains a string messsage with the error message
- */
-class Exception
+template<typename T>
+T min(T a, T b)
 {
-    private:
-
-    string msg;
-
-    public:
-
-    Exception(string str)
-    : msg(str)
-    {}
-
-    Exception(const char* format, ...);
-
-    inline string message() const { return msg; }
-};
-
-namespace Math
-{
-	const double PI = 3.14159265358979323846;
-
-	inline int abs(int i)
-	{
-		return i < 0 ? -i : i;
-	}
-
-	/** Parses the string for matching an integer. */
-	int parseInt(const string& str);
-
-	float convertToMeters(float pixels);
-
-	float convertToPixels(float meters);
+	return (a < b)? a : b;
 }
-
-/** Class that contains position and size of a box.
- * It has a method to check for intersection between other Rect's.
- * It would be named Rectangle but there is a internal name conflict in windows' and allegro's headers that prevents from using the name. For more info see: https://www.allegro.cc/forums/thread/612387
- */
-struct Rect
-{
-    float x, y, w, h;
-
-    Rect() :
-    x(0),y(0),w(0),h(0) {}
-
-    //Creates a Rect with the given parameters
-    Rect(float x1, float y1, float w1, float h1) :
-    x(x1), y(y1), w(w1), h(h1) {}
-
-    //Returns true if this bounding box intersects with the given Rect.
-    bool intersects(const Rect& box );
-
-    /* Returns a Rect that represents the intersection of this Rect with the given Rect.
-     * If there is no intersection, throws an Exception. TODO exchange this behavior with returning null
-     * In other words, you should check if the Rects intersects before trying to call this method, with the intersects() method.
-     */
-    Rect intersection(const Rect& box);
-
-    /* Returns the area of this Rect.
-     * The calculation is pretty silly: w*h (width x height)
-     */
-    int area();
-};
 
 namespace Util
 {

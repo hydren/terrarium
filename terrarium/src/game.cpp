@@ -106,7 +106,7 @@ void GameStuff::start()
 {
 	while(running)
 	{
-		//visisble area quick n' dirt fix
+		//visible area quick n' dirt fix
 		{
 			visibleArea.x = Math::convertToPixels(player->body->getX()) - visibleArea.w/2.0;
 			visibleArea.y = Math::convertToPixels(player->body->getY()) - visibleArea.h/2.0;

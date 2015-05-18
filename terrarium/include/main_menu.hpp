@@ -8,8 +8,8 @@
 #ifndef MAIN_MENU_HPP_
 #define MAIN_MENU_HPP_
 
-#include "util.hpp"
 #include "engine.hpp"
+#include "util.hpp"
 
 using Engine::Image;
 

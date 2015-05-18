@@ -6,9 +6,10 @@
  */
 
 #include <cstdlib>
-#include "../headers/engine.hpp"
-#include "../headers/main_menu.hpp"
-#include "../headers/file_parser.hpp"
+
+#include "engine.hpp"
+#include "file_parser.hpp"
+#include "main_menu.hpp"
 
 using std::cout;
 using std::endl;

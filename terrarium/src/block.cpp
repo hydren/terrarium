@@ -5,7 +5,7 @@
  *      Author: felipe
  */
 
-#include "../headers/block.hpp"
+#include "block.hpp"
 
 Block::Block(Image* i, int x_grid, int y_grid, int typeID, bool ignoreCollision):
 Entity(null, new Body(Math::convertToMeters(x_grid*BLOCK_SIZE), Math::convertToMeters(y_grid*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE), ignoreCollision)),

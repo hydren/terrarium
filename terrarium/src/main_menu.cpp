@@ -5,9 +5,10 @@
  *      Author: carlosfaruolo
  */
 
-#include "../headers/main_menu.hpp"
-#include "../headers/game.hpp"
-#include "../headers/menu.hpp"
+#include "main_menu.hpp"
+
+#include "game.hpp"
+#include "menu.hpp"
 
 using Engine::Color;
 using Engine::Image;

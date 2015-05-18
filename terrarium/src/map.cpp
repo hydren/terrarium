@@ -5,8 +5,9 @@
  *      Author: carlosfaruolo
  */
 
-#include "../headers/map.hpp"
-#include "../headers/file_parser.hpp"
+#include "map.hpp"
+
+#include "file_parser.hpp"
 
 Map::Map(AnimationSet* bg, int columns, int lines, Rect* visibleArea) :
 grid(), background(bg), visibleArea(visibleArea)

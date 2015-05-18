@@ -8,8 +8,8 @@
 #ifndef MENU_HPP_
 #define MENU_HPP_
 
-#include "util.hpp"
 #include "engine.hpp"
+#include "util.hpp"
 
 class Menu
 {

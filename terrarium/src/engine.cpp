@@ -5,9 +5,7 @@
  *      Author: felipe
  */
 
-#include "../headers/engine.hpp"
-
-/** Engine code based on Allegro5. */
+#include "engine.hpp"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>

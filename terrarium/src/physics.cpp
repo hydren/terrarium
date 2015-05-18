@@ -5,7 +5,7 @@
  *      Author: felipe
  */
 
-#include "../headers/physics.hpp"
+#include "physics.hpp"
 
 #include <Box2D/Box2D.h>
 

@@ -5,13 +5,13 @@
  *      Author: felipe
  */
 
-#include "../headers/game.hpp"
+#include "game.hpp"
 
-#include "../headers/entity.hpp"
-#include "../headers/engine.hpp"
-#include "../headers/menu.hpp"
-#include "../headers/block.hpp"
-#include "../headers/map.hpp"
+#include "engine.hpp"
+#include "block.hpp"
+#include "entity.hpp"
+#include "map.hpp"
+#include "menu.hpp"
 
 using Physics::World;
 using Physics::Vector;

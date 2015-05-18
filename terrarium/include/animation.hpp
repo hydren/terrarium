@@ -8,8 +8,8 @@
 #ifndef ANIMATION_HPP_
 #define ANIMATION_HPP_
 
-#include "util.hpp"
 #include "engine.hpp"
+#include "util.hpp"
 
 using Engine::Image;
 

@@ -5,7 +5,7 @@
  *      Author: carlosfaruolo
  */
 
-#include "../headers/menu.hpp"
+#include "menu.hpp"
 
 Menu::Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui, string title)
  : entries(),

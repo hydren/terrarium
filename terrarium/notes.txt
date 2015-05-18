@@ -7,3 +7,5 @@ TODO:
 * Need to remake the visible area mechanism to avoid scrolling the visible area when the player is in the boundaries of the map
 * Need to create a valid *.tmx map loader and saver. 75% DONE, needs valid TMX saver
 * Need to adapt the generators to the current Map classes.
+
+** Fix memory leaks by implementing proper destructors for Entity, Image, Block classes.

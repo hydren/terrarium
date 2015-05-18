@@ -8,15 +8,12 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
-#include "entity.hpp"
-#include "engine.hpp"
-#include "menu.hpp"
-#include "block.hpp"
-#include "map.hpp"
+#include "util.hpp"
 
 struct Game
 {
 	Game(const string& map_path);
+	~Game();
 	void start();
 };
 

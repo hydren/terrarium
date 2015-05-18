@@ -7,6 +7,12 @@
 
 #include "../headers/game.hpp"
 
+#include "../headers/entity.hpp"
+#include "../headers/engine.hpp"
+#include "../headers/menu.hpp"
+#include "../headers/block.hpp"
+#include "../headers/map.hpp"
+
 using Physics::World;
 using Physics::Vector;
 
@@ -14,29 +20,35 @@ using Engine::EventQueue;
 using Engine::Font;
 using Engine::Color;
 
-static vector<Entity*> entities;
-static vector<Image*> images;
-static vector<Block*> blocks;
 
-static Rect visibleArea;
+struct GameStuff
+{
+	vector<Entity*> entities;
+	vector<Image*> images;
+	vector<Block*> blocks;
 
-static Entity* player;
-static Map* game_map;
-static Image* tileset_dirt;
-static Font* font;
-static Menu* inGameMenu;
-static EventQueue* eventQueue;
-static World* world;
+	Rect visibleArea;
 
-static bool running, jumping, inGameMenuShowing;
-static bool isKeyUpPressed, isKeyDownPressed, isKeyRightPressed, isKeyLeftPressed;
+	Entity* player;
+	Map* game_map;
+	Image* tileset_dirt;
+	Font* font;
+	Menu* inGameMenu;
+	EventQueue* eventQueue;
+	World* world;
 
-void handleInput();
-void drawScene();
-void drawDebug();
-//void physics();
+	bool running, jumping, inGameMenuShowing;
+	bool isKeyUpPressed, isKeyDownPressed, isKeyRightPressed, isKeyLeftPressed;
 
-Game::Game(const string& map_path)
+	GameStuff(const string& map_path);
+
+	void start();
+	void handleInput();
+	void drawScene();
+	void drawDebug();
+};
+
+GameStuff::GameStuff(const string& map_path)
 {
 	visibleArea = Rect(0,0,640,480);
 
@@ -90,7 +102,7 @@ Game::Game(const string& map_path)
 	cout << "map size (in pixels): " << game_map->computeDimensions().w << "x" << game_map->computeDimensions().h << endl;
 }
 
-void Game::start()
+void GameStuff::start()
 {
 	while(running)
 	{
@@ -115,7 +127,7 @@ void Game::start()
 	delete player;
 }
 
-void handleInput()
+void GameStuff::handleInput()
 {
 
 	if(not inGameMenuShowing and isKeyUpPressed and !jumping) {
@@ -260,7 +272,7 @@ void handleInput()
 
 }
 
-void drawScene()
+void GameStuff::drawScene()
 {
 	Engine::display->clear();
 	world->step((1.0f / 60.0f), 6, 2);
@@ -289,7 +301,7 @@ void drawScene()
 	Engine::display->refresh();
 }
 
-void drawDebug()
+void GameStuff::drawDebug()
 {
 	font->draw_text("## DEBUG BUILD ##", 245, 0, Engine::Color::RED);
 
@@ -302,4 +314,23 @@ void drawDebug()
 	font->draw_text(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, Engine::Color::WHITE);
 
 }
+
+
+//===========================================================================================
+GameStuff* stuff;
+Game::Game(const string& map_path)
+{
+	stuff = new GameStuff(map_path);
+}
+
+Game::~Game()
+{
+	delete stuff;
+}
+
+void Game::start()
+{
+	stuff->start();
+}
+
 

@@ -13,6 +13,13 @@ body(b),
 visibleAreaPosition(visibleArea)
 {}
 
+Entity::~Entity()
+{
+	delete animation;
+	delete body;
+	delete visibleAreaPosition;
+}
+
 
 void Entity::draw()
 {

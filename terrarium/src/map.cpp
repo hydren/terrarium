@@ -25,6 +25,20 @@ grid(), background(null), visibleArea(visibleArea)
 	background = staticAnim;
 }
 
+Map::~Map()
+{
+	foreach(vector<Block*>, v, vector< vector<Block*> >, grid)
+	{
+		foreach(Block*, b, vector<Block*>, v)
+		{
+			delete b;
+		}
+	}
+
+	delete background;
+	delete visibleArea;
+}
+
 
 Map* Map::loadMapFromFile(const string& filename, World* world)
 {

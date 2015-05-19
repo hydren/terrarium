@@ -20,6 +20,7 @@ struct Entity
 	Rect* visibleAreaPosition;
 
 	Entity(AnimationSet* anim=NULL, Body *b=NULL, Rect* visibleArea=null);
+	~Entity();
 
 	void draw();
 	void draw(const Rect * visibleAreaPosition);

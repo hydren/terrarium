@@ -28,6 +28,8 @@ struct Map
 
 	Map(Image* bg, int columns, int lines, Rect* visibleArea);
 
+	~Map();
+
 	static Map* loadMapFromFile(const string& filename, World* world);
 	static void saveRawMapToFile(const string& filename, Map* map);
 

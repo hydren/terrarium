@@ -130,6 +130,7 @@ namespace Engine
 		Implementation* implementation;
 
 		Event();
+		~Event();
 
 		public:
 
@@ -185,6 +186,7 @@ namespace Engine
 		public:
 
 		EventQueue();
+		~EventQueue();
 
 		bool isEmpty();
 
@@ -219,6 +221,7 @@ namespace Engine
 		public:
 
 		Font(string filename, int size=12, bool antialiasing=true, bool hinting=true, bool kerning=true);
+		~Font();
 
 		void draw_text(string text, float x=0, float y=0, Color color=Color::BLACK);
 

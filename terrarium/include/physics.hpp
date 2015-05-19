@@ -62,6 +62,7 @@ namespace Physics
 		public:
 
 		World(Vector gravityAcceleration);
+		~World();
 
 		void addBody(Body* b);
 		void destroyBody(Body* b);

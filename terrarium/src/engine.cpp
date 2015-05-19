@@ -227,7 +227,10 @@ namespace Engine
 		this->implementation->allegroEvent = new ALLEGRO_EVENT;
 	}
 
-
+	Event::~Event()
+	{
+		delete this->implementation;
+	}
 
 	Event::Type::value Event::getEventType()
 	{
@@ -299,6 +302,13 @@ namespace Engine
 		al_register_event_source(this->implementation->allegroEventQueue, al_get_display_event_source(Engine::display->implementation->allegroDisplay));
 		al_register_event_source(this->implementation->allegroEventQueue, al_get_keyboard_event_source());
 		al_register_event_source(this->implementation->allegroEventQueue, al_get_mouse_event_source());
+	}
+
+	EventQueue::~EventQueue()
+	{
+		al_destroy_event_queue(this->implementation->allegroEventQueue);
+		delete implementation->allegroEvent;
+		delete implementation;
 	}
 
 	bool EventQueue::isEmpty()
@@ -379,6 +389,12 @@ namespace Engine
 
 		if(this->implementation->allegroFont == null)
 			throw Exception("Font"+filename+" could not be loaded!");
+	}
+
+	Font::~Font()
+	{
+		al_destroy_font(this->implementation->allegroFont);
+		delete implementation;
 	}
 
 	void Font::draw_text(string text, float x, float y, Color color)

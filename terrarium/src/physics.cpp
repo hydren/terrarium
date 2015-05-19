@@ -80,7 +80,9 @@ namespace Physics
 
 	Body::~Body()
 	{
-		//TODO
+		// XXX Experimental
+//		delete implementation->body;
+		delete implementation;
 	}
 
 	double Body::getX() const
@@ -147,6 +149,13 @@ namespace Physics
 	{
 		this->implementation = new Implementation;
 		this->implementation->b2world = new b2World(b2Vec2(gravity.x, gravity.y));
+	}
+
+	World::~World()
+	{
+		//XXX Experimental
+		delete implementation->b2world;
+		delete implementation;
 	}
 
  	void World::addBody(Body* b)

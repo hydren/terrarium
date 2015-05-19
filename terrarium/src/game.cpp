@@ -86,7 +86,6 @@ struct GameStuff
 		//loading player physics
 		Body* b = new Body(1,1,Math::convertToMeters(16), Math::convertToMeters(80));
 		player = new Entity(anim, b, &visibleArea);
-		player->body->setDynamic();
 		world->addBody(player->body);
 		player->body->setFixedRotation();
 
@@ -97,7 +96,7 @@ struct GameStuff
 
 	~GameStuff()
 	{
-
+		cout << "game stuff destructor..." << endl;
 		foreach(Entity*, e, vector<Entity*>, entities)
 		{
 			delete e;

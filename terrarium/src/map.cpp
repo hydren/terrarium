@@ -27,10 +27,13 @@ grid(), background(null), visibleArea(visibleArea)
 
 Map::~Map()
 {
+	cout << "map destructor" << endl;
 	foreach(vector<Block*>, v, vector< vector<Block*> >, grid)
 	{
 		foreach(Block*, b, vector<Block*>, v)
 		{
+			if(b != null)
+				cout << string("deleting block ") + b->x_grid_pos + ", "+b->y_grid_pos << endl;;
 			delete b;
 		}
 	}

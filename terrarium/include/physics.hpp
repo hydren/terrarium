@@ -34,7 +34,7 @@ namespace Physics
 		public:
 
 		Body(double x, double y, double size, bool ignoreCollisions=false);
-		Body(double x, double y, double width, double height);
+		Body(double x, double y, double width, double height, bool isDynamic=true);
 		~Body(); //TODO
 
 		double getX() const;
@@ -46,7 +46,6 @@ namespace Physics
 
 		void setX(double new_x);
 		void setY(double new_y);
-		void setDynamic();
 		void setFixedRotation(bool choice=true);
 
 		void applyImpulse(Vector impulse, Vector point);

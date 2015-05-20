@@ -39,7 +39,7 @@ Map::~Map()
 	}
 
 	delete background;
-	delete visibleArea;
+//	delete visibleArea;
 }
 
 

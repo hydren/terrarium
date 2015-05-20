@@ -17,7 +17,7 @@ Entity::~Entity()
 {
 	delete animation;
 	delete body;
-	delete visibleAreaPosition;
+//	delete visibleAreaPosition;
 }
 
 

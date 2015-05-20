@@ -18,7 +18,6 @@ namespace Physics
 	{
 		b2Body* body;
 		b2BodyDef* bodyDef;
-		b2FixtureDef* fixtureDef;
 	};
 
 	struct World::Implementation
@@ -58,7 +57,7 @@ namespace Physics
 		b2PolygonShape* polygon = new b2PolygonShape;
 		polygon->SetAsBox((width)/2.0f, (height)/2.0f);
 		fdef->shape = polygon;
-		this->implementation->fixtureDef = fdef;
+		this->implementation->bodyDef->userData = fdef;
 	}
 
 	//Constructor used by Block class to create a edge chain. Used on map creation.
@@ -81,7 +80,7 @@ namespace Physics
 		fdef->shape = chain;
 		if(ignoreCollisions) //makes this body unable to collide with any other body
 			fdef->filter.maskBits = 0x0000;
-		this->implementation->fixtureDef = fdef;
+		this->implementation->bodyDef->userData = fdef;
 	}
 
 
@@ -164,13 +163,13 @@ namespace Physics
 
  	void World::addBody(Body* b)
  	{
- 		b->implementation->fixtureDef->density = 0.1f; //TODO remove this statement, it is in the wrong place
- 		b->implementation->fixtureDef->friction = 0.5f; //TODO remove this statement, it is in the wrong place
+ 		((b2FixtureDef*) b->implementation->bodyDef->userData)->density = 0.1f; //TODO remove this statement, it is in the wrong place
+ 		((b2FixtureDef*) b->implementation->bodyDef->userData)->friction = 0.5f; //TODO remove this statement, it is in the wrong place
 
  		b->implementation->body = this->implementation->b2world->CreateBody(b->implementation->bodyDef);
- 		b->implementation->body->CreateFixture(b->implementation->fixtureDef);
+ 		b->implementation->body->CreateFixture((b2FixtureDef*) b->implementation->bodyDef->userData);
+ 		delete ((b2FixtureDef*) b->implementation->bodyDef->userData);
  		delete b->implementation->bodyDef;
- 		delete b->implementation->fixtureDef;
  	}
 
  	void World::destroyBody(Body* b)

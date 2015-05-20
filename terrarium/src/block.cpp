@@ -44,10 +44,6 @@ y_grid_pos(y_grid),
 typeID(typeID)
 {}
 
-Block::~Block() {
-	// TODO Auto-generated destructor stub
-}
-
 int Block::getX() {
 	return x_grid_pos;
 }

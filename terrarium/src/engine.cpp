@@ -186,6 +186,7 @@ namespace Engine
 
 	Image::~Image()
 	{
+		cout << "Image destructor deleting bitmap at " << ((long)implementation->bitmap) << endl;
 		al_destroy_bitmap(this->implementation->bitmap);
 	}
 

@@ -25,8 +25,6 @@ public:
 	Block(Image* i, int x_grid, int y_grid, int typeID, bool ignoreCollision=false);
 	Block(AnimationSet* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision=false);
 
-	~Block();
-
 	int getX();
 	int getY();
 

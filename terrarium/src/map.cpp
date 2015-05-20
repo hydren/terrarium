@@ -27,7 +27,7 @@ grid(), background(null), visibleArea(visibleArea)
 
 Map::~Map()
 {
-	cout << "map destructor" << endl;
+	cout << "map destructor..." << endl;
 	foreach(vector<Block*>, v, vector< vector<Block*> >, grid)
 	{
 		foreach(Block*, b, vector<Block*>, v)
@@ -43,7 +43,7 @@ Map::~Map()
 }
 
 
-Map* Map::loadMapFromFile(const string& filename, World* world)
+Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& createdImages)
 {
 	Map* map=null;
 
@@ -55,11 +55,12 @@ Map* Map::loadMapFromFile(const string& filename, World* world)
 
 	cout << "map size (in blocks): " << file_grid.size() << "x" << file_grid[0].size() << endl;
 
-	Image* imgDirt = new Image("resources/tileset-dirt.png");
-	Image* imgStone = new Image("resources/tileset-stone.png");
-	Image* imgWater = new Image("resources/tileset-water.png");
+	Image* imgDirt = new Image("resources/tileset-dirt.png"); createdImages.push_back(imgDirt);
+	Image* imgStone = new Image("resources/tileset-stone.png"); createdImages.push_back(imgStone);
+	Image* imgWater = new Image("resources/tileset-water.png"); createdImages.push_back(imgWater);
+	Image* bg = new Image("resources/background.jpg"); createdImages.push_back(bg);
 
-	map = new Map(new Image("resources/background.jpg"), file_grid.size(), file_grid[0].size(), NULL);
+	map = new Map(bg, file_grid.size(), file_grid[0].size(), NULL);
 
 	for(unsigned int i = 0; i < file_grid.size() ; i++)
 	{

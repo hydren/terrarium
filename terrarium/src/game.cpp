@@ -26,7 +26,6 @@ struct GameStuff
 {
 	vector<Entity*> entities;
 	vector<Image*> images;
-	vector<Block*> blocks;
 
 	Rect visibleArea;
 
@@ -71,7 +70,7 @@ struct GameStuff
 		world = new World(gravity);
 
 		//loading map
-		game_map = Map::loadMapFromFile(map_path, world);
+		game_map = Map::loadMapFromFile(map_path, world, images);
 		game_map->visibleArea = &visibleArea;
 
 		//loading player graphics
@@ -105,11 +104,6 @@ struct GameStuff
 		foreach(Image*, img, vector<Image*>, images)
 		{
 			delete img;
-		}
-
-		foreach(Block*, b, vector<Block*>, blocks)
-		{
-			delete b;
 		}
 
 		delete player;

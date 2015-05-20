@@ -30,7 +30,7 @@ struct Map
 
 	~Map();
 
-	static Map* loadMapFromFile(const string& filename, World* world);
+	static Map* loadMapFromFile(const string& filename, World* world, vector<Image*>& createdImages);
 	static void saveRawMapToFile(const string& filename, Map* map);
 
 	void retile(Block* b, bool recursive=true);

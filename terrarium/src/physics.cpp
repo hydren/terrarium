@@ -157,6 +157,12 @@ namespace Physics
 	World::~World()
 	{
 		//XXX Experimental
+		cout << "world destructor..." << endl;
+		for ( b2Body* b = implementation->b2world->GetBodyList(); b; b = b->GetNext())
+		{
+			cout << "destroying b2Body at " << ((long)b) << endl;
+			implementation->b2world->DestroyBody(b);
+		}
 		delete implementation->b2world;
 		delete implementation;
 	}
@@ -168,8 +174,8 @@ namespace Physics
 
  		b->implementation->body = this->implementation->b2world->CreateBody(b->implementation->bodyDef);
  		b->implementation->body->CreateFixture((b2FixtureDef*) b->implementation->bodyDef->userData);
- 		delete ((b2FixtureDef*) b->implementation->bodyDef->userData);
- 		delete b->implementation->bodyDef;
+ 		delete ((b2FixtureDef*) b->implementation->bodyDef->userData); b->implementation->bodyDef->userData = null;
+ 		delete b->implementation->bodyDef; b->implementation->bodyDef = null;
  	}
 
  	void World::destroyBody(Body* b)

@@ -14,6 +14,8 @@
 #include "menu.hpp"
 #include "util.hpp"
 
+#define BLOCK_SIZE 16
+
 using Physics::World;
 using Physics::Vector;
 
@@ -83,9 +85,9 @@ struct GameStuff
 		anim->setCurrent("still-right");
 
 		//loading player physics
-		Body* b = new Body(1,1,Math::convertToMeters(16), Math::convertToMeters(80));
+		Body* b = new Body();
 		player = new Entity(anim, b, &visibleArea);
-		world->addBody(player->body);
+		world->addBody(player->body, 1,1,Math::convertToMeters(16), Math::convertToMeters(80));
 		player->body->setFixedRotation();
 
 		//loading dirt tileset
@@ -257,7 +259,7 @@ struct GameStuff
 						if (game_map->grid[mx][my] == NULL)
 						{
 							game_map->grid[mx][my] = new Block(tileset_dirt, mx, my, 1);
-							world->addBody(game_map->grid[mx][my]->body);
+							world->addBody(game_map->grid[mx][my]->body, (double)Math::convertToMeters(mx*BLOCK_SIZE), (double)Math::convertToMeters(my*BLOCK_SIZE), (double)Math::convertToMeters(BLOCK_SIZE), false);
 							game_map->retile(game_map->grid[mx][my]);
 						}
 

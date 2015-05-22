@@ -22,8 +22,8 @@ public:
 	int typeID;
 
 	//constructors
-	Block(Image* i, int x_grid, int y_grid, int typeID, bool ignoreCollision=false);
-	Block(AnimationSet* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision=false);
+	Block(Image* i, int x_grid, int y_grid, int typeID);
+	Block(AnimationSet* anim, int x_grid, int y_grid, int typeID);
 
 	int getX();
 	int getY();

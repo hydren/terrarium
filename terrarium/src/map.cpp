@@ -70,19 +70,19 @@ Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& 
 					or file_grid[i][j] == 4) //TODO remove this dirty fix
 			{
 				map->grid[i][j] = new Block( imgDirt, i, j, 1);
-				world->addBody(map->grid[i][j]->body);
+				world->addBody(map->grid[i][j]->body, Math::convertToMeters(i*BLOCK_SIZE), Math::convertToMeters(j*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE));
 				map->retile(map->grid[i][j]);
 			}
 			else if(file_grid[i][j] == 2)
 			{
 				map->grid[i][j] = new Block( imgStone, i, j, 2);
-				world->addBody(map->grid[i][j]->body);
+				world->addBody(map->grid[i][j]->body, Math::convertToMeters(i*BLOCK_SIZE), Math::convertToMeters(j*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE));
 				map->retile(map->grid[i][j]);
 			}
 			else if(file_grid[i][j] == 3)
 			{
-				map->grid[i][j] = new Block( imgWater, i, j, 3, true);
-				world->addBody(map->grid[i][j]->body);
+				map->grid[i][j] = new Block( imgWater, i, j, 3);
+				world->addBody(map->grid[i][j]->body, Math::convertToMeters(i*BLOCK_SIZE), Math::convertToMeters(j*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE), true);
 				map->retile(map->grid[i][j]);
 			}
 		}

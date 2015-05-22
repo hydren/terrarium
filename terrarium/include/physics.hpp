@@ -34,8 +34,7 @@ namespace Physics
 
 		public:
 
-		Body(double x, double y, double size, bool ignoreCollisions=false);
-		Body(double x, double y, double width, double height, bool isDynamic=true);
+		Body();
 		~Body(); //TODO
 
 		bool isDetached();
@@ -67,7 +66,8 @@ namespace Physics
 		World(Vector gravityAcceleration);
 		~World();
 
-		void addBody(Body* b);
+		void addBody(Body* b, double x, double y, double size, bool ignoreCollisions=false);
+		void addBody(Body* b, double x, double y, double width, double height, bool isDynamic=true);
 		void destroyBody(Body* b);
 
 		void step(float timeStep, int velocityIterations, int positionIterations);

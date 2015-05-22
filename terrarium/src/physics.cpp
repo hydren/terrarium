@@ -17,7 +17,6 @@ namespace Physics
 	struct Body::Implementation
 	{
 		b2Body* body;
-		b2BodyDef* bodyDef;
 	};
 
 	struct World::Implementation
@@ -47,54 +46,15 @@ namespace Physics
 		return b2Vec2(v.x, v.y);
 	}
 
-	/**
-	 * Everything must be passed in meters.
-	 * Constructor used for creating non Block bodies.
-	 */
-	Body::Body(double x, double y, double width, double height, bool isDynamic)
+	/** Creates a detached body instance. To use it, attach to a world instance.
+	 * Until the body stays detached, it cannot be moved, rotated, etc, or any other get operation. */
+	Body::Body()
 	{
 		implementation = new Implementation;
-
-		b2BodyDef* def = new b2BodyDef;
-		def->position.Set(x+(width/2.0f), y+(height/2.0f));
-		if(isDynamic) def->type = b2_dynamicBody;
-		implementation->bodyDef = def;
-
-		b2FixtureDef* fdef = new b2FixtureDef;
-		b2PolygonShape* polygon = new b2PolygonShape;
-		polygon->SetAsBox((width)/2.0f, (height)/2.0f);
-		fdef->shape = polygon;
-		implementation->bodyDef->userData = fdef;
 	}
-
-	//Constructor used by Block class to create a edge chain. Used on map creation.
-	Body::Body(double x, double y, double size, bool ignoreCollisions)
-	{
-		implementation = new Implementation;
-
-		b2BodyDef* def = new b2BodyDef;
-		def->position.Set(x+(size/2.0f), y+(size/2.0f));
-		implementation->bodyDef = def;
-
-		b2Vec2 vs[4];
-		vs[0].Set(-size/2.0f, -size/2.0f);
-		vs[1].Set(size/2.0f, -size/2.0f);
-		vs[2].Set(size/2.0f, size/2.0f);
-		vs[3].Set(-size/2.0f, size/2.0f);
-		b2ChainShape* chain = new b2ChainShape;
-		chain->CreateLoop(vs, 4);
-		b2FixtureDef* fdef = new b2FixtureDef;
-		fdef->shape = chain;
-		if(ignoreCollisions) //makes this body unable to collide with any other body
-			fdef->filter.maskBits = 0x0000;
-		implementation->bodyDef->userData = fdef;
-	}
-
 
 	Body::~Body()
 	{
-		// XXX Experimental
-//		delete implementation->body;
 		delete implementation;
 	}
 
@@ -188,16 +148,51 @@ namespace Physics
 		delete implementation;
 	}
 
- 	void World::addBody(Body* b)
+	/**
+	 * Everything must be passed in meters.
+	 * Constructor used for creating non Block bodies.
+	 */
+ 	void World::addBody(Body* b, double x, double y, double width, double height, bool isDynamic)
  	{
- 		((b2FixtureDef*) b->implementation->bodyDef->userData)->density = 0.1f; //TODO remove this statement, it is in the wrong place
- 		((b2FixtureDef*) b->implementation->bodyDef->userData)->friction = 0.5f; //TODO remove this statement, it is in the wrong place
+ 		b2BodyDef bdef;
+		bdef.position.Set(x+(width/2.0f), y+(height/2.0f));
+		if(isDynamic) bdef.type = b2_dynamicBody;
 
- 		b->implementation->body = this->implementation->b2world->CreateBody(b->implementation->bodyDef);
- 		b->implementation->body->CreateFixture((b2FixtureDef*) b->implementation->bodyDef->userData);
- 		delete ((b2FixtureDef*) b->implementation->bodyDef->userData); b->implementation->bodyDef->userData = null;
- 		delete b->implementation->bodyDef; b->implementation->bodyDef = null;
+		b2PolygonShape polygon;
+		polygon.SetAsBox((width)/2.0f, (height)/2.0f);
+		b2FixtureDef fdef;
+		fdef.shape = &polygon;
+ 		fdef.density = 0.1f;
+ 		fdef.friction = 0.5f;
+
+ 		b->implementation->body = this->implementation->b2world->CreateBody(&bdef);
+ 		b->implementation->body->CreateFixture(&fdef);
  	}
+
+ 	//Constructor used by Block class to create a edge chain. Used on map creation. Everything must be passed in meters.
+ 	void World::addBody(Body* b, double x, double y, double size, bool ignoreCollisions)
+	{
+ 		b2BodyDef bdef;
+		bdef.position.Set(x+(size/2.0f), y+(size/2.0f));
+
+		b2Vec2 vs[4];
+		vs[0].Set(-size/2.0f, -size/2.0f);
+		vs[1].Set(size/2.0f, -size/2.0f);
+		vs[2].Set(size/2.0f, size/2.0f);
+		vs[3].Set(-size/2.0f, size/2.0f);
+		b2ChainShape chain;
+		chain.CreateLoop(vs, 4);
+		b2FixtureDef fdef;
+		fdef.shape = &chain;
+		if(ignoreCollisions) //makes this body unable to collide with any other body
+			fdef.filter.maskBits = 0x0000;
+
+		fdef.density = 0.1f;
+		fdef.friction = 0.5f;
+
+		b->implementation->body = this->implementation->b2world->CreateBody(&bdef);
+		b->implementation->body->CreateFixture(&fdef);
+	}
 
  	void World::destroyBody(Body* b)
  	{

@@ -35,9 +35,16 @@ namespace Physics
 	: x(v.x), y(v.y), z(v.z)
 	{}
 
-	Vector toVector(const b2Vec2 &b2v)
+	/** Creates a new Vector from a b2Vec2 */
+	Vector toVector(const b2Vec2& b2v)
 	{
 		return Vector(b2v.x, b2v.y);
+	}
+
+	/** Creates a new b2Vec2 from a Vector */
+	b2Vec2 toB2Vec2(const Vector& v)
+	{
+		return b2Vec2(v.x, v.y);
 	}
 
 	/**
@@ -99,22 +106,27 @@ namespace Physics
 
 	double Body::getX() const
 	{
-		return implementation->body->GetPosition().x;
+		return (implementation->body==null? 0 : implementation->body->GetPosition().x);
 	}
 
 	double Body::getY() const
 	{
-		return implementation->body->GetPosition().y;
+		return (implementation->body==null? 0 : implementation->body->GetPosition().y);
+	}
+
+	Vector Body::getPosition() const
+	{
+		return implementation->body==null? Vector(0,0) : toVector(implementation->body->GetPosition());
 	}
 
 	double Body::getWidth() const
 	{
-		return 0; //TODO
+		return 0; //TODO FIXME
 	}
 
 	double Body::getHeight() const
 	{
-		return 0; //TODO
+		return 0; //TODO FIXME
 	}
 
 	Vector Body::getVelocity() const
@@ -127,16 +139,19 @@ namespace Physics
 		return implementation->body->GetAngle();
 	}
 
-	void Body::setX(double new_x)
+	void Body::move(const Vector& displacement)
 	{
-		//FIXME It should be a SetTransform on the body
-		implementation->bodyDef->position.x = new_x;
+		implementation->body->SetTransform(toB2Vec2(displacement), implementation->body->GetAngle());
 	}
 
-	void Body::setY(double new_y)
+	void Body::rotate(const double& angle)
 	{
-		//FIXME It should be a SetTransform on the body
-		implementation->bodyDef->position.y = new_y;
+		implementation->body->SetTransform(implementation->body->GetPosition(), angle);
+	}
+
+	void Body::transform(const Vector& displacement, const double& angle)
+	{
+		implementation->body->SetTransform(toB2Vec2(displacement), angle);
 	}
 
 	void Body::setFixedRotation(bool choice)
@@ -144,12 +159,12 @@ namespace Physics
 		implementation->body->SetFixedRotation(choice);
 	}
 
-	void Body::applyImpulse(Vector impulse, Vector point)
+	void Body::applyImpulse(const Vector& impulse, const Vector& point)
 	{
 		implementation->body->ApplyLinearImpulse(b2Vec2(impulse.x, impulse.y), b2Vec2(point.x, point.y), true);
 	}
 
-	void Body::applyForceToCenter(Vector force)
+	void Body::applyForceToCenter(const Vector& force)
 	{
 		implementation->body->ApplyForceToCenter(b2Vec2(force.x, force.y), true);
 	}

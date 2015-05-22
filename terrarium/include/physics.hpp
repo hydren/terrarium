@@ -43,15 +43,17 @@ namespace Physics
 		double getY() const;
 		double getWidth() const;
 		double getHeight() const;
+		Vector getPosition() const;
 		Vector getVelocity() const;
 		float getAngle() const;
 
-		void setX(double new_x);
-		void setY(double new_y);
 		void setFixedRotation(bool choice=true);
 
-		void applyImpulse(Vector impulse, Vector point);
-		void applyForceToCenter(Vector force);
+		void applyImpulse(const Vector& impulse, const Vector& point);
+		void applyForceToCenter(const Vector& force);
+		void move(const Vector& displacement);
+		void rotate(const double& angle);
+		void transform(const Vector& displacement, const double& angle);
 	};
 
 	/** Represents the world */

@@ -91,6 +91,7 @@ namespace Physics
 		delete implementation;
 	}
 
+	/** Returns whether this body is already bound to a world instance. */
 	bool Body::isDetached()
 	{
 		return (implementation->body == null);

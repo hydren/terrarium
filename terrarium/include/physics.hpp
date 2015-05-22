@@ -31,12 +31,14 @@ namespace Physics
 		struct Implementation;
 		Implementation* implementation;
 
+
 		public:
 
 		Body(double x, double y, double size, bool ignoreCollisions=false);
 		Body(double x, double y, double width, double height, bool isDynamic=true);
 		~Body(); //TODO
 
+		bool isDetached();
 		double getX() const;
 		double getY() const;
 		double getWidth() const;

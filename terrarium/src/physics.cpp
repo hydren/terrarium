@@ -46,28 +46,28 @@ namespace Physics
 	 */
 	Body::Body(double x, double y, double width, double height, bool isDynamic)
 	{
-		this->implementation = new Implementation;
+		implementation = new Implementation;
 
 		b2BodyDef* def = new b2BodyDef;
 		def->position.Set(x+(width/2.0f), y+(height/2.0f));
 		if(isDynamic) def->type = b2_dynamicBody;
-		this->implementation->bodyDef = def;
+		implementation->bodyDef = def;
 
 		b2FixtureDef* fdef = new b2FixtureDef;
 		b2PolygonShape* polygon = new b2PolygonShape;
 		polygon->SetAsBox((width)/2.0f, (height)/2.0f);
 		fdef->shape = polygon;
-		this->implementation->bodyDef->userData = fdef;
+		implementation->bodyDef->userData = fdef;
 	}
 
 	//Constructor used by Block class to create a edge chain. Used on map creation.
 	Body::Body(double x, double y, double size, bool ignoreCollisions)
 	{
-		this->implementation = new Implementation;
+		implementation = new Implementation;
 
 		b2BodyDef* def = new b2BodyDef;
 		def->position.Set(x+(size/2.0f), y+(size/2.0f));
-		this->implementation->bodyDef = def;
+		implementation->bodyDef = def;
 
 		b2Vec2 vs[4];
 		vs[0].Set(-size/2.0f, -size/2.0f);
@@ -80,7 +80,7 @@ namespace Physics
 		fdef->shape = chain;
 		if(ignoreCollisions) //makes this body unable to collide with any other body
 			fdef->filter.maskBits = 0x0000;
-		this->implementation->bodyDef->userData = fdef;
+		implementation->bodyDef->userData = fdef;
 	}
 
 
@@ -91,14 +91,19 @@ namespace Physics
 		delete implementation;
 	}
 
+	bool Body::isDetached()
+	{
+		return (implementation->body == null);
+	}
+
 	double Body::getX() const
 	{
-		return this->implementation->body->GetPosition().x;
+		return implementation->body->GetPosition().x;
 	}
 
 	double Body::getY() const
 	{
-		return this->implementation->body->GetPosition().y;
+		return implementation->body->GetPosition().y;
 	}
 
 	double Body::getWidth() const
@@ -113,45 +118,45 @@ namespace Physics
 
 	Vector Body::getVelocity() const
 	{
-		return toVector(this->implementation->body->GetLinearVelocity());
+		return toVector(implementation->body->GetLinearVelocity());
 	}
 
 	float Body::getAngle() const
 	{
-		return this->implementation->body->GetAngle();
+		return implementation->body->GetAngle();
 	}
 
 	void Body::setX(double new_x)
 	{
 		//FIXME It should be a SetTransform on the body
-		this->implementation->bodyDef->position.x = new_x;
+		implementation->bodyDef->position.x = new_x;
 	}
 
 	void Body::setY(double new_y)
 	{
 		//FIXME It should be a SetTransform on the body
-		this->implementation->bodyDef->position.y = new_y;
+		implementation->bodyDef->position.y = new_y;
 	}
 
 	void Body::setFixedRotation(bool choice)
 	{
-		this->implementation->body->SetFixedRotation(choice);
+		implementation->body->SetFixedRotation(choice);
 	}
 
 	void Body::applyImpulse(Vector impulse, Vector point)
 	{
-		this->implementation->body->ApplyLinearImpulse(b2Vec2(impulse.x, impulse.y), b2Vec2(point.x, point.y), true);
+		implementation->body->ApplyLinearImpulse(b2Vec2(impulse.x, impulse.y), b2Vec2(point.x, point.y), true);
 	}
 
 	void Body::applyForceToCenter(Vector force)
 	{
-		this->implementation->body->ApplyForceToCenter(b2Vec2(force.x, force.y), true);
+		implementation->body->ApplyForceToCenter(b2Vec2(force.x, force.y), true);
 	}
 
 	World::World(Vector gravity)
 	{
-		this->implementation = new Implementation;
-		this->implementation->b2world = new b2World(b2Vec2(gravity.x, gravity.y));
+		implementation = new Implementation;
+		implementation->b2world = new b2World(b2Vec2(gravity.x, gravity.y));
 	}
 
 	World::~World()
@@ -180,12 +185,12 @@ namespace Physics
 
  	void World::destroyBody(Body* b)
  	{
- 		this->implementation->b2world->DestroyBody(b->implementation->body);
+ 		implementation->b2world->DestroyBody(b->implementation->body);
  	}
 
  	void World::step(float timeStep, int velocityIterations, int positionIterations)
  	{
- 		this->implementation->b2world->Step(timeStep, velocityIterations, positionIterations);
+ 		implementation->b2world->Step(timeStep, velocityIterations, positionIterations);
  	}
 
 }

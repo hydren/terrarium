@@ -7,7 +7,14 @@ It's coded in C++, using Allegro 5 and Box2D. Currently we're using Eclipse IDE 
 
 # How to build
 
-Unfortunately, I am pretty lay on using makefiles. Here is how to build using our way:
+Assuming you are on Linux, you can build it using 'make':
+
+    install make
+    place the makefile at terrarium/
+    open a shell, go to terrarium/ and execute: make
+    run it by executing: ./terrarium
+
+You can also use eclipse and build the project (works on windows (MinGW) and linux). Here is how:
 
 Prerequisites:
 - Get the Eclipse IDE for C/C++ Developers. Link: https://www.eclipse.org/downloads/packages/

@@ -9,10 +9,9 @@ It's coded in C++, using Allegro 5 and Box2D. Currently we're using Eclipse IDE 
 
 Assuming you are on Linux, you can build it using 'make':
 
-    install make
-    place the makefile at terrarium/
-    open a shell, go to terrarium/ and execute: make
-    run it by executing: ./terrarium
+* If you don't have 'make' installed, install it.
+* Open a shell, go to terrarium/ and execute: make
+* run it by executing: ./terrarium
 
 You can also use eclipse and build the project (works on windows (MinGW) and linux). Here is how:
 

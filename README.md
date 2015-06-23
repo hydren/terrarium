@@ -1,5 +1,5 @@
 # terrarium
-An attempt to do a Terraria clone game, with some new features.
+An attempt to do a free and open source Terraria clone game, possibly with some new features. 
 
 It is still in the first stages, so its pretty dumb.
 

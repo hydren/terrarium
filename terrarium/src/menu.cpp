@@ -72,7 +72,8 @@ void Menu::draw()
 //	if(bg != null)
 //		bg->draw(bounds.x, bounds.y);
 
-	GameEngine::Image::draw_rectangle(bgColor, bounds.x, bounds.y, bounds.w, bounds.h);
+	GameEngine::Image::draw_rectangle(selectedColor, bounds.x, bounds.y, bounds.w, bounds.h);
+	GameEngine::Image::draw_rectangle(bgColor, bounds.x+2, bounds.y+2, bounds.w-4, bounds.h-4);
 
 	float distanceBetween = (bounds.h-font->getSize()) / ((float) entries.size() + (title==null?0:1));
 
@@ -89,9 +90,9 @@ void Menu::draw()
 		if(str.length() > 30) do str = "..."+str.substr(4); while(str.length() > 30);
 
 		if(i == selectedIndex)
-			font->draw_text(str, bounds.x, bounds.y + offset, selectedColor);
+			font->draw_text(str, bounds.x+2, bounds.y + offset, selectedColor);
 		else
-			font->draw_text(str, bounds.x, bounds.y + offset, fontColor);
+			font->draw_text(str, bounds.x+2, bounds.y + offset, fontColor);
 
 		offset += distanceBetween;
 	}

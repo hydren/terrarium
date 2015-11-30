@@ -10,10 +10,10 @@
 #include "game.hpp"
 #include "menu.hpp"
 
-using Engine::Color;
-using Engine::Image;
-using Engine::Font;
-using Engine::EventQueue;
+using GameEngine::Color;
+using GameEngine::Image;
+using GameEngine::Font;
+using GameEngine::EventQueue;
 
 //static here means not-global to other files
 static EventQueue* eventQueue;
@@ -45,18 +45,18 @@ void MainMenu::show()
 
 	Image loading_image("./resources/loading.png");
 	loading_image.draw();
-	Engine::display->refresh();
+	GameEngine::display->refresh();
 
-	Menu mainMenu(Rect(64, 108, 300, 150), minorFont, Color::ORANGE, true);
+	Menu mainMenu(Rect(64, 108, 300, 150), minorFont, Color::ORANGE);
 	mainMenu.addEntry("Generate new map");
 	mainMenu.addEntry("Load map from file");
 	mainMenu.addEntry("Settings");
 	mainMenu.addEntry("Exit");
 
-	Engine::Font* miniFont = new Engine::Font("resources/jack.ttf", 16);
+	GameEngine::Font* miniFont = new GameEngine::Font("resources/jack.ttf", 16);
 
-	Menu fileMenu(Rect(32, 224, 294, 174), miniFont, Color::YELLOW, true, "Which file?");
-	list<string> dirs = Engine::getFilenamesWithinDirectory("./resources/maps");
+	Menu fileMenu(Rect(32, 224, 294, 174), miniFont, Color::YELLOW, "Which file?");
+	list<string> dirs = GameEngine::getFilenamesWithinDirectory("./resources/maps");
 		for(list<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
 			fileMenu.addEntry(*it);
 	fileMenu.addEntry("< Cancel >");
@@ -69,17 +69,17 @@ void MainMenu::show()
 		//EVENTS
 		while(! eventQueue->isEmpty() )
 		{
-			Engine::Event* ev = eventQueue->waitForEvent();
+			GameEngine::Event* ev = eventQueue->waitForEvent();
 
-			if(ev->getEventType() == Engine::Event::Type::DISPLAY_CLOSURE)
+			if(ev->getEventType() == GameEngine::Event::Type::DISPLAY_CLOSURE)
 			{
 				running=false;
 			}
-			else if(ev->getEventType() == Engine::Event::Type::KEY_PRESS)
+			else if(ev->getEventType() == GameEngine::Event::Type::KEY_PRESS)
 			{
 				switch(ev->getEventKeyCode())
 				{
-					case Engine::Event::Key::ARROW_UP:
+					case GameEngine::Event::Key::ARROW_UP:
 						if(chooseFile)
 							--fileMenu;
 						else
@@ -87,7 +87,7 @@ void MainMenu::show()
 
 						break;
 
-					case Engine::Event::Key::ARROW_DOWN:
+					case GameEngine::Event::Key::ARROW_DOWN:
 						if(chooseFile)
 							++fileMenu;
 						else
@@ -95,13 +95,13 @@ void MainMenu::show()
 
 						break;
 
-					case Engine::Event::Key::ARROW_RIGHT:
+					case GameEngine::Event::Key::ARROW_RIGHT:
 						break;
 
-					case Engine::Event::Key::ARROW_LEFT:
+					case GameEngine::Event::Key::ARROW_LEFT:
 						break;
 
-					case Engine::Event::Key::ENTER:
+					case GameEngine::Event::Key::ENTER:
 
 						if(chooseFile == true)
 						{
@@ -110,7 +110,7 @@ void MainMenu::show()
 							else
 							{
 								loading_image.draw();
-								Engine::display->refresh();
+								GameEngine::display->refresh();
 
 								eventQueue->ignoreEvents();
 								loadGameWithMap(fileMenu.getSelectedEntry()->label);
@@ -150,7 +150,7 @@ void MainMenu::show()
 			minorFont->draw_text("Which file?", 202, 200, Color::BLACK);
 			fileMenu.draw();
 		}
-		Engine::display->refresh();
+		GameEngine::display->refresh();
 
 	}
 

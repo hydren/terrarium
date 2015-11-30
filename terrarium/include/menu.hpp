@@ -8,8 +8,10 @@
 #ifndef MENU_HPP_
 #define MENU_HPP_
 
-#include "engine.hpp"
-#include "util.hpp"
+#include <vector>
+using std::vector;
+
+#include "fgeal.hpp"
 
 class Menu
 {
@@ -25,17 +27,16 @@ class Menu
 	};
 
 	vector<Entry*> entries;
-	Engine::Image* bg;
 	string* title;
 
 	public:
 
 	unsigned selectedIndex;
-	Engine::Font* font;
-	Engine::Color fontColor, selectedColor;
+	GameEngine::Font* font;
+	GameEngine::Color bgColor, fontColor, selectedColor;
 	Rect bounds;
 
-	Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui=false, string title="##NO_DEF##" );
+	Menu(Rect bounds, GameEngine::Font* font, GameEngine::Color color, string title="##NO_DEF##" );
 
 
 	void addEntry(string label, int index=-1);

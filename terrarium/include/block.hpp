@@ -12,8 +12,7 @@
 
 #include "entity.hpp"
 
-
-class Block : public Entity {
+class Block extends public Entity {
 private:
 
 public:

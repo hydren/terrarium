@@ -8,7 +8,11 @@
 #ifndef FILE_PARSER_HPP_
 #define FILE_PARSER_HPP_
 
-#include "util.hpp"
+#include <vector>
+using std::vector;
+
+#include <string>
+using std::string;
 
 namespace FileParser
 {
@@ -18,7 +22,6 @@ namespace FileParser
 	vector< vector<int> > parseGridFromTMXFile(const string& file_path);
 
 	void saveGridToRawTxtFile(vector< vector<int> > grid);
-
 }
 
 #endif /* FILE_PARSER_HPP_ */

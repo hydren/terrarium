@@ -7,9 +7,13 @@
 
 #include "file_parser.hpp"
 
+#include <iostream>
+using std::cout; using std::endl;
+
+#include "fgeal.hpp"
+
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
-
 
 namespace FileParser
 {
@@ -68,7 +72,7 @@ namespace FileParser
 				}
 			}
 		}
-		else throw Exception("File not found! "+filename);
+		else throw_exception("File not found! "+filename);
 
 		stream.close();
 
@@ -89,7 +93,7 @@ namespace FileParser
 		if (nodeMap == NULL)
 		{
 //			cout << "failure!" << endl;
-			throw Exception("Can't read node map from file "+filename);
+			throw_exception("Can't read node map from file "+filename);
 		}
 
 		int w = Math::parseInt(nodeMap->first_attribute("width")->value());
@@ -117,7 +121,7 @@ namespace FileParser
 			}
 		}
 		if(grid.size() < (unsigned) h)
-			throw Exception("Error while generating map "+filename+"!");
+			throw_exception("Error while generating map "+filename+"!");
 
 //		for(unsigned i = 0; i < grid.size(); i ++)
 //		{

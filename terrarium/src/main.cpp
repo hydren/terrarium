@@ -6,8 +6,9 @@
  */
 
 #include <cstdlib>
+#include <stdexcept>
 
-#include "engine.hpp"
+#include "fgeal.hpp"
 #include "file_parser.hpp"
 #include "main_menu.hpp"
 
@@ -20,27 +21,27 @@ int main(int argc, char** argv)
 {
 	try
 	{
-		Engine::initialize();
-		Engine::display = new Engine::Display(640, 480, "Project Terrarium (v"+VERSION+")");
+		GameEngine::initialize();
+		GameEngine::display = new GameEngine::Display(640, 480, "Project Terrarium (v"+VERSION+")");
 
 //		cout << "Lets test the directory listing method" << endl;
-//		list<String> dirs = Engine::getFilenamesWithinDirectory("./resources/maps");
+//		list<String> dirs = GameEngine::getFilenamesWithinDirectory("./resources/maps");
 //		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
 //			cout << *it << endl;
 
 		Image loading_image("./resources/loading.png");
 		loading_image.draw();
-		Engine::display->refresh();
+		GameEngine::display->refresh();
 
 		MainMenu menu;
 		menu.show();
 
-		delete Engine::display;
-		Engine::finalize();
+		delete GameEngine::display;
+		GameEngine::finalize();
 	}
-	catch(Exception& e)
+	catch(std::runtime_error& e)
 	{
-		cout << e.message() << endl;
+		cout << e.what() << endl;
 	}
 	return EXIT_SUCCESS;
 }

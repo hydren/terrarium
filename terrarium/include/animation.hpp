@@ -8,10 +8,11 @@
 #ifndef ANIMATION_HPP_
 #define ANIMATION_HPP_
 
-#include "engine.hpp"
-#include "util.hpp"
+#include "fgeal.hpp"
+using GameEngine::Image;
 
-using Engine::Image;
+#include <map>
+using std::map;
 
 struct Dimensions
 {

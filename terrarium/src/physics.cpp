@@ -7,8 +7,11 @@
 
 #include "physics.hpp"
 
+#include <iostream>
+using std::cout; using std::endl;
+
 #include <Box2D/Box2D.h>
-#include "util.hpp"
+#include "fgeal.hpp"
 
 namespace Physics
 {

@@ -8,7 +8,7 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
-#include "util.hpp"
+#include "fgeal.hpp"
 
 struct Game
 {

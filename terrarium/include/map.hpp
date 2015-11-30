@@ -8,6 +8,9 @@
 #ifndef MAP_HPP_
 #define MAP_HPP_
 
+#include <vector>
+using std::vector;
+
 #include "block.hpp"
 #include "physics.hpp"
 

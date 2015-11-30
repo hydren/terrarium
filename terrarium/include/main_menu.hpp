@@ -8,10 +8,9 @@
 #ifndef MAIN_MENU_HPP_
 #define MAIN_MENU_HPP_
 
-#include "engine.hpp"
-#include "util.hpp"
+#include "fgeal.hpp"
 
-using Engine::Image;
+using GameEngine::Image;
 
 struct MainMenu
 {

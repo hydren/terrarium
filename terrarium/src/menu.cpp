@@ -7,34 +7,16 @@
 
 #include "menu.hpp"
 
-Menu::Menu(Rect bounds, Engine::Font* font, Engine::Color color, bool gui, string title)
+Menu::Menu(Rect bounds, GameEngine::Font* font, GameEngine::Color color, string title)
  : entries(),
-   bg(null),
+   bgColor(GameEngine::Color::BLACK),
    title(null),
    selectedIndex(-1),
    font(font),
    fontColor(color),
-   selectedColor(Engine::Color(255-color.r, 255-color.g, 255-color.b)),
+   selectedColor(GameEngine::Color(255-color.r, 255-color.g, 255-color.b)),
    bounds(bounds)
-{
-	if(gui) //TODO NOT WORKING!!!
-	{
-		bg = new Engine::Image(Engine::Image::FILLED_RECTANGLE, selectedColor, bounds.w, bounds.h);
-		if(title.compare("##NO_DEF##")==0)
-		{
-			Engine::Image* temp = new Engine::Image(Engine::Image::FILLED_RECTANGLE, Engine::Color(0,0,0), bounds.w-4, bounds.h-4);
-			temp->blit(*bg, 2, 2);
-			delete temp;
-		}
-		else
-		{
-			Engine::Image* temp = new Engine::Image(Engine::Image::FILLED_RECTANGLE, Engine::Color(0,0,0), bounds.w-4, bounds.h-4 - font->getSize());
-			temp->blit(*bg, 2, 2+font->getSize());
-			this->title = new string(title);
-			delete temp;
-		}
-	}
-}
+{}
 
 void Menu::addEntry(string label, int index)
 {
@@ -87,8 +69,10 @@ void Menu::setSelectedEntry(Entry* entry)
 /** Draw the menu according the menu bounds and number of entries */
 void Menu::draw()
 {
-	if(bg != null)
-		bg->draw(bounds.x, bounds.y);
+//	if(bg != null)
+//		bg->draw(bounds.x, bounds.y);
+
+	GameEngine::Image::draw_rectangle(bgColor, bounds.x, bounds.y, bounds.w, bounds.h);
 
 	float distanceBetween = (bounds.h-font->getSize()) / ((float) entries.size() + (title==null?0:1));
 
@@ -105,9 +89,9 @@ void Menu::draw()
 		if(str.length() > 30) do str = "..."+str.substr(4); while(str.length() > 30);
 
 		if(i == selectedIndex)
-			font->draw_text(str, bounds.x +(bg!=null?2:0), bounds.y + offset, selectedColor);
+			font->draw_text(str, bounds.x, bounds.y + offset, selectedColor);
 		else
-			font->draw_text(str, bounds.x +(bg!=null?2:0), bounds.y + offset, fontColor);
+			font->draw_text(str, bounds.x, bounds.y + offset, fontColor);
 
 		offset += distanceBetween;
 	}

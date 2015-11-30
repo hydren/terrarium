@@ -7,6 +7,11 @@
 
 #include "map.hpp"
 
+#include <iostream>
+using std::cout; using std::endl;
+
+#include "fgeal.hpp"
+
 #include "file_parser.hpp"
 
 Map::Map(AnimationSet* bg, int columns, int lines, Rect* visibleArea) :
@@ -92,7 +97,7 @@ Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& 
 
 void Map::saveRawMapToFile(const string& filename, Map* map)
 {
-	FileOutputStream stream(filename.c_str());
+	std::ofstream stream(filename.c_str());
 
 	if(stream.is_open())
 	{

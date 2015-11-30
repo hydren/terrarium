@@ -7,20 +7,21 @@
 
 #include "game.hpp"
 
-#include "engine.hpp"
+#include <iostream>
+using std::cout; using std::endl;
+
+#include "fgeal.hpp"
 #include "block.hpp"
 #include "entity.hpp"
 #include "map.hpp"
 #include "menu.hpp"
-#include "util.hpp"
 
 using Physics::World;
 using Physics::Vector;
 
-using Engine::EventQueue;
-using Engine::Font;
-using Engine::Color;
-
+using GameEngine::EventQueue;
+using GameEngine::Font;
+using GameEngine::Color;
 
 struct GameStuff
 {
@@ -45,16 +46,16 @@ struct GameStuff
 		visibleArea = Rect(0,0,640,480);
 
 		//loading font
-		font = new Engine::Font("resources/liberation.ttf", 14);
+		font = new GameEngine::Font("resources/liberation.ttf", 14);
 
 		//loading ingame menu
-		inGameMenu = new Menu(Rect(200, 200, 200, 64), font, Color::ORANGE, true);
+		inGameMenu = new Menu(Rect(200, 200, 200, 64), font, Color::ORANGE);
 		inGameMenu->addEntry("Resume");
 		inGameMenu->addEntry("Save and exit");
 		inGameMenu->addEntry("Exit without saving");
 
 		//loading event queue
-		eventQueue = new Engine::EventQueue();
+		eventQueue = new GameEngine::EventQueue();
 
 		//setting flags
 		running = true;
@@ -168,28 +169,28 @@ struct GameStuff
 
 		while(! eventQueue->isEmpty() )
 		{
-			Engine::Event* ev = eventQueue->waitForEvent();
+			GameEngine::Event* ev = eventQueue->waitForEvent();
 
-			if(ev->getEventType() == Engine::Event::Type::DISPLAY_CLOSURE)
+			if(ev->getEventType() == GameEngine::Event::Type::DISPLAY_CLOSURE)
 			{
 				running=false;
 			}
-			else if(ev->getEventType() == Engine::Event::Type::KEY_RELEASE)
+			else if(ev->getEventType() == GameEngine::Event::Type::KEY_RELEASE)
 			{
 				switch(ev->getEventKeyCode())
 				{
-				case Engine::Event::Key::ARROW_UP:
+				case GameEngine::Event::Key::ARROW_UP:
 					isKeyUpPressed = false;
 					jumping = false;
 					break;
-				case Engine::Event::Key::ARROW_DOWN:
+				case GameEngine::Event::Key::ARROW_DOWN:
 					isKeyDownPressed = false;
 					break;
-				case Engine::Event::Key::ARROW_RIGHT:
+				case GameEngine::Event::Key::ARROW_RIGHT:
 					player->animation->setCurrent("still-right");
 					isKeyRightPressed = false;
 					break;
-				case Engine::Event::Key::ARROW_LEFT:
+				case GameEngine::Event::Key::ARROW_LEFT:
 					player->animation->setCurrent("still-left");
 					isKeyLeftPressed = false;
 					break;
@@ -197,33 +198,33 @@ struct GameStuff
 					break;
 				}
 			}
-			else if(ev->getEventType() == Engine::Event::Type::KEY_PRESS)
+			else if(ev->getEventType() == GameEngine::Event::Type::KEY_PRESS)
 			{
 				switch(ev->getEventKeyCode())
 				{
-				case Engine::Event::Key::ARROW_UP:
+				case GameEngine::Event::Key::ARROW_UP:
 					isKeyUpPressed = true;
 					if(inGameMenuShowing)
 						--*inGameMenu;
 					break;
-				case Engine::Event::Key::ARROW_DOWN:
+				case GameEngine::Event::Key::ARROW_DOWN:
 					isKeyDownPressed = true;
 					if(inGameMenuShowing)
 						++*inGameMenu;
 					break;
-				case Engine::Event::Key::ARROW_RIGHT:
+				case GameEngine::Event::Key::ARROW_RIGHT:
 					isKeyRightPressed = true;
 					break;
-				case Engine::Event::Key::ARROW_LEFT:
+				case GameEngine::Event::Key::ARROW_LEFT:
 					isKeyLeftPressed = true;
 					break;
-				case Engine::Event::Key::ESCAPE:
+				case GameEngine::Event::Key::ESCAPE:
 					if(inGameMenuShowing)
 						inGameMenuShowing=false;
 					else
 						inGameMenuShowing=true;
 					break;
-				case Engine::Event::Key::ENTER:
+				case GameEngine::Event::Key::ENTER:
 					if(inGameMenuShowing)
 					{
 						switch(inGameMenu->selectedIndex)
@@ -245,10 +246,10 @@ struct GameStuff
 					break;
 				}
 			}
-			else if(ev->getEventType() == Engine::Event::Type::MOUSE_BUTTON_PRESS)
+			else if(ev->getEventType() == GameEngine::Event::Type::MOUSE_BUTTON_PRESS)
 			{
 
-				if(ev->getEventMouseButton() == Engine::Event::MouseButton::RIGHT)
+				if(ev->getEventMouseButton() == GameEngine::Event::MouseButton::RIGHT)
 				{
 					unsigned int mx = (visibleArea.x + ev->getEventMouseX())/BLOCK_SIZE;
 					unsigned int my = (visibleArea.y + ev->getEventMouseY())/BLOCK_SIZE;
@@ -262,7 +263,7 @@ struct GameStuff
 						}
 
 				}
-				else if (ev->getEventMouseButton() == Engine::Event::MouseButton::LEFT)
+				else if (ev->getEventMouseButton() == GameEngine::Event::MouseButton::LEFT)
 				{
 					unsigned int mx = (visibleArea.x + ev->getEventMouseX())/BLOCK_SIZE;
 					unsigned int my = (visibleArea.y + ev->getEventMouseY())/BLOCK_SIZE;
@@ -285,7 +286,7 @@ struct GameStuff
 
 	void drawScene()
 	{
-		Engine::display->clear();
+		GameEngine::display->clear();
 		world->step((1.0f / 60.0f), 6, 2);
 		/* needs to draw HUD */
 
@@ -309,21 +310,21 @@ struct GameStuff
 			inGameMenu->draw();
 
 
-		Engine::display->refresh();
+		GameEngine::display->refresh();
 	}
 
 
 	void drawDebug()
 	{
-		font->draw_text("## DEBUG BUILD ##", 245, 0, Engine::Color::RED);
+		font->draw_text("## DEBUG BUILD ##", 245, 0, GameEngine::Color::RED);
 
-		font->draw_text("POSITION", 0, 14, Engine::Color::WHITE);
+		font->draw_text("POSITION", 0, 14, GameEngine::Color::WHITE);
 
-		font->draw_text(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, Engine::Color::WHITE);
+		font->draw_text(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, GameEngine::Color::WHITE);
 
-		font->draw_text("SPEED", 0, 42, Engine::Color::WHITE);
+		font->draw_text("SPEED", 0, 42, GameEngine::Color::WHITE);
 
-		font->draw_text(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, Engine::Color::WHITE);
+		font->draw_text(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, GameEngine::Color::WHITE);
 
 	}
 };

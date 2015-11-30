@@ -44,12 +44,12 @@ void AnimationSet::draw(float x, float y, float angle)
 	{
 		//COUT << al_get_time()-timeCounter << '\n'<< ((double)framesOf[current])*intervalOf[current] << ENDL;
 		if(timeCounter==-1)
-			timeCounter = currentTimeMillis();
+			timeCounter = GameEngine::uptime();
 
-		while(currentTimeMillis()-timeCounter >= ((double)framesOf[current])*intervalOf[current])
+		while(GameEngine::uptime()-timeCounter >= ((double)framesOf[current])*intervalOf[current])
 			timeCounter += ((double)framesOf[current])*intervalOf[current];
 
-		this->sheet->draw_rotated(x, y, dimensionsOf[current].width/2, dimensionsOf[current].height/2, angle, (int)((currentTimeMillis()-timeCounter)/intervalOf[current])*dimensionsOf[current].width, positionOf[current], dimensionsOf[current].width, dimensionsOf[current].height);
+		this->sheet->draw_rotated(x, y, dimensionsOf[current].width/2, dimensionsOf[current].height/2, angle, (int)((GameEngine::uptime()-timeCounter)/intervalOf[current])*dimensionsOf[current].width, positionOf[current], dimensionsOf[current].width, dimensionsOf[current].height);
 	}
 }
 

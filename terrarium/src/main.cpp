@@ -15,7 +15,7 @@
 using std::cout;
 using std::endl;
 
-string VERSION = "0.1.1-alpha-fgeal0.1";
+string VERSION = "0.1.1-alpha-fgeal0.2";
 
 int main(int argc, char** argv)
 {

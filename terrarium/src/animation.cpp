@@ -19,6 +19,8 @@ sheet(sheet), current("default"), positionOf(), framesOf(), intervalOf(), dimens
 
 void AnimationSet::add(string tag, int width, int height, double interval, int frames, bool setCurrent)
 {
+		if(height == -1) height = sheet->getHeight();
+		if(width == -1) width = sheet->getWidth();
 		int sum=0;
 		for( map<string, Dimensions>::iterator it = dimensionsOf.begin(); it != dimensionsOf.end(); ++it )
 		{
@@ -52,6 +54,10 @@ void AnimationSet::draw(float x, float y, float angle)
 		this->sheet->draw_rotated(x, y, dimensionsOf[current].width/2, dimensionsOf[current].height/2, angle, (int)((GameEngine::uptime()-timeCounter)/intervalOf[current])*dimensionsOf[current].width, positionOf[current], dimensionsOf[current].width, dimensionsOf[current].height);
 	}
 }
+
+void AnimationSet::draw()
+{ draw(sheet->getWidth()/2, sheet->getHeight()/2); }
+
 
 void AnimationSet::setCurrent(string tag)
 {

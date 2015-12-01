@@ -38,7 +38,9 @@ struct AnimationSet
 
 	void add(string tag, int width=-1, int height=-1, double interval=-1, int frames=1, bool setCurrent=true);
 
-	void draw(float x=0, float y=0, float angle=0);
+	void draw();
+
+	void draw(float x, float y, float angle=0);
 
 	void setCurrent(string tag);
 

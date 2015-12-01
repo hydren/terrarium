@@ -19,21 +19,21 @@ sheet(sheet), current("default"), positionOf(), framesOf(), intervalOf(), dimens
 
 void AnimationSet::add(string tag, int width, int height, double interval, int frames, bool setCurrent)
 {
-		if(height == -1) height = sheet->getHeight();
-		if(width == -1) width = sheet->getWidth();
-		int sum=0;
-		for( map<string, Dimensions>::iterator it = dimensionsOf.begin(); it != dimensionsOf.end(); ++it )
-		{
-			//pega a altura de cada animação e soma
-			sum += it->second.height;
+	if(height == -1) height = sheet->getHeight();
+	if(width == -1) width = sheet->getWidth();
+	int sum=0;
+	for( map<string, Dimensions>::iterator it = dimensionsOf.begin(); it != dimensionsOf.end(); ++it )
+	{
+		//pega a altura de cada animação e soma
+		sum += it->second.height;
 
-		}
-		positionOf[tag] = sum;
-		dimensionsOf[tag].width = width;
-		dimensionsOf[tag].height = height;
-		intervalOf[tag] = interval;
-		framesOf[tag] = frames;
-		if(setCurrent) this->setCurrent(tag);
+	}
+	positionOf[tag] = sum;
+	dimensionsOf[tag].width = width;
+	dimensionsOf[tag].height = height;
+	intervalOf[tag] = interval;
+	framesOf[tag] = frames;
+	if(setCurrent) this->setCurrent(tag);
 }
 
 void AnimationSet::draw(float x, float y, float angle)

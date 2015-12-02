@@ -9,10 +9,10 @@
 
 Menu::Menu(Rect bounds, GameEngine::Font* font, GameEngine::Color color, string title)
  : entries(),
-   bgColor(GameEngine::Color::BLACK),
    title(null),
    selectedIndex(-1),
    font(font),
+   bgColor(GameEngine::Color::BLACK),
    fontColor(color),
    selectedColor(GameEngine::Color(255-color.r, 255-color.g, 255-color.b)),
    bounds(bounds)

@@ -1,0 +1,11 @@
+# Eclipse build configuration folders
+/Debug/
+/Debug Linux/
+/Debug Linux tweaked
+/Debug Windows/
+/Release/
+/Release Linux/
+/Debug Linux fgeal/
+
+# Eclipse trash
+language.settings.xml

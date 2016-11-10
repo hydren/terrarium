@@ -6,5 +6,10 @@
 /win32-mingw-debug/
 /win32-mingw-release/
 
-# Eclipse trash
+# Eclipse local files
 language.settings.xml
+org.eclipse.cdt.codan.core.prefs
+org.eclipse.cdt.core.prefs
+org.eclipse.cdt.ui.prefs
+org.eclipse.cdt.managedbuilder.core.prefs
+org.eclipse.core.resources.prefs

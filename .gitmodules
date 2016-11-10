@@ -1,0 +1,3 @@
+[submodule "src_libs/futil"]
+	path = src_libs/futil
+	url = ../futil.git

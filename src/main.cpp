@@ -23,21 +23,21 @@ int main(int argc, char** argv)
 	try
 	{
 		fgeal::initialize();
-		fgeal::display = new fgeal::Display(640, 480, "Project Terrarium (v"+VERSION+")");
+		{
+			fgeal::Display display(640, 480, "Project Terrarium (v"+VERSION+")");
 
-//		cout << "Lets test the directory listing method" << endl;
-//		list<String> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
-//		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
-//			cout << *it << endl;
+	//		cout << "Lets test the directory listing method" << endl;
+	//		list<String> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
+	//		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
+	//			cout << *it << endl;
 
-		Image loading_image("./resources/loading.png");
-		loading_image.draw();
-		fgeal::display->refresh();
+			Image loading_image("./resources/loading.png");
+			loading_image.draw();
+			fgeal::display->refresh();
 
-		MainMenu menu;
-		menu.show();
-
-		delete fgeal::display;
+			MainMenu menu;
+			menu.show();
+		}
 		fgeal::finalize();
 	}
 	catch(std::runtime_error& e)

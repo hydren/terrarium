@@ -7,8 +7,6 @@
 
 #include "animation.hpp"
 
-#include <allegro5/allegro.h>
-
 AnimationSet::AnimationSet(Image* sheet) :
 sheet(sheet), current("default"), positionOf(), framesOf(), intervalOf(), dimensionsOf(), timeCounter(-1)
 {

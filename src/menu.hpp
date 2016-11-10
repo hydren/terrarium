@@ -11,7 +11,11 @@
 #include <vector>
 using std::vector;
 
+#include <string>
+using std::string;
+
 #include "fgeal.hpp"
+using fgeal::Rectangle;
 
 class Menu
 {
@@ -32,11 +36,11 @@ class Menu
 	public:
 
 	unsigned selectedIndex;
-	GameEngine::Font* font;
-	GameEngine::Color bgColor, fontColor, selectedColor;
-	Rect bounds;
+	fgeal::Font* font;
+	fgeal::Color bgColor, fontColor, selectedColor;
+	Rectangle bounds;
 
-	Menu(Rect bounds, GameEngine::Font* font, GameEngine::Color color, string title="##NO_DEF##" );
+	Menu(Rectangle bounds, fgeal::Font* font, fgeal::Color color, string title="##NO_DEF##" );
 
 
 	void addEntry(string label, int index=-1);

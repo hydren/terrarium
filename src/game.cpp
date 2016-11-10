@@ -11,6 +11,9 @@
 using std::cout; using std::endl;
 
 #include "fgeal.hpp"
+#include "futil/string/more_operators.hpp"
+
+#include "util.hpp"
 #include "block.hpp"
 #include "entity.hpp"
 #include "map.hpp"
@@ -19,16 +22,16 @@ using std::cout; using std::endl;
 using Physics::World;
 using Physics::Vector;
 
-using GameEngine::EventQueue;
-using GameEngine::Font;
-using GameEngine::Color;
+using fgeal::EventQueue;
+using fgeal::Font;
+using fgeal::Color;
 
 struct GameStuff
 {
 	vector<Entity*> entities;
 	vector<Image*> images;
 
-	Rect visibleArea;
+	Rectangle visibleArea;
 
 	Entity* player;
 	Map* game_map;
@@ -43,19 +46,19 @@ struct GameStuff
 
 	GameStuff(const string& map_path)
 	{
-		visibleArea = Rect(0,0,640,480);
+		visibleArea = createRectangle(0,0,640,480);
 
 		//loading font
-		font = new GameEngine::Font("resources/liberation.ttf", 14);
+		font = new fgeal::Font("resources/liberation.ttf", 14);
 
 		//loading ingame menu
-		inGameMenu = new Menu(Rect(200, 200, 200, 64), font, Color::ORANGE);
+		inGameMenu = new Menu(createRectangle(200, 200, 200, 64), font, Color::ORANGE);
 		inGameMenu->addEntry("Resume");
 		inGameMenu->addEntry("Save and exit");
 		inGameMenu->addEntry("Exit without saving");
 
 		//loading event queue
-		eventQueue = new GameEngine::EventQueue();
+		eventQueue = new fgeal::EventQueue();
 
 		//setting flags
 		running = true;
@@ -84,7 +87,7 @@ struct GameStuff
 		anim->setCurrent("still-right");
 
 		//loading player physics
-		Body* b = new Body(1,1,Math::convertToMeters(16), Math::convertToMeters(80));
+		Body* b = new Body(1,1,Physics::convertToMeters(16), Physics::convertToMeters(80));
 		player = new Entity(anim, b, &visibleArea);
 		world->addBody(player->body);
 		player->body->setFixedRotation();
@@ -122,8 +125,8 @@ struct GameStuff
 		{
 			//visible area quick n' dirt fix
 			{
-				visibleArea.x = Math::convertToPixels(player->body->getX()) - visibleArea.w/2.0;
-				visibleArea.y = Math::convertToPixels(player->body->getY()) - visibleArea.h/2.0;
+				visibleArea.x = Physics::convertToPixels(player->body->getX()) - visibleArea.w/2.0;
+				visibleArea.y = Physics::convertToPixels(player->body->getY()) - visibleArea.h/2.0;
 				if(visibleArea.x + visibleArea.w > game_map->computeDimensions().w)
 					visibleArea.x = game_map->computeDimensions().w - visibleArea.w;
 				if(visibleArea.x < 0)
@@ -169,28 +172,28 @@ struct GameStuff
 
 		while(! eventQueue->isEmpty() )
 		{
-			GameEngine::Event* ev = eventQueue->waitForEvent();
+			fgeal::Event* ev = eventQueue->waitForEvent();
 
-			if(ev->getEventType() == GameEngine::Event::Type::DISPLAY_CLOSURE)
+			if(ev->getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
 			{
 				running=false;
 			}
-			else if(ev->getEventType() == GameEngine::Event::Type::KEY_RELEASE)
+			else if(ev->getEventType() == fgeal::Event::Type::KEY_RELEASE)
 			{
 				switch(ev->getEventKeyCode())
 				{
-				case GameEngine::Event::Key::ARROW_UP:
+				case fgeal::Event::Key::ARROW_UP:
 					isKeyUpPressed = false;
 					jumping = false;
 					break;
-				case GameEngine::Event::Key::ARROW_DOWN:
+				case fgeal::Event::Key::ARROW_DOWN:
 					isKeyDownPressed = false;
 					break;
-				case GameEngine::Event::Key::ARROW_RIGHT:
+				case fgeal::Event::Key::ARROW_RIGHT:
 					player->animation->setCurrent("still-right");
 					isKeyRightPressed = false;
 					break;
-				case GameEngine::Event::Key::ARROW_LEFT:
+				case fgeal::Event::Key::ARROW_LEFT:
 					player->animation->setCurrent("still-left");
 					isKeyLeftPressed = false;
 					break;
@@ -198,33 +201,33 @@ struct GameStuff
 					break;
 				}
 			}
-			else if(ev->getEventType() == GameEngine::Event::Type::KEY_PRESS)
+			else if(ev->getEventType() == fgeal::Event::Type::KEY_PRESS)
 			{
 				switch(ev->getEventKeyCode())
 				{
-				case GameEngine::Event::Key::ARROW_UP:
+				case fgeal::Event::Key::ARROW_UP:
 					isKeyUpPressed = true;
 					if(inGameMenuShowing)
 						--*inGameMenu;
 					break;
-				case GameEngine::Event::Key::ARROW_DOWN:
+				case fgeal::Event::Key::ARROW_DOWN:
 					isKeyDownPressed = true;
 					if(inGameMenuShowing)
 						++*inGameMenu;
 					break;
-				case GameEngine::Event::Key::ARROW_RIGHT:
+				case fgeal::Event::Key::ARROW_RIGHT:
 					isKeyRightPressed = true;
 					break;
-				case GameEngine::Event::Key::ARROW_LEFT:
+				case fgeal::Event::Key::ARROW_LEFT:
 					isKeyLeftPressed = true;
 					break;
-				case GameEngine::Event::Key::ESCAPE:
+				case fgeal::Event::Key::ESCAPE:
 					if(inGameMenuShowing)
 						inGameMenuShowing=false;
 					else
 						inGameMenuShowing=true;
 					break;
-				case GameEngine::Event::Key::ENTER:
+				case fgeal::Event::Key::ENTER:
 					if(inGameMenuShowing)
 					{
 						switch(inGameMenu->selectedIndex)
@@ -246,10 +249,10 @@ struct GameStuff
 					break;
 				}
 			}
-			else if(ev->getEventType() == GameEngine::Event::Type::MOUSE_BUTTON_PRESS)
+			else if(ev->getEventType() == fgeal::Event::Type::MOUSE_BUTTON_PRESS)
 			{
 
-				if(ev->getEventMouseButton() == GameEngine::Event::MouseButton::RIGHT)
+				if(ev->getEventMouseButton() == fgeal::Event::MouseButton::RIGHT)
 				{
 					unsigned int mx = (visibleArea.x + ev->getEventMouseX())/BLOCK_SIZE;
 					unsigned int my = (visibleArea.y + ev->getEventMouseY())/BLOCK_SIZE;
@@ -263,7 +266,7 @@ struct GameStuff
 						}
 
 				}
-				else if (ev->getEventMouseButton() == GameEngine::Event::MouseButton::LEFT)
+				else if (ev->getEventMouseButton() == fgeal::Event::MouseButton::LEFT)
 				{
 					unsigned int mx = (visibleArea.x + ev->getEventMouseX())/BLOCK_SIZE;
 					unsigned int my = (visibleArea.y + ev->getEventMouseY())/BLOCK_SIZE;
@@ -286,7 +289,7 @@ struct GameStuff
 
 	void drawScene()
 	{
-		GameEngine::display->clear();
+		fgeal::display->clear();
 		world->step((1.0f / 60.0f), 6, 2);
 		/* needs to draw HUD */
 
@@ -310,21 +313,21 @@ struct GameStuff
 			inGameMenu->draw();
 
 
-		GameEngine::display->refresh();
+		fgeal::display->refresh();
 	}
 
 
 	void drawDebug()
 	{
-		font->draw_text("## DEBUG BUILD ##", 245, 0, GameEngine::Color::RED);
+		font->drawText("## DEBUG BUILD ##", 245, 0, fgeal::Color::RED);
 
-		font->draw_text("POSITION", 0, 14, GameEngine::Color::WHITE);
+		font->drawText("POSITION", 0, 14, fgeal::Color::WHITE);
 
-		font->draw_text(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, GameEngine::Color::WHITE);
+		font->drawText(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, fgeal::Color::WHITE);
 
-		font->draw_text("SPEED", 0, 42, GameEngine::Color::WHITE);
+		font->drawText("SPEED", 0, 42, fgeal::Color::WHITE);
 
-		font->draw_text(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, GameEngine::Color::WHITE);
+		font->drawText(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, fgeal::Color::WHITE);
 
 	}
 };

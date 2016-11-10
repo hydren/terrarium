@@ -17,6 +17,16 @@ namespace Physics
 {
 	//Implementation using Box2D library
 
+	float convertToMeters(float pixels)
+	{
+		return 0.01f * pixels;
+	}
+
+	float convertToPixels(float meters)
+	{
+		return 100.0f * meters;
+	}
+
 	struct Body::Implementation
 	{
 		b2Body* body;

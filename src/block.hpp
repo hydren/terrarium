@@ -10,7 +10,7 @@
 
 #define BLOCK_SIZE 16
 
-#include "../src/entity.hpp"
+#include "entity.hpp"
 
 class Block extends public Entity {
 private:
@@ -27,7 +27,7 @@ public:
 	int getX();
 	int getY();
 
-	void draw(const Rect* visibleAreaPosition=NULL);
+	void draw(const Rectangle* visibleAreaPosition=NULL);
 };
 
 #endif /* BLOCK_HPP_ */

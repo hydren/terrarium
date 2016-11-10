@@ -7,7 +7,7 @@
 
 #include "entity.hpp"
 
-Entity::Entity(AnimationSet* anim, Body *b, Rect* visibleArea) :
+Entity::Entity(AnimationSet* anim, Body *b, Rectangle* visibleArea) :
 animation(anim),
 body(b),
 visibleAreaPosition(visibleArea)
@@ -24,8 +24,8 @@ Entity::~Entity()
 void Entity::draw()
 {
 	if(visibleAreaPosition == NULL)
-		animation->draw(Math::convertToPixels(body->getX()), Math::convertToPixels(body->getY()));
+		animation->draw(Physics::convertToPixels(body->getX()), Physics::convertToPixels(body->getY()));
 
 	else
-		animation->draw(Math::convertToPixels(body->getX()) - visibleAreaPosition->x, Math::convertToPixels(body->getY()) - visibleAreaPosition->y, body->getAngle());
+		animation->draw(Physics::convertToPixels(body->getX()) - visibleAreaPosition->x, Physics::convertToPixels(body->getY()) - visibleAreaPosition->y, body->getAngle());
 }

@@ -9,10 +9,13 @@
 #define ANIMATION_HPP_
 
 #include "fgeal.hpp"
-using GameEngine::Image;
+using fgeal::Image;
 
 #include <map>
 using std::map;
+
+#include <string>
+using std::string;
 
 struct Dimensions
 {

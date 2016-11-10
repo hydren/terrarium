@@ -10,10 +10,15 @@
 #include "game.hpp"
 #include "menu.hpp"
 
-using GameEngine::Color;
-using GameEngine::Image;
-using GameEngine::Font;
-using GameEngine::EventQueue;
+#include <string>
+#include <vector>
+
+using fgeal::Color;
+using fgeal::Image;
+using fgeal::Font;
+using fgeal::EventQueue;
+using std::string;
+using std::vector;
 
 //static here means not-global to other files
 static EventQueue* eventQueue;
@@ -45,19 +50,19 @@ void MainMenu::show()
 
 	Image loading_image("./resources/loading.png");
 	loading_image.draw();
-	GameEngine::display->refresh();
+	fgeal::display->refresh();
 
-	Menu mainMenu(Rect(64, 108, 300, 150), minorFont, Color::ORANGE);
+	Menu mainMenu(createRectangle(64, 108, 300, 150), minorFont, Color::ORANGE);
 	mainMenu.addEntry("Generate new map");
 	mainMenu.addEntry("Load map from file");
 	mainMenu.addEntry("Settings");
 	mainMenu.addEntry("Exit");
 
-	GameEngine::Font* miniFont = new GameEngine::Font("resources/jack.ttf", 16);
+	fgeal::Font* miniFont = new fgeal::Font("resources/jack.ttf", 16);
 
-	Menu fileMenu(Rect(32, 224, 294, 174), miniFont, Color::YELLOW, "Which file?");
-	list<string> dirs = GameEngine::getFilenamesWithinDirectory("./resources/maps");
-		for(list<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
+	Menu fileMenu(createRectangle(32, 224, 294, 174), miniFont, Color::YELLOW, "Which file?");
+	vector<string> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
+		for(vector<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
 			fileMenu.addEntry(*it);
 	fileMenu.addEntry("< Cancel >");
 
@@ -69,17 +74,17 @@ void MainMenu::show()
 		//EVENTS
 		while(! eventQueue->isEmpty() )
 		{
-			GameEngine::Event* ev = eventQueue->waitForEvent();
+			fgeal::Event* ev = eventQueue->waitForEvent();
 
-			if(ev->getEventType() == GameEngine::Event::Type::DISPLAY_CLOSURE)
+			if(ev->getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
 			{
 				running=false;
 			}
-			else if(ev->getEventType() == GameEngine::Event::Type::KEY_PRESS)
+			else if(ev->getEventType() == fgeal::Event::Type::KEY_PRESS)
 			{
 				switch(ev->getEventKeyCode())
 				{
-					case GameEngine::Event::Key::ARROW_UP:
+					case fgeal::Event::Key::ARROW_UP:
 						if(chooseFile)
 							--fileMenu;
 						else
@@ -87,7 +92,7 @@ void MainMenu::show()
 
 						break;
 
-					case GameEngine::Event::Key::ARROW_DOWN:
+					case fgeal::Event::Key::ARROW_DOWN:
 						if(chooseFile)
 							++fileMenu;
 						else
@@ -95,13 +100,13 @@ void MainMenu::show()
 
 						break;
 
-					case GameEngine::Event::Key::ARROW_RIGHT:
+					case fgeal::Event::Key::ARROW_RIGHT:
 						break;
 
-					case GameEngine::Event::Key::ARROW_LEFT:
+					case fgeal::Event::Key::ARROW_LEFT:
 						break;
 
-					case GameEngine::Event::Key::ENTER:
+					case fgeal::Event::Key::ENTER:
 
 						if(chooseFile == true)
 						{
@@ -110,7 +115,7 @@ void MainMenu::show()
 							else
 							{
 								loading_image.draw();
-								GameEngine::display->refresh();
+								fgeal::display->refresh();
 
 								eventQueue->ignoreEvents();
 								loadGameWithMap(fileMenu.getSelectedEntry()->label);
@@ -143,14 +148,14 @@ void MainMenu::show()
 		//RENDER
 
 		background->draw();
-		mainFont->draw_text("Project Terrarium", 84, 25, Color::ORANGE);
+		mainFont->drawText("Project Terrarium", 84, 25, Color::ORANGE);
 		mainMenu.draw();
 		if(chooseFile)
 		{
-			minorFont->draw_text("Which file?", 202, 200, Color::BLACK);
+			minorFont->drawText("Which file?", 202, 200, Color::BLACK);
 			fileMenu.draw();
 		}
-		GameEngine::display->refresh();
+		fgeal::display->refresh();
 
 	}
 

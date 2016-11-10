@@ -10,6 +10,9 @@
 
 namespace Physics
 {
+	float convertToMeters(float pixels);
+	float convertToPixels(float meters);
+
 	//pre-declaring these classes to avoid annoying declaration order issues...
 	class World;
 
@@ -72,7 +75,6 @@ namespace Physics
 
 		void step(float timeStep, int velocityIterations, int positionIterations);
 	};
-
 }
 
 

@@ -12,8 +12,33 @@ using std::cout; using std::endl;
 
 #include "fgeal.hpp"
 
-#include "../src_libs/rapidxml/rapidxml.hpp"
-#include "../src_libs/rapidxml/rapidxml_utils.hpp"
+#include "rapidxml/rapidxml.hpp"
+#include "rapidxml/rapidxml_utils.hpp"
+
+#include "futil/string/more_operators.hpp"
+#include "futil/string/actions.hpp"
+#include "futil/math/parse_number.hpp"
+#include "futil/exception.hpp"
+
+vector< vector <int> > transpose(const vector< vector<int> >& matrix)
+{
+	//if empty, return a new empty
+	if(matrix.size() == 0)
+		return vector< vector<int> >();
+
+	//safety check
+	for(unsigned i = 0, size=matrix[0].size(); i < matrix.size(); i++)
+		if(matrix[i].size() != size)
+			throw string("Matrix with differing row sizes! " + matrix[i].size());
+
+	vector< vector<int> > matrix_t(matrix[0].size(), vector<int>(matrix.size()));
+
+	for(unsigned i = 0; i < matrix.size(); i++)
+		for(unsigned j = 0; j < matrix[i].size(); j++)
+			matrix_t[j][i] = matrix[i][j];
+
+	return matrix_t;
+}
 
 namespace FileParser
 {
@@ -30,7 +55,7 @@ namespace FileParser
 			while(stream.good())
 			{
 				getline(stream, str);
-				if(str.size() > 0 && String::trim(str).size() > 0) //safety
+				if(str.size() > 0 && trim(str).size() > 0) //safety
 				{
 					matrix.push_back(vector<int>(str.length()/2));
 					for(unsigned int i = 0; i < str.length()/2; i++)
@@ -76,7 +101,7 @@ namespace FileParser
 
 		stream.close();
 
-		return Util::transpose(matrix);
+		return transpose(matrix);
 	}
 
 	vector< vector<int> > parseGridFromTMXFile(const string& filename)
@@ -96,8 +121,8 @@ namespace FileParser
 			throw_exception("Can't read node map from file "+filename);
 		}
 
-		int w = Math::parseInt(nodeMap->first_attribute("width")->value());
-		int h = Math::parseInt(nodeMap->first_attribute("height")->value());
+		int w = parse<int>(nodeMap->first_attribute("width")->value());
+		int h = parse<int>(nodeMap->first_attribute("height")->value());
 
 		rapidxml::xml_node<>* nodeLayer = nodeMap->first_node("layer");
 
@@ -112,7 +137,7 @@ namespace FileParser
 
 		for (rapidxml::xml_node<> *tile = n->first_node("tile"); tile; tile = tile->next_sibling())
 		{
-			row.push_back( Math::parseInt(tile->first_attribute("gid")->value()) );
+			row.push_back( parse<int>(tile->first_attribute("gid")->value()) );
 			if (++count == w)
 			{
 				grid.push_back(row);
@@ -132,7 +157,7 @@ namespace FileParser
 //
 //		cout << w << endl << h << endl;
 
-		return Util::transpose(grid);
+		return transpose(grid);
 	}
 
 	void saveGridToRawTxtFile(vector< vector<int> > grid, const string& filename)

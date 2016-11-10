@@ -8,7 +8,7 @@
 #include "block.hpp"
 
 Block::Block(Image* i, int x_grid, int y_grid, int typeID, bool ignoreCollision):
-Entity(null, new Body(Math::convertToMeters(x_grid*BLOCK_SIZE), Math::convertToMeters(y_grid*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE), ignoreCollision)),
+Entity(null, new Body(Physics::convertToMeters(x_grid*BLOCK_SIZE), Physics::convertToMeters(y_grid*BLOCK_SIZE), Physics::convertToMeters(BLOCK_SIZE), ignoreCollision)),
 x_grid_pos(x_grid),
 y_grid_pos(y_grid),
 typeID(typeID)
@@ -38,7 +38,7 @@ typeID(typeID)
 
 /** Caution: the given animation should be correctly configured for blocks */
 Block::Block(AnimationSet* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision):
-Entity(anim, new Body(Math::convertToMeters(x_grid*BLOCK_SIZE), Math::convertToMeters(y_grid*BLOCK_SIZE), Math::convertToMeters(BLOCK_SIZE), ignoreCollision)),
+Entity(anim, new Body(Physics::convertToMeters(x_grid*BLOCK_SIZE), Physics::convertToMeters(y_grid*BLOCK_SIZE), Physics::convertToMeters(BLOCK_SIZE), ignoreCollision)),
 x_grid_pos(x_grid),
 y_grid_pos(y_grid),
 typeID(typeID)
@@ -52,13 +52,13 @@ int Block::getY() {
 	return y_grid_pos;
 }
 
-void Block::draw(const Rect* visibleAreaPosition)
+void Block::draw(const Rectangle* visibleAreaPosition)
 {
 	if(visibleAreaPosition == NULL){
 //	    animation->draw(x_grid_pos*BLOCK_SIZE, y_grid_pos*BLOCK_SIZE);
-		animation->draw(Math::convertToPixels(body->getX()), Math::convertToPixels(body->getY()));
+		animation->draw(Physics::convertToPixels(body->getX()), Physics::convertToPixels(body->getY()));
 	}
 	else
 //		animation->draw(x_grid_pos*BLOCK_SIZE - visibleAreaPosition->x, y_grid_pos*BLOCK_SIZE - visibleAreaPosition->y);
-		animation->draw(Math::convertToPixels(body->getX()) - visibleAreaPosition->x, Math::convertToPixels(body->getY()) - visibleAreaPosition->y);
+		animation->draw(Physics::convertToPixels(body->getX()) - visibleAreaPosition->x, Physics::convertToPixels(body->getY()) - visibleAreaPosition->y);
 }

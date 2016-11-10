@@ -10,17 +10,22 @@
 #include <iostream>
 using std::cout; using std::endl;
 
-#include "fgeal.hpp"
+#include <fstream>
 
+#include "fgeal.hpp"
+#include "futil/string/more_operators.hpp"
+#include "futil/string/actions.hpp"
+
+#include "util.hpp"
 #include "file_parser.hpp"
 
-Map::Map(AnimationSet* bg, int columns, int lines, Rect* visibleArea) :
+Map::Map(AnimationSet* bg, int columns, int lines, Rectangle* visibleArea) :
 grid(), background(bg), visibleArea(visibleArea)
 {
 	grid.resize(columns, vector<Block*>(lines)); //fill the matrix with null
 }
 
-Map::Map(Image* bg, int columns, int lines, Rect* visibleArea) :
+Map::Map(Image* bg, int columns, int lines, Rectangle* visibleArea) :
 grid(), background(null), visibleArea(visibleArea)
 {
 	grid.resize(columns, vector<Block*>(lines));//fill the matrix with null
@@ -53,7 +58,7 @@ Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& 
 	Map* map=null;
 
 	vector< vector<int> > file_grid;
-	if(String::endsWith(filename, ".tmx"))
+	if(ends_with(filename, ".tmx"))
 		file_grid = FileParser::parseGridFromTMXFile(filename);
 	else
 		file_grid = FileParser::parseGridFromRawTxtFile(filename);
@@ -178,9 +183,9 @@ void Map::retile(Block* b, bool recursive)
 	}
 }
 
-Rect Map::computeDimensions()
+Rectangle Map::computeDimensions()
 {
-	return Rect(0, 0, grid.size()*BLOCK_SIZE, (grid.size() > 0 ? grid[0].size()*BLOCK_SIZE : 0) );
+	return createRectangle(0, 0, grid.size()*BLOCK_SIZE, (grid.size() > 0 ? grid[0].size()*BLOCK_SIZE : 0) );
 }
 
 void Map::addBlock(int x, int y)
@@ -194,7 +199,7 @@ void Map::draw()
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
 
-	if(visibleArea != NULL && visibleArea->area() != 0 )
+	if(visibleArea != NULL && visibleArea->w*visibleArea->y != 0 )
 	{
 		//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
 		int start_i_index = visibleArea->x / BLOCK_SIZE;
@@ -241,7 +246,7 @@ void Map::draw_bg_player()
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
 
-	if(visibleArea != NULL && visibleArea->area() != 0 )
+	if(visibleArea != NULL && visibleArea->w*visibleArea->y != 0 )
 	{
 		//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
 		int start_i_index = visibleArea->x / BLOCK_SIZE;
@@ -286,7 +291,7 @@ void Map::draw_fg_player()
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
 
-	if(visibleArea != NULL && visibleArea->area() != 0 )
+	if(visibleArea != NULL && visibleArea->w*visibleArea->y != 0 )
 	{
 		//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
 		int start_i_index = visibleArea->x / BLOCK_SIZE;

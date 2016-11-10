@@ -10,9 +10,13 @@
 
 #include "fgeal.hpp"
 
+#include <string>
+
+fgeal::Rectangle createRectangle(float x, float y, float w, float h);
+
 struct Game
 {
-	Game(const string& map_path);
+	Game(const std::string& map_path);
 	~Game();
 	void start();
 };

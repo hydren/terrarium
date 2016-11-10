@@ -25,11 +25,11 @@ struct Map
 	AnimationSet *background;
 
 	/** The visible area of this map */
-	Rect* visibleArea;
+	Rectangle* visibleArea;
 
-	Map(AnimationSet* bg, int columns, int lines, Rect* visibleArea);
+	Map(AnimationSet* bg, int columns, int lines, Rectangle* visibleArea);
 
-	Map(Image* bg, int columns, int lines, Rect* visibleArea);
+	Map(Image* bg, int columns, int lines, Rectangle* visibleArea);
 
 	~Map();
 
@@ -51,7 +51,7 @@ struct Map
 	/** Draws all the blocks that foregrounds the player */
 	void draw_fg_player();
 
-	Rect computeDimensions();
+	Rectangle computeDimensions();
 };
 
 

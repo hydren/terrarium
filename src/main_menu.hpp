@@ -10,7 +10,7 @@
 
 #include "fgeal.hpp"
 
-using GameEngine::Image;
+using fgeal::Image;
 
 struct MainMenu
 {

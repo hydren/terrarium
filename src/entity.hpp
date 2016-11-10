@@ -8,22 +8,23 @@
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
 
-#include "../src/animation.hpp"
-#include "../src/physics.hpp"
+#include "animation.hpp"
+#include "physics.hpp"
 
 using Physics::Body;
+using fgeal::Rectangle;
 
 struct Entity
 {
 	AnimationSet *animation;
 	Body *body;
-	Rect* visibleAreaPosition;
+	Rectangle* visibleAreaPosition;
 
-	Entity(AnimationSet* anim=NULL, Body *b=NULL, Rect* visibleArea=null);
+	Entity(AnimationSet* anim=NULL, Body *b=NULL, Rectangle* visibleArea=null);
 	~Entity();
 
 	void draw();
-	void draw(const Rect * visibleAreaPosition);
+	void draw(const Rectangle * visibleAreaPosition);
 };
 
 

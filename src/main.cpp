@@ -12,6 +12,7 @@
 #include "file_parser.hpp"
 #include "main_menu.hpp"
 
+#include <iostream>
 using std::cout;
 using std::endl;
 
@@ -21,23 +22,23 @@ int main(int argc, char** argv)
 {
 	try
 	{
-		GameEngine::initialize();
-		GameEngine::display = new GameEngine::Display(640, 480, "Project Terrarium (v"+VERSION+")");
+		fgeal::initialize();
+		fgeal::display = new fgeal::Display(640, 480, "Project Terrarium (v"+VERSION+")");
 
 //		cout << "Lets test the directory listing method" << endl;
-//		list<String> dirs = GameEngine::getFilenamesWithinDirectory("./resources/maps");
+//		list<String> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
 //		for(list<String>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
 //			cout << *it << endl;
 
 		Image loading_image("./resources/loading.png");
 		loading_image.draw();
-		GameEngine::display->refresh();
+		fgeal::display->refresh();
 
 		MainMenu menu;
 		menu.show();
 
-		delete GameEngine::display;
-		GameEngine::finalize();
+		delete fgeal::display;
+		fgeal::finalize();
 	}
 	catch(std::runtime_error& e)
 	{

@@ -7,14 +7,14 @@
 
 #include "menu.hpp"
 
-Menu::Menu(Rect bounds, GameEngine::Font* font, GameEngine::Color color, string title)
+Menu::Menu(Rectangle bounds, fgeal::Font* font, fgeal::Color color, string title)
  : entries(),
    title(null),
    selectedIndex(-1),
    font(font),
-   bgColor(GameEngine::Color::BLACK),
+   bgColor(fgeal::Color::BLACK),
    fontColor(color),
-   selectedColor(GameEngine::Color(255-color.r, 255-color.g, 255-color.b)),
+   selectedColor(fgeal::Color(255-color.r, 255-color.g, 255-color.b)),
    bounds(bounds)
 {}
 
@@ -72,15 +72,15 @@ void Menu::draw()
 //	if(bg != null)
 //		bg->draw(bounds.x, bounds.y);
 
-	GameEngine::Image::draw_rectangle(selectedColor, bounds.x, bounds.y, bounds.w, bounds.h);
-	GameEngine::Image::draw_rectangle(bgColor, bounds.x+2, bounds.y+2, bounds.w-4, bounds.h-4);
+	fgeal::Image::drawRectangle(selectedColor, bounds.x, bounds.y, bounds.w, bounds.h);
+	fgeal::Image::drawRectangle(bgColor, bounds.x+2, bounds.y+2, bounds.w-4, bounds.h-4);
 
 	float distanceBetween = (bounds.h-font->getSize()) / ((float) entries.size() + (title==null?0:1));
 
 	float offset = (title==null?0:font->getSize());
 
 	if(title != null)
-		font->draw_text(*title, bounds.x, bounds.y, fontColor);
+		font->drawText(*title, bounds.x, bounds.y, fontColor);
 
 
 	for(unsigned i = 0; i < entries.size(); i++)
@@ -90,9 +90,9 @@ void Menu::draw()
 		if(str.length() > 30) do str = "..."+str.substr(4); while(str.length() > 30);
 
 		if(i == selectedIndex)
-			font->draw_text(str, bounds.x+2, bounds.y + offset, selectedColor);
+			font->drawText(str, bounds.x+2, bounds.y + offset, selectedColor);
 		else
-			font->draw_text(str, bounds.x+2, bounds.y + offset, fontColor);
+			font->drawText(str, bounds.x+2, bounds.y + offset, fontColor);
 
 		offset += distanceBetween;
 	}

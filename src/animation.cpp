@@ -40,18 +40,18 @@ void AnimationSet::draw(float x, float y, float angle)
 {
 	if(intervalOf[current] == -1)
 	{
-		this->sheet->draw_rotated(x, y, dimensionsOf[current].width/2, dimensionsOf[current].height/2, angle, 0, positionOf[current], dimensionsOf[current].width, dimensionsOf[current].height);
+		this->sheet->drawRotated(x, y, dimensionsOf[current].width/2, dimensionsOf[current].height/2, angle, 0, positionOf[current], dimensionsOf[current].width, dimensionsOf[current].height);
 	}
 	else
 	{
 		//COUT << al_get_time()-timeCounter << '\n'<< ((double)framesOf[current])*intervalOf[current] << ENDL;
 		if(timeCounter==-1)
-			timeCounter = GameEngine::uptime();
+			timeCounter = fgeal::uptime();
 
-		while(GameEngine::uptime()-timeCounter >= ((double)framesOf[current])*intervalOf[current])
+		while(fgeal::uptime()-timeCounter >= ((double)framesOf[current])*intervalOf[current])
 			timeCounter += ((double)framesOf[current])*intervalOf[current];
 
-		this->sheet->draw_rotated(x, y, dimensionsOf[current].width/2, dimensionsOf[current].height/2, angle, (int)((GameEngine::uptime()-timeCounter)/intervalOf[current])*dimensionsOf[current].width, positionOf[current], dimensionsOf[current].width, dimensionsOf[current].height);
+		this->sheet->drawRotated(x, y, dimensionsOf[current].width/2, dimensionsOf[current].height/2, angle, (int)((fgeal::uptime()-timeCounter)/intervalOf[current])*dimensionsOf[current].width, positionOf[current], dimensionsOf[current].width, dimensionsOf[current].height);
 	}
 }
 

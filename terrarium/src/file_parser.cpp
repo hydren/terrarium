@@ -12,8 +12,8 @@ using std::cout; using std::endl;
 
 #include "fgeal.hpp"
 
-#include "rapidxml/rapidxml.hpp"
-#include "rapidxml/rapidxml_utils.hpp"
+#include "../src_libs/rapidxml/rapidxml.hpp"
+#include "../src_libs/rapidxml/rapidxml_utils.hpp"
 
 namespace FileParser
 {

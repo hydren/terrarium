@@ -11,8 +11,8 @@
 #include <vector>
 using std::vector;
 
-#include "block.hpp"
-#include "physics.hpp"
+#include "../src/block.hpp"
+#include "../src/physics.hpp"
 
 using Physics::World;
 

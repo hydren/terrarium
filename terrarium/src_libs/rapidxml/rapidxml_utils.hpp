@@ -11,7 +11,8 @@
 #include <string>
 #include <fstream>
 #include <stdexcept>
-#include "rapidxml.hpp"
+
+#include "../../src_libs/rapidxml/rapidxml.hpp"
 
 namespace rapidxml
 {

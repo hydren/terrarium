@@ -10,7 +10,7 @@
 
 #define BLOCK_SIZE 16
 
-#include "entity.hpp"
+#include "../src/entity.hpp"
 
 class Block extends public Entity {
 private:

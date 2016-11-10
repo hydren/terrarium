@@ -8,8 +8,8 @@
 #ifndef ENTITY_HPP_
 #define ENTITY_HPP_
 
-#include "animation.hpp"
-#include "physics.hpp"
+#include "../src/animation.hpp"
+#include "../src/physics.hpp"
 
 using Physics::Body;
 

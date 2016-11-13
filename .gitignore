@@ -13,3 +13,6 @@ org.eclipse.cdt.core.prefs
 org.eclipse.cdt.ui.prefs
 org.eclipse.cdt.managedbuilder.core.prefs
 org.eclipse.core.resources.prefs
+
+# Saved map
+saved_map.txt

@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 	{
 		fgeal::initialize();
 		{
-			fgeal::Display display(640, 480, "Project Terrarium (v"+VERSION+") ("+ fgeal::BACKEND_NAME +" backend)");
+			fgeal::Display display(640, 480, "Project Terrarium (v"+VERSION+") (fgeal v"+ fgeal::VERSION + "/" + fgeal::BACKEND_NAME +" backend)");
 
 	//		cout << "Lets test the directory listing method" << endl;
 	//		list<String> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");

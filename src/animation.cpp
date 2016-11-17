@@ -8,11 +8,9 @@
 #include "animation.hpp"
 
 AnimationSet::AnimationSet(Image* sheet) :
-sheet(sheet), current("default"), positionOf(), framesOf(), intervalOf(), dimensionsOf(), timeCounter(-1)
+sheet(sheet), sprites(), current("default")
 {
-	framesOf["default"] = 1;
-	intervalOf["default"] = -1;
-	dimensionsOf["default"].width = dimensionsOf["default"].height = 0;
+	sprites["default"] = new Sprite(sheet, 0, 0);
 }
 
 void AnimationSet::add(string tag, int width, int height, double interval, int frames, bool setCurrent)
@@ -20,46 +18,33 @@ void AnimationSet::add(string tag, int width, int height, double interval, int f
 	if(height == -1) height = sheet->getHeight();
 	if(width == -1) width = sheet->getWidth();
 	int sum=0;
-	for( map<string, Dimensions>::iterator it = dimensionsOf.begin(); it != dimensionsOf.end(); ++it )
+	for( map<string, Sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it )
 	{
-		//pega a altura de cada animação e soma
-		sum += it->second.height;
-
+		//gets the height of each animation and sums up
+		sum += it->second->height;
 	}
-	positionOf[tag] = sum;
-	dimensionsOf[tag].width = width;
-	dimensionsOf[tag].height = height;
-	intervalOf[tag] = interval;
-	framesOf[tag] = frames;
+
+	sprites[tag] = new Sprite(sheet, width, height, interval, frames, 0, sum);
 	if(setCurrent) this->setCurrent(tag);
 }
 
 void AnimationSet::draw(float x, float y, float angle)
 {
-	if(intervalOf[current] == -1)
-	{
-		this->sheet->drawRotated(x, y, dimensionsOf[current].width/2, dimensionsOf[current].height/2, angle, 0, positionOf[current], dimensionsOf[current].width, dimensionsOf[current].height);
-	}
-	else
-	{
-		//COUT << al_get_time()-timeCounter << '\n'<< ((double)framesOf[current])*intervalOf[current] << ENDL;
-		if(timeCounter==-1)
-			timeCounter = fgeal::uptime();
-
-		while(fgeal::uptime()-timeCounter >= ((double)framesOf[current])*intervalOf[current])
-			timeCounter += ((double)framesOf[current])*intervalOf[current];
-
-		this->sheet->drawRotated(x, y, dimensionsOf[current].width/2, dimensionsOf[current].height/2, angle, (int)((fgeal::uptime()-timeCounter)/intervalOf[current])*dimensionsOf[current].width, positionOf[current], dimensionsOf[current].width, dimensionsOf[current].height);
-	}
+	sprites[current]->computeCurrentFrame();
+	sprites[current]->draw(x, y, angle);
 }
-
-void AnimationSet::draw()
-{ draw(sheet->getWidth()/2, sheet->getHeight()/2); }
-
 
 void AnimationSet::setCurrent(string tag)
 {
 	current = tag;
 }
 
+int AnimationSet::getCurrentWidth()
+{
+	return sprites[current]->width;
+}
 
+int AnimationSet::getCurrentHeight()
+{
+	return sprites[current]->height;
+}

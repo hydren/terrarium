@@ -31,6 +31,7 @@ namespace Physics
 	{
 		b2Body* body;
 		b2BodyDef* bodyDef;
+		float width, height;
 	};
 
 	struct World::Implementation
@@ -78,6 +79,9 @@ namespace Physics
 		polygon->SetAsBox((width)/2.0f, (height)/2.0f);
 		fdef->shape = polygon;
 		implementation->bodyDef->userData = fdef;
+
+		implementation->width = width;
+		implementation->height = height;
 	}
 
 	//Constructor used by Block class to create a edge chain. Used on map creation.
@@ -101,6 +105,8 @@ namespace Physics
 		if(ignoreCollisions) //makes this body unable to collide with any other body
 			fdef->filter.maskBits = 0x0000;
 		implementation->bodyDef->userData = fdef;
+
+		implementation->width = implementation->height = size;
 	}
 
 
@@ -129,17 +135,17 @@ namespace Physics
 
 	Vector Body::getPosition() const
 	{
-		return implementation->body==null? Vector(0,0) : toVector(implementation->body->GetPosition());
+		return implementation->body==null? Vector(0,0) :  Vector(implementation->body->GetPosition().x - implementation->width/2, implementation->body->GetPosition().y - implementation->height/2);
 	}
 
 	double Body::getWidth() const
 	{
-		return 0; //TODO FIXME
+		return implementation->width;
 	}
 
 	double Body::getHeight() const
 	{
-		return 0; //TODO FIXME
+		return implementation->height;
 	}
 
 	Vector Body::getVelocity() const

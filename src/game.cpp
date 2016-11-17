@@ -44,9 +44,11 @@ struct GameStuff
 	bool running, jumping, inGameMenuShowing;
 	bool isKeyUpPressed, isKeyDownPressed, isKeyRightPressed, isKeyLeftPressed;
 
+	float playerJumpImpulse, playerWalkForce;
+
 	GameStuff(const string& map_path)
 	{
-		visibleArea = createRectangle(0,0,640,480);
+		visibleArea = createRectangle(0, 0, fgeal::display->getWidth(), fgeal::display->getHeight());
 
 		//loading font
 		font = new fgeal::Font("resources/liberation.ttf", 14);
@@ -77,20 +79,27 @@ struct GameStuff
 		game_map = Map::loadMapFromFile(map_path, world, images);
 		game_map->visibleArea = &visibleArea;
 
+		// Pijamaman spec
+		unsigned player_sprite_width = 56, player_sprite_height = 84;
+		float player_body_width = Physics::convertToMeters(25), player_body_height = Physics::convertToMeters(81);
+
 		//loading player graphics
 		Image* player_img = new Image("resources/pijamaman-1.png");
 		AnimationSet* anim = new AnimationSet(player_img);
-		anim->add("still-left", 56, 84, 1, 1);
-		anim->add("still-right", 56, 84, 1, 1);
-		anim->add("walk-left", 56, 84, 0.1, 4);
-		anim->add("walk-right", 56, 84, 0.1, 4);
+		anim->add("still-left", player_sprite_width, player_sprite_height, 1, 1);
+		anim->add("still-right", player_sprite_width, player_sprite_height, 1, 1);
+		anim->add("walk-left", player_sprite_width, player_sprite_height, 0.1, 4);
+		anim->add("walk-right", player_sprite_width, player_sprite_height, 0.1, 4);
 		anim->setCurrent("still-right");
 
 		//loading player physics
-		Body* b = new Body(1,1,Physics::convertToMeters(16), Physics::convertToMeters(80));
+		Body* b = new Body(1, 1, player_body_width, player_body_height);
 		player = new Entity(anim, b, &visibleArea);
 		world->addBody(player->body);
 		player->body->setFixedRotation();
+
+		playerJumpImpulse = player_body_width*player_body_height * 0.5;
+		playerWalkForce =   player_body_width*player_body_height * 1.2;
 
 		//loading dirt tileset
 		tileset_dirt = new Image("resources/tileset-dirt.png");
@@ -148,7 +157,7 @@ struct GameStuff
 		if(not inGameMenuShowing and isKeyUpPressed and !jumping) {
 			Vector v = player->body->getVelocity();
 			if(v.y >= -2.0f) {
-				player->body->applyImpulse(Vector(0.0f, -0.05f), Vector(player->body->getX(), player->body->getY()));
+				player->body->applyImpulse(Vector(0.0f, -playerJumpImpulse), Vector(player->body->getX(), player->body->getY()));
 				jumping = true;
 			}
 		}
@@ -161,13 +170,13 @@ struct GameStuff
 			player->animation->setCurrent("walk-right");
 			Vector v = player->body->getVelocity();
 			if(v.x <= 2.0f)
-				player->body->applyForceToCenter(Vector(0.2f, 0.0f));
+				player->body->applyForceToCenter(Vector(playerWalkForce, 0.0f));
 		}
 		if(not inGameMenuShowing and isKeyLeftPressed) {
 			player->animation->setCurrent("walk-left");
 			Vector v = player->body->getVelocity();
 			if(v.x >= -2.0f)
-				player->body->applyForceToCenter(Vector(-0.2f, 0.0f));
+				player->body->applyForceToCenter(Vector(-playerWalkForce, 0.0f));
 		}
 
 		while(! eventQueue->isEmpty() )

@@ -7,6 +7,8 @@
 
 #include "block.hpp"
 
+using Physics::convertToPixels;
+
 Block::Block(Image* i, int x_grid, int y_grid, int typeID, bool ignoreCollision):
 Entity(null, new Body(Physics::convertToMeters(x_grid*BLOCK_SIZE), Physics::convertToMeters(y_grid*BLOCK_SIZE), Physics::convertToMeters(BLOCK_SIZE), ignoreCollision)),
 x_grid_pos(x_grid),
@@ -31,7 +33,6 @@ typeID(typeID)
 	animation->add("right_covered", BLOCK_SIZE, BLOCK_SIZE);
 	animation->add("left_covered", BLOCK_SIZE, BLOCK_SIZE);
 	animation->add("full_free", BLOCK_SIZE, BLOCK_SIZE);
-	//nao da pra compilar no lab2 com as libs do allegro compilado no lab3
 
 	animation->setCurrent("full_free");
 }
@@ -54,11 +55,15 @@ int Block::getY() {
 
 void Block::draw(const Rectangle* visibleAreaPosition)
 {
-	if(visibleAreaPosition == NULL){
-//	    animation->draw(x_grid_pos*BLOCK_SIZE, y_grid_pos*BLOCK_SIZE);
-		animation->draw(Physics::convertToPixels(body->getX()), Physics::convertToPixels(body->getY()));
+	float offx = 0, offy = 0;
+	if(visibleAreaPosition != NULL)
+	{
+		offx += -visibleAreaPosition->x;
+		offy += -visibleAreaPosition->y;
 	}
-	else
-//		animation->draw(x_grid_pos*BLOCK_SIZE - visibleAreaPosition->x, y_grid_pos*BLOCK_SIZE - visibleAreaPosition->y);
-		animation->draw(Physics::convertToPixels(body->getX()) - visibleAreaPosition->x, Physics::convertToPixels(body->getY()) - visibleAreaPosition->y);
+
+	offx += (convertToPixels(body->getWidth()) - animation->getCurrentWidth())/2;
+	offy +=  convertToPixels(body->getHeight()) - animation->getCurrentHeight();
+
+	animation->draw(convertToPixels(body->getX()) + offx, convertToPixels(body->getY()) + offy);
 }

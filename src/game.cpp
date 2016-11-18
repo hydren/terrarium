@@ -79,17 +79,28 @@ struct GameStuff
 		game_map = Map::loadMapFromFile(map_path, world, images);
 		game_map->visibleArea = &visibleArea;
 
-		// Pijamaman spec
+
+		//loading player graphics
+
+		// Pijamaman specs
 		unsigned player_sprite_width = 56, player_sprite_height = 84;
 		float player_body_width = Physics::convertToMeters(25), player_body_height = Physics::convertToMeters(81);
 
-		//loading player graphics
 		Image* player_img = new Image("resources/pijamaman-1.png");
 		AnimationSet* anim = new AnimationSet(player_img);
+
 		anim->add("still-left", player_sprite_width, player_sprite_height, 1, 1);
+		anim->ref("still-left").referencePixelY = -2;
+
 		anim->add("still-right", player_sprite_width, player_sprite_height, 1, 1);
-		anim->add("walk-left", player_sprite_width, player_sprite_height, 0.1, 4);
-		anim->add("walk-right", player_sprite_width, player_sprite_height, 0.1, 4);
+		anim->ref("still-right").referencePixelY = -2;
+
+		anim->add("walk-left", player_sprite_width, player_sprite_height, 0.25, 4);
+		anim->ref("walk-left").referencePixelY = -2;
+
+		anim->add("walk-right", player_sprite_width, player_sprite_height, 0.25, 4);
+		anim->ref("walk-right").referencePixelY = -2;
+
 		anim->setCurrent("still-right");
 
 		//loading player physics

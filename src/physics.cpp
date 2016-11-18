@@ -125,12 +125,12 @@ namespace Physics
 
 	double Body::getX() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().x);
+		return (implementation->body==null? 0 : implementation->body->GetPosition().x - implementation->width/2);
 	}
 
 	double Body::getY() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().y);
+		return (implementation->body==null? 0 : implementation->body->GetPosition().y - implementation->height/2);
 	}
 
 	Vector Body::getPosition() const

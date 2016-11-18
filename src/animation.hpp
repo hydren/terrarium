@@ -11,7 +11,7 @@
 #include "fgeal.hpp"
 using fgeal::Image;
 
-#include "sprite.hpp"
+#include "extra/sprite.hpp"
 using fgeal::Sprite;
 
 #include <map>

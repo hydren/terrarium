@@ -25,19 +25,22 @@ struct AnimationSet
 	private:
 	Image* sheet;
 	map<string, Sprite*> sprites;
-	string current;
+	string currentAnim;
 
 	public:
 	AnimationSet(Image* sheet);
 
 	void add(string tag, int width=-1, int height=-1, double interval=-1, int frames=1, bool setCurrent=true);
 
-	void draw(float x=0, float y=0, float angle=0);
+	Sprite& ref(string tag);
+
+	Sprite& operator[](string tag);
+
+	Sprite& current();
 
 	void setCurrent(string tag);
 
-	int getCurrentWidth();
-	int getCurrentHeight();
+	void draw(float x=0, float y=0, float angle=0);
 
 	//TODO add methods for editing the animation set.
 };

@@ -8,7 +8,7 @@
 #include "animation.hpp"
 
 AnimationSet::AnimationSet(Image* sheet) :
-sheet(sheet), sprites(), current("default")
+sheet(sheet), sprites(), currentAnim("default")
 {
 	sprites["default"] = new Sprite(sheet, 0, 0);
 }
@@ -28,23 +28,28 @@ void AnimationSet::add(string tag, int width, int height, double interval, int f
 	if(setCurrent) this->setCurrent(tag);
 }
 
-void AnimationSet::draw(float x, float y, float angle)
+Sprite& AnimationSet::ref(string tag)
 {
-	sprites[current]->computeCurrentFrame();
-	sprites[current]->draw(x, y, angle);
+	return *(sprites[tag]);
+}
+
+Sprite& AnimationSet::operator[](string tag)
+{
+	return *(sprites[tag]);
+}
+
+Sprite& AnimationSet::current()
+{
+	return *(sprites[currentAnim]);
 }
 
 void AnimationSet::setCurrent(string tag)
 {
-	current = tag;
+	currentAnim = tag;
 }
 
-int AnimationSet::getCurrentWidth()
+void AnimationSet::draw(float x, float y, float angle)
 {
-	return sprites[current]->width;
-}
-
-int AnimationSet::getCurrentHeight()
-{
-	return sprites[current]->height;
+	sprites[currentAnim]->computeCurrentFrame();
+	sprites[currentAnim]->draw(x, y, angle);
 }

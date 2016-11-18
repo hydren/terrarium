@@ -62,8 +62,8 @@ void Block::draw(const Rectangle* visibleAreaPosition)
 		offy += -visibleAreaPosition->y;
 	}
 
-	offx += (convertToPixels(body->getWidth()) - animation->getCurrentWidth())/2;
-	offy +=  convertToPixels(body->getHeight()) - animation->getCurrentHeight();
+	offx += (convertToPixels(body->getWidth()) - animation->current().width)/2;
+	offy +=  convertToPixels(body->getHeight()) - animation->current().height;
 
 	animation->draw(convertToPixels(body->getX()) + offx, convertToPixels(body->getY()) + offy);
 }

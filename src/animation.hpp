@@ -11,41 +11,36 @@
 #include "fgeal.hpp"
 using fgeal::Image;
 
+#include "extra/sprite.hpp"
+using fgeal::Sprite;
+
 #include <map>
 using std::map;
 
 #include <string>
 using std::string;
 
-struct Dimensions
-{
-	int width, height;
-};
-
 struct AnimationSet
 {
 	private:
 	Image* sheet;
-	string current;
-
-	//contains info about the animation, like the number of frames, interval per frame
-	map<string, int> positionOf;
-	map<string, int> framesOf;
-	map<string, double> intervalOf;
-	map<string, Dimensions> dimensionsOf;
-	double timeCounter;
-
+	map<string, Sprite*> sprites;
+	string currentAnim;
 
 	public:
 	AnimationSet(Image* sheet);
 
 	void add(string tag, int width=-1, int height=-1, double interval=-1, int frames=1, bool setCurrent=true);
 
-	void draw();
+	Sprite& ref(string tag);
 
-	void draw(float x, float y, float angle=0);
+	Sprite& operator[](string tag);
+
+	Sprite& current();
 
 	void setCurrent(string tag);
+
+	void draw(float x=0, float y=0, float angle=0);
 
 	//TODO add methods for editing the animation set.
 };

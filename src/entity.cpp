@@ -7,6 +7,8 @@
 
 #include "entity.hpp"
 
+using Physics::convertToPixels;
+
 Entity::Entity(AnimationSet* anim, Body *b, Rectangle* visibleArea) :
 animation(anim),
 body(b),
@@ -23,9 +25,15 @@ Entity::~Entity()
 
 void Entity::draw()
 {
-	if(visibleAreaPosition == NULL)
-		animation->draw(Physics::convertToPixels(body->getX()), Physics::convertToPixels(body->getY()));
+	float offx = 0, offy = 0;
+	if(visibleAreaPosition != NULL)
+	{
+		offx += -visibleAreaPosition->x;
+		offy += -visibleAreaPosition->y;
+	}
 
-	else
-		animation->draw(Physics::convertToPixels(body->getX()) - visibleAreaPosition->x, Physics::convertToPixels(body->getY()) - visibleAreaPosition->y, body->getAngle());
+	offx += (convertToPixels(body->getWidth()) - animation->current().width)/2;
+	offy +=  convertToPixels(body->getHeight()) - animation->current().height;
+
+	animation->draw(convertToPixels(body->getX()) + offx, convertToPixels(body->getY()) + offy);
 }

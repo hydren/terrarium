@@ -8,10 +8,10 @@
 #ifndef ANIMATION_HPP_
 #define ANIMATION_HPP_
 
-#include "fgeal.hpp"
+#include "fgeal/fgeal.hpp"
 using fgeal::Image;
 
-#include "extra/sprite.hpp"
+#include "fgeal/extra/sprite.hpp"
 using fgeal::Sprite;
 
 #include <map>

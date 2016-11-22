@@ -10,7 +10,6 @@
 #include <iostream>
 using std::cout; using std::endl;
 
-#include "fgeal.hpp"
 #include "futil/string/more_operators.hpp"
 
 #include "util.hpp"

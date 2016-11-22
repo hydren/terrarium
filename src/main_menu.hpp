@@ -8,7 +8,7 @@
 #ifndef MAIN_MENU_HPP_
 #define MAIN_MENU_HPP_
 
-#include "fgeal.hpp"
+#include "fgeal/fgeal.hpp"
 
 using fgeal::Image;
 

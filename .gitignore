@@ -1,10 +1,13 @@
 # Eclipse build configuration folders
 /Debug/
 /Release/
-/linux-gcc-debug/
-/linux-gcc-release/
-/win32-mingw-debug/
-/win32-mingw-release/
+
+/linux-gcc-libfgeal-debug/
+/linux-gcc-libfgeal-release/
+/win32-mingw-libfgeal-debug/
+/win32-mingw-libfgeal-release/
+
+/linux-gcc-allegro5.0-debug/
 
 # Eclipse local files
 language.settings.xml

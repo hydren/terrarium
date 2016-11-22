@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <stdexcept>
 
-#include "fgeal.hpp"
+#include "fgeal/fgeal.hpp"
 #include "file_parser.hpp"
 #include "main_menu.hpp"
 

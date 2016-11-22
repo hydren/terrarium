@@ -8,7 +8,7 @@
 #ifndef UTIL_HPP_
 #define UTIL_HPP_
 
-#include "fgeal.hpp"
+#include "fgeal/fgeal.hpp"
 using fgeal::Rectangle;
 
 fgeal::Rectangle createRectangle(float x, float y, float w, float h);

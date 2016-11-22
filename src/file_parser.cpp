@@ -10,11 +10,10 @@
 #include <iostream>
 using std::cout; using std::endl;
 
-#include "fgeal.hpp"
-
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 
+#include "futil/general/language.hpp"
 #include "futil/string/more_operators.hpp"
 #include "futil/string/actions.hpp"
 #include "futil/math/parse_number.hpp"

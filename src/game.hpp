@@ -8,7 +8,7 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
-#include "fgeal.hpp"
+#include "fgeal/fgeal.hpp"
 
 #include <string>
 

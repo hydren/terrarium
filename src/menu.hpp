@@ -14,7 +14,7 @@ using std::vector;
 #include <string>
 using std::string;
 
-#include "fgeal.hpp"
+#include "fgeal/fgeal.hpp"
 using fgeal::Rectangle;
 
 class Menu

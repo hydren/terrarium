@@ -3,7 +3,6 @@
 	<name>terrarium</name>
 	<comment></comment>
 	<projects>
-		<project>fgeal</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -4,3 +4,6 @@
 [submodule "src_libs/fgeal"]
 	path = src_libs/fgeal
 	url = https://github.com/hydren/fgeal
+[submodule "src_libs/rapidxml"]
+	path = src_libs/rapidxml
+	url = https://github.com/hydren/rapidxml

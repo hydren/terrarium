@@ -8,6 +8,8 @@
 /win32-mingw-libfgeal-release/
 
 /linux-gcc-allegro5.0-debug/
+/linux-gcc-sdl1.2-debug/
+/linux-gcc-sdl2.0-debug/
 
 # Eclipse local files
 language.settings.xml

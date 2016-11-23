@@ -70,7 +70,7 @@ namespace Physics
 	 */
 	Body::Body(double x, double y, double width, double height, bool isDynamic)
 	{
-		implementation = new Implementation;
+		implementation = new Implementation();
 
 		b2BodyDef* def = new b2BodyDef;
 		def->position.Set(x+(width/2.0f), y+(height/2.0f));
@@ -92,7 +92,7 @@ namespace Physics
 	//Constructor used by Block class to create a edge chain. Used on map creation.
 	Body::Body(double x, double y, double size, bool ignoreCollisions)
 	{
-		implementation = new Implementation;
+		implementation = new Implementation();
 
 		b2BodyDef* def = new b2BodyDef;
 		def->position.Set(x+(size/2.0f), y+(size/2.0f));
@@ -116,11 +116,8 @@ namespace Physics
 		implementation->width = implementation->height = size;
 	}
 
-
 	Body::~Body()
 	{
-		// XXX Experimental
-//		delete implementation->body;
 		delete implementation;
 	}
 

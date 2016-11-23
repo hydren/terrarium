@@ -15,23 +15,13 @@
 
 using std::vector;
 
-// TODO remove this includes
+// TODO remove this includes after debugging this class
 #include <iostream> // debug
 using std::cout; using std::endl; // debug
 
 namespace Physics
 {
 	//Implementation using Box2D library
-
-	float convertToMeters(float pixels)
-	{
-		return 0.01f * pixels;
-	}
-
-	float convertToPixels(float meters)
-	{
-		return 100.0f * meters;
-	}
 
 	struct Body::Implementation
 	{
@@ -44,6 +34,9 @@ namespace Physics
 	{
 		b2World* b2world;
 	};
+
+	float convertToMeters(float pixels) { return 0.01f * pixels; }
+	float convertToPixels(float meters) { return 100.0f * meters;}
 
 	vector<b2BodyDef*> cachedBodyDefs; // this should be static (non-visible outside this source unit) but oddly doing so slightly increases memory usage.
 
@@ -62,6 +55,7 @@ namespace Physics
 		return null;
 	}
 
+	/// Returns true if the given b2BodyDef is cached (block-type body defs cache).
 	bool isBodyDefCached(b2BodyDef* def)
 	{
 		for(unsigned i = 0; i < cachedBodyDefs.size(); i++)
@@ -70,7 +64,6 @@ namespace Physics
 
 		return false;
 	}
-
 
 	/////////////////////////////////////////
 

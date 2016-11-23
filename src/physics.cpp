@@ -10,7 +10,10 @@
 #include "futil/general/language.hpp"
 
 #include <Box2D/Box2D.h>
+#include <vector>
 #include <stdexcept>
+
+using std::vector;
 
 // TODO remove this includes
 #include <iostream> // debug
@@ -34,7 +37,6 @@ namespace Physics
 	{
 		b2Body* body;
 		b2BodyDef* bodyDef;
-		float width, height;
 		float* tmpPos;
 	};
 
@@ -43,7 +45,32 @@ namespace Physics
 		b2World* b2world;
 	};
 
-	static b2BodyDef* standardBlockBodyDef = null;
+	vector<b2BodyDef*> cachedBodyDefs; // this should be static (non-visible outside this source unit) but oddly doing so slightly increases memory usage.
+
+	/// Returns a cached b2BodyDef for Block-type bodies.
+	b2BodyDef* getCachedBlockDef(float size, bool isPassable)
+	{
+		// try a cached def
+		for(unsigned i = 0; i < cachedBodyDefs.size(); i++)
+		{
+			b2FixtureDef& fixture = *static_cast<b2FixtureDef*>(cachedBodyDefs[i]->userData);
+			float* dimensions = static_cast<float*>(fixture.userData);
+			if(dimensions[0] == size and dimensions[1] == size and (fixture.filter.maskBits == 0x0000)==isPassable)
+				return cachedBodyDefs[i];
+		}
+
+		return null;
+	}
+
+	bool isBodyDefCached(b2BodyDef* def)
+	{
+		for(unsigned i = 0; i < cachedBodyDefs.size(); i++)
+			if(def == cachedBodyDefs[i])
+				return true;
+
+		return false;
+	}
+
 
 	/////////////////////////////////////////
 
@@ -86,10 +113,11 @@ namespace Physics
 		fdef->shape = polygon;
 		fdef->density = 0.1f;
 		fdef->friction = 0.5f;
+		float* dimensions = new float[2];
+		dimensions[0] = width;
+		dimensions[1] = height;
+		fdef->userData = dimensions;
 		implementation->bodyDef->userData = fdef;
-
-		implementation->width = width;
-		implementation->height = height;
 
 		implementation->tmpPos = null;
 	}
@@ -99,32 +127,42 @@ namespace Physics
 	{
 		implementation = new Implementation();
 
-		if(standardBlockBodyDef == null)
+		// try a cached def
+		implementation->bodyDef = getCachedBlockDef(size, ignoreCollisions);
+
+		// if there is no cached def with the desired spec, create a def (and cache it)
+		if(implementation->bodyDef == null)
 		{
 			b2BodyDef* def = new b2BodyDef;
 
+			b2FixtureDef* fdef = new b2FixtureDef;
+			def->userData = fdef;
+
+			fdef->density = 0.1f;
+			fdef->friction = 0.5f;
+
 			b2Vec2 vs[4];
-			vs[0].Set(-size/2.0f, -size/2.0f);
-			vs[1].Set(size/2.0f, -size/2.0f);
-			vs[2].Set(size/2.0f, size/2.0f);
+			vs[0].Set(-size/2.0f,-size/2.0f);
+			vs[1].Set( size/2.0f,-size/2.0f);
+			vs[2].Set( size/2.0f, size/2.0f);
 			vs[3].Set(-size/2.0f, size/2.0f);
 			b2ChainShape* chain = new b2ChainShape;
 			chain->CreateLoop(vs, 4);
-			b2FixtureDef* fdef = new b2FixtureDef;
 			fdef->shape = chain;
-			fdef->density = 0.1f;
-			fdef->friction = 0.5f;
+
+			float* dimensions = new float[2];
+			dimensions[0] = dimensions[1] = size;
+			fdef->userData = dimensions;
+
 			if(ignoreCollisions) //makes this body unable to collide with any other body
 				fdef->filter.maskBits = 0x0000;
 
-			def->userData = fdef;
-			standardBlockBodyDef = def;
+			implementation->bodyDef = def;
+
+			cachedBodyDefs.push_back(def); // put this def on cache as well.
 		}
 
-		implementation->bodyDef = standardBlockBodyDef;
-
-		implementation->width = implementation->height = size;
-
+		// since bodyDef is shared, store position temporarily to use it afterwards on World::addBody()
 		float* position = new float[2];
 		position[0] = x+(size/2.0f);
 		position[1] = y+(size/2.0f);
@@ -144,27 +182,27 @@ namespace Physics
 
 	double Body::getX() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().x - implementation->width/2);
+		return (implementation->body==null? 0 : implementation->body->GetPosition().x - this->getWidth()/2);
 	}
 
 	double Body::getY() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().y - implementation->height/2);
+		return (implementation->body==null? 0 : implementation->body->GetPosition().y - this->getHeight()/2);
 	}
 
 	Vector Body::getPosition() const
 	{
-		return implementation->body==null? Vector(0,0) :  Vector(implementation->body->GetPosition().x - implementation->width/2, implementation->body->GetPosition().y - implementation->height/2);
+		return implementation->body==null? Vector(0,0) :  Vector(implementation->body->GetPosition().x - this->getWidth()/2, implementation->body->GetPosition().y - this->getHeight()/2);
 	}
 
 	double Body::getWidth() const
 	{
-		return implementation->width;
+		return static_cast<float*>(static_cast<b2FixtureDef*>(implementation->bodyDef->userData)->userData)[0];
 	}
 
 	double Body::getHeight() const
 	{
-		return implementation->height;
+		return static_cast<float*>(static_cast<b2FixtureDef*>(implementation->bodyDef->userData)->userData)[1];
 	}
 
 	Vector Body::getVelocity() const
@@ -215,11 +253,10 @@ namespace Physics
 
 	World::~World()
 	{
-		//XXX Experimental
 		cout << "world destructor..." << endl;
 		for ( b2Body* b = implementation->b2world->GetBodyList(); b; b = b->GetNext())
 		{
-			cout << "destroying b2Body at " << ((long)b) << endl;
+			cout << "destroying b2Body at " << ((void *) b) << endl;
 			implementation->b2world->DestroyBody(b);
 		}
 		delete implementation->b2world;
@@ -241,21 +278,20 @@ namespace Physics
 
  		b->implementation->body = this->implementation->b2world->CreateBody(b->implementation->bodyDef);
  		b->implementation->body->CreateFixture(static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData));
-
- 		if(b->implementation->bodyDef != standardBlockBodyDef)
- 		{
- 			delete static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData);
- 			b->implementation->bodyDef->userData = null;
-
- 			delete b->implementation->bodyDef;
- 			b->implementation->bodyDef = null;
- 		}
  	}
 
  	void World::destroyBody(Body* b)
  	{
- 		if(b->implementation->bodyDef != standardBlockBodyDef)
+ 		if(not isBodyDefCached(b->implementation->bodyDef))
+ 		{
+ 			delete[] static_cast<float*>(static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData)->userData);
+ 			static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData)->userData = null;
+
+ 			delete static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData);
+			b->implementation->bodyDef->userData = null;
+
 			delete b->implementation->bodyDef;
+ 		}
  		implementation->b2world->DestroyBody(b->implementation->body);
  	}
 

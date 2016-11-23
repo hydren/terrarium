@@ -7,12 +7,14 @@
 
 #include "physics.hpp"
 
-#include <iostream>
-using std::cout; using std::endl;
+#include "futil/general/language.hpp"
 
 #include <Box2D/Box2D.h>
 
-#include "futil/general/language.hpp"
+#include <iostream>
+using std::cout; using std::endl;
+
+#include <stdexcept>
 
 namespace Physics
 {
@@ -28,11 +30,13 @@ namespace Physics
 		return 100.0f * meters;
 	}
 
+	static b2BodyDef* defaultBlockBodyDef = null;
+
 	struct Body::Implementation
 	{
 		b2Body* body;
 		b2BodyDef* bodyDef;
-		float width, height;
+		float* tmp_pos;
 	};
 
 	struct World::Implementation
@@ -62,7 +66,7 @@ namespace Physics
 		return b2Vec2(v.x, v.y);
 	}
 
-	/**
+	/*
 	 * Everything must be passed in meters.
 	 * Constructor used for creating non Block bodies.
 	 */
@@ -81,8 +85,7 @@ namespace Physics
 		fdef->shape = polygon;
 		implementation->bodyDef->userData = fdef;
 
-		implementation->width = width;
-		implementation->height = height;
+		implementation->tmp_pos = null;
 	}
 
 	//Constructor used by Block class to create a edge chain. Used on map creation.
@@ -90,26 +93,35 @@ namespace Physics
 	{
 		implementation = new Implementation;
 
-		b2BodyDef* def = new b2BodyDef;
-		def->position.Set(x+(size/2.0f), y+(size/2.0f));
-		implementation->bodyDef = def;
+		// initialize cached body def for blocks
+		if(defaultBlockBodyDef == null)
+		{
+			b2BodyDef* def = new b2BodyDef;
 
-		b2Vec2 vs[4];
-		vs[0].Set(-size/2.0f, -size/2.0f);
-		vs[1].Set(size/2.0f, -size/2.0f);
-		vs[2].Set(size/2.0f, size/2.0f);
-		vs[3].Set(-size/2.0f, size/2.0f);
-		b2ChainShape* chain = new b2ChainShape;
-		chain->CreateLoop(vs, 4);
-		b2FixtureDef* fdef = new b2FixtureDef;
-		fdef->shape = chain;
-		if(ignoreCollisions) //makes this body unable to collide with any other body
-			fdef->filter.maskBits = 0x0000;
-		implementation->bodyDef->userData = fdef;
+			b2Vec2 vs[4];
+			vs[0].Set(-size/2.0f, -size/2.0f);
+			vs[1].Set(size/2.0f, -size/2.0f);
+			vs[2].Set(size/2.0f, size/2.0f);
+			vs[3].Set(-size/2.0f, size/2.0f);
+			b2ChainShape* chain = new b2ChainShape;
+			chain->CreateLoop(vs, 4);
+			b2FixtureDef* fdef = new b2FixtureDef;
+			fdef->shape = chain;
+			if(ignoreCollisions) //makes this body unable to collide with any other body
+				fdef->filter.maskBits = 0x0000;
+			fdef->density = 0.1f;
+			fdef->friction = 0.5f;
+			def->userData = fdef;
 
-		implementation->width = implementation->height = size;
+			defaultBlockBodyDef = def;
+		}
+		float* dimensions = new float[3];
+		dimensions[0] = x+(size/2.0f);
+		dimensions[1] = y+(size/2.0f);
+		implementation->tmp_pos = dimensions;
+
+		implementation->bodyDef = defaultBlockBodyDef;
 	}
-
 
 	Body::~Body()
 	{
@@ -126,27 +138,52 @@ namespace Physics
 
 	double Body::getX() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().x - implementation->width/2);
+		return (implementation->body==null? 0 : implementation->body->GetPosition().x - getWidth()/2);
 	}
 
 	double Body::getY() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().y - implementation->height/2);
+		return (implementation->body==null? 0 : implementation->body->GetPosition().y - getHeight()/2);
 	}
 
 	Vector Body::getPosition() const
 	{
-		return implementation->body==null? Vector(0,0) :  Vector(implementation->body->GetPosition().x - implementation->width/2, implementation->body->GetPosition().y - implementation->height/2);
+		return implementation->body==null? Vector(0,0) :  Vector(implementation->body->GetPosition().x - getWidth()/2, implementation->body->GetPosition().y - getHeight()/2);
 	}
 
 	double Body::getWidth() const
 	{
-		return implementation->width;
+		b2FixtureDef& fdef = *static_cast<b2FixtureDef*>(this->implementation->bodyDef->userData);
+
+		if(fdef.shape->m_type == b2Shape::e_chain)
+		{
+			const b2ChainShape& shape = *static_cast<const b2ChainShape*>(fdef.shape);
+			return shape.m_vertices[1].x - shape.m_vertices[0].x;
+		}
+		else if(fdef.shape->m_type == b2Shape::e_polygon)
+		{
+			const b2PolygonShape& shape = *static_cast<const b2PolygonShape*>(fdef.shape);
+			return shape.m_vertices[1].x - shape.m_vertices[0].x;
+			//return shape.m_vertices[2].y - shape.m_vertices[1].y;
+		}
+		else throw std::runtime_error("invalid body shape");
 	}
 
 	double Body::getHeight() const
 	{
-		return implementation->height;
+		b2FixtureDef& fdef = *static_cast<b2FixtureDef*>(this->implementation->bodyDef->userData);
+
+		if(fdef.shape->m_type == b2Shape::e_chain)
+		{
+			const b2ChainShape& shape = *static_cast<const b2ChainShape*>(fdef.shape);
+			return shape.m_vertices[2].y - shape.m_vertices[1].y;
+		}
+		else if(fdef.shape->m_type == b2Shape::e_polygon)
+		{
+			const b2PolygonShape& shape = *static_cast<const b2PolygonShape*>(fdef.shape);
+			return shape.m_vertices[2].y - shape.m_vertices[1].y;
+		}
+		else throw std::runtime_error("invalid body shape");
 	}
 
 	Vector Body::getVelocity() const
@@ -210,17 +247,22 @@ namespace Physics
 
  	void World::addBody(Body* b)
  	{
- 		((b2FixtureDef*) b->implementation->bodyDef->userData)->density = 0.1f; //TODO remove this statement, it is in the wrong place
- 		((b2FixtureDef*) b->implementation->bodyDef->userData)->friction = 0.5f; //TODO remove this statement, it is in the wrong place
-
+ 		if(b->implementation->bodyDef == defaultBlockBodyDef)
+ 		{
+ 			float* pos = b->implementation->tmp_pos;
+ 			b->implementation->bodyDef->position.Set(pos[0], pos[1]);
+ 			delete[] b->implementation->tmp_pos;
+ 			b->implementation->tmp_pos = null;
+ 		}
  		b->implementation->body = this->implementation->b2world->CreateBody(b->implementation->bodyDef);
- 		b->implementation->body->CreateFixture((b2FixtureDef*) b->implementation->bodyDef->userData);
- 		delete ((b2FixtureDef*) b->implementation->bodyDef->userData); b->implementation->bodyDef->userData = null;
- 		delete b->implementation->bodyDef; b->implementation->bodyDef = null;
+ 		b->implementation->body->CreateFixture(static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData));
  	}
 
  	void World::destroyBody(Body* b)
  	{
+ 		if(b->implementation->bodyDef != defaultBlockBodyDef)
+ 			delete b->implementation->bodyDef;
+
  		implementation->b2world->DestroyBody(b->implementation->body);
  	}
 

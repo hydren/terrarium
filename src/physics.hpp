@@ -37,8 +37,12 @@ namespace Physics
 
 		public:
 
+		/// Constructor used by Block class to create a edge chain. Used on map creation.
 		Body(double x, double y, double size, bool ignoreCollisions=false);
+
+		/// Constructor used for creating non-Block bodies. Everything must be passed in meters.
 		Body(double x, double y, double width, double height, bool isDynamic=true);
+
 		~Body(); //TODO
 
 		bool isDetached();

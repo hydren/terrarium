@@ -12,10 +12,9 @@
 
 #include "entity.hpp"
 
-class Block extends public Entity {
-private:
-
-public:
+class Block extends public Entity
+{
+	public:
 	int x_grid_pos, y_grid_pos;
 
 	int typeID;

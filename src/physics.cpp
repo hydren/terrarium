@@ -35,12 +35,15 @@ namespace Physics
 		b2Body* body;
 		b2BodyDef* bodyDef;
 		float width, height;
+		float* tmpPos;
 	};
 
 	struct World::Implementation
 	{
 		b2World* b2world;
 	};
+
+	static b2BodyDef* standardBlockBodyDef = null;
 
 	/////////////////////////////////////////
 
@@ -87,6 +90,8 @@ namespace Physics
 
 		implementation->width = width;
 		implementation->height = height;
+
+		implementation->tmpPos = null;
 	}
 
 	//Constructor used by Block class to create a edge chain. Used on map creation.
@@ -94,26 +99,36 @@ namespace Physics
 	{
 		implementation = new Implementation();
 
-		b2BodyDef* def = new b2BodyDef;
-		def->position.Set(x+(size/2.0f), y+(size/2.0f));
-		implementation->bodyDef = def;
+		if(standardBlockBodyDef == null)
+		{
+			b2BodyDef* def = new b2BodyDef;
 
-		b2Vec2 vs[4];
-		vs[0].Set(-size/2.0f, -size/2.0f);
-		vs[1].Set(size/2.0f, -size/2.0f);
-		vs[2].Set(size/2.0f, size/2.0f);
-		vs[3].Set(-size/2.0f, size/2.0f);
-		b2ChainShape* chain = new b2ChainShape;
-		chain->CreateLoop(vs, 4);
-		b2FixtureDef* fdef = new b2FixtureDef;
-		fdef->shape = chain;
-		fdef->density = 0.1f;
-		fdef->friction = 0.5f;
-		if(ignoreCollisions) //makes this body unable to collide with any other body
-			fdef->filter.maskBits = 0x0000;
-		implementation->bodyDef->userData = fdef;
+			b2Vec2 vs[4];
+			vs[0].Set(-size/2.0f, -size/2.0f);
+			vs[1].Set(size/2.0f, -size/2.0f);
+			vs[2].Set(size/2.0f, size/2.0f);
+			vs[3].Set(-size/2.0f, size/2.0f);
+			b2ChainShape* chain = new b2ChainShape;
+			chain->CreateLoop(vs, 4);
+			b2FixtureDef* fdef = new b2FixtureDef;
+			fdef->shape = chain;
+			fdef->density = 0.1f;
+			fdef->friction = 0.5f;
+			if(ignoreCollisions) //makes this body unable to collide with any other body
+				fdef->filter.maskBits = 0x0000;
+
+			def->userData = fdef;
+			standardBlockBodyDef = def;
+		}
+
+		implementation->bodyDef = standardBlockBodyDef;
 
 		implementation->width = implementation->height = size;
+
+		float* position = new float[2];
+		position[0] = x+(size/2.0f);
+		position[1] = y+(size/2.0f);
+		implementation->tmpPos = position;
 	}
 
 	Body::~Body()
@@ -216,14 +231,31 @@ namespace Physics
  		if(b->implementation->body != null)
  			throw std::runtime_error("error: trying to add a body to a world for a second time!");
 
+ 		if(b->implementation->tmpPos != null)
+		{
+			float* pos = b->implementation->tmpPos;
+			b->implementation->bodyDef->position.Set(pos[0], pos[1]);
+			delete[] b->implementation->tmpPos;
+			b->implementation->tmpPos = null;
+		}
+
  		b->implementation->body = this->implementation->b2world->CreateBody(b->implementation->bodyDef);
- 		b->implementation->body->CreateFixture((b2FixtureDef*) b->implementation->bodyDef->userData);
- 		delete ((b2FixtureDef*) b->implementation->bodyDef->userData); b->implementation->bodyDef->userData = null;
- 		delete b->implementation->bodyDef; b->implementation->bodyDef = null;
+ 		b->implementation->body->CreateFixture(static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData));
+
+ 		if(b->implementation->bodyDef != standardBlockBodyDef)
+ 		{
+ 			delete static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData);
+ 			b->implementation->bodyDef->userData = null;
+
+ 			delete b->implementation->bodyDef;
+ 			b->implementation->bodyDef = null;
+ 		}
  	}
 
  	void World::destroyBody(Body* b)
  	{
+ 		if(b->implementation->bodyDef != standardBlockBodyDef)
+			delete b->implementation->bodyDef;
  		implementation->b2world->DestroyBody(b->implementation->body);
  	}
 

@@ -15,10 +15,6 @@
 
 using std::vector;
 
-// TODO remove this includes after debugging this class
-#include <iostream> // debug
-using std::cout; using std::endl; // debug
-
 namespace Physics
 {
 	//Implementation using Box2D library
@@ -261,12 +257,18 @@ namespace Physics
 
 	World::~World()
 	{
-		cout << "world destructor..." << endl;
-		for ( b2Body* b = implementation->b2world->GetBodyList(); b; b = b->GetNext())
+		/* FIXME this destructor does not call Body::~Body, it only destroys b2Body objects directly
+		 * This causes some b2BodyDef* and b2FixtureDef* instances to leak.
+		 * To solve this, we need to be able to reference the Body instance from the b2Body* within it. */
+
+		b2Body* body = this->implementation->b2world->GetBodyList();
+
+		while(body != null)
 		{
-			cout << "destroying b2Body at " << ((void *) b) << endl;
-			implementation->b2world->DestroyBody(b);
+			implementation->b2world->DestroyBody(body);
+			body = body->GetNext();
 		}
+
 		delete implementation->b2world;
 		delete implementation;
 	}

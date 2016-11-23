@@ -38,6 +38,28 @@ namespace Physics
 	float convertToMeters(float pixels) { return 0.01f * pixels; }
 	float convertToPixels(float meters) { return 100.0f * meters;}
 
+	/// Get the fixture's dimension. If which is false, the width is returned. Otherwise it returns the height.
+	float getDimension(b2FixtureDef* fdef, bool which=false)
+	{
+		if(fdef->shape->m_type == b2Shape::e_chain)
+		{
+			const b2ChainShape& shape = *static_cast<const b2ChainShape*>(fdef->shape);
+			if(which == false)
+				return shape.m_vertices[1].x - shape.m_vertices[0].x; // width
+			else
+				return shape.m_vertices[2].y - shape.m_vertices[1].y; // height
+		}
+		else if(fdef->shape->m_type == b2Shape::e_polygon)
+		{
+			const b2PolygonShape& shape = *static_cast<const b2PolygonShape*>(fdef->shape);
+			if(which == false)
+				return shape.m_vertices[1].x - shape.m_vertices[0].x; // width
+			else
+				return shape.m_vertices[2].y - shape.m_vertices[1].y; // height
+		}
+		else throw std::runtime_error("invalid body shape");
+	}
+
 	vector<b2BodyDef*> cachedBodyDefs; // this should be static (non-visible outside this source unit) but oddly doing so slightly increases memory usage.
 
 	/// Returns a cached b2BodyDef for Block-type bodies.
@@ -47,8 +69,9 @@ namespace Physics
 		for(unsigned i = 0; i < cachedBodyDefs.size(); i++)
 		{
 			b2FixtureDef& fixture = *static_cast<b2FixtureDef*>(cachedBodyDefs[i]->userData);
-			float* dimensions = static_cast<float*>(fixture.userData);
-			if(dimensions[0] == size and dimensions[1] == size and (fixture.filter.maskBits == 0x0000)==isPassable)
+			float fixtureWidth = getDimension(&fixture, false), fixtureHeight = getDimension(&fixture, true);
+
+			if(fixtureWidth == size and fixtureHeight == size and (fixture.filter.maskBits == 0x0000)==isPassable)
 				return cachedBodyDefs[i];
 		}
 
@@ -106,10 +129,6 @@ namespace Physics
 		fdef->shape = polygon;
 		fdef->density = 0.1f;
 		fdef->friction = 0.5f;
-		float* dimensions = new float[2];
-		dimensions[0] = width;
-		dimensions[1] = height;
-		fdef->userData = dimensions;
 		implementation->bodyDef->userData = fdef;
 
 		implementation->tmpPos = null;
@@ -142,10 +161,6 @@ namespace Physics
 			b2ChainShape* chain = new b2ChainShape;
 			chain->CreateLoop(vs, 4);
 			fdef->shape = chain;
-
-			float* dimensions = new float[2];
-			dimensions[0] = dimensions[1] = size;
-			fdef->userData = dimensions;
 
 			if(ignoreCollisions) //makes this body unable to collide with any other body
 				fdef->filter.maskBits = 0x0000;
@@ -190,12 +205,12 @@ namespace Physics
 
 	double Body::getWidth() const
 	{
-		return static_cast<float*>(static_cast<b2FixtureDef*>(implementation->bodyDef->userData)->userData)[0];
+		return getDimension(static_cast<b2FixtureDef*>(implementation->bodyDef->userData), false);
 	}
 
 	double Body::getHeight() const
 	{
-		return static_cast<float*>(static_cast<b2FixtureDef*>(implementation->bodyDef->userData)->userData)[1];
+		return getDimension(static_cast<b2FixtureDef*>(implementation->bodyDef->userData), true);
 	}
 
 	Vector Body::getVelocity() const
@@ -277,9 +292,6 @@ namespace Physics
  	{
  		if(not isBodyDefCached(b->implementation->bodyDef))
  		{
- 			delete[] static_cast<float*>(static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData)->userData);
- 			static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData)->userData = null;
-
  			delete static_cast<b2FixtureDef*>(b->implementation->bodyDef->userData);
 			b->implementation->bodyDef->userData = null;
 

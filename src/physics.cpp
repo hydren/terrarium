@@ -79,6 +79,8 @@ namespace Physics
 		b2PolygonShape* polygon = new b2PolygonShape;
 		polygon->SetAsBox((width)/2.0f, (height)/2.0f);
 		fdef->shape = polygon;
+		fdef->density = 0.1f;
+		fdef->friction = 0.5f;
 		implementation->bodyDef->userData = fdef;
 
 		implementation->width = width;
@@ -103,6 +105,8 @@ namespace Physics
 		chain->CreateLoop(vs, 4);
 		b2FixtureDef* fdef = new b2FixtureDef;
 		fdef->shape = chain;
+		fdef->density = 0.1f;
+		fdef->friction = 0.5f;
 		if(ignoreCollisions) //makes this body unable to collide with any other body
 			fdef->filter.maskBits = 0x0000;
 		implementation->bodyDef->userData = fdef;
@@ -210,9 +214,6 @@ namespace Physics
 
  	void World::addBody(Body* b)
  	{
- 		((b2FixtureDef*) b->implementation->bodyDef->userData)->density = 0.1f; //TODO remove this statement, it is in the wrong place
- 		((b2FixtureDef*) b->implementation->bodyDef->userData)->friction = 0.5f; //TODO remove this statement, it is in the wrong place
-
  		b->implementation->body = this->implementation->b2world->CreateBody(b->implementation->bodyDef);
  		b->implementation->body->CreateFixture((b2FixtureDef*) b->implementation->bodyDef->userData);
  		delete ((b2FixtureDef*) b->implementation->bodyDef->userData); b->implementation->bodyDef->userData = null;

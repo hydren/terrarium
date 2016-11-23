@@ -7,12 +7,14 @@
 
 #include "physics.hpp"
 
-#include <iostream>
-using std::cout; using std::endl;
+#include "futil/general/language.hpp"
 
 #include <Box2D/Box2D.h>
+#include <stdexcept>
 
-#include "futil/general/language.hpp"
+// TODO remove this includes
+#include <iostream> // debug
+using std::cout; using std::endl; // debug
 
 namespace Physics
 {
@@ -214,6 +216,9 @@ namespace Physics
 
  	void World::addBody(Body* b)
  	{
+ 		if(b->implementation->body != null)
+ 			throw std::runtime_error("error: trying to add a body to a world for a second time!");
+
  		b->implementation->body = this->implementation->b2world->CreateBody(b->implementation->bodyDef);
  		b->implementation->body->CreateFixture((b2FixtureDef*) b->implementation->bodyDef->userData);
  		delete ((b2FixtureDef*) b->implementation->bodyDef->userData); b->implementation->bodyDef->userData = null;

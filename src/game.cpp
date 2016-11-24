@@ -20,6 +20,7 @@ using std::cout; using std::endl;
 
 using Physics::World;
 using Physics::Vector;
+using Physics::convertToPixels;
 
 using fgeal::EventQueue;
 using fgeal::Font;
@@ -144,16 +145,24 @@ struct GameStuff
 		{
 			//visible area quick n' dirt fix
 			{
-				visibleArea.x = Physics::convertToPixels(player->body->getX()) - visibleArea.w/2.0;
-				visibleArea.y = Physics::convertToPixels(player->body->getY()) - visibleArea.h/2.0;
-				if(visibleArea.x + visibleArea.w > game_map->computeDimensions().w)
-					visibleArea.x = game_map->computeDimensions().w - visibleArea.w;
-				if(visibleArea.x < 0)
-					visibleArea.x = 0;
-				if(visibleArea.y + visibleArea.h > game_map->computeDimensions().h)
-					visibleArea.y = game_map->computeDimensions().h - visibleArea.h;
-				if(visibleArea.y < 0)
-					visibleArea.y = 0;
+				visibleArea.x = convertToPixels(player->body->getX()) - visibleArea.w/2.0;
+				visibleArea.y = convertToPixels(player->body->getY()) - visibleArea.h/2.0;
+
+				Rectangle mapSize = game_map->computeDimensions();
+
+				// adjusts visibleArea if it falls outside map bounds (and only if the player is not outside bounds itself as well)
+				if(player->body->getX() + player->body->getWidth() > 0 and player->body->getY() + player->body->getHeight() > 0
+				and convertToPixels(player->body->getX()) < mapSize.w and convertToPixels(player->body->getY()) < mapSize.h)
+				{
+					if(visibleArea.x < 0) visibleArea.x = 0;
+					if(visibleArea.y < 0) visibleArea.y = 0;
+
+					if(visibleArea.x + visibleArea.w > mapSize.w)
+						visibleArea.x = mapSize.w - visibleArea.w;
+
+					if(visibleArea.y + visibleArea.h > mapSize.h)
+						visibleArea.y = mapSize.h - visibleArea.h;
+				}
 			}
 
 			handleInput();

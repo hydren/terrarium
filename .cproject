@@ -1217,6 +1217,9 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.release.1559054341;cdt.managedbuild.config.gnu.cross.exe.release.1559054341.;cdt.managedbuild.tool.gnu.cross.c.compiler.213789667;cdt.managedbuild.tool.gnu.c.compiler.input.1183889914">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.1762329327.1248564761;cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.1762329327.1248564761.;cdt.managedbuild.tool.gnu.cpp.compiler.base.199990992;cdt.managedbuild.tool.gnu.cpp.compiler.input.1469981712">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563;cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.;cdt.managedbuild.tool.gnu.c.compiler.mingw.base.976646896;cdt.managedbuild.tool.gnu.c.compiler.input.420359802">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
@@ -1239,6 +1242,9 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329;cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.1402043115;cdt.managedbuild.tool.gnu.cpp.compiler.input.775806322">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.1762329327.1248564761;cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.1762329327.1248564761.;cdt.managedbuild.tool.gnu.c.compiler.base.431042067;cdt.managedbuild.tool.gnu.c.compiler.input.1833690285">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812;cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.;cdt.managedbuild.tool.gnu.cross.cpp.compiler.600647008;cdt.managedbuild.tool.gnu.cpp.compiler.input.1937459357">

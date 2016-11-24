@@ -246,7 +246,7 @@ void Map::draw_bg_player()
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
 
-	if(visibleArea != NULL && visibleArea->w*visibleArea->y != 0 )
+	if(visibleArea != NULL && visibleArea->w*visibleArea->h != 0 )
 	{
 		//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
 		int start_i_index = visibleArea->x / BLOCK_SIZE;
@@ -275,8 +275,9 @@ void Map::draw_bg_player()
 			}
 	}
 
-	else //draw every block (usually inefficient)
+	else // case no usable visible area
 	{
+		//draw every block (usually inefficient)
 		for(int i = 0; i < grid_number_of_lines; i++)
 			for(int j = 0; j < grid_number_of_columns; j++)
 				if( grid[i][j] != NULL and grid[i][j]->typeID != 3 )
@@ -291,7 +292,7 @@ void Map::draw_fg_player()
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
 
-	if(visibleArea != NULL && visibleArea->w*visibleArea->y != 0 )
+	if(visibleArea != NULL && visibleArea->w*visibleArea->h != 0 )
 	{
 		//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
 		int start_i_index = visibleArea->x / BLOCK_SIZE;
@@ -320,8 +321,9 @@ void Map::draw_fg_player()
 			}
 	}
 
-	else //draw every block (usually inefficient)
+	else // case no usable visible area
 	{
+		//draw every block (usually inefficient)
 		for(int i = 0; i < grid_number_of_lines; i++)
 			for(int j = 0; j < grid_number_of_columns; j++)
 				if( grid[i][j] != NULL and grid[i][j]->typeID == 3 )

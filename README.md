@@ -3,7 +3,7 @@ An attempt to do a free and open source Terraria clone game, possibly with some 
 
 It is still in the first stages, so its pretty dumb.
 
-It's coded in C++, using Box2D and either Allegro 5.0, SDL 2.0 or SDL 1.2 (buggy). The code 
+It's coded in C++, using Box2D and either Allegro 5.0, SDL 2.0 or SDL 1.2. The code 
 is in a Eclipse CDT project. Previously CodeLite and QtCreator were used, so there are old 
 branches using their project structure (but again, the code is mostly oudated).
 

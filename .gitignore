@@ -14,6 +14,13 @@
 /linux-gcc-sdl2.0-debug/
 /linux-gcc-sdl2.0-release/
 
+/win32-mingw-allegro5.0-debug/
+/win32-mingw-allegro5.0-release/
+/win32-mingw-sdl1.2-debug/
+/win32-mingw-sdl1.2-release/
+/win32-mingw-sdl2.0-debug/
+/win32-mingw-sdl2.0-release/
+
 # Eclipse local files
 language.settings.xml
 org.eclipse.cdt.codan.core.prefs

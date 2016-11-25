@@ -371,7 +371,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -434,7 +434,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/allegro5.0|fgeal/adapters/sdl2.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/allegro5.0|fgeal/adapters/sdl2.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -497,7 +497,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -563,7 +563,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -627,7 +627,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -691,7 +691,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -808,7 +808,7 @@
 									<listOptionValue builtIn="false" value="allegro_audio-5.0.10-mt"/>
 									<listOptionValue builtIn="false" value="allegro_acodec-5.0.10-mt"/>
 								</option>
-								<option id="gnu.cpp.link.option.paths.786118475" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths"/>
+								<option id="gnu.cpp.link.option.paths.786118475" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1310961714" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -819,7 +819,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -875,7 +875,7 @@
 									<listOptionValue builtIn="false" value="SDL_gfx"/>
 									<listOptionValue builtIn="false" value="SDL_mixer"/>
 								</option>
-								<option id="gnu.cpp.link.option.paths.802646533" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths"/>
+								<option id="gnu.cpp.link.option.paths.802646533" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1175994368" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -886,7 +886,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -942,7 +942,7 @@
 									<listOptionValue builtIn="false" value="SDL2_gfx"/>
 									<listOptionValue builtIn="false" value="SDL2_mixer"/>
 								</option>
-								<option id="gnu.cpp.link.option.paths.425441538" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths"/>
+								<option id="gnu.cpp.link.option.paths.425441538" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1652455575" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -953,7 +953,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1009,7 +1009,7 @@
 									<listOptionValue builtIn="false" value="allegro_audio-5.0.10-mt"/>
 									<listOptionValue builtIn="false" value="allegro_acodec-5.0.10-mt"/>
 								</option>
-								<option id="gnu.cpp.link.option.paths.511576493" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths"/>
+								<option id="gnu.cpp.link.option.paths.511576493" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1723110861" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -1020,7 +1020,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1076,7 +1076,7 @@
 									<listOptionValue builtIn="false" value="SDL_gfx"/>
 									<listOptionValue builtIn="false" value="SDL_mixer"/>
 								</option>
-								<option id="gnu.cpp.link.option.paths.811792357" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths"/>
+								<option id="gnu.cpp.link.option.paths.811792357" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.95197865" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -1087,7 +1087,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1143,7 +1143,7 @@
 									<listOptionValue builtIn="false" value="SDL2_gfx"/>
 									<listOptionValue builtIn="false" value="SDL2_mixer"/>
 								</option>
-								<option id="gnu.cpp.link.option.paths.589502108" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths"/>
+								<option id="gnu.cpp.link.option.paths.589502108" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.182808421" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -1154,7 +1154,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

@@ -86,29 +86,30 @@ void MenuState::update(float delta)
 {
 	while(! eventQueue->isEmpty() )
 	{
-		fgeal::Event* ev = eventQueue->waitForEvent();
+		fgeal::Event ev;
+		eventQueue->waitForEvent(&ev);
 
-		if(ev->getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
+		if(ev.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
 		{
 			game.running = false;
 		}
-		else if(ev->getEventType() == fgeal::Event::Type::KEY_PRESS)
+		else if(ev.getEventType() == fgeal::Event::Type::KEY_PRESS)
 		{
-			switch(ev->getEventKeyCode())
+			switch(ev.getEventKeyCode())
 			{
 				case fgeal::Event::Key::ARROW_UP:
 					if(chooseFile)
-						--fileMenu;
+						--*fileMenu;
 					else
-						--mainMenu;
+						--*mainMenu;
 
 					break;
 
 				case fgeal::Event::Key::ARROW_DOWN:
 					if(chooseFile)
-						++fileMenu;
+						++*fileMenu;
 					else
-						++mainMenu;
+						++*mainMenu;
 
 					break;
 

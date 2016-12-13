@@ -367,6 +367,7 @@ struct InGameState::implementation
 		font->drawText(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, fgeal::Color::WHITE);
 		font->drawText("SPEED", 0, 42, fgeal::Color::WHITE);
 		font->drawText(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, fgeal::Color::WHITE);
+		font->drawText(string("FPS: ")+game.getFpsCount(), 0, 96, fgeal::Color::WHITE);
 	}
 };
 

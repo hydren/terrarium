@@ -282,7 +282,7 @@ struct InGameState::implementation
 		}
 	}
 
-	void update()
+	void update(float delta)
 	{
 		//visible area quick n' dirt fix
 		{
@@ -332,12 +332,12 @@ struct InGameState::implementation
 		}
 
 		this->handleInput();
+		world->step(delta, 6, 2);
 	}
 
 	void drawScene()
 	{
 		fgeal::display->clear();
-		world->step((1.0f / 60.0f), 6, 2);
 		/* needs to draw HUD */
 
 		game_map->draw_bg_player();
@@ -379,4 +379,4 @@ void InGameState::onEnter() { self->setup(); }
 void InGameState::onLeave() { self->dispose(); }
 
 void InGameState::render() { self->drawScene(); }
-void InGameState::update(float delta) { self->update(); }
+void InGameState::update(float delta) { self->update(delta); }

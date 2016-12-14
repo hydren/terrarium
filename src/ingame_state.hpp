@@ -19,7 +19,7 @@ class InGameState extends public fgeal::Game::State
 {
 	struct implementation;
 	friend class implementation;
-	implementation* self;
+	implementation& self;
 
 	public:
 	int getId() { return TerrariumGame::INGAME_STATE_ID; }

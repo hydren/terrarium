@@ -35,6 +35,13 @@ float player_body_width, player_body_height;
 struct InGameState::implementation
 {
 	TerrariumGame& game; // helper reference
+	bool wasInit;
+
+	implementation(TerrariumGame* terrariumGame)  // @suppress("Class members should be properly initialized")
+	: game(*terrariumGame), wasInit(false)
+	{}
+
+	// --------------------------------------------------
 
 	vector<Entity*> entities;
 	vector<Image*> images;
@@ -55,9 +62,9 @@ struct InGameState::implementation
 
 	float playerJumpImpulse, playerWalkForce;
 
-	implementation(TerrariumGame& game) // @suppress("Class members should be properly initialized")
-	: game(game)
+	void init()
 	{
+		wasInit = true;
 		visibleArea = createRectangle(0, 0, fgeal::display->getWidth(), fgeal::display->getHeight());
 
 		//loading font
@@ -109,6 +116,12 @@ struct InGameState::implementation
 
 	~implementation()
 	{
+		if(not wasInit)
+		{
+			cout << "ingame state was not initialized, skip destructor." << endl;
+			return;
+		}
+
 		cout << "game stuff destructor..." << endl;
 		foreach(Entity*, e, vector<Entity*>, entities)
 		{
@@ -121,12 +134,14 @@ struct InGameState::implementation
 		}
 
 		delete player;
-		delete game_map;
 		delete tileset_dirt;
 		delete font;
 		delete inGameMenu;
 		delete eventQueue;
-		delete world;
+
+		//may be null after calling dispose()
+		if(game_map != null) delete game_map;
+		if(world != null) delete world;
 	}
 
 	void setup()
@@ -348,7 +363,7 @@ struct InGameState::implementation
 
 		/* drawing others entities */
 		for(vector<Entity*>::iterator it = entities.begin() ; it != entities.end(); ++it){
-			if (*it != NULL) (*it)->draw();
+			if (*it != null) (*it)->draw();
 		}
 
 		/* later should be a character class */
@@ -371,13 +386,13 @@ struct InGameState::implementation
 	}
 };
 
-InGameState::InGameState(TerrariumGame* game) : State(*game), self(null) {}
-InGameState::~InGameState() { if(self != null) delete self; }
+InGameState::InGameState(TerrariumGame* game) : State(*game), self(*new implementation(game)) {}
+InGameState::~InGameState() { delete &self; }
 
-void InGameState::initialize() { self = new implementation(static_cast<TerrariumGame&>(game)); }
+void InGameState::initialize() { self.init(); }
 
-void InGameState::onEnter() { self->setup(); }
-void InGameState::onLeave() { self->dispose(); }
+void InGameState::onEnter() { self.setup(); }
+void InGameState::onLeave() { self.dispose(); }
 
-void InGameState::render() { self->drawScene(); }
-void InGameState::update(float delta) { self->update(delta); }
+void InGameState::render() { self.drawScene(); }
+void InGameState::update(float delta) { self.update(delta); }

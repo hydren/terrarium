@@ -19,6 +19,8 @@ class TerrariumGame extends public fgeal::Game
 
 	std::string stageFilename;
 
+	TerrariumGame();
+
 	void initializeStatesList();
 };
 

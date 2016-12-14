@@ -16,6 +16,11 @@ TerrariumGame::INGAME_STATE_ID = 1;
 
 void TerrariumGame::initializeStatesList()
 {
-	this->addState(new MenuState(this));
+	this->addState(new MenuState(this));  // set initial by position
 	this->addState(new InGameState(this));
+}
+
+TerrariumGame::TerrariumGame()
+{
+	maxFps = 60;
 }

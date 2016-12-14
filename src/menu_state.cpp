@@ -18,140 +18,170 @@ using fgeal::EventQueue;
 
 using std::vector;
 
-MenuState::MenuState(TerrariumGame* game)
-:	State(*game),
-	eventQueue(null), background(null),
-	mainFont(null), minorFont(null), miniFont(null),
-	mainMenu(null), fileMenu(null), chooseFile(false)
-{}
-
-MenuState::~MenuState()
+struct MenuState::implementation
 {
-	if(mainFont != null) delete mainFont;
-	if(minorFont != null) delete minorFont;
-	if(miniFont != null) delete miniFont;
-	if(background != null) delete background;
-	if(eventQueue != null) delete eventQueue;
+	TerrariumGame& game; // helper reference
+	bool wasInit;
 
-	if(mainMenu != null) delete mainMenu;
-	if(fileMenu != null) delete fileMenu;
-}
+	implementation(TerrariumGame* terrariumGame)  // @suppress("Class members should be properly initialized")
+	: game(*terrariumGame), wasInit(false),
+	  fileMenu(null)
+	{}
 
-void MenuState::initialize()
-{
-	mainFont = new Font("resources/jack.ttf", 44);
-	minorFont = new Font("resources/liberation.ttf", 24);
-	miniFont = new Font("resources/jack.ttf", 16);
-	background = new Image("resources/title_proto.jpg");
-	eventQueue = new EventQueue();
+	// --------------------------------------------------
 
-	mainMenu = new Menu(createRectangle(64, 108, 300, 150), minorFont, Color::ORANGE);
-	mainMenu->addEntry("Generate new map");
-	mainMenu->addEntry("Load map from file");
-	mainMenu->addEntry("Settings");
-	mainMenu->addEntry("Exit");
-}
+	fgeal::EventQueue* eventQueue;
+	fgeal::Image* background;
+	fgeal::Font* mainFont, *minorFont, *miniFont;
 
-void MenuState::onEnter()
-{
-	if(fileMenu != null) delete fileMenu;
-	fileMenu = new Menu(createRectangle(32, 224, 294, 174), miniFont, Color::YELLOW, "Which file?");
-	vector<string> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
-		for(vector<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
-			fileMenu->addEntry(*it);
-	fileMenu->addEntry("< Cancel >");
+	Menu* mainMenu, *fileMenu;
 
-	chooseFile = false;
-	eventQueue->listenEvents();
-}
+	bool chooseFile;
 
-void MenuState::onLeave()
-{
-	eventQueue->ignoreEvents();
-}
-
-void MenuState::render()
-{
-	background->draw();
-	mainFont->drawText("Project Terrarium", 84, 25, Color::ORANGE);
-	mainMenu->draw();
-	if(chooseFile)
+	void init()
 	{
-		minorFont->drawText("Which file?", 202, 200, Color::BLACK);
-		fileMenu->draw();
+		mainFont = new Font("resources/jack.ttf", 44);
+		minorFont = new Font("resources/liberation.ttf", 24);
+		miniFont = new Font("resources/jack.ttf", 16);
+		background = new Image("resources/title_proto.jpg");
+		eventQueue = new EventQueue();
+
+		mainMenu = new Menu(createRectangle(64, 108, 300, 150), minorFont, Color::ORANGE);
+		mainMenu->addEntry("Generate new map");
+		mainMenu->addEntry("Load map from file");
+		mainMenu->addEntry("Settings");
+		mainMenu->addEntry("Exit");
 	}
-}
 
-void MenuState::update(float delta)
-{
-	while(! eventQueue->isEmpty() )
+	~implementation()
 	{
-		fgeal::Event ev;
-		eventQueue->waitForEvent(&ev);
+		if(not wasInit) return;
 
-		if(ev.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
+		delete mainFont;
+		delete minorFont;
+		delete miniFont;
+		delete background;
+		delete eventQueue;
+
+		delete mainMenu;
+		delete fileMenu;
+	}
+
+	void setup()
+	{
+		if(fileMenu != null) delete fileMenu;
+		fileMenu = new Menu(createRectangle(32, 224, 294, 174), miniFont, Color::YELLOW, "Which file?");
+		vector<string> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
+			for(vector<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
+				fileMenu->addEntry(*it);
+		fileMenu->addEntry("< Cancel >");
+
+		chooseFile = false;
+		eventQueue->listenEvents();
+	}
+
+	void render()
+	{
+		background->draw();
+		mainFont->drawText("Project Terrarium", 84, 25, Color::ORANGE);
+		mainMenu->draw();
+		if(chooseFile)
 		{
-			game.running = false;
+			minorFont->drawText("Which file?", 202, 200, Color::BLACK);
+			fileMenu->draw();
 		}
-		else if(ev.getEventType() == fgeal::Event::Type::KEY_PRESS)
+	}
+
+	void update()
+	{
+		while(! eventQueue->isEmpty() )
 		{
-			switch(ev.getEventKeyCode())
+			fgeal::Event ev;
+			eventQueue->waitForEvent(&ev);
+
+			if(ev.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
 			{
-				case fgeal::Event::Key::ARROW_UP:
-					if(chooseFile)
-						--*fileMenu;
-					else
-						--*mainMenu;
-
-					break;
-
-				case fgeal::Event::Key::ARROW_DOWN:
-					if(chooseFile)
-						++*fileMenu;
-					else
-						++*mainMenu;
-
-					break;
-
-				case fgeal::Event::Key::ARROW_RIGHT:
-					break;
-
-				case fgeal::Event::Key::ARROW_LEFT:
-					break;
-
-				case fgeal::Event::Key::ENTER:
-
-					if(chooseFile == true)
-					{
-						if(fileMenu->selectedIndex == fileMenu->getNumberOfEntries()-1)
-							chooseFile = false;
+				game.running = false;
+			}
+			else if(ev.getEventType() == fgeal::Event::Type::KEY_PRESS)
+			{
+				switch(ev.getEventKeyCode())
+				{
+					case fgeal::Event::Key::ARROW_UP:
+						if(chooseFile)
+							--*fileMenu;
 						else
+							--*mainMenu;
+
+						break;
+
+					case fgeal::Event::Key::ARROW_DOWN:
+						if(chooseFile)
+							++*fileMenu;
+						else
+							++*mainMenu;
+
+						break;
+
+					case fgeal::Event::Key::ARROW_RIGHT:
+						break;
+
+					case fgeal::Event::Key::ARROW_LEFT:
+						break;
+
+					case fgeal::Event::Key::ENTER:
+
+						if(chooseFile == true)
 						{
-							//loading_image.draw();
-							//fgeal::display->refresh();
-							static_cast<TerrariumGame&>(game).stageFilename = fileMenu->getSelectedEntry()->label;
-							game.enterState(TerrariumGame::INGAME_STATE_ID);
+							if(fileMenu->selectedIndex == fileMenu->getNumberOfEntries()-1)
+								chooseFile = false;
+							else
+							{
+								//loading_image.draw();
+								//fgeal::display->refresh();
+								game.stageFilename = fileMenu->getSelectedEntry()->label;
+								game.enterState(TerrariumGame::INGAME_STATE_ID);
+							}
 						}
-					}
-					else switch(mainMenu->selectedIndex) //this isn't elegant...
-					{
-						case 1:
-							chooseFile = true;
-							break;
+						else switch(mainMenu->selectedIndex) //this isn't elegant...
+						{
+							case 1:
+								chooseFile = true;
+								break;
 
-						case 3:
-							game.running = false;
-							break;
+							case 3:
+								game.running = false;
+								break;
 
-						default:
-							break;
-					}
-					break;
+							default:
+								break;
+						}
+						break;
 
-				default:
-					break;
+					default:
+						break;
+				}
 			}
 		}
 	}
+};
+
+MenuState::MenuState(TerrariumGame* game)
+:	State(*game), self(*new implementation(game))
+{}
+
+MenuState::~MenuState() { delete &self; }
+
+void MenuState::initialize() { self.init(); }
+
+void MenuState::onEnter() { self.setup(); }
+
+void MenuState::onLeave()
+{
+	self.eventQueue->ignoreEvents();
 }
+
+void MenuState::render() { self.render(); }
+
+void MenuState::update(float delta) { self.update(); }
 

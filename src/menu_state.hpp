@@ -19,13 +19,9 @@
 
 class MenuState extends public fgeal::Game::State
 {
-	fgeal::EventQueue* eventQueue;
-	fgeal::Image* background;
-	fgeal::Font* mainFont, *minorFont, *miniFont;
-
-	Menu* mainMenu, *fileMenu;
-
-	bool chooseFile;
+	struct implementation;
+	friend class implementation;
+	implementation& self;
 
 	public:
 	int getId() { return TerrariumGame::MENU_STATE_ID; }

@@ -7,8 +7,6 @@
 
 #include "menu_state.hpp"
 
-#include "util.hpp"
-
 #include <vector>
 
 using fgeal::Color;
@@ -46,7 +44,8 @@ struct MenuState::implementation
 		background = new Image("resources/title_proto.jpg");
 		eventQueue = new EventQueue();
 
-		mainMenu = new Menu(createRectangle(64, 108, 300, 150), minorFont, Color::ORANGE);
+		Rectangle size = {64, 108, 300, 150};
+		mainMenu = new Menu(size, minorFont, Color::ORANGE);
 		mainMenu->addEntry("Generate new map");
 		mainMenu->addEntry("Load map from file");
 		mainMenu->addEntry("Settings");
@@ -70,7 +69,8 @@ struct MenuState::implementation
 	void setup()
 	{
 		if(fileMenu != null) delete fileMenu;
-		fileMenu = new Menu(createRectangle(32, 224, 294, 174), miniFont, Color::YELLOW, "Which file?");
+		Rectangle size = {32, 224, 294, 174};
+		fileMenu = new Menu(size, miniFont, Color::YELLOW, "Which file?");
 		vector<string> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
 			for(vector<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
 				fileMenu->addEntry(*it);

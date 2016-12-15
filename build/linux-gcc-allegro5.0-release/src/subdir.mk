@@ -9,11 +9,14 @@ CPP_SRCS += \
 ../src/entity.cpp \
 ../src/file_parser.cpp \
 ../src/game.cpp \
+../src/ingame_state.cpp \
 ../src/main.cpp \
 ../src/main_menu.cpp \
 ../src/map.cpp \
 ../src/menu.cpp \
+../src/menu_state.cpp \
 ../src/physics.cpp \
+../src/terrarium_game.cpp \
 ../src/util.cpp 
 
 OBJS += \
@@ -22,11 +25,14 @@ OBJS += \
 ./src/entity.o \
 ./src/file_parser.o \
 ./src/game.o \
+./src/ingame_state.o \
 ./src/main.o \
 ./src/main_menu.o \
 ./src/map.o \
 ./src/menu.o \
+./src/menu_state.o \
 ./src/physics.o \
+./src/terrarium_game.o \
 ./src/util.o 
 
 CPP_DEPS += \
@@ -35,11 +41,14 @@ CPP_DEPS += \
 ./src/entity.d \
 ./src/file_parser.d \
 ./src/game.d \
+./src/ingame_state.d \
 ./src/main.d \
 ./src/main_menu.d \
 ./src/map.d \
 ./src/menu.d \
+./src/menu_state.d \
 ./src/physics.d \
+./src/terrarium_game.d \
 ./src/util.d 
 
 

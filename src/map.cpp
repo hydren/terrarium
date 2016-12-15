@@ -16,7 +16,6 @@ using std::cout; using std::endl;
 #include "futil/string/more_operators.hpp"
 #include "futil/string/actions.hpp"
 
-#include "util.hpp"
 #include "file_parser.hpp"
 
 Map::Map(AnimationSet* bg, int columns, int lines, Rectangle* visibleArea) :
@@ -185,7 +184,8 @@ void Map::retile(Block* b, bool recursive)
 
 Rectangle Map::computeDimensions()
 {
-	return createRectangle(0, 0, grid.size()*BLOCK_SIZE, (grid.size() > 0 ? grid[0].size()*BLOCK_SIZE : 0) );
+	Rectangle size = { 0, 0, (float) grid.size()*BLOCK_SIZE, (float)(grid.size() > 0 ? grid[0].size()*BLOCK_SIZE : 0) };
+	return size;
 }
 
 void Map::addBlock(int x, int y)

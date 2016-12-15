@@ -11,7 +11,6 @@
 
 #include "futil/string/more_operators.hpp"
 
-#include "util.hpp"
 #include "menu.hpp"
 #include "block.hpp"
 #include "entity.hpp"
@@ -65,13 +64,15 @@ struct InGameState::implementation
 	void init()
 	{
 		wasInit = true;
-		visibleArea = createRectangle(0, 0, fgeal::display->getWidth(), fgeal::display->getHeight());
+		Rectangle size = {0, 0, (float) fgeal::display->getWidth(), (float) fgeal::display->getHeight()};
+		visibleArea = size;
 
 		//loading font
 		font = new fgeal::Font("resources/liberation.ttf", 14);
 
 		//loading ingame menu
-		inGameMenu = new Menu(createRectangle(200, 200, 200, 64), font, Color::ORANGE);
+		Rectangle menuSize = {200, 200, 200, 64};
+		inGameMenu = new Menu(menuSize, font, Color::ORANGE);
 		inGameMenu->addEntry("Resume");
 		inGameMenu->addEntry("Save and exit");
 		inGameMenu->addEntry("Exit without saving");

@@ -36,7 +36,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1138692398" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1858088228" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.646403275" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -101,7 +101,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.257885697" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2046085215" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -152,7 +152,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1060224446" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2125748119" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -215,7 +215,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.216641562" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1198696935" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.775806322" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -273,7 +273,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1210776979" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.488404234" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1173937823" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
@@ -526,7 +526,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1470117555" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1904095006" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1049958259" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
@@ -592,7 +591,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1756689768" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.912601366" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1393792577" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
@@ -656,7 +654,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.975894739" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1779412053" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.746865184" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
@@ -723,7 +720,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.828709398" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.322728225" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1276401729" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -786,7 +783,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.429121178" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.2078822259" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1006534967" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -853,7 +849,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1819404995" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1450879173" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1253696919" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -920,7 +915,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.1110008123" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1520634865" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2013012283" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -987,7 +981,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.648676686" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1355230793" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1303896876" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -1054,7 +1047,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.788663793" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1733355362" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.975331935" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -1121,7 +1113,6 @@
 								<option id="gnu.cpp.compiler.option.include.paths.457732004" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/src}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1537666034" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.240600282" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -1166,27 +1157,24 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="linux-gcc-sdl2.0-debug"/>
-		<configuration configurationName="linux-gcc-allegro5.0-release"/>
-		<configuration configurationName="Debug porco"/>
-		<configuration configurationName="win32-mingw-libfgeal-release"/>
-		<configuration configurationName="win32-mingw-debug"/>
-		<configuration configurationName="linux-gcc-sdl2.0-release"/>
-		<configuration configurationName="linux-gcc-sdl1.2-release"/>
+		<configuration configurationName="Debug"/>
 		<configuration configurationName="linux-gcc-allegro5.0-debug"/>
-		<configuration configurationName="linux-gcc-libfgeal-release"/>
-		<configuration configurationName="win32-mingw-libfgeal-debug"/>
-		<configuration configurationName="Debug Linux"/>
-		<configuration configurationName="linux-gcc-debug"/>
-		<configuration configurationName="linux-gcc-release"/>
-		<configuration configurationName="linux-gcc-sdl1.2-debug"/>
+		<configuration configurationName="linux-gcc-allegro5.0-release"/>
 		<configuration configurationName="linux-gcc-libfgeal-debug"/>
-		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/terrarium-base"/>
-		</configuration>
-		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/terrarium-base"/>
-		</configuration>
+		<configuration configurationName="linux-gcc-libfgeal-release"/>
+		<configuration configurationName="linux-gcc-sdl1.2-debug"/>
+		<configuration configurationName="linux-gcc-sdl1.2-release"/>
+		<configuration configurationName="linux-gcc-sdl2.0-debug"/>
+		<configuration configurationName="linux-gcc-sdl2.0-release"/>
+		<configuration configurationName="Release"/>
+		<configuration configurationName="win32-mingw-allegro5.0-debug"/>
+		<configuration configurationName="win32-mingw-allegro5.0-release"/>
+		<configuration configurationName="win32-mingw-libfgeal-debug"/>
+		<configuration configurationName="win32-mingw-libfgeal-release"/>
+		<configuration configurationName="win32-mingw-sdl1.2-debug"/>
+		<configuration configurationName="win32-mingw-sdl1.2-release"/>
+		<configuration configurationName="win32-mingw-sdl2.0-debug"/>
+		<configuration configurationName="win32-mingw-sdl2.0-release"/>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings">
 		<doc-comment-owner id="org.eclipse.cdt.ui.doxygen">

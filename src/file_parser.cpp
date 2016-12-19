@@ -7,9 +7,6 @@
 
 #include "file_parser.hpp"
 
-#include <iostream>
-using std::cout; using std::endl;
-
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 
@@ -17,7 +14,11 @@ using std::cout; using std::endl;
 #include "futil/string/more_operators.hpp"
 #include "futil/string/actions.hpp"
 #include "futil/math/parse_number.hpp"
-#include "futil/exception.hpp"
+
+#include <stdexcept>
+
+#include <iostream>
+using std::cout; using std::endl;
 
 vector< vector <int> > transpose(const vector< vector<int> >& matrix)
 {
@@ -96,7 +97,7 @@ namespace FileParser
 				}
 			}
 		}
-		else throw_exception("File not found! "+filename);
+		else throw std::runtime_error("File not found! "+filename);
 
 		stream.close();
 
@@ -117,7 +118,7 @@ namespace FileParser
 		if (nodeMap == NULL)
 		{
 //			cout << "failure!" << endl;
-			throw_exception("Can't read node map from file "+filename);
+			throw std::runtime_error("Can't read node map from file "+filename);
 		}
 
 		int w = parse<int>(nodeMap->first_attribute("width")->value());
@@ -145,7 +146,7 @@ namespace FileParser
 			}
 		}
 		if(grid.size() < (unsigned) h)
-			throw_exception("Error while generating map "+filename+"!");
+			throw std::runtime_error("Error while generating map "+filename+"!");
 
 //		for(unsigned i = 0; i < grid.size(); i ++)
 //		{

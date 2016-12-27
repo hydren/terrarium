@@ -23,7 +23,7 @@ using std::string;
 #include <vector>
 using std::vector;
 
-std::string VERSION = "0.1.4";
+std::string VERSION = "0.1.5-dev";
 
 int main(int argc, char** argv)
 {
@@ -37,11 +37,11 @@ int main(int argc, char** argv)
 			cout << dirs[i] << endl;
 
 		//only need to instantiate, engine will delete it when finalizing
-		new fgeal::Display(640, 480, "Project Terrarium (v"+VERSION+") (fgeal v"+ fgeal::VERSION + "/" + fgeal::BACKEND_NAME +" backend)");
+		fgeal::Display::create(640, 480, "Project Terrarium (v"+VERSION+") (fgeal v"+ fgeal::VERSION + "/" + fgeal::BACKEND_NAME +" backend)");
 
 		Image* loading_image = new Image("./resources/loading.png");
 		loading_image->draw();
-		fgeal::display->refresh();
+		fgeal::Display::getInstance().refresh();
 		delete loading_image;
 
 		TerrariumGame* game = new TerrariumGame();

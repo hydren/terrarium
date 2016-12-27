@@ -20,6 +20,7 @@ using Physics::World;
 using Physics::Vector;
 using Physics::convertToPixels;
 
+using fgeal::Event;
 using fgeal::EventQueue;
 using fgeal::Font;
 using fgeal::Color;
@@ -53,7 +54,6 @@ struct InGameState::implementation
 	AnimationSet* playerAnimation;
 	Font* font;
 	Menu* inGameMenu;
-	EventQueue* eventQueue;
 	World* world;
 
 	bool jumping, inGameMenuShowing;
@@ -64,7 +64,7 @@ struct InGameState::implementation
 	void init()
 	{
 		wasInit = true;
-		Rectangle size = {0, 0, (float) fgeal::display->getWidth(), (float) fgeal::display->getHeight()};
+		Rectangle size = {0, 0, (float) fgeal::Display::getInstance().getWidth(), (float) fgeal::Display::getInstance().getHeight()};
 		visibleArea = size;
 
 		//loading font
@@ -76,9 +76,6 @@ struct InGameState::implementation
 		inGameMenu->addEntry("Resume");
 		inGameMenu->addEntry("Save and exit");
 		inGameMenu->addEntry("Exit without saving");
-
-		//loading event queue
-		eventQueue = new fgeal::EventQueue();
 
 		//loading player graphics
 
@@ -138,7 +135,6 @@ struct InGameState::implementation
 		delete tileset_dirt;
 		delete font;
 		delete inGameMenu;
-		delete eventQueue;
 
 		//may be null after calling dispose()
 		if(game_map != null) delete game_map;
@@ -182,17 +178,19 @@ struct InGameState::implementation
 
 	void handleInput()
 	{
-		while(! eventQueue->isEmpty() )
+		Event event;
+		EventQueue& eventQueue = EventQueue::getInstance();
+		while(not eventQueue.isEmpty())
 		{
-			fgeal::Event* ev = eventQueue->waitForEvent();
+			eventQueue.waitForEvent(&event);
 
-			if(ev->getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
+			if(event.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
 			{
 				game.enterState(TerrariumGame::MENU_STATE_ID);
 			}
-			else if(ev->getEventType() == fgeal::Event::Type::KEY_RELEASE)
+			else if(event.getEventType() == fgeal::Event::Type::KEY_RELEASE)
 			{
-				switch(ev->getEventKeyCode())
+				switch(event.getEventKeyCode())
 				{
 				case fgeal::Event::Key::ARROW_UP:
 					isKeyUpPressed = false;
@@ -213,9 +211,9 @@ struct InGameState::implementation
 					break;
 				}
 			}
-			else if(ev->getEventType() == fgeal::Event::Type::KEY_PRESS)
+			else if(event.getEventType() == fgeal::Event::Type::KEY_PRESS)
 			{
-				switch(ev->getEventKeyCode())
+				switch(event.getEventKeyCode())
 				{
 				case fgeal::Event::Key::ARROW_UP:
 					isKeyUpPressed = true;
@@ -261,13 +259,13 @@ struct InGameState::implementation
 					break;
 				}
 			}
-			else if(ev->getEventType() == fgeal::Event::Type::MOUSE_BUTTON_PRESS)
+			else if(event.getEventType() == fgeal::Event::Type::MOUSE_BUTTON_PRESS)
 			{
 
-				if(ev->getEventMouseButton() == fgeal::Event::MouseButton::RIGHT)
+				if(event.getEventMouseButton() == fgeal::Event::MouseButton::RIGHT)
 				{
-					unsigned int mx = (visibleArea.x + ev->getEventMouseX())/BLOCK_SIZE;
-					unsigned int my = (visibleArea.y + ev->getEventMouseY())/BLOCK_SIZE;
+					unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
+					unsigned int my = (visibleArea.y + event.getEventMouseY())/BLOCK_SIZE;
 
 					if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
 						if (game_map->grid[mx][my] == NULL)
@@ -278,10 +276,10 @@ struct InGameState::implementation
 						}
 
 				}
-				else if (ev->getEventMouseButton() == fgeal::Event::MouseButton::LEFT)
+				else if (event.getEventMouseButton() == fgeal::Event::MouseButton::LEFT)
 				{
-					unsigned int mx = (visibleArea.x + ev->getEventMouseX())/BLOCK_SIZE;
-					unsigned int my = (visibleArea.y + ev->getEventMouseY())/BLOCK_SIZE;
+					unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
+					unsigned int my = (visibleArea.y + event.getEventMouseY())/BLOCK_SIZE;
 
 					if(mx < 0) mx = 0; // safety
 					if(my < 0) my = 0; // safety
@@ -353,7 +351,7 @@ struct InGameState::implementation
 
 	void drawScene()
 	{
-		fgeal::display->clear();
+		fgeal::Display::getInstance().clear();
 		/* needs to draw HUD */
 
 		game_map->draw_bg_player();

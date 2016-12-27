@@ -12,6 +12,7 @@
 using fgeal::Color;
 using fgeal::Image;
 using fgeal::Font;
+using fgeal::Event;
 using fgeal::EventQueue;
 
 using std::vector;
@@ -28,7 +29,6 @@ struct MenuState::implementation
 
 	// --------------------------------------------------
 
-	fgeal::EventQueue* eventQueue;
 	fgeal::Image* background;
 	fgeal::Font* mainFont, *minorFont, *miniFont;
 
@@ -42,7 +42,6 @@ struct MenuState::implementation
 		minorFont = new Font("resources/liberation.ttf", 24);
 		miniFont = new Font("resources/jack.ttf", 16);
 		background = new Image("resources/title_proto.jpg");
-		eventQueue = new EventQueue();
 
 		Rectangle size = {64, 108, 300, 150};
 		mainMenu = new Menu(size, minorFont, Color::ORANGE);
@@ -60,7 +59,6 @@ struct MenuState::implementation
 		delete minorFont;
 		delete miniFont;
 		delete background;
-		delete eventQueue;
 
 		delete mainMenu;
 		delete fileMenu;
@@ -77,7 +75,6 @@ struct MenuState::implementation
 		fileMenu->addEntry("< Cancel >");
 
 		chooseFile = false;
-		eventQueue->listenEvents();
 	}
 
 	void render()
@@ -94,10 +91,11 @@ struct MenuState::implementation
 
 	void update()
 	{
-		while(! eventQueue->isEmpty() )
+		Event ev;
+		EventQueue& eventQueue = EventQueue::getInstance();
+		while(not eventQueue.isEmpty() )
 		{
-			fgeal::Event ev;
-			eventQueue->waitForEvent(&ev);
+			eventQueue.waitForEvent(&ev);
 
 			if(ev.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
 			{
@@ -176,10 +174,7 @@ void MenuState::initialize() { self.init(); }
 
 void MenuState::onEnter() { self.setup(); }
 
-void MenuState::onLeave()
-{
-	self.eventQueue->ignoreEvents();
-}
+void MenuState::onLeave() {}
 
 void MenuState::render() { self.render(); }
 

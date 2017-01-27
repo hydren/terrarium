@@ -110,6 +110,8 @@ struct InGameState::implementation
 
 		//loading dirt tileset
 		tileset_dirt = new Image("resources/tileset-dirt.png");
+		game_map = null; // we need to nullify to know afterwards if there was initialization
+		world = null; // we need to nullify to know afterwards if there was initialization
 	}
 
 	~implementation()

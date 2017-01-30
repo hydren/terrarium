@@ -30,7 +30,7 @@ struct MenuState::implementation
 	// --------------------------------------------------
 
 	fgeal::Image* background;
-	fgeal::Font* mainFont, *minorFont, *miniFont;
+	fgeal::Font* mainFont, *minorFont, *miniFont, *devFont;
 
 	Menu* mainMenu, *fileMenu;
 
@@ -41,6 +41,7 @@ struct MenuState::implementation
 		mainFont = new Font("resources/jack.ttf", 44);
 		minorFont = new Font("resources/liberation.ttf", 24);
 		miniFont = new Font("resources/jack.ttf", 16);
+		devFont = new Font("resources/liberation.ttf", 14);
 		background = new Image("resources/title_proto.jpg");
 
 		Rectangle size = {64, 108, 300, 150};
@@ -58,6 +59,7 @@ struct MenuState::implementation
 		delete mainFont;
 		delete minorFont;
 		delete miniFont;
+		delete devFont;
 		delete background;
 
 		delete mainMenu;
@@ -84,9 +86,10 @@ struct MenuState::implementation
 		mainMenu->draw();
 		if(chooseFile)
 		{
-			minorFont->drawText("Which file?", 202, 200, Color::BLACK);
+			minorFont->drawText("Which file?", 202, 200, Color::WHITE);
 			fileMenu->draw();
 		}
+		devFont->drawText(string("Using fgeal v")+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, fgeal::Display::getInstance().getHeight() - devFont->getSize(), Color::CREAM);
 	}
 
 	void update()
@@ -105,7 +108,7 @@ struct MenuState::implementation
 			{
 				switch(ev.getEventKeyCode())
 				{
-					case fgeal::Event::Key::ARROW_UP:
+					case fgeal::Keyboard::Key::ARROW_UP:
 						if(chooseFile)
 							--*fileMenu;
 						else
@@ -113,7 +116,7 @@ struct MenuState::implementation
 
 						break;
 
-					case fgeal::Event::Key::ARROW_DOWN:
+					case fgeal::Keyboard::Key::ARROW_DOWN:
 						if(chooseFile)
 							++*fileMenu;
 						else
@@ -121,13 +124,13 @@ struct MenuState::implementation
 
 						break;
 
-					case fgeal::Event::Key::ARROW_RIGHT:
+					case fgeal::Keyboard::Key::ARROW_RIGHT:
 						break;
 
-					case fgeal::Event::Key::ARROW_LEFT:
+					case fgeal::Keyboard::Key::ARROW_LEFT:
 						break;
 
-					case fgeal::Event::Key::ENTER:
+					case fgeal::Keyboard::Key::ENTER:
 
 						if(chooseFile == true)
 						{

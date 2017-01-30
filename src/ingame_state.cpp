@@ -194,18 +194,18 @@ struct InGameState::implementation
 			{
 				switch(event.getEventKeyCode())
 				{
-				case fgeal::Event::Key::ARROW_UP:
+				case fgeal::Keyboard::Key::ARROW_UP:
 					isKeyUpPressed = false;
 					jumping = false;
 					break;
-				case fgeal::Event::Key::ARROW_DOWN:
+				case fgeal::Keyboard::Key::ARROW_DOWN:
 					isKeyDownPressed = false;
 					break;
-				case fgeal::Event::Key::ARROW_RIGHT:
+				case fgeal::Keyboard::Key::ARROW_RIGHT:
 					player->animation->setCurrent("still-right");
 					isKeyRightPressed = false;
 					break;
-				case fgeal::Event::Key::ARROW_LEFT:
+				case fgeal::Keyboard::Key::ARROW_LEFT:
 					player->animation->setCurrent("still-left");
 					isKeyLeftPressed = false;
 					break;
@@ -217,29 +217,29 @@ struct InGameState::implementation
 			{
 				switch(event.getEventKeyCode())
 				{
-				case fgeal::Event::Key::ARROW_UP:
+				case fgeal::Keyboard::Key::ARROW_UP:
 					isKeyUpPressed = true;
 					if(inGameMenuShowing)
 						--*inGameMenu;
 					break;
-				case fgeal::Event::Key::ARROW_DOWN:
+				case fgeal::Keyboard::Key::ARROW_DOWN:
 					isKeyDownPressed = true;
 					if(inGameMenuShowing)
 						++*inGameMenu;
 					break;
-				case fgeal::Event::Key::ARROW_RIGHT:
+				case fgeal::Keyboard::Key::ARROW_RIGHT:
 					isKeyRightPressed = true;
 					break;
-				case fgeal::Event::Key::ARROW_LEFT:
+				case fgeal::Keyboard::Key::ARROW_LEFT:
 					isKeyLeftPressed = true;
 					break;
-				case fgeal::Event::Key::ESCAPE:
+				case fgeal::Keyboard::Key::ESCAPE:
 					if(inGameMenuShowing)
 						inGameMenuShowing=false;
 					else
 						inGameMenuShowing=true;
 					break;
-				case fgeal::Event::Key::ENTER:
+				case fgeal::Keyboard::Key::ENTER:
 					if(inGameMenuShowing)
 					{
 						switch(inGameMenu->selectedIndex)
@@ -264,7 +264,7 @@ struct InGameState::implementation
 			else if(event.getEventType() == fgeal::Event::Type::MOUSE_BUTTON_PRESS)
 			{
 
-				if(event.getEventMouseButton() == fgeal::Event::MouseButton::RIGHT)
+				if(event.getEventMouseButton() == fgeal::Mouse::Button::RIGHT)
 				{
 					unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
 					unsigned int my = (visibleArea.y + event.getEventMouseY())/BLOCK_SIZE;
@@ -278,7 +278,7 @@ struct InGameState::implementation
 						}
 
 				}
-				else if (event.getEventMouseButton() == fgeal::Event::MouseButton::LEFT)
+				else if (event.getEventMouseButton() == fgeal::Mouse::Button::LEFT)
 				{
 					unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
 					unsigned int my = (visibleArea.y + event.getEventMouseY())/BLOCK_SIZE;

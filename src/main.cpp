@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 			cout << dirs[i] << endl;
 
 		//only need to instantiate, engine will delete it when finalizing
-		fgeal::Display::create(640, 480, "Project Terrarium (v"+VERSION+") (fgeal v"+ fgeal::VERSION + "/" + fgeal::BACKEND_NAME +" backend)");
+		fgeal::Display::create(640, 480, "Project Terrarium (v"+VERSION+")");
 
 		Image* loading_image = new Image("./resources/loading.png");
 		loading_image->draw();

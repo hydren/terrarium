@@ -98,7 +98,7 @@ struct MenuState::implementation
 		EventQueue& eventQueue = EventQueue::getInstance();
 		while(not eventQueue.isEmpty() )
 		{
-			eventQueue.waitForEvent(&ev);
+			eventQueue.waitNextEvent(&ev);
 
 			if(ev.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
 			{

@@ -184,7 +184,7 @@ struct InGameState::implementation
 		EventQueue& eventQueue = EventQueue::getInstance();
 		while(not eventQueue.isEmpty())
 		{
-			eventQueue.waitForEvent(&event);
+			eventQueue.waitNextEvent(&event);
 
 			if(event.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
 			{

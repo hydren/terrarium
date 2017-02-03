@@ -40,3 +40,4 @@ org.eclipse.core.resources.prefs
 # Eclipse builds linking to SFML 2.0 through fgeal
 /linux-gcc-sfml2.0-debug/
 /linux-gcc-sfml2.0-release/
+/linux-gcc-sfml1.6-debug/

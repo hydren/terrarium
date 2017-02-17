@@ -51,5 +51,6 @@ void AnimationSet::setCurrent(string tag)
 void AnimationSet::draw(float x, float y, float angle)
 {
 	sprites[currentAnim]->computeCurrentFrame();
-	sprites[currentAnim]->draw(x, y, angle);
+	sprites[currentAnim]->angle = angle;
+	sprites[currentAnim]->draw(x, y);
 }

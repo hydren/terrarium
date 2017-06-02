@@ -11,7 +11,7 @@
 
 #include "futil/string/more_operators.hpp"
 
-#include "menu.hpp"
+#include "fgeal/extra/menu.hpp"
 #include "block.hpp"
 #include "entity.hpp"
 #include "map.hpp"
@@ -24,6 +24,7 @@ using fgeal::Event;
 using fgeal::EventQueue;
 using fgeal::Font;
 using fgeal::Color;
+using fgeal::Menu;
 
 //xxx debug
 #include <iostream>
@@ -242,7 +243,7 @@ struct InGameState::implementation
 				case fgeal::Keyboard::Key::ENTER:
 					if(inGameMenuShowing)
 					{
-						switch(inGameMenu->selectedIndex)
+						switch(inGameMenu->getSelectedIndex())
 						{
 							case 0:
 								inGameMenuShowing=false;

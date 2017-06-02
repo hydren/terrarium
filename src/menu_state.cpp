@@ -14,8 +14,11 @@ using fgeal::Image;
 using fgeal::Font;
 using fgeal::Event;
 using fgeal::EventQueue;
+using fgeal::Menu;
+using fgeal::Rectangle;
 
 using std::vector;
+using std::string;
 
 struct MenuState::implementation
 {
@@ -85,11 +88,9 @@ struct MenuState::implementation
 		mainFont->drawText("Project Terrarium", 84, 25, Color::ORANGE);
 		mainMenu->draw();
 		if(chooseFile)
-		{
-			minorFont->drawText("Which file?", 202, 200, Color::WHITE);
 			fileMenu->draw();
-		}
-		devFont->drawText(string("Using fgeal v")+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, fgeal::Display::getInstance().getHeight() - devFont->getSize(), Color::CREAM);
+
+		devFont->drawText(string("Using fgeal v")+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, fgeal::Display::getInstance().getHeight() - devFont->getFontHeight(), Color::CREAM);
 	}
 
 	void update()
@@ -134,17 +135,17 @@ struct MenuState::implementation
 
 						if(chooseFile == true)
 						{
-							if(fileMenu->selectedIndex == fileMenu->getNumberOfEntries()-1)
+							if(fileMenu->getSelectedIndex() == fileMenu->getNumberOfEntries()-1)
 								chooseFile = false;
 							else
 							{
 								//loading_image.draw();
 								//fgeal::display->refresh();
-								game.stageFilename = fileMenu->getSelectedEntry()->label;
+								game.stageFilename = fileMenu->getSelectedEntry().label;
 								game.enterState(TerrariumGame::INGAME_STATE_ID);
 							}
 						}
-						else switch(mainMenu->selectedIndex) //this isn't elegant...
+						else switch(mainMenu->getSelectedIndex()) //this isn't elegant...
 						{
 							case 1:
 								chooseFile = true;

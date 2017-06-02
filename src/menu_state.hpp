@@ -14,8 +14,7 @@
 #include "futil/general/language.hpp"
 #include "fgeal/fgeal.hpp"
 #include "fgeal/extra/game.hpp"
-
-#include "menu.hpp"
+#include "fgeal/extra/menu.hpp"
 
 class MenuState extends public fgeal::Game::State
 {

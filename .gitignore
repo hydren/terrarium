@@ -41,3 +41,6 @@ org.eclipse.core.resources.prefs
 /linux-gcc-sfml2.0-debug/
 /linux-gcc-sfml2.0-release/
 /linux-gcc-sfml1.6-debug/
+/linux-gcc-sfml1.6-release/
+/win32-mingw-sfml2.0-debug/
+/win32-mingw-sfml2.0-release/

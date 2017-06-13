@@ -54,3 +54,8 @@ void AnimationSet::draw(float x, float y, float angle)
 	sprites[currentAnim]->angle = angle;
 	sprites[currentAnim]->draw(x, y);
 }
+
+unsigned AnimationSet::spriteCount()
+{
+	return sprites.size();
+}

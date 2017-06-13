@@ -78,19 +78,19 @@ Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& 
 			if(file_grid[i][j] == 1
 					or file_grid[i][j] == 4) //TODO remove this dirty fix
 			{
-				map->grid[i][j] = new Block( imgDirt, i, j, 1);
+				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgDirt), i, j, 1);
 				world->addBody(map->grid[i][j]->body);
 				map->retile(map->grid[i][j]);
 			}
 			else if(file_grid[i][j] == 2)
 			{
-				map->grid[i][j] = new Block( imgStone, i, j, 2);
+				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgStone), i, j, 2);
 				world->addBody(map->grid[i][j]->body);
 				map->retile(map->grid[i][j]);
 			}
 			else if(file_grid[i][j] == 3)
 			{
-				map->grid[i][j] = new Block( imgWater, i, j, 3, true);
+				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgWater, 3, 1.0), i, j, 3, true);
 				world->addBody(map->grid[i][j]->body);
 				map->retile(map->grid[i][j]);
 			}

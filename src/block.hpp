@@ -20,13 +20,15 @@ class Block extends public Entity
 	int typeID;
 
 	//constructors
-	Block(Image* i, int x_grid, int y_grid, int typeID, bool ignoreCollision=false);
 	Block(AnimationSet* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision=false);
 
 	int getX();
 	int getY();
 
 	void draw(const Rectangle* visibleAreaPosition=NULL);
+
+	// creates a proper block-type animation set based on the given arguments.
+	static AnimationSet* createBlockAnimationSet(Image* sheet, unsigned frameCount=1, float frameInterval=-1);
 };
 
 #endif /* BLOCK_HPP_ */

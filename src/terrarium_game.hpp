@@ -11,11 +11,16 @@
 
 #include "futil/general/language.hpp"
 #include "fgeal/extra/game.hpp"
+#include "futil/properties.hpp"
+
+using futil::Properties;
 
 class TerrariumGame extends public fgeal::Game
 {
 	public:
 	static const int MENU_STATE_ID, INGAME_STATE_ID;
+
+	static Properties CONFIG;
 
 	std::string stageFilename;
 

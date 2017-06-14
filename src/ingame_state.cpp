@@ -16,6 +16,8 @@
 #include "entity.hpp"
 #include "map.hpp"
 
+#include <cstdlib>
+
 using Physics::World;
 using Physics::Vector;
 using Physics::convertToPixels;
@@ -26,12 +28,13 @@ using fgeal::Font;
 using fgeal::Color;
 using fgeal::Menu;
 
-//xxx debug
+// xxx debug
 #include <iostream>
 using std::cout; using std::endl;
 
-// xxx hardcoded
-float player_body_width, player_body_height;
+// xxx hardcoded player body dimensions
+const float player_body_width = Physics::convertToMeters(25);
+const float player_body_height = Physics::convertToMeters(81);
 
 struct InGameState::implementation
 {
@@ -68,6 +71,8 @@ struct InGameState::implementation
 		Rectangle size = {0, 0, (float) fgeal::Display::getInstance().getWidth(), (float) fgeal::Display::getInstance().getHeight()};
 		visibleArea = size;
 
+		Properties& config = TerrariumGame::CONFIG;
+
 		//loading font
 		font = new fgeal::Font("resources/liberation.ttf", 14);
 
@@ -79,26 +84,30 @@ struct InGameState::implementation
 		inGameMenu->addEntry("Exit without saving");
 
 		//loading player graphics
-
-		// Pijamaman specs
-		unsigned player_sprite_width = 56;
-		unsigned player_sprite_height = 84;
-		player_body_width = Physics::convertToMeters(25);
-		player_body_height = Physics::convertToMeters(81);
-
-		playerAnimationSheet = new Image("resources/pijamaman-1.png");
+		playerAnimationSheet = new Image(config.get("player.sprite.filename"));
 		playerAnimation = new AnimationSet(playerAnimationSheet);
 
-		playerAnimation->add("still-left", player_sprite_width, player_sprite_height, 1, 1);
+		const unsigned player_sprite_width = atoi(config.get("player.sprite.width").c_str());
+		const unsigned player_sprite_height = atoi(config.get("player.sprite.height").c_str());
+
+		const unsigned animStandLeftFrameCount = atoi(config.get("player.sprite.anim.stand_left.frame_count").c_str());
+		const float animStandLeftFrameDuration = atof(config.get("player.sprite.anim.stand_left.frame_duration").c_str());
+		playerAnimation->add("still-left", player_sprite_width, player_sprite_height, animStandLeftFrameDuration, animStandLeftFrameCount);
 		playerAnimation->ref("still-left").referencePixelY = -2;
 
-		playerAnimation->add("still-right", player_sprite_width, player_sprite_height, 1, 1);
+		const unsigned animStandRightFrameCount = atoi(config.get("player.sprite.anim.stand_right.frame_count").c_str());
+		const float animStandRightFrameDuration = atof(config.get("player.sprite.anim.stand_right.frame_duration").c_str());
+		playerAnimation->add("still-right", player_sprite_width, player_sprite_height, animStandRightFrameDuration, animStandRightFrameCount);
 		playerAnimation->ref("still-right").referencePixelY = -2;
 
-		playerAnimation->add("walk-left", player_sprite_width, player_sprite_height, 0.25, 4);
+		const unsigned animWalkLeftFrameCount = atoi(config.get("player.sprite.anim.walk_left.frame_count").c_str());
+		const float animWalkLeftFrameDuration = atof(config.get("player.sprite.anim.walk_left.frame_duration").c_str());
+		playerAnimation->add("walk-left", player_sprite_width, player_sprite_height, animWalkLeftFrameDuration, animWalkLeftFrameCount);
 		playerAnimation->ref("walk-left").referencePixelY = -2;
 
-		playerAnimation->add("walk-right", player_sprite_width, player_sprite_height, 0.25, 4);
+		const unsigned animWalkRightFrameCount = atoi(config.get("player.sprite.anim.walk_right.frame_count").c_str());
+		const float animWalkRightFrameDuration = atof(config.get("player.sprite.anim.walk_right.frame_duration").c_str());
+		playerAnimation->add("walk-right", player_sprite_width, player_sprite_height, animWalkRightFrameDuration, animWalkRightFrameCount);
 		playerAnimation->ref("walk-right").referencePixelY = -2;
 
 		playerAnimation->setCurrent("still-right");

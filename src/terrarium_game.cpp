@@ -14,6 +14,8 @@ const int
 TerrariumGame::MENU_STATE_ID = 0,
 TerrariumGame::INGAME_STATE_ID = 1;
 
+Properties TerrariumGame::CONFIG;
+
 void TerrariumGame::initializeStatesList()
 {
 	this->addState(new MenuState(this));  // set initial by position

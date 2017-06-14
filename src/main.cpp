@@ -29,6 +29,7 @@ int main(int argc, char** argv)
 {
 	try
 	{
+		TerrariumGame::CONFIG.load("config.properties");
 		fgeal::initialize();
 
 		cout << "Lets test the directory listing method" << endl;

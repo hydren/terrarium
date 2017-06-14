@@ -18,6 +18,8 @@ using std::cout; using std::endl;
 
 #include "file_parser.hpp"
 
+#include "terrarium_game.hpp"
+
 Map::Map(AnimationSet* bg, int columns, int lines, Rectangle* visibleArea) :
 grid(), background(bg), visibleArea(visibleArea)
 {
@@ -64,10 +66,12 @@ Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& 
 
 	cout << "map size (in blocks): " << file_grid.size() << "x" << file_grid[0].size() << endl;
 
+	Properties& config = TerrariumGame::CONFIG;
+
 	Image* imgDirt = new Image("resources/tileset-dirt.png"); createdImages.push_back(imgDirt);
 	Image* imgStone = new Image("resources/tileset-stone.png"); createdImages.push_back(imgStone);
 	Image* imgWater = new Image("resources/tileset-water.png"); createdImages.push_back(imgWater);
-	Image* bg = new Image("resources/background.jpg"); createdImages.push_back(bg);
+	Image* bg = new Image(config.get("ingame.bg.filename")); createdImages.push_back(bg);
 
 	map = new Map(bg, file_grid.size(), file_grid[0].size(), NULL);
 

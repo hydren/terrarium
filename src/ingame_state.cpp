@@ -74,7 +74,7 @@ struct InGameState::implementation
 		Properties& config = TerrariumGame::CONFIG;
 
 		//loading font
-		font = new fgeal::Font("resources/liberation.ttf", 14);
+		font = new fgeal::Font(config.get("ingame.font.filename"), atoi(config.get("ingame.font.size").c_str()));
 
 		//loading ingame menu
 		Rectangle menuSize = {200, 200, 200, 64};

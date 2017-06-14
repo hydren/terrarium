@@ -71,6 +71,7 @@ Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& 
 	Image* imgDirt = new Image("resources/tileset-dirt.png"); createdImages.push_back(imgDirt);
 	Image* imgStone = new Image("resources/tileset-stone.png"); createdImages.push_back(imgStone);
 	Image* imgWater = new Image("resources/tileset-water.png"); createdImages.push_back(imgWater);
+	Image* imgGrass = new Image("resources/tileset-grass.png"); createdImages.push_back(imgGrass);
 	Image* bg = new Image(config.get("ingame.bg.filename")); createdImages.push_back(bg);
 
 	map = new Map(bg, file_grid.size(), file_grid[0].size(), NULL);
@@ -79,8 +80,7 @@ Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& 
 	{
 		for(unsigned int j = 0; j < file_grid[0].size() ; j++)
 		{
-			if(file_grid[i][j] == 1
-					or file_grid[i][j] == 4) //TODO remove this dirty fix
+			if(file_grid[i][j] == 1)
 			{
 				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgDirt), i, j, 1);
 				world->addBody(map->grid[i][j]->body);
@@ -95,6 +95,12 @@ Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& 
 			else if(file_grid[i][j] == 3)
 			{
 				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgWater, 3, 1.0), i, j, 3, true);
+				world->addBody(map->grid[i][j]->body);
+				map->retile(map->grid[i][j]);
+			}
+			else if(file_grid[i][j] == 4)
+			{
+				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgGrass), i, j, 1);
 				world->addBody(map->grid[i][j]->body);
 				map->retile(map->grid[i][j]);
 			}

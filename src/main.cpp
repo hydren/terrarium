@@ -23,7 +23,7 @@ using std::string;
 #include <vector>
 using std::vector;
 
-std::string VERSION = "0.1.5-dev";
+std::string VERSION = "0.1.6-dev";
 
 int main(int argc, char** argv)
 {

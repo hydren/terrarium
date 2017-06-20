@@ -7,18 +7,18 @@
 
 #include "terrarium_game.hpp"
 
-#include "menu_state.hpp"
+#include "main_menu_state.hpp"
 #include "ingame_state.hpp"
 
 const int
-TerrariumGame::MENU_STATE_ID = 0,
+TerrariumGame::MAIN_MENU_STATE_ID = 0,
 TerrariumGame::INGAME_STATE_ID = 1;
 
 Properties TerrariumGame::CONFIG;
 
 void TerrariumGame::initializeStatesList()
 {
-	this->addState(new MenuState(this));  // set initial by position
+	this->addState(new MainMenuState(this));  // set initial by position
 	this->addState(new InGameState(this));
 }
 

@@ -257,7 +257,7 @@ void InGameState::handleInput()
 
 		if(event.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
 		{
-			game.enterState(TerrariumGame::MENU_STATE_ID);
+			game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 		}
 		else if(event.getEventType() == fgeal::Event::Type::KEY_RELEASE)
 		{
@@ -318,10 +318,10 @@ void InGameState::handleInput()
 							break;
 						case 1:
 							Map::saveRawMapToFile(string("resources/maps/saved_map.txt"), game_map);
-							game.enterState(TerrariumGame::MENU_STATE_ID);
+							game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 							break;
 						case 2:
-							game.enterState(TerrariumGame::MENU_STATE_ID);
+							game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 							break;
 					}
 				}

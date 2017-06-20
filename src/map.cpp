@@ -20,7 +20,7 @@ using std::cout; using std::endl;
 
 #include "terrarium_game.hpp"
 
-Map::Map(AnimationSet* bg, int columns, int lines, Rectangle* visibleArea) :
+Map::Map(Animation* bg, int columns, int lines, Rectangle* visibleArea) :
 grid(), background(bg), visibleArea(visibleArea)
 {
 	grid.resize(columns, vector<Block*>(lines)); //fill the matrix with null
@@ -30,9 +30,8 @@ Map::Map(Image* bg, int columns, int lines, Rectangle* visibleArea) :
 grid(), background(null), visibleArea(visibleArea)
 {
 	grid.resize(columns, vector<Block*>(lines));//fill the matrix with null
-	AnimationSet* staticAnim = new AnimationSet(bg); //lets create an animation with a single image, given as parameter
-	staticAnim->add("bg"); //setting the static animation with the whole image
-	staticAnim->setCurrent("bg");
+	SingleSheetAnimation* staticAnim = new SingleSheetAnimation(bg); //lets create an animation with a single image, given as parameter
+	staticAnim->addSprite();  //setting the static animation with the whole image
 	background = staticAnim;
 }
 
@@ -149,7 +148,7 @@ void Map::retileNeighbourhood(int x_grid_pos, int y_grid_pos)
 /** Draws all the blocks in this map */
 void Map::retile(Block* b, bool recursive)
 {
-	string k;
+	unsigned k;
 	bool hasLeft=false, hasRight=false, hasNorth=false, hasSouth=false;
 
 	//WIP tileset algorithm
@@ -162,26 +161,26 @@ void Map::retile(Block* b, bool recursive)
 
 	if(b->y_grid_pos < (int) grid[0].size() -1) if(grid[b->x_grid_pos][b->y_grid_pos+1] != NULL) hasSouth = true;
 
-	if(  hasNorth &&  hasSouth &&  hasLeft &&  hasRight) k = "full_cover";
-	if( !hasNorth &&  hasSouth &&  hasLeft &&  hasRight) k = "top_free";
-	if(  hasNorth && !hasSouth &&  hasLeft &&  hasRight) k = "bottom_free";
-	if(  hasNorth &&  hasSouth && !hasLeft &&  hasRight) k = "left_free";
-	if(  hasNorth &&  hasSouth &&  hasLeft && !hasRight) k = "right_free";
-	if( !hasNorth &&  hasSouth && !hasLeft &&  hasRight) k = "top_left_free";
-	if(  hasNorth && !hasSouth && !hasLeft &&  hasRight) k = "bottom_left_free";
-	if( !hasNorth &&  hasSouth &&  hasLeft && !hasRight) k = "top_right_free";
-	if(  hasNorth && !hasSouth &&  hasLeft && !hasRight) k = "bottom_right_free";
-	if(  hasNorth &&  hasSouth && !hasLeft && !hasRight) k = "horizontal_free";
-	if( !hasNorth && !hasSouth &&  hasLeft &&  hasRight) k = "vertical_free";
-	if( !hasNorth &&  hasSouth && !hasLeft && !hasRight) k = "bottom_covered";
-	if(  hasNorth && !hasSouth && !hasLeft && !hasRight) k = "top_covered";
-	if( !hasNorth && !hasSouth && !hasLeft &&  hasRight) k = "right_covered";
-	if( !hasNorth && !hasSouth &&  hasLeft && !hasRight) k = "left_covered";
-	if( !hasNorth && !hasSouth && !hasLeft && !hasRight) k = "full_free";
+	if(  hasNorth &&  hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::FULL_COVER;
+	if( !hasNorth &&  hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::TOP_FREE;
+	if(  hasNorth && !hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::BOTTOM_FREE;
+	if(  hasNorth &&  hasSouth && !hasLeft &&  hasRight) k = Block::Anim::LEFT_FREE;
+	if(  hasNorth &&  hasSouth &&  hasLeft && !hasRight) k = Block::Anim::RIGHT_FREE;
+	if( !hasNorth &&  hasSouth && !hasLeft &&  hasRight) k = Block::Anim::TOP_LEFT_FREE;
+	if(  hasNorth && !hasSouth && !hasLeft &&  hasRight) k = Block::Anim::BOTTOM_LEFT_FREE;
+	if( !hasNorth &&  hasSouth &&  hasLeft && !hasRight) k = Block::Anim::TOP_RIGHT_FREE;
+	if(  hasNorth && !hasSouth &&  hasLeft && !hasRight) k = Block::Anim::BOTTOM_RIGHT_FREE;
+	if(  hasNorth &&  hasSouth && !hasLeft && !hasRight) k = Block::Anim::HORIZONTAL_FREE;
+	if( !hasNorth && !hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::VERTICAL_FREE;
+	if( !hasNorth &&  hasSouth && !hasLeft && !hasRight) k = Block::Anim::BOTTOM_COVERED;
+	if(  hasNorth && !hasSouth && !hasLeft && !hasRight) k = Block::Anim::TOP_COVERED;
+	if( !hasNorth && !hasSouth && !hasLeft &&  hasRight) k = Block::Anim::RIGHT_COVERED;
+	if( !hasNorth && !hasSouth &&  hasLeft && !hasRight) k = Block::Anim::LEFT_COVERED;
+	if( !hasNorth && !hasSouth && !hasLeft && !hasRight) k = Block::Anim::FULL_FREE;
 
 //	COUT << "hasNorth = " << hasNorth << ", hasSouth = " << hasSouth << ", hasLeft = " << hasLeft << ", hasRight = " << hasRight << ENDL;
 
-	b->animation->setCurrent(k);
+	b->animation->currentIndex = k;
 
 	if(recursive)
 	{

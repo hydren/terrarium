@@ -10,14 +10,12 @@
 using Physics::convertToPixels;
 
 /** Caution: the given animation should be correctly configured for blocks */
-Block::Block(AnimationSet* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision):
+Block::Block(Animation* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision):
 Entity(anim, new Body(Physics::convertToMeters(x_grid*BLOCK_SIZE), Physics::convertToMeters(y_grid*BLOCK_SIZE), Physics::convertToMeters(BLOCK_SIZE), ignoreCollision)),
 x_grid_pos(x_grid),
 y_grid_pos(y_grid),
 typeID(typeID)
-{
-	animation->setCurrent("full_free");
-}
+{}
 
 int Block::getX() {
 	return x_grid_pos;
@@ -43,26 +41,26 @@ void Block::draw(const Rectangle* visibleAreaPosition)
 }
 
 // static
-AnimationSet* Block::createBlockAnimationSet(Image* sheet, unsigned frameCount, float frameInterval)
+Animation* Block::createBlockAnimationSet(Image* sheet, unsigned frameCount, float frameInterval)
 {
-	AnimationSet* animation = new AnimationSet(sheet);
+	StackedSingleSheetAnimation* animation = new StackedSingleSheetAnimation(sheet);
 
-	animation->add("full_cover",        BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("top_free",          BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("bottom_free",       BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("left_free",         BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("right_free",        BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("top_left_free",     BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("bottom_left_free",  BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("top_right_free",    BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("bottom_right_free", BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("horizontal_free",   BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("vertical_free",     BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("bottom_covered",    BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("top_covered",       BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("right_covered",     BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("left_covered",      BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
-	animation->add("full_free",         BLOCK_SIZE, BLOCK_SIZE, frameInterval, frameCount);
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // FULL_COVER
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // TOP_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // BOTTOM_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // LEFT_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // RIGHT_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // TOP_LEFT_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // BOTTOM_LEFT_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // TOP_RIGHT_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // BOTTOM_RIGHT_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // HORIZONTAL_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // VERTICAL_FREE
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // BOTTOM_COVERED
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // TOP_COVERED
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // RIGHT_COVERED
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // LEFT_COVERED
+	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // FULL_FREE
 
 	return animation;
 }

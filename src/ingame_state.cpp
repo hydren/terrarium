@@ -36,6 +36,14 @@ using std::cout; using std::endl;
 const float player_body_width = Physics::convertToMeters(25);
 const float player_body_height = Physics::convertToMeters(81);
 
+enum AnimEnum
+{
+	ANIM_PLAYER_STAND_LEFT,
+	ANIM_PLAYER_STAND_RIGHT,
+	ANIM_PLAYER_WALK_LEFT,
+	ANIM_PLAYER_WALK_RIGHT,
+};
+
 struct InGameState::implementation
 {
 	TerrariumGame& game; // helper reference
@@ -55,7 +63,7 @@ struct InGameState::implementation
 	Entity* player;
 	Map* game_map;
 	Image* tileset_dirt, *playerAnimationSheet;
-	AnimationSet* playerAnimation;
+	Animation* playerAnimation;
 	Font* font;
 	Menu* inGameMenu;
 	World* world;
@@ -85,32 +93,35 @@ struct InGameState::implementation
 
 		//loading player graphics
 		playerAnimationSheet = new Image(config.get("player.sprite.filename"));
-		playerAnimation = new AnimationSet(playerAnimationSheet);
+
+		playerAnimation = new StackedSingleSheetAnimation(playerAnimationSheet);
+		StackedSingleSheetAnimation& anim = *static_cast<StackedSingleSheetAnimation*>(playerAnimation);
 
 		const unsigned player_sprite_width = atoi(config.get("player.sprite.width").c_str());
 		const unsigned player_sprite_height = atoi(config.get("player.sprite.height").c_str());
 
 		const unsigned animStandLeftFrameCount = atoi(config.get("player.sprite.anim.stand_left.frame_count").c_str());
 		const float animStandLeftFrameDuration = atof(config.get("player.sprite.anim.stand_left.frame_duration").c_str());
-		playerAnimation->add("still-left", player_sprite_width, player_sprite_height, animStandLeftFrameDuration, animStandLeftFrameCount);
-		playerAnimation->ref("still-left").referencePixelY = -2;
+		anim.addSprite(player_sprite_width, player_sprite_height, animStandLeftFrameCount, animStandLeftFrameDuration);
+		anim[ANIM_PLAYER_STAND_LEFT].referencePixelY = -2;
 
 		const unsigned animStandRightFrameCount = atoi(config.get("player.sprite.anim.stand_right.frame_count").c_str());
 		const float animStandRightFrameDuration = atof(config.get("player.sprite.anim.stand_right.frame_duration").c_str());
-		playerAnimation->add("still-right", player_sprite_width, player_sprite_height, animStandRightFrameDuration, animStandRightFrameCount);
-		playerAnimation->ref("still-right").referencePixelY = -2;
+		anim.addSprite(player_sprite_width, player_sprite_height, animStandRightFrameCount, animStandRightFrameDuration);
+		anim[ANIM_PLAYER_STAND_RIGHT].referencePixelY = -2;
 
 		const unsigned animWalkLeftFrameCount = atoi(config.get("player.sprite.anim.walk_left.frame_count").c_str());
 		const float animWalkLeftFrameDuration = atof(config.get("player.sprite.anim.walk_left.frame_duration").c_str());
-		playerAnimation->add("walk-left", player_sprite_width, player_sprite_height, animWalkLeftFrameDuration, animWalkLeftFrameCount);
-		playerAnimation->ref("walk-left").referencePixelY = -2;
+		anim.addSprite(player_sprite_width, player_sprite_height, animWalkLeftFrameCount, animWalkLeftFrameDuration);
+		anim[ANIM_PLAYER_WALK_LEFT].referencePixelY = -2;
 
 		const unsigned animWalkRightFrameCount = atoi(config.get("player.sprite.anim.walk_right.frame_count").c_str());
 		const float animWalkRightFrameDuration = atof(config.get("player.sprite.anim.walk_right.frame_duration").c_str());
-		playerAnimation->add("walk-right", player_sprite_width, player_sprite_height, animWalkRightFrameDuration, animWalkRightFrameCount);
-		playerAnimation->ref("walk-right").referencePixelY = -2;
 
-		playerAnimation->setCurrent("still-right");
+		anim.addSprite(player_sprite_width, player_sprite_height, animWalkRightFrameCount, animWalkRightFrameDuration);
+		anim[ANIM_PLAYER_WALK_RIGHT].referencePixelY = -2;
+
+		anim.currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
 		//loading player physics
 		player = new Entity(playerAnimation, null, &visibleArea);
@@ -144,6 +155,7 @@ struct InGameState::implementation
 		}
 
 		delete player;
+		delete playerAnimationSheet;
 		delete tileset_dirt;
 		delete font;
 		delete inGameMenu;
@@ -176,7 +188,7 @@ struct InGameState::implementation
 		player->body = new Body(1, 1, player_body_width, player_body_height);
 		world->addBody(player->body);
 		player->body->setFixedRotation();
-		player->animation->setCurrent("still-right");
+		player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 	}
 
 	void dispose()
@@ -212,11 +224,11 @@ struct InGameState::implementation
 					isKeyDownPressed = false;
 					break;
 				case fgeal::Keyboard::Key::ARROW_RIGHT:
-					player->animation->setCurrent("still-right");
+					player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 					isKeyRightPressed = false;
 					break;
 				case fgeal::Keyboard::Key::ARROW_LEFT:
-					player->animation->setCurrent("still-left");
+					player->animation->currentIndex = ANIM_PLAYER_STAND_LEFT;
 					isKeyLeftPressed = false;
 					break;
 				default:
@@ -345,13 +357,13 @@ struct InGameState::implementation
 				player->body->applyForceToCenter(Vector(0.0f, 0.2f));
 		}
 		if(not inGameMenuShowing and isKeyRightPressed) {
-			player->animation->setCurrent("walk-right");
+			player->animation->currentIndex = ANIM_PLAYER_WALK_RIGHT;
 			Vector v = player->body->getVelocity();
 			if(v.x <= 2.0f)
 				player->body->applyForceToCenter(Vector(playerWalkForce, 0.0f));
 		}
 		if(not inGameMenuShowing and isKeyLeftPressed) {
-			player->animation->setCurrent("walk-left");
+			player->animation->currentIndex = ANIM_PLAYER_WALK_LEFT;
 			Vector v = player->body->getVelocity();
 			if(v.x >= -2.0f)
 				player->body->applyForceToCenter(Vector(-playerWalkForce, 0.0f));

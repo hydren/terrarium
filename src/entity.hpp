@@ -16,11 +16,11 @@ using fgeal::Rectangle;
 
 struct Entity
 {
-	AnimationSet *animation;
+	Animation *animation;
 	Body *body;
 	Rectangle* visibleAreaPosition;
 
-	Entity(AnimationSet* anim=NULL, Body *b=NULL, Rectangle* visibleArea=null);
+	Entity(Animation* anim=NULL, Body *b=NULL, Rectangle* visibleArea=null);
 	~Entity();
 
 	void draw();

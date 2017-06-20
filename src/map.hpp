@@ -22,12 +22,12 @@ struct Map
 	vector< vector<Block*> > grid;
 
 	/** Default is a black background */
-	AnimationSet *background;
+	Animation *background;
 
 	/** The visible area of this map */
 	Rectangle* visibleArea;
 
-	Map(AnimationSet* bg, int columns, int lines, Rectangle* visibleArea);
+	Map(Animation* bg, int columns, int lines, Rectangle* visibleArea);
 
 	Map(Image* bg, int columns, int lines, Rectangle* visibleArea);
 

@@ -9,7 +9,7 @@
 
 using Physics::convertToPixels;
 
-Entity::Entity(AnimationSet* anim, Body *b, Rectangle* visibleArea) :
+Entity::Entity(Animation* anim, Body *b, Rectangle* visibleArea) :
 animation(anim),
 body(b),
 visibleAreaPosition(visibleArea)

@@ -7,55 +7,88 @@
 
 #include "animation.hpp"
 
-AnimationSet::AnimationSet(Image* sheet) :
-sheet(sheet), sprites(), currentAnim("default")
+Sprite& Animation::operator[](int index)
 {
-	sprites["default"] = new Sprite(sheet, 0, 0);
+	return *sprites[index];
 }
 
-void AnimationSet::add(string tag, int width, int height, double interval, int frames, bool setCurrent)
+Sprite& Animation::ref(int index)
+{
+	return *sprites[index];
+}
+
+Sprite& Animation::current()
+{
+	return *sprites[currentIndex];
+}
+
+// convenience method to add a sprite to the list (it will be added to the end (back) of the list)
+void Animation::add(Sprite* sprite, bool setCurrent)
+{
+	currentIndex = sprites.size();
+	sprites.push_back(sprite);
+}
+
+// convenience method to delete a sprite in the list, given its index. if a -1 index is passed, it deletes the last sprite, if there is one.
+void Animation::del(int index)
+{
+	if(index == -1)
+		index = sprites.size()-1;
+
+	if(index < 0 or index > -1 + (int) sprites.size())
+		return;
+
+	if(index == currentIndex)
+		currentIndex--;
+
+	delete sprites[index];
+	sprites.erase(sprites.begin()+index);
+}
+
+void Animation::draw(float x, float y)
+{
+	sprites[currentIndex]->computeCurrentFrame();
+	sprites[currentIndex]->draw(x, y);
+}
+
+//************************************************************
+
+SingleSheetAnimation::SingleSheetAnimation(Image* sheet)
+: Animation(), sheet(sheet)
+{}
+
+SingleSheetAnimation::~SingleSheetAnimation()
+{
+	if(sheet != null)
+	{
+		delete sheet;
+		sheet = null;
+	}
+}
+
+void SingleSheetAnimation::addSprite(int width, int height, int frameCount, double frameDuration, Point sheetOffset)
+{
+	if(height == -1) height = sheet->getHeight();
+	if(width == -1) width = sheet->getWidth();
+	this->add(new Sprite(sheet, width, height, frameDuration, frameCount, sheetOffset.x, sheetOffset.y, false));
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+StackedSingleSheetAnimation::StackedSingleSheetAnimation(Image* sheet)
+: SingleSheetAnimation(sheet)
+{}
+
+void StackedSingleSheetAnimation::addSprite(int width, int height, int frameCount, double frameDuration, int sheetOffsetX)
 {
 	if(height == -1) height = sheet->getHeight();
 	if(width == -1) width = sheet->getWidth();
 	int sum=0;
-	for( map<string, Sprite*>::iterator it = sprites.begin(); it != sprites.end(); ++it )
+	for(unsigned i = 0; i < sprites.size(); i++)
 	{
 		//gets the height of each animation and sums up
-		sum += it->second->height;
+		sum += sprites[i]->height;
 	}
 
-	sprites[tag] = new Sprite(sheet, width, height, interval, frames, 0, sum);
-	if(setCurrent) this->setCurrent(tag);
-}
-
-Sprite& AnimationSet::ref(string tag)
-{
-	return *(sprites[tag]);
-}
-
-Sprite& AnimationSet::operator[](string tag)
-{
-	return *(sprites[tag]);
-}
-
-Sprite& AnimationSet::current()
-{
-	return *(sprites[currentAnim]);
-}
-
-void AnimationSet::setCurrent(string tag)
-{
-	currentAnim = tag;
-}
-
-void AnimationSet::draw(float x, float y, float angle)
-{
-	sprites[currentAnim]->computeCurrentFrame();
-	sprites[currentAnim]->angle = angle;
-	sprites[currentAnim]->draw(x, y);
-}
-
-unsigned AnimationSet::spriteCount()
-{
-	return sprites.size();
+	this->add(new Sprite(sheet, width, height, frameDuration, frameCount, sheetOffsetX, sum));
 }

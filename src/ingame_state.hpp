@@ -12,17 +12,54 @@
 #include "terrarium_game.hpp"
 
 #include "futil/general/language.hpp"
+#include "futil/string/more_operators.hpp"
+
+#include "fgeal/fgeal.hpp"
+using fgeal::Rectangle;
+using fgeal::Image;
 
 #include "fgeal/extra/game.hpp"
+#include "fgeal/extra/menu.hpp"
+
+#include <cstdlib>
+#include <vector>
+using std::vector;
+
+#include "block.hpp"
+#include "entity.hpp"
+#include "map.hpp"
+
+using Physics::World;
+
+using fgeal::Font;
+using fgeal::Menu;
 
 class InGameState extends public fgeal::Game::State
 {
-	struct implementation;
-	friend class implementation;
-	implementation& self;
-
 	public:
+	bool wasInit;
+
+	vector<Entity*> entities;
+	vector<Image*> images;
+
+	Rectangle visibleArea;
+
+	Entity* player;
+	Map* game_map;
+	Image* tileset_dirt, *playerAnimationSheet;
+	Animation* playerAnimation;
+	Font* font;
+	Menu* inGameMenu;
+	World* world;
+
+	bool jumping, inGameMenuShowing;
+	bool isKeyUpPressed, isKeyDownPressed, isKeyRightPressed, isKeyLeftPressed;
+
+	float playerJumpImpulse, playerWalkForce;
+
 	int getId() { return TerrariumGame::INGAME_STATE_ID; }
+
+	void handleInput();
 
 	InGameState(TerrariumGame* game);
 	~InGameState();

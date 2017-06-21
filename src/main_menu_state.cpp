@@ -42,7 +42,9 @@ void MainMenuState::initialize()
 	devFont = new Font("resources/liberation.ttf", 14);
 	background = new Image("resources/title_proto.jpg");
 
-	Rectangle size = {64, 108, 300, 150};
+	fgeal::Display& display = fgeal::Display::getInstance();
+	const float sw = display.getWidth(), sh = display.getHeight();
+	Rectangle size = {0.1*sw, 0.225*sh, 0.5*sw, 0.25*sh};
 	mainMenu = new Menu(size, minorFont, Color::ORANGE);
 	mainMenu->addEntry("Generate new map");
 	mainMenu->addEntry("Load map from file");
@@ -52,8 +54,10 @@ void MainMenuState::initialize()
 
 void MainMenuState::onEnter()
 {
+	fgeal::Display& display = fgeal::Display::getInstance();
+	const float sw = display.getWidth(), sh = display.getHeight();
 	if(fileMenu != null) delete fileMenu;
-	Rectangle size = {32, 224, 294, 174};
+	Rectangle size = {0.375*sw, 0.4*sh, 0.25*sw, 0.2*sh};
 	fileMenu = new Menu(size, miniFont, Color::YELLOW, "Which file?");
 	vector<string> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
 		for(vector<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
@@ -67,8 +71,12 @@ void MainMenuState::onLeave() {}
 
 void MainMenuState::render()
 {
-	background->draw();
-	mainFont->drawText("Project Terrarium", 84, 25, Color::ORANGE);
+	fgeal::Display& display = fgeal::Display::getInstance();
+	const float sw = display.getWidth(), sh = display.getHeight();
+
+	display.clear();
+	background->drawScaled(0, 0, sw/background->getWidth(), sh/background->getHeight());
+	mainFont->drawText("Project Terrarium", sw*0.125, sh*0.05, Color::ORANGE);
 	mainMenu->draw();
 	if(chooseFile)
 		fileMenu->draw();

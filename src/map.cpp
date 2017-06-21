@@ -250,6 +250,8 @@ void Map::draw()
 /** Draws all the blocks that backgrounds the player */
 void Map::draw_bg_player()
 {
+	background->current().scale.x = fgeal::Display::getInstance().getWidth() / (float) background->current().width;
+	background->current().scale.y = fgeal::Display::getInstance().getHeight() / (float) background->current().height;
 	background->draw();
 
 	int grid_number_of_lines = grid.capacity();

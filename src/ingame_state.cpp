@@ -66,8 +66,10 @@ InGameState::~InGameState()
 
 void InGameState::initialize()
 {
+	fgeal::Display& display = fgeal::Display::getInstance();
+
 	wasInit = true;
-	Rectangle size = {0, 0, (float) fgeal::Display::getInstance().getWidth(), (float) fgeal::Display::getInstance().getHeight()};
+	Rectangle size = {0, 0, (float) display.getWidth(), (float) display.getHeight()};
 	visibleArea = size;
 
 	Properties& config = TerrariumGame::CONFIG;
@@ -76,7 +78,7 @@ void InGameState::initialize()
 	font = new fgeal::Font(config.get("ingame.font.filename"), atoi(config.get("ingame.font.size").c_str()));
 
 	//loading ingame menu
-	Rectangle menuSize = {200, 200, 200, 64};
+	Rectangle menuSize = {visibleArea.w*0.5-100, visibleArea.h*0.5-32, 200, 64};
 	inGameMenu = new Menu(menuSize, font, Color::ORANGE);
 	inGameMenu->addEntry("Resume");
 	inGameMenu->addEntry("Save and exit");
@@ -165,6 +167,7 @@ void InGameState::onLeave()
 void InGameState::render()
 {
 	fgeal::Display::getInstance().clear();
+
 	/* needs to draw HUD */
 
 	game_map->draw_bg_player();

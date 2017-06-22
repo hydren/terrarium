@@ -29,8 +29,6 @@ using std::vector;
 #include "entity.hpp"
 #include "map.hpp"
 
-using Physics::World;
-
 using fgeal::Font;
 using fgeal::Menu;
 
@@ -42,15 +40,18 @@ class InGameState extends public fgeal::Game::State
 	vector<Entity*> entities;
 	vector<Image*> images;
 
+	Image* tilesetDirt, *tilesetStone, *tilesetWater, *tilesetGrass;
+
 	Rectangle visibleArea;
 
-	Entity* player;
+	Image* bg;
 	Map* game_map;
-	Image* tileset_dirt, *playerAnimationSheet;
-	Animation* playerAnimation;
+
+	Entity* player;
+	StackedSingleSheetAnimation* playerAnimation;
+
 	Font* font;
 	Menu* inGameMenu;
-	World* world;
 
 	bool jumping, inGameMenuShowing;
 	bool isKeyUpPressed, isKeyDownPressed, isKeyRightPressed, isKeyLeftPressed;

@@ -54,38 +54,36 @@ InGameState::~InGameState()
 	}
 
 	delete player;
-	delete playerAnimationSheet;
-	delete tileset_dirt;
+	delete playerAnimation;
+
 	delete font;
 	delete inGameMenu;
 
 	//may be null after calling dispose()
 	if(game_map != null) delete game_map;
-	if(world != null) delete world;
 }
 
 void InGameState::initialize()
 {
 	fgeal::Display& display = fgeal::Display::getInstance();
+	Properties& config = TerrariumGame::CONFIG;
 
 	wasInit = true;
 	Rectangle size = {0, 0, (float) display.getWidth(), (float) display.getHeight()};
 	visibleArea = size;
 
-	Properties& config = TerrariumGame::CONFIG;
-
 	//loading font
 	font = new fgeal::Font(config.get("ingame.font.filename"), atoi(config.get("ingame.font.size").c_str()));
 
 	//loading ingame menu
-	Rectangle menuSize = {visibleArea.w*0.5-100, visibleArea.h*0.5-32, 200, 64};
+	Rectangle menuSize = {visibleArea.w*0.5f-100, visibleArea.h*0.5f-32, 200, 64};
 	inGameMenu = new Menu(menuSize, font, Color::ORANGE);
 	inGameMenu->addEntry("Resume");
 	inGameMenu->addEntry("Save and exit");
 	inGameMenu->addEntry("Exit without saving");
 
 	//loading player graphics
-	playerAnimationSheet = new Image(config.get("player.sprite.filename"));
+	Image* playerAnimationSheet = new Image(config.get("player.sprite.filename"));
 
 	playerAnimation = new StackedSingleSheetAnimation(playerAnimationSheet);
 	StackedSingleSheetAnimation& anim = *static_cast<StackedSingleSheetAnimation*>(playerAnimation);
@@ -122,10 +120,16 @@ void InGameState::initialize()
 	playerJumpImpulse = player_body_width*player_body_height * 0.5;
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
 
-	//loading dirt tileset
-	tileset_dirt = new Image("resources/tileset-dirt.png");
+	//loading tilesets
+	images.push_back(tilesetDirt =  new Image("resources/tileset-dirt.png"));
+	images.push_back(tilesetStone = new Image("resources/tileset-stone.png"));
+	images.push_back(tilesetWater = new Image("resources/tileset-water.png"));
+	images.push_back(tilesetGrass = new Image("resources/tileset-grass.png"));
+
+	//load bg
+	images.push_back(bg = new Image(config.get("ingame.bg.filename")));
+
 	game_map = null; // we need to nullify to know afterwards if there was initialization
-	world = null; // we need to nullify to know afterwards if there was initialization
 }
 
 void InGameState::onEnter()
@@ -138,28 +142,22 @@ void InGameState::onEnter()
 	isKeyRightPressed = false;
 	isKeyLeftPressed = false;
 
-	//create new world
-	world = new World(Vector(0.0, 10.0));
-
 	//loading map in world
 	TerrariumGame& game = *static_cast<TerrariumGame*>(&this->game);
-	game_map = Map::loadMapFromFile(game.stageFilename, world, images);
+	game_map = new Map(this, game.stageFilename);
 	game_map->visibleArea = &visibleArea;
 	cout << "map size (in pixels): " << game_map->computeDimensions().w << "x" << game_map->computeDimensions().h << endl;
 
 	//create player body for the newly created world and reset sprite animation
 	if(player->body != null) delete player->body;
 	player->body = new Body(1, 1, player_body_width, player_body_height);
-	world->addBody(player->body);
+	game_map->world->addBody(player->body);
 	player->body->setFixedRotation();
 	player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 }
 
 void InGameState::onLeave()
 {
-	delete world;
-	world = null;
-
 	delete game_map;
 	game_map = null;
 }
@@ -247,7 +245,7 @@ void InGameState::update(float delta)
 	}
 
 	this->handleInput();
-	world->step(delta, 6, 2);
+	game_map->world->step(delta, 6, 2);
 }
 
 void InGameState::handleInput()
@@ -320,7 +318,8 @@ void InGameState::handleInput()
 							inGameMenuShowing=false;
 							break;
 						case 1:
-							Map::saveRawMapToFile(string("resources/maps/saved_map.txt"), game_map);
+							// todo create a dialog to choose file name
+							game_map->saveToFile("resources/maps/saved_map.txt");
 							game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 							break;
 						case 2:
@@ -344,8 +343,8 @@ void InGameState::handleInput()
 				if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
 					if (game_map->grid[mx][my] == NULL)
 					{
-						game_map->grid[mx][my] = new Block(Block::createBlockAnimationSet(tileset_dirt), mx, my, 1);
-						world->addBody(game_map->grid[mx][my]->body);
+						game_map->grid[mx][my] = new Block(Block::createBlockAnimationSet(tilesetDirt), mx, my, 1);
+						game_map->world->addBody(game_map->grid[mx][my]->body);
 						game_map->retile(game_map->grid[mx][my]);
 					}
 
@@ -360,7 +359,7 @@ void InGameState::handleInput()
 				if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
 					if (game_map->grid[mx][my] != NULL)
 					{
-						world->destroyBody(game_map->grid[mx][my]->body);
+						game_map->world->destroyBody(game_map->grid[mx][my]->body);
 						delete game_map->grid[mx][my];
 						game_map->grid[mx][my] = NULL;
 						game_map->retileNeighbourhood(mx, my);

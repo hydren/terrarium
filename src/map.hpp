@@ -11,10 +11,10 @@
 #include <vector>
 using std::vector;
 
-#include "../src/block.hpp"
-#include "../src/physics.hpp"
+#include "block.hpp"
+#include "physics.hpp"
 
-using Physics::World;
+struct InGameState;
 
 struct Map
 {
@@ -22,19 +22,23 @@ struct Map
 	vector< vector<Block*> > grid;
 
 	/** Default is a black background */
-	Animation *background;
+	Sprite* background;
 
-	/** The visible area of this map */
+	/** An optional visible area for this map. If null, all map is drawn (slow). */
 	Rectangle* visibleArea;
 
-	Map(Animation* bg, int columns, int lines, Rectangle* visibleArea);
+	/** The physics part of this map. */
+	Physics::World* world;
 
-	Map(Image* bg, int columns, int lines, Rectangle* visibleArea);
+	/** Creates an empty map, with the given number of columns and lines. */
+	Map(int columns, int lines);
+
+	/** Loads a map from a file. An optional background animation can be specified. */
+	Map(InGameState* game, const string filename);
 
 	~Map();
 
-	static Map* loadMapFromFile(const string& filename, World* world, vector<Image*>& createdImages);
-	static void saveRawMapToFile(const string& filename, Map* map);
+	void saveToFile(const string& filename);
 
 	void retile(Block* b, bool recursive=true);
 

@@ -19,20 +19,59 @@ using std::cout; using std::endl;
 #include "file_parser.hpp"
 
 #include "terrarium_game.hpp"
+#include "ingame_state.hpp"
 
-Map::Map(Animation* bg, int columns, int lines, Rectangle* visibleArea) :
-grid(), background(bg), visibleArea(visibleArea)
+static Physics::Vector GRAVITY(0.0, 10.0);
+
+Map::Map(int columns, int lines)
+: grid(), background(null), visibleArea(null), world(new Physics::World(GRAVITY))
 {
-	grid.resize(columns, vector<Block*>(lines)); //fill the matrix with null
+	grid.resize(columns, vector<Block*>(lines));  // fill the matrix with null
 }
 
-Map::Map(Image* bg, int columns, int lines, Rectangle* visibleArea) :
-grid(), background(null), visibleArea(visibleArea)
+Map::Map(InGameState* state, const string filename)
+: grid(), background(new Sprite(state->bg, state->bg->getWidth(), state->bg->getHeight())), visibleArea(null), world(new Physics::World(GRAVITY))
 {
-	grid.resize(columns, vector<Block*>(lines));//fill the matrix with null
-	SingleSheetAnimation* staticAnim = new SingleSheetAnimation(bg); //lets create an animation with a single image, given as parameter
-	staticAnim->addSprite();  //setting the static animation with the whole image
-	background = staticAnim;
+	vector< vector<int> > file_grid;
+	if(ends_with(filename, ".tmx"))
+		file_grid = FileParser::parseGridFromTMXFile(filename);
+	else
+		file_grid = FileParser::parseGridFromRawTxtFile(filename);
+
+	cout << "map size (in blocks): " << file_grid.size() << "x" << file_grid[0].size() << endl;
+
+	grid.resize(file_grid.size(), vector<Block*>(file_grid[0].size()));  // fill the matrix with null
+
+	for(unsigned int i = 0; i < file_grid.size() ; i++)
+	{
+		for(unsigned int j = 0; j < file_grid[0].size() ; j++)
+		{
+			if(file_grid[i][j] == 1)
+			{
+				grid[i][j] = new Block(Block::createBlockAnimationSet(state->tilesetDirt), i, j, 1);
+				world->addBody(grid[i][j]->body);
+				retile(grid[i][j]);
+			}
+			else if(file_grid[i][j] == 2)
+			{
+				grid[i][j] = new Block(Block::createBlockAnimationSet(state->tilesetStone), i, j, 2);
+				world->addBody(grid[i][j]->body);
+				retile(grid[i][j]);
+			}
+			else if(file_grid[i][j] == 3)
+			{
+				grid[i][j] = new Block(Block::createBlockAnimationSet(state->tilesetWater, 3, 1.0), i, j, 3, true);
+				world->addBody(grid[i][j]->body);
+				retile(grid[i][j]);
+			}
+			else if(file_grid[i][j] == 4)
+			{
+				grid[i][j] = new Block(Block::createBlockAnimationSet(state->tilesetGrass), i, j, 1);
+				world->addBody(grid[i][j]->body);
+				retile(grid[i][j]);
+			}
+		}
+	}
 }
 
 Map::~Map()
@@ -48,78 +87,23 @@ Map::~Map()
 		}
 	}
 
+	delete world;
 	delete background;
 //	delete visibleArea;
 }
 
-
-Map* Map::loadMapFromFile(const string& filename, World* world, vector<Image*>& createdImages)
-{
-	Map* map=null;
-
-	vector< vector<int> > file_grid;
-	if(ends_with(filename, ".tmx"))
-		file_grid = FileParser::parseGridFromTMXFile(filename);
-	else
-		file_grid = FileParser::parseGridFromRawTxtFile(filename);
-
-	cout << "map size (in blocks): " << file_grid.size() << "x" << file_grid[0].size() << endl;
-
-	Properties& config = TerrariumGame::CONFIG;
-
-	Image* imgDirt = new Image("resources/tileset-dirt.png"); createdImages.push_back(imgDirt);
-	Image* imgStone = new Image("resources/tileset-stone.png"); createdImages.push_back(imgStone);
-	Image* imgWater = new Image("resources/tileset-water.png"); createdImages.push_back(imgWater);
-	Image* imgGrass = new Image("resources/tileset-grass.png"); createdImages.push_back(imgGrass);
-	Image* bg = new Image(config.get("ingame.bg.filename")); createdImages.push_back(bg);
-
-	map = new Map(bg, file_grid.size(), file_grid[0].size(), NULL);
-
-	for(unsigned int i = 0; i < file_grid.size() ; i++)
-	{
-		for(unsigned int j = 0; j < file_grid[0].size() ; j++)
-		{
-			if(file_grid[i][j] == 1)
-			{
-				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgDirt), i, j, 1);
-				world->addBody(map->grid[i][j]->body);
-				map->retile(map->grid[i][j]);
-			}
-			else if(file_grid[i][j] == 2)
-			{
-				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgStone), i, j, 2);
-				world->addBody(map->grid[i][j]->body);
-				map->retile(map->grid[i][j]);
-			}
-			else if(file_grid[i][j] == 3)
-			{
-				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgWater, 3, 1.0), i, j, 3, true);
-				world->addBody(map->grid[i][j]->body);
-				map->retile(map->grid[i][j]);
-			}
-			else if(file_grid[i][j] == 4)
-			{
-				map->grid[i][j] = new Block(Block::createBlockAnimationSet(imgGrass), i, j, 1);
-				world->addBody(map->grid[i][j]->body);
-				map->retile(map->grid[i][j]);
-			}
-		}
-	}
-	return map;
-}
-
-void Map::saveRawMapToFile(const string& filename, Map* map)
+void Map::saveToFile(const string& filename)
 {
 	std::ofstream stream(filename.c_str());
 
 	if(stream.is_open())
 	{
-		for(unsigned int j = 0; j < map->grid[0].size() ; j++)
+		for(unsigned int j = 0; j < grid[0].size() ; j++)
 		{
-			for(unsigned int i = 0; i < map->grid.size() ; i++)
+			for(unsigned int i = 0; i < grid.size() ; i++)
 			{
-				stream << (map->grid[i][j] != null);
-				if(i != map->grid.size() - 1)
+				stream << (grid[i][j] != null);
+				if(i != grid.size() - 1)
 					stream << ",";
 			}
 			stream << ":\n";
@@ -203,7 +187,8 @@ void Map::addBlock(int x, int y)
 }
 void Map::draw()
 {
-	background->draw();
+	if(background != null)
+		background->draw(0, 0);
 
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
@@ -250,9 +235,9 @@ void Map::draw()
 /** Draws all the blocks that backgrounds the player */
 void Map::draw_bg_player()
 {
-	background->current().scale.x = fgeal::Display::getInstance().getWidth() / (float) background->current().width;
-	background->current().scale.y = fgeal::Display::getInstance().getHeight() / (float) background->current().height;
-	background->draw();
+	background->scale.x = fgeal::Display::getInstance().getWidth()  / background->getCurrentFrame().w;
+	background->scale.y = fgeal::Display::getInstance().getHeight() / background->getCurrentFrame().h;
+	background->draw(0, 0);
 
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();

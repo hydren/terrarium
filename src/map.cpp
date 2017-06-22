@@ -188,6 +188,14 @@ void Map::addBlock(int mx, int my)
 	retile(grid[mx][my]);
 }
 
+void Map::deleteBlock(int mx, int my)
+{
+	world->destroyBody(grid[mx][my]->body);
+	delete grid[mx][my];
+	grid[mx][my] = NULL;
+	retileNeighbourhood(mx, my);
+}
+
 /** Draws all the blocks that backgrounds the player */
 void Map::draw_bg_player()
 {

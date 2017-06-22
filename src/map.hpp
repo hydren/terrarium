@@ -49,6 +49,8 @@ struct Map
 
 	void addBlock(int x, int y);
 
+	void deleteBlock(int x, int y);
+
 	/** Draws all the blocks in this map */
 	void draw();
 

@@ -353,12 +353,7 @@ void InGameState::handleInput()
 				if(my < 0) my = 0; // safety
 				if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
 					if (game_map->grid[mx][my] != NULL)
-					{
-						game_map->world->destroyBody(game_map->grid[mx][my]->body);
-						delete game_map->grid[mx][my];
-						game_map->grid[mx][my] = NULL;
-						game_map->retileNeighbourhood(mx, my);
-					}
+						game_map->deleteBlock(mx, my);
 			}
 		}
 	}

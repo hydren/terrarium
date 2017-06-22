@@ -16,8 +16,6 @@ using std::cout; using std::endl;
 #include "futil/string/more_operators.hpp"
 #include "futil/string/actions.hpp"
 
-#include "file_parser.hpp"
-
 #include "terrarium_game.hpp"
 #include "ingame_state.hpp"
 
@@ -34,9 +32,9 @@ Map::Map(InGameState* state, const string filename)
 {
 	vector< vector<int> > file_grid;
 	if(ends_with(filename, ".tmx"))
-		file_grid = FileParser::parseGridFromTMXFile(filename);
+		file_grid = parseGridFromTMXFile(filename);
 	else
-		file_grid = FileParser::parseGridFromRawTxtFile(filename);
+		file_grid = parseGridFromRawTxtFile(filename);
 
 	cout << "map size (in blocks): " << file_grid.size() << "x" << file_grid[0].size() << endl;
 

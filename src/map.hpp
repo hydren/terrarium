@@ -11,6 +11,9 @@
 #include <vector>
 using std::vector;
 
+#include <string>
+using std::string;
+
 #include "block.hpp"
 #include "physics.hpp"
 
@@ -61,7 +64,16 @@ struct Map
 	void draw_fg_player();
 
 	Rectangle computeDimensions();
-};
 
+	private:
+	/// Loads the map grid from a raw txt file, based on the old terrarium "SDL" prototype
+	vector< vector<int> > parseGridFromRawTxtFile(const string& file_path);
+
+	/// Loads the map grid from a Tiled TMX file
+	vector< vector<int> > parseGridFromTMXFile(const string& file_path);
+
+	/// Saves the map grid to a ram txt file.
+	void saveGridToRawTxtFile(vector< vector<int> > grid, const string& filename);
+};
 
 #endif /* MAP_HPP_ */

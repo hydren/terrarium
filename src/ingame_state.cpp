@@ -22,6 +22,12 @@ using std::cout; using std::endl;
 const float player_body_width = Physics::convertToMeters(25);
 const float player_body_height = Physics::convertToMeters(81);
 
+// natty macros are natty
+#define isKeyUpPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::Key::ARROW_UP)
+#define isKeyDownPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::Key::ARROW_DOWN)
+#define isKeyRightPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::Key::ARROW_RIGHT)
+#define isKeyLeftPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::Key::ARROW_LEFT)
+
 enum AnimEnum
 {
 	ANIM_PLAYER_STAND_LEFT,
@@ -137,10 +143,6 @@ void InGameState::onEnter()
 	//setting flags
 	jumping = false;
 	inGameMenuShowing = false;
-	isKeyUpPressed = false;
-	isKeyDownPressed = false;
-	isKeyRightPressed = false;
-	isKeyLeftPressed = false;
 
 	//loading map in world
 	TerrariumGame& game = *static_cast<TerrariumGame*>(&this->game);
@@ -265,72 +267,58 @@ void InGameState::handleInput()
 		{
 			switch(event.getEventKeyCode())
 			{
-			case fgeal::Keyboard::Key::ARROW_UP:
-				isKeyUpPressed = false;
-				jumping = false;
-				break;
-			case fgeal::Keyboard::Key::ARROW_DOWN:
-				isKeyDownPressed = false;
-				break;
-			case fgeal::Keyboard::Key::ARROW_RIGHT:
-				player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
-				isKeyRightPressed = false;
-				break;
-			case fgeal::Keyboard::Key::ARROW_LEFT:
-				player->animation->currentIndex = ANIM_PLAYER_STAND_LEFT;
-				isKeyLeftPressed = false;
-				break;
-			default:
-				break;
+				case fgeal::Keyboard::Key::ARROW_UP:
+					jumping = false;
+					break;
+				case fgeal::Keyboard::Key::ARROW_RIGHT:
+					player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
+					break;
+				case fgeal::Keyboard::Key::ARROW_LEFT:
+					player->animation->currentIndex = ANIM_PLAYER_STAND_LEFT;
+					break;
+				default:
+					break;
 			}
 		}
 		else if(event.getEventType() == fgeal::Event::Type::KEY_PRESS)
 		{
 			switch(event.getEventKeyCode())
 			{
-			case fgeal::Keyboard::Key::ARROW_UP:
-				isKeyUpPressed = true;
-				if(inGameMenuShowing)
-					--*inGameMenu;
-				break;
-			case fgeal::Keyboard::Key::ARROW_DOWN:
-				isKeyDownPressed = true;
-				if(inGameMenuShowing)
-					++*inGameMenu;
-				break;
-			case fgeal::Keyboard::Key::ARROW_RIGHT:
-				isKeyRightPressed = true;
-				break;
-			case fgeal::Keyboard::Key::ARROW_LEFT:
-				isKeyLeftPressed = true;
-				break;
-			case fgeal::Keyboard::Key::ESCAPE:
-				if(inGameMenuShowing)
-					inGameMenuShowing=false;
-				else
-					inGameMenuShowing=true;
-				break;
-			case fgeal::Keyboard::Key::ENTER:
-				if(inGameMenuShowing)
-				{
-					switch(inGameMenu->getSelectedIndex())
+				case fgeal::Keyboard::Key::ARROW_UP:
+					if(inGameMenuShowing)
+						--*inGameMenu;
+					break;
+				case fgeal::Keyboard::Key::ARROW_DOWN:
+					if(inGameMenuShowing)
+						++*inGameMenu;
+					break;
+				case fgeal::Keyboard::Key::ESCAPE:
+					if(inGameMenuShowing)
+						inGameMenuShowing=false;
+					else
+						inGameMenuShowing=true;
+					break;
+				case fgeal::Keyboard::Key::ENTER:
+					if(inGameMenuShowing)
 					{
-						case 0:
-							inGameMenuShowing=false;
-							break;
-						case 1:
-							// todo create a dialog to choose file name
-							map->saveToFile("resources/maps/saved_map.txt");
-							game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
-							break;
-						case 2:
-							game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
-							break;
+						switch(inGameMenu->getSelectedIndex())
+						{
+							case 0:
+								inGameMenuShowing=false;
+								break;
+							case 1:
+								// todo create a dialog to choose file name
+								map->saveToFile("resources/maps/saved_map.txt");
+								game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
+								break;
+							case 2:
+								game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
+								break;
+						}
 					}
-				}
-				break;
-			default:
-				break;
+					break;
+				default:
+					break;
 			}
 		}
 		else if(event.getEventType() == fgeal::Event::Type::MOUSE_BUTTON_PRESS)

@@ -54,7 +54,6 @@ class InGameState extends public fgeal::Game::State
 	Menu* inGameMenu;
 
 	bool jumping, inGameMenuShowing;
-	bool isKeyUpPressed, isKeyDownPressed, isKeyRightPressed, isKeyLeftPressed;
 
 	float playerJumpImpulse, playerWalkForce;
 

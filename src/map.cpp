@@ -185,52 +185,6 @@ void Map::addBlock(int x, int y)
 {
 //	grid[x][y] = new Block()
 }
-void Map::draw()
-{
-	if(background != null)
-		background->draw(0, 0);
-
-	int grid_number_of_lines = grid.capacity();
-	int grid_number_of_columns = grid[0].capacity();
-
-	if(visibleArea != NULL && visibleArea->w*visibleArea->y != 0 )
-	{
-		//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
-		int start_i_index = visibleArea->x / BLOCK_SIZE;
-		int start_j_index = visibleArea->y / BLOCK_SIZE;
-		int finish_i_index = ((visibleArea->x + visibleArea->w) / BLOCK_SIZE) + 1;
-		int finish_j_index = (visibleArea->y + visibleArea->h) / BLOCK_SIZE;
-
-		//just to be safe
-		if( start_i_index < 0 ) start_i_index = 0;
-		else if( start_i_index >  grid_number_of_lines -1 ) start_i_index =  grid_number_of_lines -1;
-		if( start_j_index < 0 ) start_j_index = 0;
-		else if(start_j_index > grid_number_of_columns -1 ) start_j_index = grid_number_of_columns - 1;
-		if( finish_i_index < 0 ) finish_i_index = 0;
-		else if ( finish_i_index >  grid_number_of_lines -1 ) finish_i_index =  grid_number_of_lines -1;
-		if( finish_j_index < 0 ) finish_j_index = 0;
-		else if ( finish_j_index > grid_number_of_columns -1 ) finish_j_index = grid_number_of_columns-1;
-
-		//draw the corresponding blocks
-		for( int i = start_i_index ; i <= finish_i_index ; i++)
-			for( int j = start_j_index ; j <= finish_j_index ; j++)
-			{
-				if( grid[i][j] != NULL )
-				{
-					grid[i][j]->draw(visibleArea);
-				}
-			}
-	}
-
-	else //draw every block (usually inefficient)
-	{
-		for(int i = 0; i < grid_number_of_lines; i++)
-			for(int j = 0; j < grid_number_of_columns; j++)
-				if( grid[i][j] != NULL )
-					grid[i][j]->draw(NULL);
-
-	}
-}
 
 /** Draws all the blocks that backgrounds the player */
 void Map::draw_bg_player()

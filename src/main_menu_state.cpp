@@ -7,6 +7,8 @@
 
 #include "main_menu_state.hpp"
 
+#include <algorithm>
+
 using std::vector;
 using std::string;
 
@@ -14,7 +16,6 @@ using fgeal::Event;
 using fgeal::EventQueue;
 using fgeal::Rectangle;
 using fgeal::Color;
-
 
 MainMenuState::MainMenuState(TerrariumGame* game)  // @suppress("Class members should be properly initialized")
 :	State(*game), wasInit(false), fileMenu(null)
@@ -44,8 +45,10 @@ void MainMenuState::initialize()
 
 	fgeal::Display& display = fgeal::Display::getInstance();
 	const float sw = display.getWidth(), sh = display.getHeight();
-	Rectangle size = {0.1*sw, 0.225*sh, 0.5*sw, 0.25*sh};
+	Rectangle size = {0.1f*sw, 0.225f*sh, 0.5f*sw, 0.25f*sh};
 	mainMenu = new Menu(size, minorFont, Color::ORANGE);
+	mainMenu->bgColor = Color(0, 0, 0, 96);
+	mainMenu->borderColor = Color::TRANSPARENT;
 	mainMenu->addEntry("Generate new map");
 	mainMenu->addEntry("Load map from file");
 	mainMenu->addEntry("Settings");
@@ -56,12 +59,19 @@ void MainMenuState::onEnter()
 {
 	fgeal::Display& display = fgeal::Display::getInstance();
 	const float sw = display.getWidth(), sh = display.getHeight();
-	if(fileMenu != null) delete fileMenu;
-	Rectangle size = {0.375*sw, 0.4*sh, 0.25*sw, 0.2*sh};
-	fileMenu = new Menu(size, miniFont, Color::YELLOW, "Which file?");
 	vector<string> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
-		for(vector<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
-			fileMenu->addEntry(*it);
+
+	const float fileMenuHeight = std::min(sh, (dirs.size()+3) * miniFont->getFontHeight());
+
+	Rectangle size = {0.25f*sw, 0.5f*(sh-fileMenuHeight), 0.5f*sw, fileMenuHeight};
+
+	if(fileMenu != null) delete fileMenu;
+	fileMenu = new Menu(size, miniFont, Color::YELLOW, "Which file?");
+	fileMenu->focusedEntryFontColor = Color::AZURE;
+	fileMenu->titleColor = Color::WHITE;
+	fileMenu->bgColor = Color(0, 0, 0, 128);
+	for(vector<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
+		fileMenu->addEntry(*it);
 	fileMenu->addEntry("< Cancel >");
 
 	chooseFile = false;

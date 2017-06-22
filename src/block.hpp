@@ -51,7 +51,7 @@ class Block extends public Entity
 	void draw(const Rectangle* visibleAreaPosition=NULL);
 
 	// creates a proper block-type animation set based on the given arguments.
-	static Animation* createBlockAnimationSet(Image* sheet, unsigned frameCount=1, float frameInterval=-1);
+	static StackedSingleSheetAnimation* createBlockAnimationSet(Image* sheet, unsigned frameCount=1, float frameInterval=-1);
 };
 
 #endif /* BLOCK_HPP_ */

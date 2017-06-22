@@ -41,9 +41,9 @@ void Block::draw(const Rectangle* visibleAreaPosition)
 }
 
 // static
-Animation* Block::createBlockAnimationSet(Image* sheet, unsigned frameCount, float frameInterval)
+StackedSingleSheetAnimation* Block::createBlockAnimationSet(Image* sheet, unsigned frameCount, float frameInterval)
 {
-	StackedSingleSheetAnimation* animation = new StackedSingleSheetAnimation(sheet);
+	StackedSingleSheetAnimation* animation = new StackedSingleSheetAnimation(sheet, false);
 
 	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // FULL_COVER
 	animation->addSprite(BLOCK_SIZE, BLOCK_SIZE, frameCount, frameInterval);  // TOP_FREE

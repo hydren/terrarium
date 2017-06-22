@@ -7,6 +7,12 @@
 
 #include "animation.hpp"
 
+Animation::~Animation()
+{
+	for(unsigned i = 0; i < sprites.size(); i++)
+		delete sprites[i];
+}
+
 Sprite& Animation::operator[](int index)
 {
 	return *sprites[index];
@@ -53,13 +59,13 @@ void Animation::draw(float x, float y)
 
 //************************************************************
 
-SingleSheetAnimation::SingleSheetAnimation(Image* sheet)
-: Animation(), sheet(sheet)
+SingleSheetAnimation::SingleSheetAnimation(Image* sheet, bool sheetIsOwned)
+: Animation(), sheet(sheet), sheetIsOwned(sheetIsOwned)
 {}
 
 SingleSheetAnimation::~SingleSheetAnimation()
 {
-	if(sheet != null)
+	if(sheet != null and sheetIsOwned)
 	{
 		delete sheet;
 		sheet = null;
@@ -75,8 +81,8 @@ void SingleSheetAnimation::addSprite(int width, int height, int frameCount, doub
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-StackedSingleSheetAnimation::StackedSingleSheetAnimation(Image* sheet)
-: SingleSheetAnimation(sheet)
+StackedSingleSheetAnimation::StackedSingleSheetAnimation(Image* sheet, bool sheetIsOwned)
+: SingleSheetAnimation(sheet, sheetIsOwned)
 {}
 
 void StackedSingleSheetAnimation::addSprite(int width, int height, int frameCount, double frameDuration, int sheetOffsetX)

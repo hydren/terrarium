@@ -26,33 +26,6 @@ using std::string;
 #include <vector>
 using std::vector;
 
-//struct AnimationSet
-//{
-//	private:
-//	Image* sheet;
-//	map<string, Sprite*> sprites;
-//	string currentAnim;
-//
-//	public:
-//	AnimationSet(Image* sheet);
-//
-//	void add(string tag, int width=-1, int height=-1, double interval=-1, int frames=1, bool setCurrent=true);
-//
-//	Sprite& ref(string tag);
-//
-//	Sprite& operator[](string tag);
-//
-//	Sprite& current();
-//
-//	void setCurrent(string tag);
-//
-//	void draw(float x=0, float y=0, float angle=0);
-//
-//	unsigned spriteCount();
-//
-//	//TODO add methods for editing the animation set.
-//};
-
 // A class that represents a list of sprites in which one of them is set as the "current" sprite.
 // This class is useful to organize all the sprites that one entity may have and control their exibition.
 struct Animation
@@ -62,6 +35,8 @@ struct Animation
 
 	// the current sprite index
 	int currentIndex;
+
+	~Animation();
 
 	// convenience method to grab a sprite, given its index
 	Sprite& operator[](int index);
@@ -83,12 +58,14 @@ struct Animation
 };
 
 // This class is an animation in which all its sprites uses (and thus, shares) the same sheet image.
-// All sprites created by this animation will not attempt to delete the sheet at their deletion. Instead, this will be done at the animation class destructor.
+// All sprites created by this animation will not attempt to delete the sheet at their deletion.
+// Instead, this will be done at the animation class destructor (unless 'sheetIsOwned' is set to false).
 struct SingleSheetAnimation extends Animation
 {
 	Image* sheet;
+	bool sheetIsOwned;
 
-	SingleSheetAnimation(Image* sheet);
+	SingleSheetAnimation(Image* sheet, bool sheetIsOwned=true);
 	~SingleSheetAnimation();
 
 	// creates and adds a sprite to the list, width the given size, frame count, frame duration and sheet offset.
@@ -101,7 +78,7 @@ struct SingleSheetAnimation extends Animation
 struct StackedSingleSheetAnimation extends SingleSheetAnimation
 {
 	// Creates a single sheet animation in which each sprite is stacked in a top-down manner.
-	StackedSingleSheetAnimation(Image* sheet);
+	StackedSingleSheetAnimation(Image* sheet, bool sheetIsOwned=true);
 
 	// creates and adds a sprite to the list, width the given size, frame count, frame duration and sheet x-offset.
 	// this sprites' y-sheet-offset will be inferred from the current added sprites as the sum of their heights.

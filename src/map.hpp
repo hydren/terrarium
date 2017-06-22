@@ -18,6 +18,9 @@ struct InGameState;
 
 struct Map
 {
+	/** In-game state */
+	InGameState& state;
+
 	/** The map grid, with all block slots */
 	vector< vector<Block*> > grid;
 
@@ -31,10 +34,10 @@ struct Map
 	Physics::World* world;
 
 	/** Creates an empty map, with the given number of columns and lines. */
-	Map(int columns, int lines);
+	Map(InGameState* state, int columns, int lines);
 
 	/** Loads a map from a file. An optional background animation can be specified. */
-	Map(InGameState* game, const string filename);
+	Map(InGameState* state, const string filename);
 
 	~Map();
 

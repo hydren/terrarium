@@ -23,14 +23,14 @@ using std::cout; using std::endl;
 
 static Physics::Vector GRAVITY(0.0, 10.0);
 
-Map::Map(int columns, int lines)
-: grid(), background(null), visibleArea(null), world(new Physics::World(GRAVITY))
+Map::Map(InGameState* state, int columns, int lines)
+: state(*state), grid(), background(null), visibleArea(null), world(new Physics::World(GRAVITY))
 {
 	grid.resize(columns, vector<Block*>(lines));  // fill the matrix with null
 }
 
 Map::Map(InGameState* state, const string filename)
-: grid(), background(new Sprite(state->bg, state->bg->getWidth(), state->bg->getHeight())), visibleArea(null), world(new Physics::World(GRAVITY))
+: state(*state), grid(), background(new Sprite(state->bg, state->bg->getWidth(), state->bg->getHeight())), visibleArea(null), world(new Physics::World(GRAVITY))
 {
 	vector< vector<int> > file_grid;
 	if(ends_with(filename, ".tmx"))
@@ -181,9 +181,11 @@ Rectangle Map::computeDimensions()
 	return size;
 }
 
-void Map::addBlock(int x, int y)
+void Map::addBlock(int mx, int my)
 {
-//	grid[x][y] = new Block()
+	grid[mx][my] = new Block(Block::createBlockAnimationSet(state.tilesetDirt), mx, my, 1);
+	world->addBody(grid[mx][my]->body);
+	retile(grid[mx][my]);
 }
 
 /** Draws all the blocks that backgrounds the player */

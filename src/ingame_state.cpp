@@ -342,12 +342,7 @@ void InGameState::handleInput()
 
 				if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
 					if (game_map->grid[mx][my] == NULL)
-					{
-						game_map->grid[mx][my] = new Block(Block::createBlockAnimationSet(tilesetDirt), mx, my, 1);
-						game_map->world->addBody(game_map->grid[mx][my]->body);
-						game_map->retile(game_map->grid[mx][my]);
-					}
-
+						game_map->addBlock(mx, my);
 			}
 			else if (event.getEventMouseButton() == fgeal::Mouse::Button::LEFT)
 			{

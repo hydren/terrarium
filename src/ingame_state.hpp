@@ -45,7 +45,7 @@ class InGameState extends public fgeal::Game::State
 	Rectangle visibleArea;
 
 	Image* bg;
-	Map* game_map;
+	Map* map;
 
 	Entity* player;
 	StackedSingleSheetAnimation* playerAnimation;

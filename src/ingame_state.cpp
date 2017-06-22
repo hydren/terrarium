@@ -60,7 +60,7 @@ InGameState::~InGameState()
 	delete inGameMenu;
 
 	//may be null after calling dispose()
-	if(game_map != null) delete game_map;
+	if(map != null) delete map;
 }
 
 void InGameState::initialize()
@@ -129,7 +129,7 @@ void InGameState::initialize()
 	//load bg
 	images.push_back(bg = new Image(config.get("ingame.bg.filename")));
 
-	game_map = null; // we need to nullify to know afterwards if there was initialization
+	map = null; // we need to nullify to know afterwards if there was initialization
 }
 
 void InGameState::onEnter()
@@ -144,22 +144,22 @@ void InGameState::onEnter()
 
 	//loading map in world
 	TerrariumGame& game = *static_cast<TerrariumGame*>(&this->game);
-	game_map = new Map(this, game.stageFilename);
-	game_map->visibleArea = &visibleArea;
-	cout << "map size (in pixels): " << game_map->computeDimensions().w << "x" << game_map->computeDimensions().h << endl;
+	map = new Map(this, game.stageFilename);
+	map->visibleArea = &visibleArea;
+	cout << "map size (in pixels): " << map->computeDimensions().w << "x" << map->computeDimensions().h << endl;
 
 	//create player body for the newly created world and reset sprite animation
 	if(player->body != null) delete player->body;
 	player->body = new Body(1, 1, player_body_width, player_body_height);
-	game_map->world->addBody(player->body);
+	map->world->addBody(player->body);
 	player->body->setFixedRotation();
 	player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 }
 
 void InGameState::onLeave()
 {
-	delete game_map;
-	game_map = null;
+	delete map;
+	map = null;
 }
 
 void InGameState::render()
@@ -168,15 +168,16 @@ void InGameState::render()
 
 	/* needs to draw HUD */
 
-	game_map->draw_bg_player();
+	map->draw_bg_player();
 
 	player->draw(); //draw player
 
-	game_map->draw_fg_player();
+	map->draw_fg_player();
 
 	/* drawing others entities */
-	for(vector<Entity*>::iterator it = entities.begin() ; it != entities.end(); ++it){
-		if (*it != null) (*it)->draw();
+	foreach(Entity*, entity, vector<Entity*>, entities)
+	{
+		entity->draw();
 	}
 
 	/* later should be a character class */
@@ -202,7 +203,7 @@ void InGameState::update(float delta)
 		visibleArea.x = convertToPixels(player->body->getX()) - visibleArea.w/2.0;
 		visibleArea.y = convertToPixels(player->body->getY()) - visibleArea.h/2.0;
 
-		Rectangle mapSize = game_map->computeDimensions();
+		Rectangle mapSize = map->computeDimensions();
 
 		// adjusts visibleArea if it falls outside map bounds (and only if the player is not outside bounds itself as well)
 		if(player->body->getX() + player->body->getWidth() > 0 and player->body->getY() + player->body->getHeight() > 0
@@ -245,7 +246,7 @@ void InGameState::update(float delta)
 	}
 
 	this->handleInput();
-	game_map->world->step(delta, 6, 2);
+	map->world->step(delta, 6, 2);
 }
 
 void InGameState::handleInput()
@@ -319,7 +320,7 @@ void InGameState::handleInput()
 							break;
 						case 1:
 							// todo create a dialog to choose file name
-							game_map->saveToFile("resources/maps/saved_map.txt");
+							map->saveToFile("resources/maps/saved_map.txt");
 							game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 							break;
 						case 2:
@@ -340,9 +341,9 @@ void InGameState::handleInput()
 				unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
 				unsigned int my = (visibleArea.y + event.getEventMouseY())/BLOCK_SIZE;
 
-				if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
-					if (game_map->grid[mx][my] == NULL)
-						game_map->addBlock(mx, my);
+				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
+					if (map->grid[mx][my] == NULL)
+						map->addBlock(mx, my);
 			}
 			else if (event.getEventMouseButton() == fgeal::Mouse::Button::LEFT)
 			{
@@ -351,9 +352,9 @@ void InGameState::handleInput()
 
 				if(mx < 0) mx = 0; // safety
 				if(my < 0) my = 0; // safety
-				if(mx < game_map->grid.capacity() && my < game_map->grid[0].capacity()) // in case you click outside the map
-					if (game_map->grid[mx][my] != NULL)
-						game_map->deleteBlock(mx, my);
+				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
+					if (map->grid[mx][my] != NULL)
+						map->deleteBlock(mx, my);
 			}
 		}
 	}

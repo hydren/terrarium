@@ -12,18 +12,10 @@ using Physics::convertToPixels;
 /** Caution: the given animation should be correctly configured for blocks */
 Block::Block(Animation* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision):
 Entity(anim, new Body(Physics::convertToMeters(x_grid*BLOCK_SIZE), Physics::convertToMeters(y_grid*BLOCK_SIZE), Physics::convertToMeters(BLOCK_SIZE), ignoreCollision)),
-x_grid_pos(x_grid),
-y_grid_pos(y_grid),
-typeID(typeID)
+typeID(typeID),
+gridX(x_grid),
+gridY(y_grid)
 {}
-
-int Block::getX() {
-	return x_grid_pos;
-}
-
-int Block::getY() {
-	return y_grid_pos;
-}
 
 void Block::draw(const Rectangle& visibleArea)
 {

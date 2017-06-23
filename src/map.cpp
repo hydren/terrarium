@@ -80,7 +80,7 @@ Map::~Map()
 		foreach(Block*, b, vector<Block*>, v)
 		{
 			if(b != null)
-				cout << string("deleting block ") + b->x_grid_pos + ", "+b->y_grid_pos << endl;;
+				cout << string("deleting block ") + b->gridX + ", "+b->gridY << endl;;
 			delete b;
 		}
 	}
@@ -135,13 +135,13 @@ void Map::retile(Block* b, bool recursive)
 
 	//WIP tileset algorithm
 
-	if(b->x_grid_pos > 0) if(grid[b->x_grid_pos-1][b->y_grid_pos] != NULL) hasLeft = true;
+	if(b->gridX > 0) if(grid[b->gridX-1][b->gridY] != NULL) hasLeft = true;
 
-	if(b->x_grid_pos < (int) grid.size() -1) if(grid[b->x_grid_pos+1][b->y_grid_pos] != NULL) hasRight = true;
+	if(b->gridX < (int) grid.size() -1) if(grid[b->gridX+1][b->gridY] != NULL) hasRight = true;
 
-	if(b->y_grid_pos > 0) if(grid[b->x_grid_pos][b->y_grid_pos-1] != NULL) hasNorth = true;
+	if(b->gridY > 0) if(grid[b->gridX][b->gridY-1] != NULL) hasNorth = true;
 
-	if(b->y_grid_pos < (int) grid[0].size() -1) if(grid[b->x_grid_pos][b->y_grid_pos+1] != NULL) hasSouth = true;
+	if(b->gridY < (int) grid[0].size() -1) if(grid[b->gridX][b->gridY+1] != NULL) hasSouth = true;
 
 	if(  hasNorth &&  hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::FULL_COVER;
 	if( !hasNorth &&  hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::TOP_FREE;
@@ -166,10 +166,10 @@ void Map::retile(Block* b, bool recursive)
 
 	if(recursive)
 	{
-		if(hasNorth) retile(grid[b->x_grid_pos][b->y_grid_pos-1], false);
-		if(hasSouth) retile(grid[b->x_grid_pos][b->y_grid_pos+1], false);
-		if(hasLeft)  retile(grid[b->x_grid_pos-1][b->y_grid_pos], false);
-		if(hasRight) retile(grid[b->x_grid_pos+1][b->y_grid_pos], false);
+		if(hasNorth) retile(grid[b->gridX][b->gridY-1], false);
+		if(hasSouth) retile(grid[b->gridX][b->gridY+1], false);
+		if(hasLeft)  retile(grid[b->gridX-1][b->gridY], false);
+		if(hasRight) retile(grid[b->gridX+1][b->gridY], false);
 	}
 }
 

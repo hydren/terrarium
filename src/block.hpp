@@ -15,8 +15,25 @@
 class Block extends public Entity
 {
 	public:
+
+	// id of the block type
+	int typeID;
+
+	// grid position of this block
+	const int gridX, gridY;
+
+	//constructors
+	Block(Animation* anim, int gridX, int gridY, int typeID, bool ignoreCollision=false);
+
+	void draw(const Rectangle& visibleArea);
+
+	// creates a proper block-type animation set based on the given arguments.
+	static StackedSingleSheetAnimation* createBlockAnimationSet(Image* sheet, unsigned frameCount=1, float frameInterval=-1);
+
+	// holds animation indexes
 	struct Anim
 	{
+		// possible animation indexes
 		enum
 		{
 			FULL_COVER,
@@ -37,21 +54,6 @@ class Block extends public Entity
 			FULL_FREE
 		};
 	};
-
-	int x_grid_pos, y_grid_pos;
-
-	int typeID;
-
-	//constructors
-	Block(Animation* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision=false);
-
-	int getX();
-	int getY();
-
-	void draw(const Rectangle& visibleArea);
-
-	// creates a proper block-type animation set based on the given arguments.
-	static StackedSingleSheetAnimation* createBlockAnimationSet(Image* sheet, unsigned frameCount=1, float frameInterval=-1);
 };
 
 #endif /* BLOCK_HPP_ */

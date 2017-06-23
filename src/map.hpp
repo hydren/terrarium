@@ -45,11 +45,11 @@ struct Map
 
 	void retile(Block* b, bool recursive=true);
 
-	void retileNeighbourhood(int x_grid_pos, int y_grid_pos);
+	void retileNeighbourhood(unsigned gridX, unsigned gridY);
 
-	void addBlock(int x, int y);
+	void addBlock(unsigned gridX, unsigned gridY);
 
-	void deleteBlock(int x, int y);
+	void deleteBlock(unsigned gridX, unsigned gridY);
 
 	/** Draws all the blocks in this map */
 	void draw();

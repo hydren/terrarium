@@ -20,10 +20,10 @@ class Block extends public Entity
 	int typeID;
 
 	// grid position of this block
-	const int gridX, gridY;
+	const unsigned gridX, gridY;
 
 	//constructors
-	Block(Animation* anim, int gridX, int gridY, int typeID, bool ignoreCollision=false);
+	Block(Animation* anim, unsigned gridX, unsigned gridY, int typeID, bool ignoreCollision=false);
 
 	void draw(const Rectangle& visibleArea);
 

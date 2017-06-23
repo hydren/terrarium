@@ -111,65 +111,46 @@ void Map::saveToFile(const string& filename)
 	stream.close();
 }
 
-void Map::retileNeighbourhood(int x_grid_pos, int y_grid_pos)
+void Map::retileNeighbourhood(unsigned gridX, unsigned gridY)
 {
-	if(x_grid_pos > 0) if(grid[x_grid_pos-1][y_grid_pos] != NULL)
-		retile(grid[x_grid_pos-1][y_grid_pos], false);
-
-	if(x_grid_pos < (int) grid.size() -1) if(grid[x_grid_pos+1][y_grid_pos] != NULL)
-		retile(grid[x_grid_pos+1][y_grid_pos], false);
-
-	if(y_grid_pos > 0) if(grid[x_grid_pos][y_grid_pos-1] != NULL)
-		retile(grid[x_grid_pos][y_grid_pos-1], false);
-
-	if(y_grid_pos < (int) grid[0].size() -1) if(grid[x_grid_pos][y_grid_pos+1] != NULL)
-		retile(grid[x_grid_pos][y_grid_pos+1], false);
+	if(gridX > 0                and grid[gridX-1][gridY] != null) retile(grid[gridX-1][gridY  ], false);
+	if(gridX < grid.size()-1    and grid[gridX+1][gridY] != null) retile(grid[gridX+1][gridY  ], false);
+	if(gridY > 0                and grid[gridX][gridY-1] != null) retile(grid[gridX  ][gridY-1], false);
+	if(gridY < grid[0].size()-1 and grid[gridX][gridY+1] != null) retile(grid[gridX  ][gridY+1], false);
 }
 
-
-/** Draws all the blocks in this map */
 void Map::retile(Block* b, bool recursive)
 {
-	unsigned k;
-	bool hasLeft=false, hasRight=false, hasNorth=false, hasSouth=false;
+	const bool hasLeft  = (b->gridX > 0                 and grid[b->gridX-1][b->gridY  ] != null),
+			   hasRight = (b->gridX < grid.size() -1    and grid[b->gridX+1][b->gridY  ] != null),
+			   hasNorth = (b->gridY > 0                 and grid[b->gridX  ][b->gridY-1] != null),
+			   hasSouth = (b->gridY < grid[0].size() -1 and grid[b->gridX  ][b->gridY+1] != null);
 
-	//WIP tileset algorithm
+	if(  hasNorth &&  hasSouth &&  hasLeft &&  hasRight) b->animation->currentIndex = Block::Anim::FULL_COVER;
+	if( !hasNorth &&  hasSouth &&  hasLeft &&  hasRight) b->animation->currentIndex = Block::Anim::TOP_FREE;
+	if(  hasNorth && !hasSouth &&  hasLeft &&  hasRight) b->animation->currentIndex = Block::Anim::BOTTOM_FREE;
+	if(  hasNorth &&  hasSouth && !hasLeft &&  hasRight) b->animation->currentIndex = Block::Anim::LEFT_FREE;
+	if(  hasNorth &&  hasSouth &&  hasLeft && !hasRight) b->animation->currentIndex = Block::Anim::RIGHT_FREE;
+	if( !hasNorth &&  hasSouth && !hasLeft &&  hasRight) b->animation->currentIndex = Block::Anim::TOP_LEFT_FREE;
+	if(  hasNorth && !hasSouth && !hasLeft &&  hasRight) b->animation->currentIndex = Block::Anim::BOTTOM_LEFT_FREE;
+	if( !hasNorth &&  hasSouth &&  hasLeft && !hasRight) b->animation->currentIndex = Block::Anim::TOP_RIGHT_FREE;
+	if(  hasNorth && !hasSouth &&  hasLeft && !hasRight) b->animation->currentIndex = Block::Anim::BOTTOM_RIGHT_FREE;
+	if(  hasNorth &&  hasSouth && !hasLeft && !hasRight) b->animation->currentIndex = Block::Anim::HORIZONTAL_FREE;
+	if( !hasNorth && !hasSouth &&  hasLeft &&  hasRight) b->animation->currentIndex = Block::Anim::VERTICAL_FREE;
+	if( !hasNorth &&  hasSouth && !hasLeft && !hasRight) b->animation->currentIndex = Block::Anim::BOTTOM_COVERED;
+	if(  hasNorth && !hasSouth && !hasLeft && !hasRight) b->animation->currentIndex = Block::Anim::TOP_COVERED;
+	if( !hasNorth && !hasSouth && !hasLeft &&  hasRight) b->animation->currentIndex = Block::Anim::RIGHT_COVERED;
+	if( !hasNorth && !hasSouth &&  hasLeft && !hasRight) b->animation->currentIndex = Block::Anim::LEFT_COVERED;
+	if( !hasNorth && !hasSouth && !hasLeft && !hasRight) b->animation->currentIndex = Block::Anim::FULL_FREE;
 
-	if(b->gridX > 0) if(grid[b->gridX-1][b->gridY] != NULL) hasLeft = true;
-
-	if(b->gridX < (int) grid.size() -1) if(grid[b->gridX+1][b->gridY] != NULL) hasRight = true;
-
-	if(b->gridY > 0) if(grid[b->gridX][b->gridY-1] != NULL) hasNorth = true;
-
-	if(b->gridY < (int) grid[0].size() -1) if(grid[b->gridX][b->gridY+1] != NULL) hasSouth = true;
-
-	if(  hasNorth &&  hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::FULL_COVER;
-	if( !hasNorth &&  hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::TOP_FREE;
-	if(  hasNorth && !hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::BOTTOM_FREE;
-	if(  hasNorth &&  hasSouth && !hasLeft &&  hasRight) k = Block::Anim::LEFT_FREE;
-	if(  hasNorth &&  hasSouth &&  hasLeft && !hasRight) k = Block::Anim::RIGHT_FREE;
-	if( !hasNorth &&  hasSouth && !hasLeft &&  hasRight) k = Block::Anim::TOP_LEFT_FREE;
-	if(  hasNorth && !hasSouth && !hasLeft &&  hasRight) k = Block::Anim::BOTTOM_LEFT_FREE;
-	if( !hasNorth &&  hasSouth &&  hasLeft && !hasRight) k = Block::Anim::TOP_RIGHT_FREE;
-	if(  hasNorth && !hasSouth &&  hasLeft && !hasRight) k = Block::Anim::BOTTOM_RIGHT_FREE;
-	if(  hasNorth &&  hasSouth && !hasLeft && !hasRight) k = Block::Anim::HORIZONTAL_FREE;
-	if( !hasNorth && !hasSouth &&  hasLeft &&  hasRight) k = Block::Anim::VERTICAL_FREE;
-	if( !hasNorth &&  hasSouth && !hasLeft && !hasRight) k = Block::Anim::BOTTOM_COVERED;
-	if(  hasNorth && !hasSouth && !hasLeft && !hasRight) k = Block::Anim::TOP_COVERED;
-	if( !hasNorth && !hasSouth && !hasLeft &&  hasRight) k = Block::Anim::RIGHT_COVERED;
-	if( !hasNorth && !hasSouth &&  hasLeft && !hasRight) k = Block::Anim::LEFT_COVERED;
-	if( !hasNorth && !hasSouth && !hasLeft && !hasRight) k = Block::Anim::FULL_FREE;
-
-//	COUT << "hasNorth = " << hasNorth << ", hasSouth = " << hasSouth << ", hasLeft = " << hasLeft << ", hasRight = " << hasRight << ENDL;
-
-	b->animation->currentIndex = k;
+//	std::cout << "hasNorth = " << hasNorth << ", hasSouth = " << hasSouth << ", hasLeft = " << hasLeft << ", hasRight = " << hasRight << std::endl;
 
 	if(recursive)
 	{
-		if(hasNorth) retile(grid[b->gridX][b->gridY-1], false);
-		if(hasSouth) retile(grid[b->gridX][b->gridY+1], false);
 		if(hasLeft)  retile(grid[b->gridX-1][b->gridY], false);
 		if(hasRight) retile(grid[b->gridX+1][b->gridY], false);
+		if(hasNorth) retile(grid[b->gridX][b->gridY-1], false);
+		if(hasSouth) retile(grid[b->gridX][b->gridY+1], false);
 	}
 }
 
@@ -179,19 +160,19 @@ Rectangle Map::computeDimensions()
 	return size;
 }
 
-void Map::addBlock(int mx, int my)
+void Map::addBlock(unsigned gridX, unsigned gridY)
 {
-	grid[mx][my] = new Block(new Animation(state.tilesetDirt), mx, my, 1);
-	world->addBody(grid[mx][my]->body);
-	retile(grid[mx][my]);
+	grid[gridX][gridY] = new Block(new Animation(state.tilesetDirt), gridX, gridY, 1);
+	world->addBody(grid[gridX][gridY]->body);
+	retile(grid[gridX][gridY]);
 }
 
-void Map::deleteBlock(int mx, int my)
+void Map::deleteBlock(unsigned gridX, unsigned gridY)
 {
-	world->destroyBody(grid[mx][my]->body);
-	delete grid[mx][my];
-	grid[mx][my] = NULL;
-	retileNeighbourhood(mx, my);
+	world->destroyBody(grid[gridX][gridY]->body);
+	delete grid[gridX][gridY];
+	grid[gridX][gridY] = null;
+	retileNeighbourhood(gridX, gridY);
 }
 
 /** Draws all the blocks that backgrounds the player */
@@ -226,7 +207,7 @@ void Map::draw_bg_player()
 	for( int i = start_i_index ; i <= finish_i_index ; i++)
 		for( int j = start_j_index ; j <= finish_j_index ; j++)
 		{
-			if( grid[i][j] != NULL and grid[i][j]->typeID != 3)
+			if( grid[i][j] != null and grid[i][j]->typeID != 3)
 			{
 				grid[i][j]->draw(visibleArea);
 			}
@@ -261,7 +242,7 @@ void Map::draw_fg_player()
 	for( int i = start_i_index ; i <= finish_i_index ; i++)
 		for( int j = start_j_index ; j <= finish_j_index ; j++)
 		{
-			if( grid[i][j] != NULL and grid[i][j]->typeID == 3)
+			if( grid[i][j] != null and grid[i][j]->typeID == 3)
 			{
 				grid[i][j]->draw(visibleArea);
 			}

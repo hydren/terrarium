@@ -10,7 +10,7 @@
 using Physics::convertToPixels;
 
 /** Caution: the given animation should be correctly configured for blocks */
-Block::Block(Animation* anim, int x_grid, int y_grid, int typeID, bool ignoreCollision):
+Block::Block(Animation* anim, unsigned x_grid, unsigned y_grid, int typeID, bool ignoreCollision):
 Entity(anim, new Body(Physics::convertToMeters(x_grid*BLOCK_SIZE), Physics::convertToMeters(y_grid*BLOCK_SIZE), Physics::convertToMeters(BLOCK_SIZE), ignoreCollision)),
 typeID(typeID),
 gridX(x_grid),

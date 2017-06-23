@@ -46,25 +46,25 @@ Map::Map(InGameState* state, const string filename)
 		{
 			if(file_grid[i][j] == 1)
 			{
-				grid[i][j] = new Block(Block::createBlockAnimationSet(state->tilesetDirt), i, j, 1);
+				grid[i][j] = new Block(new Animation(state->tilesetDirt), i, j, 1);
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}
 			else if(file_grid[i][j] == 2)
 			{
-				grid[i][j] = new Block(Block::createBlockAnimationSet(state->tilesetStone), i, j, 2);
+				grid[i][j] = new Block(new Animation(state->tilesetStone), i, j, 2);
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}
 			else if(file_grid[i][j] == 3)
 			{
-				grid[i][j] = new Block(Block::createBlockAnimationSet(state->tilesetWater, 3, 1.0), i, j, 3, true);
+				grid[i][j] = new Block(new Animation(state->tilesetWater), i, j, 3, true);
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}
 			else if(file_grid[i][j] == 4)
 			{
-				grid[i][j] = new Block(Block::createBlockAnimationSet(state->tilesetGrass), i, j, 1);
+				grid[i][j] = new Block(new Animation(state->tilesetGrass), i, j, 1);
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}
@@ -181,7 +181,7 @@ Rectangle Map::computeDimensions()
 
 void Map::addBlock(int mx, int my)
 {
-	grid[mx][my] = new Block(Block::createBlockAnimationSet(state.tilesetDirt), mx, my, 1);
+	grid[mx][my] = new Block(new Animation(state.tilesetDirt), mx, my, 1);
 	world->addBody(grid[mx][my]->body);
 	retile(grid[mx][my]);
 }

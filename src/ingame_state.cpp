@@ -13,6 +13,7 @@ using Physics::convertToPixels;
 using fgeal::Event;
 using fgeal::EventQueue;
 using fgeal::Color;
+using fgeal::Menu;
 
 // xxx debug
 #include <iostream>
@@ -57,6 +58,11 @@ InGameState::~InGameState()
 	foreach(Image*, img, vector<Image*>, images)
 	{
 		delete img;
+	}
+
+	foreach(StackedSingleSheetAnimation*, tileset, vector<StackedSingleSheetAnimation*>, tilesets)
+	{
+		delete tileset;
 	}
 
 	delete player;
@@ -127,10 +133,10 @@ void InGameState::initialize()
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
 
 	//loading tilesets
-	images.push_back(tilesetDirt =  new Image("resources/tileset-dirt.png"));
-	images.push_back(tilesetStone = new Image("resources/tileset-stone.png"));
-	images.push_back(tilesetWater = new Image("resources/tileset-water.png"));
-	images.push_back(tilesetGrass = new Image("resources/tileset-grass.png"));
+	tilesets.push_back(tilesetDirt =  Block::createBlockAnimationSet(new Image("resources/tileset-dirt.png")));
+	tilesets.push_back(tilesetStone = Block::createBlockAnimationSet(new Image("resources/tileset-stone.png")));
+	tilesets.push_back(tilesetWater = Block::createBlockAnimationSet(new Image("resources/tileset-water.png"), 3, 1.0));
+	tilesets.push_back(tilesetGrass = Block::createBlockAnimationSet(new Image("resources/tileset-grass.png")));
 
 	//load bg
 	images.push_back(bg = new Image(config.get("ingame.bg.filename")));

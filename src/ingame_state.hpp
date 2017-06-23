@@ -40,7 +40,8 @@ class InGameState extends public fgeal::Game::State
 	vector<Entity*> entities;
 	vector<Image*> images;
 
-	Image* tilesetDirt, *tilesetStone, *tilesetWater, *tilesetGrass;
+	StackedSingleSheetAnimation* tilesetDirt, *tilesetStone, *tilesetWater, *tilesetGrass;
+	vector<StackedSingleSheetAnimation*> tilesets;
 
 	Rectangle visibleArea;
 

@@ -30,9 +30,6 @@ struct Map
 	/** Default is a black background */
 	Sprite* background;
 
-	/** An optional visible area for this map. If null, all map is drawn (slow). */
-	Rectangle* visibleArea;
-
 	/** The physics part of this map. */
 	Physics::World* world;
 

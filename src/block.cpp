@@ -25,14 +25,11 @@ int Block::getY() {
 	return y_grid_pos;
 }
 
-void Block::draw(const Rectangle* visibleAreaPosition)
+void Block::draw(const Rectangle& visibleArea)
 {
 	float offx = 0, offy = 0;
-	if(visibleAreaPosition != NULL)
-	{
-		offx += -visibleAreaPosition->x;
-		offy += -visibleAreaPosition->y;
-	}
+	offx += -visibleArea.x;
+	offy += -visibleArea.y;
 
 	offx += (convertToPixels(body->getWidth()) - animation->current().width)/2;
 	offy +=  convertToPixels(body->getHeight()) - animation->current().height;

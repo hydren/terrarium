@@ -18,14 +18,11 @@ struct Entity
 {
 	Animation *animation;
 	Body *body;
-	Rectangle* visibleAreaPosition;
 
-	Entity(Animation* anim=NULL, Body *b=NULL, Rectangle* visibleArea=null);
+	Entity(Animation* anim=null, Body *body=null);
 	~Entity();
 
-	void draw();
-	void draw(const Rectangle * visibleAreaPosition);
+	void draw(const Rectangle& visibleAreaPosition);
 };
-
 
 #endif /* ENTITY_HPP_ */

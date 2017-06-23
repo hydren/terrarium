@@ -48,7 +48,7 @@ class Block extends public Entity
 	int getX();
 	int getY();
 
-	void draw(const Rectangle* visibleAreaPosition=NULL);
+	void draw(const Rectangle& visibleArea);
 
 	// creates a proper block-type animation set based on the given arguments.
 	static StackedSingleSheetAnimation* createBlockAnimationSet(Image* sheet, unsigned frameCount=1, float frameInterval=-1);

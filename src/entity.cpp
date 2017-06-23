@@ -8,29 +8,25 @@
 #include "entity.hpp"
 
 using Physics::convertToPixels;
+using Physics::Body;
+using fgeal::Rectangle;
 
-Entity::Entity(Animation* anim, Body *b, Rectangle* visibleArea) :
+Entity::Entity(Animation* anim, Body *b) :
 animation(anim),
-body(b),
-visibleAreaPosition(visibleArea)
+body(b)
 {}
 
 Entity::~Entity()
 {
 	delete animation;
 	delete body;
-//	delete visibleAreaPosition;
 }
 
-
-void Entity::draw()
+void Entity::draw(const Rectangle& visibleArea)
 {
 	float offx = 0, offy = 0;
-	if(visibleAreaPosition != NULL)
-	{
-		offx += -visibleAreaPosition->x;
-		offy += -visibleAreaPosition->y;
-	}
+	offx += -visibleArea.x;
+	offy += -visibleArea.y;
 
 	offx += (convertToPixels(body->getWidth()) - animation->current().width)/2;
 	offy +=  convertToPixels(body->getHeight()) - animation->current().height;

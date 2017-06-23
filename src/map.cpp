@@ -22,13 +22,13 @@ using std::cout; using std::endl;
 static Physics::Vector GRAVITY(0.0, 10.0);
 
 Map::Map(InGameState* state, int columns, int lines)
-: state(*state), grid(), background(null), visibleArea(null), world(new Physics::World(GRAVITY))
+: state(*state), grid(), background(null), world(new Physics::World(GRAVITY))
 {
 	grid.resize(columns, vector<Block*>(lines));  // fill the matrix with null
 }
 
 Map::Map(InGameState* state, const string filename)
-: state(*state), grid(), background(new Sprite(state->bg, state->bg->getWidth(), state->bg->getHeight())), visibleArea(null), world(new Physics::World(GRAVITY))
+: state(*state), grid(), background(new Sprite(state->bg, state->bg->getWidth(), state->bg->getHeight())), world(new Physics::World(GRAVITY))
 {
 	vector< vector<int> > file_grid;
 	if(ends_with(filename, ".tmx"))
@@ -204,44 +204,33 @@ void Map::draw_bg_player()
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
 
-	if(visibleArea != NULL && visibleArea->w*visibleArea->h != 0 )
-	{
-		//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
-		int start_i_index = visibleArea->x / BLOCK_SIZE;
-		int start_j_index = visibleArea->y / BLOCK_SIZE;
-		int finish_i_index = ((visibleArea->x + visibleArea->w) / BLOCK_SIZE) + 1;
-		int finish_j_index = (visibleArea->y + visibleArea->h) / BLOCK_SIZE;
+	const Rectangle& visibleArea = state.visibleArea;
 
-		//just to be safe
-		if( start_i_index < 0 ) start_i_index = 0;
-		else if( start_i_index >  grid_number_of_lines -1 ) start_i_index =  grid_number_of_lines -1;
-		if( start_j_index < 0 ) start_j_index = 0;
-		else if(start_j_index > grid_number_of_columns -1 ) start_j_index = grid_number_of_columns - 1;
-		if( finish_i_index < 0 ) finish_i_index = 0;
-		else if ( finish_i_index >  grid_number_of_lines -1 ) finish_i_index =  grid_number_of_lines -1;
-		if( finish_j_index < 0 ) finish_j_index = 0;
-		else if ( finish_j_index > grid_number_of_columns -1 ) finish_j_index = grid_number_of_columns-1;
+	//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
+	int start_i_index = visibleArea.x / BLOCK_SIZE;
+	int start_j_index = visibleArea.y / BLOCK_SIZE;
+	int finish_i_index = ((visibleArea.x + visibleArea.w) / BLOCK_SIZE) + 1;
+	int finish_j_index = (visibleArea.y + visibleArea.h) / BLOCK_SIZE;
 
-		//draw the corresponding blocks
-		for( int i = start_i_index ; i <= finish_i_index ; i++)
-			for( int j = start_j_index ; j <= finish_j_index ; j++)
+	//just to be safe
+	if( start_i_index < 0 ) start_i_index = 0;
+	else if( start_i_index >  grid_number_of_lines -1 ) start_i_index =  grid_number_of_lines -1;
+	if( start_j_index < 0 ) start_j_index = 0;
+	else if(start_j_index > grid_number_of_columns -1 ) start_j_index = grid_number_of_columns - 1;
+	if( finish_i_index < 0 ) finish_i_index = 0;
+	else if ( finish_i_index >  grid_number_of_lines -1 ) finish_i_index =  grid_number_of_lines -1;
+	if( finish_j_index < 0 ) finish_j_index = 0;
+	else if ( finish_j_index > grid_number_of_columns -1 ) finish_j_index = grid_number_of_columns-1;
+
+	//draw the corresponding blocks
+	for( int i = start_i_index ; i <= finish_i_index ; i++)
+		for( int j = start_j_index ; j <= finish_j_index ; j++)
+		{
+			if( grid[i][j] != NULL and grid[i][j]->typeID != 3)
 			{
-				if( grid[i][j] != NULL and grid[i][j]->typeID != 3)
-				{
-					grid[i][j]->draw(visibleArea);
-				}
+				grid[i][j]->draw(visibleArea);
 			}
-	}
-
-	else // case no usable visible area
-	{
-		//draw every block (usually inefficient)
-		for(int i = 0; i < grid_number_of_lines; i++)
-			for(int j = 0; j < grid_number_of_columns; j++)
-				if( grid[i][j] != NULL and grid[i][j]->typeID != 3 )
-					grid[i][j]->draw(NULL);
-
-	}
+		}
 }
 
 /** Draws all the blocks that foregrounds the player */
@@ -250,44 +239,33 @@ void Map::draw_fg_player()
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
 
-	if(visibleArea != NULL && visibleArea->w*visibleArea->h != 0 )
-	{
-		//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
-		int start_i_index = visibleArea->x / BLOCK_SIZE;
-		int start_j_index = visibleArea->y / BLOCK_SIZE;
-		int finish_i_index = ((visibleArea->x + visibleArea->w) / BLOCK_SIZE) + 1;
-		int finish_j_index = (visibleArea->y + visibleArea->h) / BLOCK_SIZE;
+	const Rectangle& visibleArea = state.visibleArea;
 
-		//just to be safe
-		if( start_i_index < 0 ) start_i_index = 0;
-		else if( start_i_index >  grid_number_of_lines -1 ) start_i_index =  grid_number_of_lines -1;
-		if( start_j_index < 0 ) start_j_index = 0;
-		else if(start_j_index > grid_number_of_columns -1 ) start_j_index = grid_number_of_columns - 1;
-		if( finish_i_index < 0 ) finish_i_index = 0;
-		else if ( finish_i_index >  grid_number_of_lines -1 ) finish_i_index =  grid_number_of_lines -1;
-		if( finish_j_index < 0 ) finish_j_index = 0;
-		else if ( finish_j_index > grid_number_of_columns -1 ) finish_j_index = grid_number_of_columns-1;
+	//draws all blocks that can be fully or partially seen, but not the ones that can't be seen
+	int start_i_index = visibleArea.x / BLOCK_SIZE;
+	int start_j_index = visibleArea.y / BLOCK_SIZE;
+	int finish_i_index = ((visibleArea.x + visibleArea.w) / BLOCK_SIZE) + 1;
+	int finish_j_index = (visibleArea.y + visibleArea.h) / BLOCK_SIZE;
 
-		//draw the corresponding blocks
-		for( int i = start_i_index ; i <= finish_i_index ; i++)
-			for( int j = start_j_index ; j <= finish_j_index ; j++)
+	//just to be safe
+	if( start_i_index < 0 ) start_i_index = 0;
+	else if( start_i_index >  grid_number_of_lines -1 ) start_i_index =  grid_number_of_lines -1;
+	if( start_j_index < 0 ) start_j_index = 0;
+	else if(start_j_index > grid_number_of_columns -1 ) start_j_index = grid_number_of_columns - 1;
+	if( finish_i_index < 0 ) finish_i_index = 0;
+	else if ( finish_i_index >  grid_number_of_lines -1 ) finish_i_index =  grid_number_of_lines -1;
+	if( finish_j_index < 0 ) finish_j_index = 0;
+	else if ( finish_j_index > grid_number_of_columns -1 ) finish_j_index = grid_number_of_columns-1;
+
+	//draw the corresponding blocks
+	for( int i = start_i_index ; i <= finish_i_index ; i++)
+		for( int j = start_j_index ; j <= finish_j_index ; j++)
+		{
+			if( grid[i][j] != NULL and grid[i][j]->typeID == 3)
 			{
-				if( grid[i][j] != NULL and grid[i][j]->typeID == 3)
-				{
-					grid[i][j]->draw(visibleArea);
-				}
+				grid[i][j]->draw(visibleArea);
 			}
-	}
-
-	else // case no usable visible area
-	{
-		//draw every block (usually inefficient)
-		for(int i = 0; i < grid_number_of_lines; i++)
-			for(int j = 0; j < grid_number_of_columns; j++)
-				if( grid[i][j] != NULL and grid[i][j]->typeID == 3 )
-					grid[i][j]->draw(NULL);
-
-	}
+		}
 }
 
 

@@ -80,9 +80,10 @@ void InGameState::initialize()
 	fgeal::Display& display = fgeal::Display::getInstance();
 	Properties& config = TerrariumGame::CONFIG;
 
-	wasInit = true;
-	Rectangle size = {0, 0, (float) display.getWidth(), (float) display.getHeight()};
-	visibleArea = size;
+	visibleArea.x = 0;
+	visibleArea.y = 0;
+	visibleArea.w = display.getWidth();
+	visibleArea.h = display.getHeight();
 
 	//loading font
 	font = new fgeal::Font(config.get("ingame.font.filename"), atoi(config.get("ingame.font.size").c_str()));
@@ -127,7 +128,7 @@ void InGameState::initialize()
 	anim.currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
 	//loading player physics
-	player = new Entity(playerAnimation, null, &visibleArea);
+	player = new Entity(playerAnimation, null);
 
 	playerJumpImpulse = player_body_width*player_body_height * 0.5;
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
@@ -142,6 +143,8 @@ void InGameState::initialize()
 	images.push_back(bg = new Image(config.get("ingame.bg.filename")));
 
 	map = null; // we need to nullify to know afterwards if there was initialization
+
+	wasInit = true;  // mark the this state was initialized successfully
 }
 
 void InGameState::onEnter()
@@ -153,7 +156,6 @@ void InGameState::onEnter()
 	//loading map in world
 	TerrariumGame& game = *static_cast<TerrariumGame*>(&this->game);
 	map = new Map(this, game.stageFilename);
-	map->visibleArea = &visibleArea;
 	cout << "map size (in pixels): " << map->computeDimensions().w << "x" << map->computeDimensions().h << endl;
 
 	//create player body for the newly created world and reset sprite animation
@@ -178,14 +180,14 @@ void InGameState::render()
 
 	map->draw_bg_player();
 
-	player->draw(); //draw player
+	player->draw(visibleArea); //draw player
 
 	map->draw_fg_player();
 
 	/* drawing others entities */
 	foreach(Entity*, entity, vector<Entity*>, entities)
 	{
-		entity->draw();
+		entity->draw(visibleArea);
 	}
 
 	/* later should be a character class */

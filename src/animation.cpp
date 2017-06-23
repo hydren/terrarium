@@ -7,10 +7,29 @@
 
 #include "animation.hpp"
 
+// not necessary (already in header), but included to settle a IDE indexing bug
+using fgeal::Sprite;
+using std::vector;
+
+Animation::Animation()
+: sprites(*new vector<Sprite*>), currentIndex(0), isFlyweight(false)
+{}
+
+Animation::Animation(Animation* flyweight)
+: sprites(flyweight->sprites), currentIndex(0), isFlyweight(true)
+{}
+
 Animation::~Animation()
 {
-	for(unsigned i = 0; i < sprites.size(); i++)
-		delete sprites[i];
+	if(not isFlyweight)
+	{
+		// delete sprites
+		for(unsigned i = 0; i < sprites.size(); i++)
+			delete sprites[i];
+
+		// delete vector (since we own it)
+		delete &sprites;
+	}
 }
 
 Sprite& Animation::operator[](int index)
@@ -98,3 +117,5 @@ void StackedSingleSheetAnimation::addSprite(int width, int height, int frameCoun
 
 	this->add(new Sprite(sheet, width, height, frameDuration, frameCount, sheetOffsetX, sum));
 }
+
+//-----------------------------------------------------------

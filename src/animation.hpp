@@ -31,10 +31,19 @@ using std::vector;
 struct Animation
 {
 	// the list of sprites
-	vector<Sprite*> sprites;
+	vector<Sprite*>& sprites;
 
 	// the current sprite index
 	int currentIndex;
+
+	// true if this animation is actually a flyweight and the 'sprites' vector is shared among other Animation instances.
+	bool isFlyweight;
+
+	// normal version
+	Animation();
+
+	// flyweight version
+	Animation(Animation* basedAnimation);
 
 	~Animation();
 
@@ -85,6 +94,5 @@ struct StackedSingleSheetAnimation extends SingleSheetAnimation
 	// this sprite will be added to the end (back) of the list.
 	void addSprite(int width=-1, int height=-1, int frameCount=1, double frameDuration=-1, int sheetOffsetX=0);
 };
-
 
 #endif /* ANIMATION_HPP_ */

@@ -9,6 +9,7 @@ CPP_SRCS += \
 ../src_libs/fgeal/adapters/allegro5.0/event.cpp \
 ../src_libs/fgeal/adapters/allegro5.0/font.cpp \
 ../src_libs/fgeal/adapters/allegro5.0/image.cpp \
+../src_libs/fgeal/adapters/allegro5.0/input.cpp \
 ../src_libs/fgeal/adapters/allegro5.0/sound.cpp 
 
 OBJS += \
@@ -17,6 +18,7 @@ OBJS += \
 ./src_libs/fgeal/adapters/allegro5.0/event.o \
 ./src_libs/fgeal/adapters/allegro5.0/font.o \
 ./src_libs/fgeal/adapters/allegro5.0/image.o \
+./src_libs/fgeal/adapters/allegro5.0/input.o \
 ./src_libs/fgeal/adapters/allegro5.0/sound.o 
 
 CPP_DEPS += \
@@ -25,6 +27,7 @@ CPP_DEPS += \
 ./src_libs/fgeal/adapters/allegro5.0/event.d \
 ./src_libs/fgeal/adapters/allegro5.0/font.d \
 ./src_libs/fgeal/adapters/allegro5.0/image.d \
+./src_libs/fgeal/adapters/allegro5.0/input.d \
 ./src_libs/fgeal/adapters/allegro5.0/sound.d 
 
 

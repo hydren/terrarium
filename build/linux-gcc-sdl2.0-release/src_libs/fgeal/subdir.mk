@@ -4,16 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src_libs/fgeal/core_agnostic.cpp \
-../src_libs/fgeal/image_agnostic.cpp 
+../src_libs/fgeal/core_agnostic.cpp 
 
 OBJS += \
-./src_libs/fgeal/core_agnostic.o \
-./src_libs/fgeal/image_agnostic.o 
+./src_libs/fgeal/core_agnostic.o 
 
 CPP_DEPS += \
-./src_libs/fgeal/core_agnostic.d \
-./src_libs/fgeal/image_agnostic.d 
+./src_libs/fgeal/core_agnostic.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

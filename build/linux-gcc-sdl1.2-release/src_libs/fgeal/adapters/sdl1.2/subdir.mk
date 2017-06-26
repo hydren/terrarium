@@ -9,6 +9,7 @@ CPP_SRCS += \
 ../src_libs/fgeal/adapters/sdl1.2/event.cpp \
 ../src_libs/fgeal/adapters/sdl1.2/font.cpp \
 ../src_libs/fgeal/adapters/sdl1.2/image.cpp \
+../src_libs/fgeal/adapters/sdl1.2/input.cpp \
 ../src_libs/fgeal/adapters/sdl1.2/sound.cpp 
 
 OBJS += \
@@ -17,6 +18,7 @@ OBJS += \
 ./src_libs/fgeal/adapters/sdl1.2/event.o \
 ./src_libs/fgeal/adapters/sdl1.2/font.o \
 ./src_libs/fgeal/adapters/sdl1.2/image.o \
+./src_libs/fgeal/adapters/sdl1.2/input.o \
 ./src_libs/fgeal/adapters/sdl1.2/sound.o 
 
 CPP_DEPS += \
@@ -25,6 +27,7 @@ CPP_DEPS += \
 ./src_libs/fgeal/adapters/sdl1.2/event.d \
 ./src_libs/fgeal/adapters/sdl1.2/font.d \
 ./src_libs/fgeal/adapters/sdl1.2/image.d \
+./src_libs/fgeal/adapters/sdl1.2/input.d \
 ./src_libs/fgeal/adapters/sdl1.2/sound.d 
 
 

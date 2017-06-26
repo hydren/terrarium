@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src_libs/fgeal/extra/game.cpp \
+../src_libs/fgeal/extra/menu.cpp \
 ../src_libs/fgeal/extra/sprite.cpp 
 
 OBJS += \
 ./src_libs/fgeal/extra/game.o \
+./src_libs/fgeal/extra/menu.o \
 ./src_libs/fgeal/extra/sprite.o 
 
 CPP_DEPS += \
 ./src_libs/fgeal/extra/game.d \
+./src_libs/fgeal/extra/menu.d \
 ./src_libs/fgeal/extra/sprite.d 
 
 

@@ -9,6 +9,9 @@ org.eclipse.cdt.ui.prefs
 org.eclipse.cdt.managedbuilder.core.prefs
 org.eclipse.core.resources.prefs
 
+# MSVC BS
+spec.i
+
 # Eclipse default build configuration folders
 /Debug/
 /Release/
@@ -30,17 +33,24 @@ org.eclipse.core.resources.prefs
 /linux-gcc-sdl1.2-release/
 /win32-mingw-sdl1.2-debug/
 /win32-mingw-sdl1.2-release/
+/win32-msvc-sdl1.2-debug/
+/win32-msvc-sdl1.2-release/
 
 # Eclipse builds linking to SDL 2.0 through fgeal
 /linux-gcc-sdl2.0-debug/
 /linux-gcc-sdl2.0-release/
 /win32-mingw-sdl2.0-debug/
 /win32-mingw-sdl2.0-release/
+/win32-msvc-sdl2.0-debug/
+/win32-msvc-sdl2.0-release/
 
 # Eclipse builds linking to SFML 2.0 through fgeal
 /linux-gcc-sfml2.0-debug/
 /linux-gcc-sfml2.0-release/
 /linux-gcc-sfml1.6-debug/
-/linux-gcc-sfml1.6-release/
 /win32-mingw-sfml2.0-debug/
 /win32-mingw-sfml2.0-release/
+/win32-msvc-sfml2.0-debug/
+/win32-msvc-sfml2.0-release/
+
+

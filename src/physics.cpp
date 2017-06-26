@@ -4,6 +4,7 @@
  *  Created on: 28/10/2013
  *      Author: felipe
  */
+#include <ciso646>
 
 #include "physics.hpp"
 

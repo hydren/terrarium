@@ -48,7 +48,7 @@ void MainMenuState::initialize()
 	Rectangle size = {0.1f*sw, 0.225f*sh, 0.5f*sw, 0.25f*sh};
 	mainMenu = new Menu(size, minorFont, Color::ORANGE);
 	mainMenu->bgColor = Color(0, 0, 0, 96);
-	mainMenu->borderColor = Color::TRANSPARENT;
+	mainMenu->borderColor = Color::_TRANSPARENT;
 	mainMenu->addEntry("Generate new map");
 	mainMenu->addEntry("Load map from file");
 	mainMenu->addEntry("Settings");

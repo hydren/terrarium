@@ -11,6 +11,6 @@ cd ..
 echo "- Copying makefiles from $1 folder to build folder..."
 cp $1/* -r build/$1/
 echo "- Replacing current folder with generic BUILD_PATH token..."
-./touch_makefiles.sh ./build/$1/ ${PWD} BUILD_PATH
+./scripts/touch_makefiles.sh ./build/$1/ ${PWD} BUILD_PATH
 
 echo "Done."

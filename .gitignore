@@ -9,26 +9,26 @@ org.eclipse.cdt.ui.prefs
 org.eclipse.cdt.managedbuilder.core.prefs
 org.eclipse.core.resources.prefs
 
-# MSVC BS
+# MSVC local files
 spec.i
 
 # Eclipse default build configuration folders
 /Debug/
 /Release/
 
-# Eclipse builds linking to libfgeal/fgeal.dll
+# Eclipse build folders (using libfgeal.so/fgeal.dll)
 /linux-gcc-libfgeal-debug/
 /linux-gcc-libfgeal-release/
 /win32-mingw-libfgeal-debug/
 /win32-mingw-libfgeal-release/
 
-# Eclipse builds linking to Allegro 5.0 through fgeal
+# Eclipse build folders (Allegro 5.0/5.2)
 /linux-gcc-allegro5.0-debug/
 /linux-gcc-allegro5.0-release/
 /win32-mingw-allegro5.0-debug/
 /win32-mingw-allegro5.0-release/
 
-# Eclipse builds linking to SDL 1.2 through fgeal
+# Eclipse build folders (SDL 1.2)
 /linux-gcc-sdl1.2-debug/
 /linux-gcc-sdl1.2-release/
 /win32-mingw-sdl1.2-debug/
@@ -36,7 +36,7 @@ spec.i
 /win32-msvc-sdl1.2-debug/
 /win32-msvc-sdl1.2-release/
 
-# Eclipse builds linking to SDL 2.0 through fgeal
+# Eclipse build folders (SDL 2.0)
 /linux-gcc-sdl2.0-debug/
 /linux-gcc-sdl2.0-release/
 /win32-mingw-sdl2.0-debug/
@@ -44,10 +44,13 @@ spec.i
 /win32-msvc-sdl2.0-debug/
 /win32-msvc-sdl2.0-release/
 
-# Eclipse builds linking to SFML 2.0 through fgeal
+# Eclipse build folders (SFML 1.5/1.6)
+/linux-gcc-sfml1.6-debug/
+/linux-gcc-sfml1.6-release/
+
+# Eclipse build folders (SFML 2.x)
 /linux-gcc-sfml2.0-debug/
 /linux-gcc-sfml2.0-release/
-/linux-gcc-sfml1.6-debug/
 /win32-mingw-sfml2.0-debug/
 /win32-mingw-sfml2.0-release/
 /win32-msvc-sfml2.0-debug/

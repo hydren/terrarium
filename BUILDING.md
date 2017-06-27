@@ -3,7 +3,13 @@
 #### Prerequisites:
 * C++ compiler (MinGW, Linux GCC tested)
 * [Box2D](https://github.com/erincatto/Box2D) library.
-* Either one of these libraries: [Allegro 5.0](http://liballeg.org/), [SDL 1.2](https://www.libsdl.org/) or [SDL 2.0](https://www.libsdl.org/) (or a [fgeal](https://github.com/hydren/fgeal.git) implementation)
+* Either one of these libraries: 
+      * [Allegro 5.0/5.2](http://liballeg.org/);
+      * [SDL 1.2](https://www.libsdl.org/);
+      * [SDL 2.0](https://www.libsdl.org/);
+      * [SFML 1.5/1.6](https://www.sfml-dev.org/)(very experimental);
+      * [SFML 2.x](https://www.sfml-dev.org/)(very experimental);
+      * (or a custom [fgeal](https://github.com/hydren/fgeal.git) implementation)
 
 # How to build
 
@@ -17,7 +23,7 @@ Assuming you are on Linux, you can build it using 'make':
 * Execute the configure script: `./configure.sh`.
 * If the previous script ended ok, build using the makefile: `make` 
 
-> Make sure that the submodules are included in the source folder (currently [futil](https://github.com/hydren/futil.git), [fgeal](https://github.com/hydren/fgeal.git) and [rapidxml](https://github.com/hydren/futil.git), all in the `src_libs` folder). If you cloned the repository without the `--recursive` option, they are probably absent (**do not** clone the `futil` submodule **within** the `fgeal` submodule, as the main project already has it; if you did, or there is one, remove it).
+> Make sure that the submodules are included in the source folder (currently [futil](https://github.com/hydren/futil.git), [fgeal](https://github.com/hydren/fgeal.git) and [rapidxml](https://github.com/hydren/futil.git), all in the `src_libs` folder). If you cloned the repository without the `--recursive` option, they are probably absent.
 
 ### Dependencies
 
@@ -41,6 +47,11 @@ The `Box2D` library needs to be properly installed on your compiler. Head to htt
       * SDL2_ttf
       * SDL2_gfx
       * SDL2_mixer 
+* To use SFML as backend (experimental), all main SFML libraries are required:
+      * sfml-system
+      * sfml-window
+      * sfml-graphics
+      * sfml-audio 
 
 ### Testing the executable
 Run the program by executing the produced binary in the same folder where the `resources` folder is located: `./<your-copied-folder>/terrarium`.
@@ -65,7 +76,6 @@ You can also use eclipse to build the project (tested to work with MinGW and Lin
 - Left-click project and select build configuration according to your environment (i.e. `linux-gcc-sdl1.2-release` for *Linux* with *SDL 1.2* backend, `win32-mingw-allegro5.0-release` for *Windows* with *Allegro 5.0* backend) and then build.
 - Any problems indicates that something probably went wrong with previous steps (missing/wrongly installed libraries, missing/wrongly installed submodules)
 - If something wents wrong because of some cross-gcc stuff, install the `C/C++ GCC Cross Compiler Support` plugin on Eclipse via `Install new software` option on Eclipse.
-> Note: do not download or clone the `futil` submodule within fgeal as the main project already has it.
 
 ### Testing the executable:
 - Run the program by left clicking on the executable (created inside the build folder - usually `/linux-gcc-<backend>-release/`, `/win32-mingw-<backend>-release/`, etc) and selecting `Run as application`. 

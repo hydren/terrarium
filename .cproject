@@ -763,8 +763,6 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -772,7 +770,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.345786455." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1667674366" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1152944117" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-allegro5.0-debug" command="mingw32-make" id="cdt.managedbuild.builder.gnu.cross.763810093" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-allegro5.0-debug" id="org.eclipse.cdt.build.core.internal.builder.336132771" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.698759684" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1892948968" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -829,8 +827,6 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -838,7 +834,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1694691429" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1518051110" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-debug" command="mingw32-make" id="cdt.managedbuild.builder.gnu.cross.896082848" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-debug" id="org.eclipse.cdt.build.core.internal.builder.1222299361" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1243293038" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2086733847" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -895,8 +891,6 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -904,7 +898,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.812971274." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1299033708" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1430474052" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-debug" command="mingw32-make" id="cdt.managedbuild.builder.gnu.cross.1926742062" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl2.0-debug" id="org.eclipse.cdt.build.core.internal.builder.695590612" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1922666022" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1564575956" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -961,8 +955,6 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -970,7 +962,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.345786455.45163483." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.597053151" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.716340159" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-allegro5.0-debug" command="mingw32-make" id="cdt.managedbuild.builder.gnu.cross.1801963" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-allegro5.0-release" id="org.eclipse.cdt.build.core.internal.builder.608108753" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1158853863" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.385613478" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1027,8 +1019,6 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -1036,7 +1026,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.13830834." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1903679135" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.2071490620" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-debug" command="mingw32-make" id="cdt.managedbuild.builder.gnu.cross.1734292122" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-release" id="org.eclipse.cdt.build.core.internal.builder.1067119871" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.349383175" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1184547743" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1093,8 +1083,6 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -1102,7 +1090,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.812971274.474227171." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1972396995" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.112048777" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-debug" command="mingw32-make" id="cdt.managedbuild.builder.gnu.cross.498495984" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl2.0-release" id="org.eclipse.cdt.build.core.internal.builder.657228521" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.2053568843" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2141789396" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1411,8 +1399,6 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -1420,7 +1406,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.1830014948." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.764126266" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1848274551" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-debug" command="mingw32-make" id="cdt.managedbuild.builder.gnu.cross.2017591501" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sfml2.0-debug" id="org.eclipse.cdt.build.core.internal.builder.1949784113" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1114018246" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.124652374" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1475,8 +1461,6 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -1484,7 +1468,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.13830834.1078666458." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.556607804" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.982010891" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-debug" command="mingw32-make" id="cdt.managedbuild.builder.gnu.cross.1493494234" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sfml2.0-release" id="org.eclipse.cdt.build.core.internal.builder.814676661" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1869998913" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1846683322" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1558,7 +1542,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1047918522" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.2016748966" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.macros.199486081" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.macros.199486081" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false"/>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.1283913230" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.rc.dll.debug.657991711" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.debug">
@@ -1617,7 +1601,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.2029233703" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.781401492" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.macros.3879439" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.macros.3879439" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false"/>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.1981835647" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.rc.dll.debug.664131250" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.debug">
@@ -1678,7 +1662,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.97430869" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1179560766" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.macros.257682843" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.macros.257682843" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false"/>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.222027375" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.rc.dll.debug.312201181" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.debug">
@@ -1739,7 +1723,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1646585379" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.907341154" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.macros.38663645" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.macros.38663645" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false"/>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.1433529178" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.rc.dll.debug.2094401402" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.debug">
@@ -1798,7 +1782,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.252481899" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.847265169" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.macros.673349752" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.macros.673349752" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false"/>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.358608424" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.rc.dll.debug.314666655" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.debug">
@@ -1859,7 +1843,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1172423194" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.69750088" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.macros.274355871" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false" valueType="definedSymbols"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.macros.274355871" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" useByScannerDiscovery="false"/>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.515211796" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.rc.dll.debug.1102445971" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.debug">

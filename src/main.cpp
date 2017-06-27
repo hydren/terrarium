@@ -31,7 +31,7 @@ const string VERSION = "0.1.6-dev";
 int main(int argc, char** argv)
 {
 	string title = "Project Terrarium";
-	title += "(v"; title += VERSION; title += ")";
+	title += " (v"; title += VERSION; title += ")";
 
 	int screenWidth = 640, screenHeight = 480;
 	for(int i = 0; i < argc; i++)

@@ -3,13 +3,14 @@
 #### Prerequisites:
 * C++ compiler (MinGW, Linux GCC tested)
 * [Box2D](https://github.com/erincatto/Box2D) library.
-* Either one of these libraries: 
-      * [Allegro 5.0/5.2](http://liballeg.org/);
-      * [SDL 1.2](https://www.libsdl.org/);
-      * [SDL 2.0](https://www.libsdl.org/);
-      * [SFML 1.5/1.6](https://www.sfml-dev.org/)(very experimental);
-      * [SFML 2.x](https://www.sfml-dev.org/)(very experimental);
-      * (or a custom [fgeal](https://github.com/hydren/fgeal.git) implementation)
+* Either one of these libraries:
+
+   * [Allegro 5.0/5.2](http://liballeg.org/);
+   * [SDL 1.2](https://www.libsdl.org/);
+   * [SDL 2.0](https://www.libsdl.org/);
+   * [SFML 1.5/1.6](https://www.sfml-dev.org/)(very experimental);
+   * [SFML 2.x](https://www.sfml-dev.org/)(very experimental);
+   * (or a custom [fgeal](https://github.com/hydren/fgeal.git) implementation)
 
 # How to build
 
@@ -31,27 +32,34 @@ The `Box2D` library needs to be properly installed on your compiler. Head to htt
 
 ##### Backend library dependencies
 * To use Allegro 5.0 as backend, besides the main library, the following Allegro 5.0 addons are required: 
-      * Image I/O addon;
-      * Font addon;
-      * TTF addon;
-      * Primitives addon;
-      * Audio addon;
-      * Audio codecs addon;
+
+   * Image I/O addon;
+   * Font addon;
+   * TTF addon;
+   * Primitives addon;
+   * Audio addon;
+   * Audio codecs addon;
+      
 * To use SDL 1.2 as backend, besides the main library, the following extension libraries are required:
-      * SDL_image
-      * SDL_ttf
-      * SDL_gfx
-      * SDL_mixer
+
+   * SDL_image
+   * SDL_ttf
+   * SDL_gfx
+   * SDL_mixer
+      
 * To use SDL 2.0 as backend, besides the main library, the following extension libraries are required:
-      * SDL2_image
-      * SDL2_ttf
-      * SDL2_gfx
-      * SDL2_mixer 
+
+   * SDL2_image
+   * SDL2_ttf
+   * SDL2_gfx
+   * SDL2_mixer 
+      
 * To use SFML as backend (experimental), all main SFML libraries are required:
-      * sfml-system
-      * sfml-window
-      * sfml-graphics
-      * sfml-audio 
+
+   * sfml-system
+   * sfml-window
+   * sfml-graphics
+   * sfml-audio 
 
 ### Testing the executable
 Run the program by executing the produced binary in the same folder where the `resources` folder is located: `./<your-copied-folder>/terrarium`.

@@ -66,7 +66,6 @@ InGameState::~InGameState()
 	}
 
 	delete player;
-	delete playerAnimation;
 
 	delete font;
 	delete inGameMenu;
@@ -100,8 +99,7 @@ void InGameState::initialize()
 	//loading player graphics
 	Image* playerAnimationSheet = new Image(config.get("player.sprite.filename"));
 
-	playerAnimation = new StackedSingleSheetAnimation(playerAnimationSheet);
-	StackedSingleSheetAnimation& anim = *static_cast<StackedSingleSheetAnimation*>(playerAnimation);
+	StackedSingleSheetAnimation& anim = *new StackedSingleSheetAnimation(playerAnimationSheet);
 
 	const unsigned player_sprite_width = atoi(config.get("player.sprite.width").c_str());
 	const unsigned player_sprite_height = atoi(config.get("player.sprite.height").c_str());
@@ -129,8 +127,8 @@ void InGameState::initialize()
 
 	anim.currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
-	//loading player physics
-	player = new Entity(playerAnimation, null);
+	//loading player
+	entities.push_back(player = new Entity(&anim, null));
 
 	playerJumpImpulse = player_body_width*player_body_height * 0.5;
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
@@ -184,18 +182,15 @@ void InGameState::render()
 	/* needs to draw HUD */
 
 	background->draw();
-
 	map->draw();
-
-	player->draw(visibleArea); //draw player
-
-	map->drawOverlay();
 
 	/* drawing others entities */
 	foreach(Entity*, entity, vector<Entity*>, entities)
 	{
 		entity->draw(visibleArea);
 	}
+
+	map->drawOverlay();
 
 	/* later should be a character class */
 

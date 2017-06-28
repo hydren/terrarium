@@ -53,7 +53,6 @@ class InGameState extends public fgeal::Game::State
 
 	// the player, a separate entity
 	Entity* player;
-	StackedSingleSheetAnimation* playerAnimation;
 
 	// ==== logic
 

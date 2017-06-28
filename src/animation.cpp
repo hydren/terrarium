@@ -15,6 +15,12 @@ Animation::Animation()
 : sprites(*new vector<Sprite*>), currentIndex(0), isFlyweight(false)
 {}
 
+Animation::Animation(Sprite* sprite)
+: sprites(*new vector<Sprite*>), currentIndex(0), isFlyweight(false)
+{
+	this->add(sprite);
+}
+
 Animation::Animation(Animation* flyweight)
 : sprites(flyweight->sprites), currentIndex(0), isFlyweight(true)
 {}

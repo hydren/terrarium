@@ -42,6 +42,9 @@ struct Animation
 	// normal version
 	Animation();
 
+	// single sprite version
+	Animation(Sprite* sprite);
+
 	// flyweight version
 	Animation(Animation* basedAnimation);
 

@@ -34,7 +34,7 @@ struct Animation
 	vector<Sprite*>& sprites;
 
 	// the current sprite index
-	int currentIndex;
+	unsigned currentIndex;
 
 	// true if this animation is actually a flyweight and the 'sprites' vector is shared among other Animation instances.
 	bool isFlyweight;
@@ -48,10 +48,10 @@ struct Animation
 	~Animation();
 
 	// convenience method to grab a sprite, given its index
-	Sprite& operator[](int index);
+	Sprite& operator[](unsigned index);
 
 	// convenience method to grab a sprite, given its index
-	Sprite& ref(int index);
+	Sprite& ref(unsigned index);
 
 	// convenience method to grab the current sprite
 	Sprite& current();
@@ -59,8 +59,8 @@ struct Animation
 	// convenience method to add a sprite to the list (it will be added to the end (back) of the list)
 	void add(Sprite* sprite, bool setCurrent=false);
 
-	// convenience method to delete a sprite in the list, given its index. if a -1 index is passed, it deletes the last sprite, if there is one.
-	void del(int index=-1);
+	// convenience method to delete a sprite in the list, given its index.
+	void del(unsigned index);
 
 	// convenience method to draw the current sprite, at the specified coordinates
 	void draw(float x=0, float y=0);
@@ -79,7 +79,7 @@ struct SingleSheetAnimation extends Animation
 
 	// creates and adds a sprite to the list, width the given size, frame count, frame duration and sheet offset.
 	// this sprite will be added to the end (back) of the list.
-	void addSprite(int width=-1, int height=-1, int frameCount=1, double frameDuration=-1, Point sheetOffset=Point());
+	void addSprite(int width=-1, int height=-1, unsigned frameCount=1, double frameDuration=-1, Point sheetOffset=Point());
 };
 
 // This class is a single-sheet animation in which each sprite is stacked in a top-down manner.
@@ -92,7 +92,7 @@ struct StackedSingleSheetAnimation extends SingleSheetAnimation
 	// creates and adds a sprite to the list, width the given size, frame count, frame duration and sheet x-offset.
 	// this sprites' y-sheet-offset will be inferred from the current added sprites as the sum of their heights.
 	// this sprite will be added to the end (back) of the list.
-	void addSprite(int width=-1, int height=-1, int frameCount=1, double frameDuration=-1, int sheetOffsetX=0);
+	void addSprite(int width=-1, int height=-1, unsigned frameCount=1, double frameDuration=-1, int sheetOffsetX=0);
 };
 
 #endif /* ANIMATION_HPP_ */

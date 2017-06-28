@@ -32,12 +32,12 @@ Animation::~Animation()
 	}
 }
 
-Sprite& Animation::operator[](int index)
+Sprite& Animation::operator[](unsigned index)
 {
 	return *sprites[index];
 }
 
-Sprite& Animation::ref(int index)
+Sprite& Animation::ref(unsigned index)
 {
 	return *sprites[index];
 }
@@ -47,20 +47,15 @@ Sprite& Animation::current()
 	return *sprites[currentIndex];
 }
 
-// convenience method to add a sprite to the list (it will be added to the end (back) of the list)
 void Animation::add(Sprite* sprite, bool setCurrent)
 {
 	currentIndex = sprites.size();
 	sprites.push_back(sprite);
 }
 
-// convenience method to delete a sprite in the list, given its index. if a -1 index is passed, it deletes the last sprite, if there is one.
-void Animation::del(int index)
+void Animation::del(unsigned index)
 {
-	if(index == -1)
-		index = sprites.size()-1;
-
-	if(index < 0 or index > -1 + (int) sprites.size())
+	if(index + 1 > sprites.size())
 		return;
 
 	if(index == currentIndex)
@@ -91,7 +86,7 @@ SingleSheetAnimation::~SingleSheetAnimation()
 	}
 }
 
-void SingleSheetAnimation::addSprite(int width, int height, int frameCount, double frameDuration, Point sheetOffset)
+void SingleSheetAnimation::addSprite(int width, int height, unsigned frameCount, double frameDuration, Point sheetOffset)
 {
 	if(height == -1) height = sheet->getHeight();
 	if(width == -1) width = sheet->getWidth();
@@ -104,7 +99,7 @@ StackedSingleSheetAnimation::StackedSingleSheetAnimation(Image* sheet, bool shee
 : SingleSheetAnimation(sheet, sheetIsOwned)
 {}
 
-void StackedSingleSheetAnimation::addSprite(int width, int height, int frameCount, double frameDuration, int sheetOffsetX)
+void StackedSingleSheetAnimation::addSprite(int width, int height, unsigned frameCount, double frameDuration, int sheetOffsetX)
 {
 	if(height == -1) height = sheet->getHeight();
 	if(width == -1) width = sheet->getWidth();
@@ -117,5 +112,3 @@ void StackedSingleSheetAnimation::addSprite(int width, int height, int frameCoun
 
 	this->add(new Sprite(sheet, width, height, frameDuration, frameCount, sheetOffsetX, sum));
 }
-
-//-----------------------------------------------------------

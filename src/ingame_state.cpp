@@ -139,6 +139,15 @@ void InGameState::initialize()
 	tilesets.push_back(tilesetWater = Block::createBlockAnimationSet(new Image("resources/tileset-water.png"), 3, 1.0));
 	tilesets.push_back(tilesetGrass = Block::createBlockAnimationSet(new Image("resources/tileset-grass.png")));
 
+	//loading some icons
+	iconBlockDirt = new Sprite(tilesetDirt->sheet, BLOCK_SIZE, BLOCK_SIZE);
+	iconBlockDirt->scale.x = 0.5;
+	iconBlockDirt->scale.y = 0.5;
+
+	iconBlockStone = new Sprite(tilesetStone->sheet, BLOCK_SIZE, BLOCK_SIZE);
+	iconBlockStone->scale.x = 0.5;
+	iconBlockStone->scale.y = 0.5;
+
 	//load bg
 	Image* bgImg = new Image(config.get("ingame.bg.filename"));
 	background = new Sprite(bgImg, bgImg->getWidth(), bgImg->getHeight(), -1, -1, 0, 0, true);
@@ -333,7 +342,6 @@ void InGameState::handleInput()
 		}
 		else if(event.getEventType() == fgeal::Event::Type::MOUSE_BUTTON_PRESS)
 		{
-
 			if(event.getEventMouseButton() == fgeal::Mouse::Button::RIGHT)
 			{
 				unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
@@ -353,6 +361,19 @@ void InGameState::handleInput()
 				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
 					if (map->grid[mx][my] != NULL)
 						map->deleteBlock(mx, my);
+			}
+			else if (event.getEventMouseButton() == fgeal::Mouse::Button::MIDDLE)
+			{
+				const float posx = Physics::convertToMeters(visibleArea.x + event.getEventMouseX()),
+							posy = Physics::convertToMeters(visibleArea.y + event.getEventMouseY()),
+							physicalBlockSize = Physics::convertToMeters(BLOCK_SIZE);
+
+				Body* detatchedBlockBody = new Body(posx, posy, 0.5*physicalBlockSize, 0.5*physicalBlockSize, true);
+				Entity* detatchedBlock = new Entity(new Animation(new Sprite(*iconBlockDirt)), detatchedBlockBody);
+				map->world->addBody(detatchedBlockBody);
+				detatchedBlockBody->setFixedRotation(false);
+				entities.push_back(detatchedBlock);
+				cout << "pooped block!" << endl;
 			}
 		}
 	}

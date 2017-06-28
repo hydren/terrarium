@@ -39,6 +39,9 @@ class InGameState extends public fgeal::Game::State
 
 	fgeal::Font* font;
 
+	// block icons
+	Sprite* iconBlockDirt, *iconBlockStone;
+
 	// vector to keep track of images to delete them later
 	std::vector<fgeal::Image*> images;
 

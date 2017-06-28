@@ -58,38 +58,10 @@ vector< vector<int> > Map::parseGridFromRawTxtFile(const string& filename)
 				matrix.push_back(vector<int>(str.length()/2));
 				for(unsigned int i = 0; i < str.length()/2; i++)
 				{
-					switch(str.c_str()[2*i])
+					const char typeIdChar = str.c_str()[2*i];
+					if(typeIdChar >= '0' and typeIdChar <= '9')
 					{
-						case '0':
-						{
-							matrix.back()[i] = 0;
-							break;
-						}
-						case '1':
-						{
-							matrix.back()[i] = 1;
-							break;
-						}
-						case '2':
-						{
-							matrix.back()[i] = 2;
-							break;
-						}
-						case '3':
-						{
-							matrix.back()[i] = 3;
-							break;
-						}
-						case '4':
-						{
-							matrix.back()[i] = 1;//TODO remove this dirty fix
-							break;
-						}
-						default:
-						{
-							matrix.back()[i] = 0;
-							break;
-						}
+						matrix.back()[i] = (typeIdChar - '0');
 					}
 				}
 			}

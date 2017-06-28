@@ -48,14 +48,11 @@ struct Map
 
 	void deleteBlock(unsigned gridX, unsigned gridY);
 
-	/** Draws all the blocks in this map */
+	/** Draws all the blocks that backgrounds the player */
 	void draw();
 
-	/** Draws all the blocks that backgrounds the player */
-	void draw_bg_player();
-
 	/** Draws all the blocks that foregrounds the player */
-	void draw_fg_player();
+	void drawOverlay();
 
 	Rectangle computeDimensions();
 

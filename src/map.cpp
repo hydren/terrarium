@@ -175,7 +175,7 @@ void Map::deleteBlock(unsigned gridX, unsigned gridY)
 }
 
 /** Draws all the blocks that backgrounds the player */
-void Map::draw_bg_player()
+void Map::draw()
 {
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
@@ -210,7 +210,7 @@ void Map::draw_bg_player()
 }
 
 /** Draws all the blocks that foregrounds the player */
-void Map::draw_fg_player()
+void Map::drawOverlay()
 {
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();

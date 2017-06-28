@@ -185,11 +185,11 @@ void InGameState::render()
 
 	background->draw();
 
-	map->draw_bg_player();
+	map->draw();
 
 	player->draw(visibleArea); //draw player
 
-	map->draw_fg_player();
+	map->drawOverlay();
 
 	/* drawing others entities */
 	foreach(Entity*, entity, vector<Entity*>, entities)

@@ -179,7 +179,6 @@ namespace Physics
 		delete implementation;
 	}
 
-	/** Returns whether this body is already bound to a world instance. */
 	bool Body::isDetached()
 	{
 		return (implementation->body == null);
@@ -199,6 +198,8 @@ namespace Physics
 	{
 		return implementation->body==null? Vector(0,0) :  Vector(implementation->body->GetPosition().x - this->getWidth()/2, implementation->body->GetPosition().y - this->getHeight()/2);
 	}
+
+	// ******************************* Atatched-only methods (these will crash if called when the body is detatched) **********************************************************************
 
 	double Body::getWidth() const
 	{
@@ -233,6 +234,11 @@ namespace Physics
 	void Body::transform(const Vector& displacement, const double& angle)
 	{
 		implementation->body->SetTransform(toB2Vec2(displacement), angle);
+	}
+
+	bool Body::isRotationFixed() const
+	{
+		return implementation->body->IsFixedRotation();
 	}
 
 	void Body::setFixedRotation(bool choice)

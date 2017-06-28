@@ -26,7 +26,7 @@ using std::string;
 #include <vector>
 using std::vector;
 
-const string VERSION = "0.1.6";
+const string VERSION = "0.1.7-dev";
 
 int main(int argc, char** argv)
 {

@@ -49,7 +49,8 @@ Sprite& Animation::current()
 
 void Animation::add(Sprite* sprite, bool setCurrent)
 {
-	currentIndex = sprites.size();
+	if(setCurrent)
+		currentIndex = sprites.size();
 	sprites.push_back(sprite);
 }
 

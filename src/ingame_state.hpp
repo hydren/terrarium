@@ -15,44 +15,53 @@
 #include "futil/string/more_operators.hpp"
 
 #include "fgeal/fgeal.hpp"
-using fgeal::Rectangle;
-using fgeal::Image;
 
 #include "fgeal/extra/game.hpp"
 #include "fgeal/extra/menu.hpp"
 
 #include <cstdlib>
 #include <vector>
-using std::vector;
 
 #include "block.hpp"
 #include "entity.hpp"
 #include "map.hpp"
 
-using fgeal::Font;
-using fgeal::Menu;
-
 class InGameState extends public fgeal::Game::State
 {
-	public:
+	friend class Map;
+
 	bool wasInit;
 
-	vector<Entity*> entities;
-	vector<Image*> images;
+	// ==== assets
+
+	// Default is a black background
+	Sprite* background;
+
+	fgeal::Font* font;
+
+	// vector to keep track of images to delete them later
+	std::vector<fgeal::Image*> images;
 
 	StackedSingleSheetAnimation* tilesetDirt, *tilesetStone, *tilesetWater, *tilesetGrass;
-	vector<StackedSingleSheetAnimation*> tilesets;
 
-	Rectangle visibleArea;
+	// vector to record track of tileset animations to delete them later
+	std::vector<StackedSingleSheetAnimation*> tilesets;
 
-	Image* bg;
-	Map* map;
+	// ==== entities
 
+	std::vector<Entity*> entities;
+
+	// the player, a separate entity
 	Entity* player;
 	StackedSingleSheetAnimation* playerAnimation;
 
-	Font* font;
-	Menu* inGameMenu;
+	// ==== logic
+
+	Map* map;
+
+	fgeal::Menu* inGameMenu;
+
+	fgeal::Rectangle visibleArea;
 
 	bool jumping, inGameMenuShowing;
 
@@ -61,6 +70,8 @@ class InGameState extends public fgeal::Game::State
 	int getId() { return TerrariumGame::INGAME_STATE_ID; }
 
 	void handleInput();
+
+	public:
 
 	InGameState(TerrariumGame* game);
 	~InGameState();

@@ -71,6 +71,8 @@ InGameState::~InGameState()
 	delete font;
 	delete inGameMenu;
 
+	delete background;
+
 	//may be null after calling dispose()
 	if(map != null) delete map;
 }
@@ -140,7 +142,10 @@ void InGameState::initialize()
 	tilesets.push_back(tilesetGrass = Block::createBlockAnimationSet(new Image("resources/tileset-grass.png")));
 
 	//load bg
-	images.push_back(bg = new Image(config.get("ingame.bg.filename")));
+	Image* bgImg = new Image(config.get("ingame.bg.filename"));
+	background = new Sprite(bgImg, bgImg->getWidth(), bgImg->getHeight(), -1, -1, 0, 0, true);
+	background->scale.x = fgeal::Display::getInstance().getWidth()  / background->getCurrentFrame().w;
+	background->scale.y = fgeal::Display::getInstance().getHeight() / background->getCurrentFrame().h;
 
 	map = null; // we need to nullify to know afterwards if there was initialization
 
@@ -177,6 +182,8 @@ void InGameState::render()
 	fgeal::Display::getInstance().clear();
 
 	/* needs to draw HUD */
+
+	background->draw();
 
 	map->draw_bg_player();
 

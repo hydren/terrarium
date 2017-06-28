@@ -22,13 +22,13 @@ using std::cout; using std::endl;
 static Physics::Vector GRAVITY(0.0, 10.0);
 
 Map::Map(InGameState* state, int columns, int lines)
-: state(*state), grid(), background(null), world(new Physics::World(GRAVITY))
+: state(*state), grid(), world(new Physics::World(GRAVITY))
 {
 	grid.resize(columns, vector<Block*>(lines));  // fill the matrix with null
 }
 
 Map::Map(InGameState* state, const string filename)
-: state(*state), grid(), background(new Sprite(state->bg, state->bg->getWidth(), state->bg->getHeight())), world(new Physics::World(GRAVITY))
+: state(*state), grid(), world(new Physics::World(GRAVITY))
 {
 	vector< vector<int> > file_grid;
 	if(ends_with(filename, ".tmx"))
@@ -86,7 +86,6 @@ Map::~Map()
 	}
 
 	delete world;
-	delete background;
 //	delete visibleArea;
 }
 
@@ -178,10 +177,6 @@ void Map::deleteBlock(unsigned gridX, unsigned gridY)
 /** Draws all the blocks that backgrounds the player */
 void Map::draw_bg_player()
 {
-	background->scale.x = fgeal::Display::getInstance().getWidth()  / background->getCurrentFrame().w;
-	background->scale.y = fgeal::Display::getInstance().getHeight() / background->getCurrentFrame().h;
-	background->draw(0, 0);
-
 	int grid_number_of_lines = grid.capacity();
 	int grid_number_of_columns = grid[0].capacity();
 

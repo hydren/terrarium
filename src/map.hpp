@@ -27,9 +27,6 @@ struct Map
 	/** The map grid, with all block slots */
 	vector< vector<Block*> > grid;
 
-	/** Default is a black background */
-	Sprite* background;
-
 	/** The physics part of this map. */
 	Physics::World* world;
 

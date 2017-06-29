@@ -18,7 +18,8 @@ using std::vector;
 
 namespace Physics
 {
-	//Implementation using Box2D library
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Implementation using Box2D library
 
 	struct Body::Implementation
 	{
@@ -32,11 +33,11 @@ namespace Physics
 		b2World* b2world;
 	};
 
-	float convertToMeters(float pixels) { return 0.01f * pixels; }
-	float convertToPixels(float meters) { return 100.0f * meters;}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Static file scope functions
 
-	/// Get the fixture's dimension. If which is false, the width is returned. Otherwise it returns the height.
-	float getDimension(b2FixtureDef* fdef, bool which=false)
+	// Get the fixture's dimension. If which is false, the width is returned. Otherwise it returns the height.
+	static float getDimension(b2FixtureDef* fdef, bool which=false)
 	{
 		if(fdef->shape->m_type == b2Shape::e_chain)
 		{
@@ -59,8 +60,8 @@ namespace Physics
 
 	vector<b2BodyDef*> cachedBodyDefs; // this should be static (non-visible outside this source unit) but oddly doing so slightly increases memory usage.
 
-	/// Returns a cached b2BodyDef for Block-type bodies.
-	b2BodyDef* getCachedBlockDef(float size, bool isPassable)
+	// Returns a cached b2BodyDef for Block-type bodies.
+	static b2BodyDef* getCachedBlockDef(float size, bool isPassable)
 	{
 		// try a cached def
 		for(unsigned i = 0; i < cachedBodyDefs.size(); i++)
@@ -75,8 +76,8 @@ namespace Physics
 		return null;
 	}
 
-	/// Returns true if the given b2BodyDef is cached (block-type body defs cache).
-	bool isBodyDefCached(b2BodyDef* def)
+	// Returns true if the given b2BodyDef is cached (block-type body defs cache).
+	static bool isBodyDefCached(b2BodyDef* def)
 	{
 		for(unsigned i = 0; i < cachedBodyDefs.size(); i++)
 			if(def == cachedBodyDefs[i])
@@ -85,7 +86,14 @@ namespace Physics
 		return false;
 	}
 
-	/////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Functions
+
+	float convertToMeters(float pixels) { return 0.01f * pixels; }
+	float convertToPixels(float meters) { return 100.0f * meters;}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Methods
 
 	Vector::Vector(float x1, float y1, float z1)
 	: x(x1), y(y1), z(z1)

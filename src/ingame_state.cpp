@@ -15,6 +15,10 @@ using fgeal::EventQueue;
 using fgeal::Color;
 using fgeal::Menu;
 
+#include <cmath>
+
+#include "futil/collection/actions.hpp"
+
 // xxx debug
 #include <iostream>
 using std::cout; using std::endl;
@@ -268,6 +272,31 @@ void InGameState::update(float delta)
 
 	this->handleInput();
 	map->world->step(delta, 6, 2);
+	vector<Entity*> trash;
+	foreach(Entity*, entity, vector<Entity*>, entities)
+	{
+		if(entity != player)
+		{
+			const Physics::Vector distanceVector(player->body->getCenterX() - entity->body->getCenterX(), player->body->getCenterY() - entity->body->getCenterY());
+			const double distanceLength = sqrt(distanceVector.x*distanceVector.x + distanceVector.y*distanceVector.y);
+			if(distanceLength < 0.1)
+			{
+				trash.push_back(entity);
+				cout << "prop crush!" << endl;
+			}
+
+			else if(distanceLength < 0.8)
+			{
+				const double magnetude = 0.05*(1-1/(1+distanceLength));
+				entity->body->applyForceToCenter( Physics::Vector(distanceVector.x*magnetude/distanceLength, distanceVector.y*magnetude/distanceLength) );
+			}
+		}
+	}
+	foreach(Entity*, entity, vector<Entity*>, trash)
+	{
+		remove_element(entities, entity);
+		delete entity;
+	}
 }
 
 void InGameState::handleInput()

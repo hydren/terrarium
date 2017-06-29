@@ -220,6 +220,21 @@ namespace Physics
 		return implementation->body==null? Vector(0,0) :  Vector(implementation->body->GetPosition().x - this->getWidth()/2, implementation->body->GetPosition().y - this->getHeight()/2);
 	}
 
+	double Body::getCenterX() const
+	{
+		return (implementation->body==null? 0 : implementation->body->GetPosition().x);
+	}
+
+	double Body::getCenterY() const
+	{
+		return (implementation->body==null? 0 : implementation->body->GetPosition().y);
+	}
+
+	Vector Body::getCenter() const
+	{
+		return (implementation->body==null? Vector(0, 0) : Vector(implementation->body->GetPosition().x + this->getWidth()/2, implementation->body->GetPosition().y + this->getHeight()/2));
+	}
+
 	// ******************************* Atatched-only methods (these will crash if called when the body is detatched) **********************************************************************
 
 	double Body::getWidth() const

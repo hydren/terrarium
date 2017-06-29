@@ -60,9 +60,11 @@ namespace Physics
 		double getX() const;
 		double getY() const;
 		Vector getPosition() const;
+		double getCenterX() const;
+		double getCenterY() const;
+		Vector getCenter() const;
 
 		// Atatched-only methods (the following methods will crash if called when the body is detatched)
-
 		double getWidth() const;
 		double getHeight() const;
 		Vector getVelocity() const;

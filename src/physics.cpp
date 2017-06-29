@@ -232,7 +232,7 @@ namespace Physics
 
 	Vector Body::getCenter() const
 	{
-		return (implementation->body==null? Vector(0, 0) : Vector(implementation->body->GetPosition().x + this->getWidth()/2, implementation->body->GetPosition().y + this->getHeight()/2));
+		return (implementation->body==null? Vector(0, 0) : Vector(implementation->body->GetPosition().x, implementation->body->GetPosition().y));
 	}
 
 	// ******************************* Atatched-only methods (these will crash if called when the body is detatched) **********************************************************************

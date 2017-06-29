@@ -20,33 +20,33 @@
 #include <iostream>
 using std::cout; using std::endl;
 
-static vector< vector <int> > transpose(const vector< vector<int> >& matrix)
+static void transpose(vector< vector<int> >& matrix)
 {
-	//if empty, return a new empty
+	//if empty, do nothing
 	if(matrix.size() == 0)
-		return vector< vector<int> >();
+		return;
 
 	//safety check
 	for(unsigned i = 0, size=matrix[0].size(); i < matrix.size(); i++)
 		if(matrix[i].size() != size)
 			throw string("Matrix with differing row sizes! " + matrix[i].size());
 
-	vector< vector<int> > matrix_t(matrix[0].size(), vector<int>(matrix.size()));
+	const vector< vector<int> > matrixBackup = matrix;
 
-	for(unsigned i = 0; i < matrix.size(); i++)
-		for(unsigned j = 0; j < matrix[i].size(); j++)
-			matrix_t[j][i] = matrix[i][j];
+	matrix.clear();
+	matrix.resize(matrixBackup[0].size(), vector<int>(matrixBackup.size()));
 
-	return matrix_t;
+	for(unsigned i = 0; i < matrixBackup.size(); i++)
+		for(unsigned j = 0; j < matrixBackup[i].size(); j++)
+			matrix[j][i] = matrixBackup[i][j];
 }
 
-/** Loads the map grid from a raw txt file, based on the old terrarium "SDL" prototype.*/
-vector< vector<int> > Map::parseGridFromRawTxtFile(const string& filename)
+// static
+void Map::parseGridFromFileTxt(vector< vector<int> >& matrix, const string& filename)
 {
-	vector< vector<int> > matrix;
-
 	FileInputStream stream(filename.c_str());
 
+	matrix.clear();
 	if(stream.is_open())
 	{
 		string str;
@@ -71,10 +71,11 @@ vector< vector<int> > Map::parseGridFromRawTxtFile(const string& filename)
 
 	stream.close();
 
-	return transpose(matrix);
+	transpose(matrix);
 }
 
-vector< vector<int> > Map::parseGridFromTMXFile(const string& filename)
+// static
+void Map::parseGridFromFileTmx(vector< vector<int> >& grid, const string& filename)
 {
 	rapidxml::file<> *file = new rapidxml::file<>(filename.c_str());
 	rapidxml::xml_document<> doc;
@@ -87,7 +88,7 @@ vector< vector<int> > Map::parseGridFromTMXFile(const string& filename)
 
 	if (nodeMap == NULL)
 	{
-//			cout << "failure!" << endl;
+//		cout << "failure!" << endl;
 		throw std::runtime_error("Can't read node map from file "+filename);
 	}
 
@@ -98,9 +99,6 @@ vector< vector<int> > Map::parseGridFromTMXFile(const string& filename)
 
 	rapidxml::xml_node<>* n = nodeLayer->first_node("data");
 
-//	generateGrid(w, h, nodeLayer->first_node("data"));
-
-	vector< vector<int> > grid;
 	vector<int> row;
 
 	int count=0;
@@ -118,22 +116,25 @@ vector< vector<int> > Map::parseGridFromTMXFile(const string& filename)
 	if(grid.size() < (unsigned) h)
 		throw std::runtime_error("Error while generating map "+filename+"!");
 
-//		for(unsigned i = 0; i < grid.size(); i ++)
-//		{
-//			for(unsigned j = 0; j < grid[i].size(); j++)
-//				cout << grid[i][j];
-//			cout << endl;
-//		}
-//
-//		cout << w << endl << h << endl;
+	/*
+	// debug
+	for(unsigned i = 0; i < grid.size(); i ++)
+	{
+		for(unsigned j = 0; j < grid[i].size(); j++)
+			cout << grid[i][j];
+		cout << endl;
+	}
 
-	return transpose(grid);
+	cout << w << endl << h << endl;
+	*/
+
+	transpose(grid);
 }
 
-void Map::saveGridToRawTxtFile(vector< vector<int> > grid, const string& filename)
+// static
+void Map::saveGridToFileTxt(const vector< vector<int> >& grid, const string& filename)
 {
 	FileOutputStream stream(filename.c_str());
-
 	if(stream.is_open())
 	{
 		for(unsigned int j = 0; j < grid[0].size() ; j++)
@@ -147,6 +148,5 @@ void Map::saveGridToRawTxtFile(vector< vector<int> > grid, const string& filenam
 			stream << ":\n";
 		}
 	}
-
 	stream.close();
 }

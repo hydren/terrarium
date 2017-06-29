@@ -31,10 +31,8 @@ Map::Map(InGameState* state, const string filename)
 : state(*state), grid(), world(new Physics::World(GRAVITY))
 {
 	vector< vector<int> > file_grid;
-	if(ends_with(filename, ".tmx"))
-		file_grid = parseGridFromTMXFile(filename);
-	else
-		file_grid = parseGridFromRawTxtFile(filename);
+
+	(ends_with(filename, ".tmx")? parseGridFromFileTmx : parseGridFromFileTxt)(file_grid, filename);
 
 	cout << "map size (in blocks): " << file_grid.size() << "x" << file_grid[0].size() << endl;
 
@@ -102,7 +100,7 @@ void Map::saveToFile(const string& filename)
 		}
 	}
 
-	saveGridToRawTxtFile(idGrid, filename);
+	saveGridToFileTxt(idGrid, filename);
 }
 
 void Map::retileNeighbourhood(unsigned gridX, unsigned gridY)
@@ -238,5 +236,3 @@ void Map::drawOverlay()
 			}
 		}
 }
-
-

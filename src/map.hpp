@@ -57,14 +57,15 @@ struct Map
 	Rectangle computeDimensions();
 
 	private:
+
 	/// Loads the map grid from a raw txt file, based on the old terrarium "SDL" prototype
-	vector< vector<int> > parseGridFromRawTxtFile(const string& file_path);
+	static void parseGridFromFileTxt(vector< vector<int> >& grid, const string& filename);
 
 	/// Loads the map grid from a Tiled TMX file
-	vector< vector<int> > parseGridFromTMXFile(const string& file_path);
+	static void parseGridFromFileTmx(vector< vector<int> >& grid, const string& filename);
 
 	/// Saves the map grid to a ram txt file.
-	void saveGridToRawTxtFile(vector< vector<int> > grid, const string& filename);
+	static void saveGridToFileTxt(const vector< vector<int> >& grid, const string& filename);
 };
 
 #endif /* MAP_HPP_ */

@@ -372,6 +372,7 @@ void InGameState::handleInput()
 				Entity* detatchedBlock = new Entity(new Animation(new Sprite(*iconBlockDirt)), detatchedBlockBody);
 				map->world->addBody(detatchedBlockBody);
 				detatchedBlockBody->setFixedRotation(false);
+				detatchedBlockBody->applyForceToCenter(Vector(0.0f, -playerJumpImpulse*0.5));
 				entities.push_back(detatchedBlock);
 				cout << "pooped block!" << endl;
 			}

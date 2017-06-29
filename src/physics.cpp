@@ -172,7 +172,7 @@ namespace Physics
 			def->type = b2_dynamicBody;
 			implementation->bodyDef = def;
 
-			if(type == Body::Type::BULLET)
+			if(type == Type::BULLET)
 				def->bullet = true;
 
 			b2FixtureDef* fdef = new b2FixtureDef;

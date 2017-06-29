@@ -8,12 +8,6 @@
 #include "entity.hpp"
 #include <cmath>
 
-#ifndef M_PI
-	#define M_PI 3.14159265358979323846
-#endif
-
-static float toRad = M_PI/180.0;
-
 using Physics::convertToPixels;
 using Physics::Body;
 using fgeal::Rectangle;
@@ -39,7 +33,7 @@ void Entity::draw(const Rectangle& visibleArea)
 	offy +=  convertToPixels(body->getHeight()) - animation->current().height * animation->current().scale.y;
 
 	if(not body->isRotationFixed())
-		animation->current().angle = body->getAngle()*toRad;
+		animation->current().angle = -body->getAngle();
 	else
 		animation->current().angle = 0;
 

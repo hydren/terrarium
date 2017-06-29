@@ -11,6 +11,8 @@
 
 #include "terrarium_game.hpp"
 
+#include "loading_state.hpp"
+
 #include "futil/general/language.hpp"
 
 #include "fgeal/fgeal.hpp"
@@ -21,7 +23,7 @@ using fgeal::Image;
 using fgeal::Font;
 using fgeal::Menu;
 
-class MainMenuState extends public fgeal::Game::State
+class MainMenuState extends public fgeal::Game::State, public LoadingState::Loadable
 {
 	public:
 	int getId() { return TerrariumGame::MAIN_MENU_STATE_ID; }
@@ -44,6 +46,9 @@ class MainMenuState extends public fgeal::Game::State
 
 	void render();
 	void update(float delta);
+
+	// to be called by loading state
+	void loadDuringLoadingScreen();
 };
 
 #endif /* MAIN_MENU_STATE_HPP_ */

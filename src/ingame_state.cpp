@@ -39,6 +39,8 @@ enum AnimEnum
 	ANIM_PLAYER_STAND_RIGHT,
 	ANIM_PLAYER_WALK_LEFT,
 	ANIM_PLAYER_WALK_RIGHT,
+	ANIM_PLAYER_JUMP_LEFT,
+	ANIM_PLAYER_JUMP_RIGHT,
 };
 
 InGameState::InGameState(TerrariumGame* game)  // @suppress("Class members should be properly initialized")

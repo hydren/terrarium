@@ -140,11 +140,8 @@ void MainMenuState::update(float delta)
 							chooseFile = false;
 						else
 						{
-							//loading_image.draw();
-							//fgeal::display->refresh();
-							TerrariumGame& game = *static_cast<TerrariumGame*>(&this->game);
-							game.stageFilename = fileMenu->getSelectedEntry().label;
-							game.enterState(TerrariumGame::INGAME_STATE_ID);
+							static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
+							game.enterState(TerrariumGame::LOADING_STATE_ID);
 						}
 					}
 					else switch(mainMenu->getSelectedIndex()) //this isn't elegant...
@@ -167,4 +164,11 @@ void MainMenuState::update(float delta)
 			}
 		}
 	}
+}
+
+void MainMenuState::loadDuringLoadingScreen()
+{
+	TerrariumGame& game = static_cast<TerrariumGame&>(this->game);
+	game.stageFilename = fileMenu->getSelectedEntry().label;
+	game.enterState(TerrariumGame::INGAME_STATE_ID);
 }

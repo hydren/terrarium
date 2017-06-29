@@ -64,7 +64,7 @@ Map::Map(InGameState* state, const string filename)
 			}
 			else if(file_grid[i][j] == 4)
 			{
-				grid[i][j] = new Block(new Animation(state->tilesetGrass), i, j, 1);
+				grid[i][j] = new Block(new Animation(state->tilesetGrass), i, j, 4);
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}

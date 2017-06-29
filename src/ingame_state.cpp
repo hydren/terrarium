@@ -368,7 +368,7 @@ void InGameState::handleInput()
 							posy = Physics::convertToMeters(visibleArea.y + event.getEventMouseY()),
 							physicalBlockSize = Physics::convertToMeters(BLOCK_SIZE);
 
-				Body* detatchedBlockBody = new Body(posx, posy, 0.5*physicalBlockSize, 0.5*physicalBlockSize, true);
+				Body* detatchedBlockBody = new Body(posx, posy, 0.5*physicalBlockSize, 0.5*physicalBlockSize, Body::Type::DROP);
 				Entity* detatchedBlock = new Entity(new Animation(new Sprite(*iconBlockDirt)), detatchedBlockBody);
 				map->world->addBody(detatchedBlockBody);
 				detatchedBlockBody->setFixedRotation(false);

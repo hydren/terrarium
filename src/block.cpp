@@ -8,10 +8,11 @@
 #include "block.hpp"
 
 using Physics::convertToPixels;
+using Physics::convertToMeters;
 
 /** Caution: the given animation should be correctly configured for blocks */
 Block::Block(Animation* anim, unsigned x_grid, unsigned y_grid, int typeID, bool ignoreCollision):
-Entity(anim, new Body(Physics::convertToMeters(x_grid*BLOCK_SIZE), Physics::convertToMeters(y_grid*BLOCK_SIZE), Physics::convertToMeters(BLOCK_SIZE), ignoreCollision)),
+Entity(anim, new Body(convertToMeters(x_grid*BLOCK_SIZE), convertToMeters(y_grid*BLOCK_SIZE), convertToMeters(BLOCK_SIZE), convertToMeters(BLOCK_SIZE), Body::Type::BLOCK, ignoreCollision)),
 typeID(typeID),
 gridX(x_grid),
 gridY(y_grid)

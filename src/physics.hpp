@@ -36,11 +36,19 @@ namespace Physics
 
 		public:
 
-		/// Constructor used by Block class to create a edge chain. Used on map creation.
-		Body(double x, double y, double size, bool ignoreCollisions=false);
+		struct Type
+		{
+			enum
+			{
+				BLOCK,  // blocks cannot be moved. blocks can be collided with or not.
+				ACTOR,  // actors can be moved. actors can be collided with or not.
+				DROP,   // drops can be moved. drops collide only with blocks.
+				BULLET, // bullets can be moved. bullets collides with actors and blocks only. bullets are optimized for high speeds.
+			};
+		};
 
-		/// Constructor used for creating non-Block bodies. Everything must be passed in meters.
-		Body(double x, double y, double width, double height, bool isDynamic=true);
+		/// General constructor. Everything must be passed in meters.
+		Body(double x, double y, double width, double height, int type=Type::ACTOR, bool ignoreCollisions=false);
 
 		~Body();
 

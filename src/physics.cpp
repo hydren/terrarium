@@ -107,71 +107,72 @@ namespace Physics
 		return b2Vec2(v.x, v.y);
 	}
 
-	/**
-	 * Everything must be passed in meters.
-	 * Constructor used for creating non Block bodies.
-	 */
-	Body::Body(double x, double y, double width, double height, bool isDynamic)
+	Body::Body(double x, double y, double width, double height, int type, bool ignoreCollisions)
 	{
 		implementation = new Implementation();
 
-		b2BodyDef* def = new b2BodyDef;
-		def->position.Set(x+(width/2.0f), y+(height/2.0f));
-		if(isDynamic) def->type = b2_dynamicBody;
-		implementation->bodyDef = def;
+		if(type == Type::BLOCK)
+		{
+			if(width != height)
+				throw std::logic_error("Body constructor called with BLOCK passed as type but width and height are not equal. ");
 
-		b2FixtureDef* fdef = new b2FixtureDef;
-		b2PolygonShape* polygon = new b2PolygonShape;
-		polygon->SetAsBox((width)/2.0f, (height)/2.0f);
-		fdef->shape = polygon;
-		fdef->density = 0.1f;
-		fdef->friction = 0.5f;
-		implementation->bodyDef->userData = fdef;
+			const float size = width;
 
-		implementation->tmpPos = null;
-	}
+			// try a cached def
+			implementation->bodyDef = getCachedBlockDef(size, ignoreCollisions);
 
-	//Constructor used by Block class to create a edge chain. Used on map creation.
-	Body::Body(double x, double y, double size, bool ignoreCollisions)
-	{
-		implementation = new Implementation();
+			// if there is no cached def with the desired spec, create a def (and cache it)
+			if(implementation->bodyDef == null)
+			{
+				b2BodyDef* def = new b2BodyDef;
 
-		// try a cached def
-		implementation->bodyDef = getCachedBlockDef(size, ignoreCollisions);
+				b2FixtureDef* fdef = new b2FixtureDef;
+				def->userData = fdef;
+				def->type = b2_staticBody;
 
-		// if there is no cached def with the desired spec, create a def (and cache it)
-		if(implementation->bodyDef == null)
+				fdef->density = 0.1f;
+				fdef->friction = 0.5f;
+
+				b2Vec2 vs[4];
+				vs[0].Set(-size/2.0f,-size/2.0f);
+				vs[1].Set( size/2.0f,-size/2.0f);
+				vs[2].Set( size/2.0f, size/2.0f);
+				vs[3].Set(-size/2.0f, size/2.0f);
+				b2ChainShape* chain = new b2ChainShape;
+				chain->CreateLoop(vs, 4);
+				fdef->shape = chain;
+
+				if(ignoreCollisions) //makes this body unable to collide with any other body
+					fdef->filter.maskBits = 0x0000;
+
+				implementation->bodyDef = def;
+
+				cachedBodyDefs.push_back(def); // put this def on cache as well.
+			}
+
+			// since bodyDef is shared, store position temporarily to use it afterwards on World::addBody()
+			float* position = new float[2];
+			position[0] = x+(size/2.0f);
+			position[1] = y+(size/2.0f);
+			implementation->tmpPos = position;
+		}
+		else  // non-block type
 		{
 			b2BodyDef* def = new b2BodyDef;
-
-			b2FixtureDef* fdef = new b2FixtureDef;
-			def->userData = fdef;
-
-			fdef->density = 0.1f;
-			fdef->friction = 0.5f;
-
-			b2Vec2 vs[4];
-			vs[0].Set(-size/2.0f,-size/2.0f);
-			vs[1].Set( size/2.0f,-size/2.0f);
-			vs[2].Set( size/2.0f, size/2.0f);
-			vs[3].Set(-size/2.0f, size/2.0f);
-			b2ChainShape* chain = new b2ChainShape;
-			chain->CreateLoop(vs, 4);
-			fdef->shape = chain;
-
-			if(ignoreCollisions) //makes this body unable to collide with any other body
-				fdef->filter.maskBits = 0x0000;
-
+			def->position.Set(x+(width/2.0f), y+(height/2.0f));
+			def->type = b2_dynamicBody;
 			implementation->bodyDef = def;
 
-			cachedBodyDefs.push_back(def); // put this def on cache as well.
-		}
+			b2FixtureDef* fdef = new b2FixtureDef;
+			b2PolygonShape* polygon = new b2PolygonShape;
+			polygon->SetAsBox((width)/2.0f, (height)/2.0f);
+			fdef->shape = polygon;
+			fdef->density = 0.1f;
+			fdef->friction = 0.5f;
+			implementation->bodyDef->userData = fdef;
 
-		// since bodyDef is shared, store position temporarily to use it afterwards on World::addBody()
-		float* position = new float[2];
-		position[0] = x+(size/2.0f);
-		position[1] = y+(size/2.0f);
-		implementation->tmpPos = position;
+			implementation->tmpPos = null;
+		}
 	}
 
 	Body::~Body()

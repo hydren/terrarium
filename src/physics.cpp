@@ -95,14 +95,6 @@ namespace Physics
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Methods
 
-	Vector::Vector(float x1, float y1, float z1)
-	: x(x1), y(y1), z(z1)
-	{}
-
-	Vector::Vector(const Vector& v)
-	: x(v.x), y(v.y), z(v.z)
-	{}
-
 	/** Creates a new Vector from a b2Vec2 */
 	Vector toVector(const b2Vec2& b2v)
 	{

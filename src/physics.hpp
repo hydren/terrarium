@@ -8,23 +8,17 @@
 #ifndef PHYSICS_HPP_
 #define PHYSICS_HPP_
 
+#include "vector2d.hpp"
+
 namespace Physics
 {
+	typedef Vector2D Vector;
+
 	float convertToMeters(float pixels);
 	float convertToPixels(float meters);
 
 	//pre-declaring these classes to avoid annoying declaration order issues...
 	class World;
-
-	/** A simple 3D vector */
-	struct Vector
-	{
-		float x, y, z;
-
-		Vector();
-		Vector(float x1=0, float y1=0, float z1=0);
-		Vector(const Vector &v);
-	};
 
 	/** Represents a physical body. Note that most methods will crash if called when the body is detatched. */
 	class Body

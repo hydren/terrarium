@@ -277,8 +277,8 @@ void InGameState::update(float delta)
 	{
 		if(entity != player)
 		{
-			const Physics::Vector distanceVector(player->body->getCenterX() - entity->body->getCenterX(), player->body->getCenterY() - entity->body->getCenterY());
-			const double distanceLength = sqrt(distanceVector.x*distanceVector.x + distanceVector.y*distanceVector.y);
+			const Physics::Vector distanceVector = player->body->getCenter() - entity->body->getCenter();
+			const double distanceLength = distanceVector.length();
 			if(distanceLength < 0.1)
 			{
 				trash.push_back(entity);
@@ -288,7 +288,7 @@ void InGameState::update(float delta)
 			else if(distanceLength < 0.8)
 			{
 				const double magnetude = 0.05*(1-1/(1+distanceLength));
-				entity->body->applyForceToCenter( Physics::Vector(distanceVector.x*magnetude/distanceLength, distanceVector.y*magnetude/distanceLength) );
+				entity->body->applyForceToCenter(distanceVector.unit().scale(magnetude));
 			}
 		}
 	}

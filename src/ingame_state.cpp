@@ -69,8 +69,6 @@ InGameState::~InGameState()
 		delete tileset;
 	}
 
-	delete player;
-
 	delete font;
 	delete inGameMenu;
 

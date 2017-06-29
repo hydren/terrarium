@@ -91,23 +91,18 @@ Map::~Map()
 
 void Map::saveToFile(const string& filename)
 {
-	std::ofstream stream(filename.c_str());
+	vector< vector<int> > idGrid(grid.size(), vector<int>(grid[0].size()));
 
-	if(stream.is_open())
+	for(unsigned j = 0; j < grid[0].size() ; j++)
 	{
-		for(unsigned int j = 0; j < grid[0].size() ; j++)
+		for(unsigned i = 0; i < grid.size() ; i++)
 		{
-			for(unsigned int i = 0; i < grid.size() ; i++)
-			{
-				stream << (grid[i][j] != null);
-				if(i != grid.size() - 1)
-					stream << ",";
-			}
-			stream << ":\n";
+			if(grid[i][j] != null)
+				idGrid[i][j] = grid[i][j]->typeID;
 		}
 	}
 
-	stream.close();
+	saveGridToRawTxtFile(idGrid, filename);
 }
 
 void Map::retileNeighbourhood(unsigned gridX, unsigned gridY)

@@ -40,10 +40,10 @@ namespace Physics
 		{
 			enum
 			{
-				BLOCK,  // blocks cannot be moved. blocks can be collided with or not.
-				ACTOR,  // actors can be moved. actors can be collided with or not.
-				DROP,   // drops can be moved. drops collide only with blocks.
-				BULLET, // bullets can be moved. bullets collides with actors and blocks only. bullets are optimized for high speeds.
+				BLOCK = 2,  // blocks cannot be moved. blocks can be collided with or not.
+				ACTOR = 4,  // actors can be moved. actors can be collided with or not.
+				DROP  = 8,  // drops can be moved. drops collide only with blocks.
+				BULLET= 16, // bullets can be moved. bullets collides with actors and blocks only. bullets are optimized for high speeds.
 			};
 		};
 

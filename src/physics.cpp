@@ -150,6 +150,7 @@ namespace Physics
 				chain->CreateLoop(vs, 4);
 				fdef->shape = chain;
 
+				fdef->filter.categoryBits = type;
 				if(ignoreCollisions) //makes this body unable to collide with any other body
 					fdef->filter.maskBits = 0x0000;
 
@@ -180,8 +181,16 @@ namespace Physics
 			fdef->shape = polygon;
 			fdef->density = 0.1f;
 			fdef->friction = 0.5f;
-			implementation->bodyDef->userData = fdef;
+			fdef->filter.categoryBits = type;
 
+			switch(type)
+			{
+				case Type::ACTOR:  fdef->filter.maskBits = 1 | Type::BLOCK | Type::BULLET; break;
+				case Type::DROP:   fdef->filter.maskBits = 1 | Type::BLOCK; break;
+				case Type::BULLET: fdef->filter.maskBits = 1 | Type::BLOCK | Type::ACTOR; break;
+			}
+
+			implementation->bodyDef->userData = fdef;
 			implementation->tmpPos = null;
 		}
 	}

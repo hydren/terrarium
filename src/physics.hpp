@@ -20,7 +20,7 @@ namespace Physics
 	//pre-declaring these classes to avoid annoying declaration order issues...
 	class World;
 
-	/** Represents a physical body. Note that most methods will crash if called when the body is detatched. */
+	/** Represents a physical body. Note that almost all methods will crash if called when the body is detatched. */
 	class Body
 	{
 		friend class World;
@@ -46,21 +46,20 @@ namespace Physics
 
 		~Body();
 
-		// Detatched-safe methods (the following methods can be called when the body is detatched)
-
-		/** Returns whether this body is already bound to a world instance. */
+		/** Returns whether this body is already bound to a world instance. This method is safe to be called even when detatched. */
 		bool isDetached();
 
 		double getX() const;
 		double getY() const;
 		Vector getPosition() const;
+
 		double getCenterX() const;
 		double getCenterY() const;
 		Vector getCenter() const;
 
-		// Atatched-only methods (the following methods will crash if called when the body is detatched)
 		double getWidth() const;
 		double getHeight() const;
+
 		Vector getVelocity() const;
 		float getAngle() const;
 
@@ -91,6 +90,5 @@ namespace Physics
 		void step(float timeStep, int velocityIterations, int positionIterations);
 	};
 }
-
 
 #endif /* PHYSICS_HPP_ */

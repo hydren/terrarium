@@ -86,26 +86,27 @@ namespace Physics
 		return false;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// Functions
-
-	float convertToMeters(float pixels) { return 0.01f * pixels; }
-	float convertToPixels(float meters) { return 100.0f * meters;}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// Methods
-
-	/** Creates a new Vector from a b2Vec2 */
-	Vector toVector(const b2Vec2& b2v)
+	// Creates a new Vector from a b2Vec2
+	static Vector toVector(const b2Vec2& b2v)
 	{
 		return Vector(b2v.x, b2v.y);
 	}
 
-	/** Creates a new b2Vec2 from a Vector */
-	b2Vec2 toB2Vec2(const Vector& v)
+	// Creates a new b2Vec2 from a Vector
+	static b2Vec2 toB2Vec2(const Vector& v)
 	{
 		return b2Vec2(v.x, v.y);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Namespace functions
+
+	float convertToMeters(float pixels) { return 0.01f * pixels; }
+	float convertToPixels(float meters) { return 100.0f * meters;}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Body class
 
 	Body::Body(double x, double y, double width, double height, int type, bool ignoreCollisions)
 	{
@@ -199,35 +200,33 @@ namespace Physics
 
 	double Body::getX() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().x - this->getWidth()/2);
+		return implementation->body->GetPosition().x - this->getWidth()/2;
 	}
 
 	double Body::getY() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().y - this->getHeight()/2);
+		return implementation->body->GetPosition().y - this->getHeight()/2;
 	}
 
 	Vector Body::getPosition() const
 	{
-		return implementation->body==null? Vector(0,0) :  Vector(implementation->body->GetPosition().x - this->getWidth()/2, implementation->body->GetPosition().y - this->getHeight()/2);
+		return Vector(implementation->body->GetPosition().x - this->getWidth()/2, implementation->body->GetPosition().y - this->getHeight()/2);
 	}
 
 	double Body::getCenterX() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().x);
+		return implementation->body->GetPosition().x;
 	}
 
 	double Body::getCenterY() const
 	{
-		return (implementation->body==null? 0 : implementation->body->GetPosition().y);
+		return implementation->body->GetPosition().y;
 	}
 
 	Vector Body::getCenter() const
 	{
-		return (implementation->body==null? Vector(0, 0) : Vector(implementation->body->GetPosition().x, implementation->body->GetPosition().y));
+		return Vector(implementation->body->GetPosition().x, implementation->body->GetPosition().y);
 	}
-
-	// ******************************* Atatched-only methods (these will crash if called when the body is detatched) **********************************************************************
 
 	double Body::getWidth() const
 	{
@@ -283,6 +282,10 @@ namespace Physics
 	{
 		implementation->body->ApplyForceToCenter(b2Vec2(force.x, force.y), true);
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// World class
 
 	World::World(Vector gravity)
 	{
@@ -341,5 +344,4 @@ namespace Physics
  	{
  		implementation->b2world->Step(timeStep, velocityIterations, positionIterations);
  	}
-
 }

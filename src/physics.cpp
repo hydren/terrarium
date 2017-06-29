@@ -163,6 +163,9 @@ namespace Physics
 			def->type = b2_dynamicBody;
 			implementation->bodyDef = def;
 
+			if(type == Body::Type::BULLET)
+				def->bullet = true;
+
 			b2FixtureDef* fdef = new b2FixtureDef;
 			b2PolygonShape* polygon = new b2PolygonShape;
 			polygon->SetAsBox((width)/2.0f, (height)/2.0f);

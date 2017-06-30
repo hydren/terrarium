@@ -18,6 +18,7 @@ using fgeal::Menu;
 #include <cmath>
 
 #include "futil/collection/actions.hpp"
+#include "futil/general/language.hpp"
 
 // xxx debug
 #include <iostream>
@@ -111,23 +112,27 @@ void InGameState::initialize()
 	const unsigned animStandLeftFrameCount = atoi(config.get("player.sprite.anim.stand_left.frame_count").c_str());
 	const float animStandLeftFrameDuration = atof(config.get("player.sprite.anim.stand_left.frame_duration").c_str());
 	anim.addSprite(player_sprite_width, player_sprite_height, animStandLeftFrameCount, animStandLeftFrameDuration);
-	anim[ANIM_PLAYER_STAND_LEFT].referencePixelY = -2;
 
 	const unsigned animStandRightFrameCount = atoi(config.get("player.sprite.anim.stand_right.frame_count").c_str());
 	const float animStandRightFrameDuration = atof(config.get("player.sprite.anim.stand_right.frame_duration").c_str());
 	anim.addSprite(player_sprite_width, player_sprite_height, animStandRightFrameCount, animStandRightFrameDuration);
-	anim[ANIM_PLAYER_STAND_RIGHT].referencePixelY = -2;
 
 	const unsigned animWalkLeftFrameCount = atoi(config.get("player.sprite.anim.walk_left.frame_count").c_str());
 	const float animWalkLeftFrameDuration = atof(config.get("player.sprite.anim.walk_left.frame_duration").c_str());
 	anim.addSprite(player_sprite_width, player_sprite_height, animWalkLeftFrameCount, animWalkLeftFrameDuration);
-	anim[ANIM_PLAYER_WALK_LEFT].referencePixelY = -2;
 
 	const unsigned animWalkRightFrameCount = atoi(config.get("player.sprite.anim.walk_right.frame_count").c_str());
 	const float animWalkRightFrameDuration = atof(config.get("player.sprite.anim.walk_right.frame_duration").c_str());
 
 	anim.addSprite(player_sprite_width, player_sprite_height, animWalkRightFrameCount, animWalkRightFrameDuration);
-	anim[ANIM_PLAYER_WALK_RIGHT].referencePixelY = -2;
+
+	const unsigned player_reference_pixel_x = atoi(config.get("player.sprite.reference_pixel.x").c_str());
+	const unsigned player_reference_pixel_y = atoi(config.get("player.sprite.reference_pixel.y").c_str());
+	for(unsigned i = 0; i < anim.sprites.size(); i++)
+	{
+		anim[i].referencePixelX = player_reference_pixel_x;
+		anim[i].referencePixelY = player_reference_pixel_y;
+	}
 
 	anim.currentIndex = ANIM_PLAYER_STAND_RIGHT;
 

@@ -13,7 +13,7 @@
 
 #include "loading_state.hpp"
 
-#include "futil/general/language.hpp"
+#include "futil/language.hpp"
 
 #include "fgeal/fgeal.hpp"
 #include "fgeal/extra/game.hpp"

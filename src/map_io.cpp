@@ -10,10 +10,10 @@
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
 
-#include "futil/general/language.hpp"
-#include "futil/string/more_operators.hpp"
-#include "futil/string/actions.hpp"
-#include "futil/math/parse_number.hpp"
+#include "futil/language.hpp"
+#include "futil/string_extra_operators.hpp"
+#include "futil/string_actions.hpp"
+#include "futil/string_parse.hpp"
 
 #include <stdexcept>
 
@@ -53,7 +53,7 @@ void Map::parseGridFromFileTxt(vector< vector<int> >& matrix, const string& file
 		while(stream.good())
 		{
 			getline(stream, str);
-			if(str.size() > 0 && trim(str).size() > 0) //safety
+			if(str.size() > 0 && futil::trim(str).size() > 0) //safety
 			{
 				matrix.push_back(vector<int>(str.length()/2));
 				for(unsigned int i = 0; i < str.length()/2; i++)
@@ -92,8 +92,8 @@ void Map::parseGridFromFileTmx(vector< vector<int> >& grid, const string& filena
 		throw std::runtime_error("Can't read node map from file "+filename);
 	}
 
-	int w = parse<int>(nodeMap->first_attribute("width")->value());
-	int h = parse<int>(nodeMap->first_attribute("height")->value());
+	int w = futil::parse<int>(nodeMap->first_attribute("width")->value());
+	int h = futil::parse<int>(nodeMap->first_attribute("height")->value());
 
 	rapidxml::xml_node<>* nodeLayer = nodeMap->first_node("layer");
 
@@ -105,7 +105,7 @@ void Map::parseGridFromFileTmx(vector< vector<int> >& grid, const string& filena
 
 	for (rapidxml::xml_node<> *tile = n->first_node("tile"); tile; tile = tile->next_sibling())
 	{
-		row.push_back( parse<int>(tile->first_attribute("gid")->value()) );
+		row.push_back( futil::parse<int>(tile->first_attribute("gid")->value()) );
 		if (++count == w)
 		{
 			grid.push_back(row);

@@ -11,8 +11,8 @@
 
 #include "terrarium_game.hpp"
 
-#include "futil/general/language.hpp"
-#include "futil/string/more_operators.hpp"
+#include "futil/language.hpp"
+#include "futil/string_extra_operators.hpp"
 
 #include "fgeal/fgeal.hpp"
 

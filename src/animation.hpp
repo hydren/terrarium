@@ -15,7 +15,7 @@ using fgeal::Point;
 #include "fgeal/extra/sprite.hpp"
 using fgeal::Sprite;
 
-#include "futil/general/language.hpp"
+#include "futil/language.hpp"
 
 //#include <map>
 //using std::map;

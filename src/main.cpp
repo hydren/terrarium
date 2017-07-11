@@ -10,8 +10,10 @@
 #include "fgeal/fgeal.hpp"
 using fgeal::Image;
 
-#include "futil/string/actions.hpp"
-#include "futil/string/split.hpp"
+#include "futil/string_actions.hpp"
+#include "futil/string_split.hpp"
+using futil::split;
+using futil::starts_with;
 
 #include <cstdlib>
 #include <stdexcept>

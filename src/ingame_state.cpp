@@ -17,8 +17,10 @@ using fgeal::Menu;
 
 #include <cmath>
 
-#include "futil/collection/actions.hpp"
-#include "futil/general/language.hpp"
+#include "futil/collection_actions.hpp"
+#include "futil/language.hpp"
+
+using futil::remove_element;
 
 // xxx debug
 #include <iostream>

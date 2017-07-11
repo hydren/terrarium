@@ -8,7 +8,7 @@
 
 #include "physics.hpp"
 
-#include "futil/general/language.hpp"
+#include "futil/language.hpp"
 
 #include <Box2D/Box2D.h>
 #include <vector>

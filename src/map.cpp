@@ -12,12 +12,14 @@ using std::cout; using std::endl;
 
 #include <fstream>
 
-#include "futil/general/language.hpp"
-#include "futil/string/more_operators.hpp"
-#include "futil/string/actions.hpp"
+#include "futil/language.hpp"
+#include "futil/string_extra_operators.hpp"
+#include "futil/string_actions.hpp"
 
 #include "terrarium_game.hpp"
 #include "ingame_state.hpp"
+
+using futil::ends_with;
 
 static Physics::Vector GRAVITY(0.0, 10.0);
 

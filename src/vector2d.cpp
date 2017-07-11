@@ -10,9 +10,11 @@
 #include <cmath>
 #include <string>
 
-#include "futil/math/constants.h"
-#include "futil/math/more_random.h"
-#include "futil/string/more_operators.hpp"
+#include "futil/math_constants.h"
+#include "futil/random.h"
+#include "futil/string_extra_operators.hpp"
+
+using futil::random_between_decimal;
 
 using std::string;
 
@@ -28,7 +30,7 @@ const Vector2D Vector2D::Y_VERSOR (0, 1);
 Vector2D::Vector2D(double magnitude)
 : x(), y()
 {
-	double angle = random_decimal_between(0.0, 2.0*M_PI);
+	double angle = random_between_decimal(0.0, 2.0*M_PI);
 	x = magnitude*cos(angle);
 	y = magnitude*sin(angle);
 }

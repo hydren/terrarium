@@ -31,10 +31,10 @@ const float player_body_width = Physics::convertToMeters(25);
 const float player_body_height = Physics::convertToMeters(81);
 
 // natty macros are natty
-#define isKeyUpPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::Key::ARROW_UP)
-#define isKeyDownPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::Key::ARROW_DOWN)
-#define isKeyRightPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::Key::ARROW_RIGHT)
-#define isKeyLeftPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::Key::ARROW_LEFT)
+#define isKeyUpPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_UP)
+#define isKeyDownPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_DOWN)
+#define isKeyRightPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_RIGHT)
+#define isKeyLeftPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_LEFT)
 
 enum AnimEnum
 {
@@ -314,46 +314,46 @@ void InGameState::handleInput()
 	{
 		eventQueue.waitNextEvent(&event);
 
-		if(event.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
+		if(event.getEventType() == fgeal::Event::TYPE_DISPLAY_CLOSURE)
 		{
 			game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 		}
-		else if(event.getEventType() == fgeal::Event::Type::KEY_RELEASE)
+		else if(event.getEventType() == fgeal::Event::TYPE_KEY_RELEASE)
 		{
 			switch(event.getEventKeyCode())
 			{
-				case fgeal::Keyboard::Key::ARROW_UP:
+				case fgeal::Keyboard::KEY_ARROW_UP:
 					jumping = false;
 					break;
-				case fgeal::Keyboard::Key::ARROW_RIGHT:
+				case fgeal::Keyboard::KEY_ARROW_RIGHT:
 					player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 					break;
-				case fgeal::Keyboard::Key::ARROW_LEFT:
+				case fgeal::Keyboard::KEY_ARROW_LEFT:
 					player->animation->currentIndex = ANIM_PLAYER_STAND_LEFT;
 					break;
 				default:
 					break;
 			}
 		}
-		else if(event.getEventType() == fgeal::Event::Type::KEY_PRESS)
+		else if(event.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
 		{
 			switch(event.getEventKeyCode())
 			{
-				case fgeal::Keyboard::Key::ARROW_UP:
+				case fgeal::Keyboard::KEY_ARROW_UP:
 					if(inGameMenuShowing)
 						--*inGameMenu;
 					break;
-				case fgeal::Keyboard::Key::ARROW_DOWN:
+				case fgeal::Keyboard::KEY_ARROW_DOWN:
 					if(inGameMenuShowing)
 						++*inGameMenu;
 					break;
-				case fgeal::Keyboard::Key::ESCAPE:
+				case fgeal::Keyboard::KEY_ESCAPE:
 					if(inGameMenuShowing)
 						inGameMenuShowing=false;
 					else
 						inGameMenuShowing=true;
 					break;
-				case fgeal::Keyboard::Key::ENTER:
+				case fgeal::Keyboard::KEY_ENTER:
 					if(inGameMenuShowing)
 					{
 						switch(inGameMenu->getSelectedIndex())
@@ -376,9 +376,9 @@ void InGameState::handleInput()
 					break;
 			}
 		}
-		else if(event.getEventType() == fgeal::Event::Type::MOUSE_BUTTON_PRESS)
+		else if(event.getEventType() == fgeal::Event::TYPE_MOUSE_BUTTON_PRESS)
 		{
-			if(event.getEventMouseButton() == fgeal::Mouse::Button::RIGHT)
+			if(event.getEventMouseButton() == fgeal::Mouse::BUTTON_RIGHT)
 			{
 				unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
 				unsigned int my = (visibleArea.y + event.getEventMouseY())/BLOCK_SIZE;
@@ -387,7 +387,7 @@ void InGameState::handleInput()
 					if (map->grid[mx][my] == NULL)
 						map->addBlock(mx, my);
 			}
-			else if (event.getEventMouseButton() == fgeal::Mouse::Button::LEFT)
+			else if (event.getEventMouseButton() == fgeal::Mouse::BUTTON_LEFT)
 			{
 				unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
 				unsigned int my = (visibleArea.y + event.getEventMouseY())/BLOCK_SIZE;
@@ -398,7 +398,7 @@ void InGameState::handleInput()
 					if (map->grid[mx][my] != NULL)
 						map->deleteBlock(mx, my);
 			}
-			else if (event.getEventMouseButton() == fgeal::Mouse::Button::MIDDLE)
+			else if (event.getEventMouseButton() == fgeal::Mouse::BUTTON_MIDDLE)
 			{
 				const float posx = Physics::convertToMeters(visibleArea.x + event.getEventMouseX()),
 							posy = Physics::convertToMeters(visibleArea.y + event.getEventMouseY()),

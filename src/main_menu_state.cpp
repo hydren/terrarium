@@ -59,7 +59,7 @@ void MainMenuState::onEnter()
 {
 	fgeal::Display& display = fgeal::Display::getInstance();
 	const float sw = display.getWidth(), sh = display.getHeight();
-	vector<string> dirs = fgeal::getFilenamesWithinDirectory("./resources/maps");
+	vector<string> dirs = fgeal::filesystem::getFilenamesWithinDirectory("./resources/maps");
 
 	const float fileMenuHeight = std::min(sh, (dirs.size()+3) * miniFont->getFontHeight());
 
@@ -102,15 +102,15 @@ void MainMenuState::update(float delta)
 	{
 		eventQueue.waitNextEvent(&ev);
 
-		if(ev.getEventType() == fgeal::Event::Type::DISPLAY_CLOSURE)
+		if(ev.getEventType() == fgeal::Event::TYPE_DISPLAY_CLOSURE)
 		{
 			game.running = false;
 		}
-		else if(ev.getEventType() == fgeal::Event::Type::KEY_PRESS)
+		else if(ev.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
 		{
 			switch(ev.getEventKeyCode())
 			{
-				case fgeal::Keyboard::Key::ARROW_UP:
+				case fgeal::Keyboard::KEY_ARROW_UP:
 					if(chooseFile)
 						fileMenu->cursorUp();
 					else
@@ -118,7 +118,7 @@ void MainMenuState::update(float delta)
 
 					break;
 
-				case fgeal::Keyboard::Key::ARROW_DOWN:
+				case fgeal::Keyboard::KEY_ARROW_DOWN:
 					if(chooseFile)
 						fileMenu->cursorDown();
 					else
@@ -126,13 +126,13 @@ void MainMenuState::update(float delta)
 
 					break;
 
-				case fgeal::Keyboard::Key::ARROW_RIGHT:
+				case fgeal::Keyboard::KEY_ARROW_RIGHT:
 					break;
 
-				case fgeal::Keyboard::Key::ARROW_LEFT:
+				case fgeal::Keyboard::KEY_ARROW_LEFT:
 					break;
 
-				case fgeal::Keyboard::Key::ENTER:
+				case fgeal::Keyboard::KEY_ENTER:
 
 					if(chooseFile == true)
 					{

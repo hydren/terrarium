@@ -770,7 +770,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.345786455." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1667674366" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1152944117" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-allegro5.0-debug" id="org.eclipse.cdt.build.core.internal.builder.336132771" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-allegro5.0-debug" id="org.eclipse.cdt.build.core.internal.builder.336132771" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.698759684" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1892948968" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -834,7 +834,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1694691429" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1518051110" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-debug" id="org.eclipse.cdt.build.core.internal.builder.1222299361" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-debug" id="org.eclipse.cdt.build.core.internal.builder.1222299361" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1243293038" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2086733847" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -898,7 +898,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.812971274." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1299033708" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1430474052" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl2.0-debug" id="org.eclipse.cdt.build.core.internal.builder.695590612" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl2.0-debug" id="org.eclipse.cdt.build.core.internal.builder.695590612" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1922666022" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1564575956" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -962,7 +962,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.345786455.45163483." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.597053151" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.716340159" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-allegro5.0-release" id="org.eclipse.cdt.build.core.internal.builder.608108753" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-allegro5.0-release" id="org.eclipse.cdt.build.core.internal.builder.608108753" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1158853863" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.385613478" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1026,7 +1026,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.13830834." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1903679135" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.2071490620" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-release" id="org.eclipse.cdt.build.core.internal.builder.1067119871" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl1.2-release" id="org.eclipse.cdt.build.core.internal.builder.1067119871" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.349383175" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1184547743" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1090,7 +1090,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.812971274.474227171." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1972396995" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.112048777" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl2.0-release" id="org.eclipse.cdt.build.core.internal.builder.657228521" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sdl2.0-release" id="org.eclipse.cdt.build.core.internal.builder.657228521" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.2053568843" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2141789396" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1406,7 +1406,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.1830014948." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.764126266" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.1848274551" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sfml2.0-debug" id="org.eclipse.cdt.build.core.internal.builder.1949784113" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sfml2.0-debug" id="org.eclipse.cdt.build.core.internal.builder.1949784113" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1114018246" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.124652374" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1468,7 +1468,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.754777563.299248329.1910018873.13830834.1078666458." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.556607804" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.982010891" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sfml2.0-release" id="org.eclipse.cdt.build.core.internal.builder.814676661" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/terrarium}/win32-mingw-sfml2.0-release" id="org.eclipse.cdt.build.core.internal.builder.814676661" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.1869998913" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1846683322" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -1532,13 +1532,16 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.461964071" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1160872411" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.179623145" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.862294368" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.508680482" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.cl.dll.debug.1271261430" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.includes.736620752" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_INCLUDE_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1047918522" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.2016748966" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
@@ -1558,7 +1561,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.link.option.debug.1339051" name="Generate Debug Info (/debug)" superClass="org.eclipse.cdt.msvc.link.option.debug" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.msvc.link.option.libpath.295123601" name="Additional Libpath (/libpath)" superClass="org.eclipse.cdt.msvc.link.option.libpath" useByScannerDiscovery="false" valueType="stringList">
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_LIB_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Lib&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.link.inputType.370767038" superClass="org.eclipse.cdt.msvc.link.inputType"/>
 							</tool>
@@ -1591,13 +1594,16 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.366895450" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.844284040" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1050851492" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.1854759110" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.37146553" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.cl.dll.debug.278845834" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.includes.1355555202" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_INCLUDE_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.2029233703" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.781401492" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
@@ -1619,7 +1625,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.link.option.debug.157235498" name="Generate Debug Info (/debug)" superClass="org.eclipse.cdt.msvc.link.option.debug" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.msvc.link.option.libpath.1760869992" name="Additional Libpath (/libpath)" superClass="org.eclipse.cdt.msvc.link.option.libpath" useByScannerDiscovery="false" valueType="stringList">
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_LIB_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Lib&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.link.inputType.151167570" superClass="org.eclipse.cdt.msvc.link.inputType"/>
 							</tool>
@@ -1652,13 +1658,16 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.1366963320" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.462356143" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.261161710" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.870347594" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.1385419453" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.cl.dll.debug.704443407" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.includes.1529752818" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_INCLUDE_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.97430869" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1179560766" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
@@ -1680,7 +1689,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.link.option.debug.1994265541" name="Generate Debug Info (/debug)" superClass="org.eclipse.cdt.msvc.link.option.debug" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.msvc.link.option.libpath.1436265781" name="Additional Libpath (/libpath)" superClass="org.eclipse.cdt.msvc.link.option.libpath" useByScannerDiscovery="false" valueType="stringList">
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_LIB_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Lib&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.link.inputType.537969003" superClass="org.eclipse.cdt.msvc.link.inputType"/>
 							</tool>
@@ -1713,13 +1722,16 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.1502552431" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.262387046" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1733933318" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.796686454" superClass="org.eclipse.cdt.msvc.cl.option.includes" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.214048621" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.cl.dll.debug.731589916" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.includes.387007972" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_INCLUDE_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1646585379" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.907341154" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
@@ -1739,7 +1751,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.link.option.debug.2094664170" name="Generate Debug Info (/debug)" superClass="org.eclipse.cdt.msvc.link.option.debug" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.msvc.link.option.libpath.88715732" name="Additional Libpath (/libpath)" superClass="org.eclipse.cdt.msvc.link.option.libpath" useByScannerDiscovery="false" valueType="stringList">
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_LIB_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Lib&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.link.inputType.1248819884" superClass="org.eclipse.cdt.msvc.link.inputType"/>
 							</tool>
@@ -1772,13 +1784,16 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.1812695359" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1170462115" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.891347695" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.2129361604" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.958353329" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.cl.dll.debug.225473752" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.includes.1767145082" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_INCLUDE_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.252481899" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.847265169" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
@@ -1800,7 +1815,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.link.option.debug.234585355" name="Generate Debug Info (/debug)" superClass="org.eclipse.cdt.msvc.link.option.debug" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.msvc.link.option.libpath.16646914" name="Additional Libpath (/libpath)" superClass="org.eclipse.cdt.msvc.link.option.libpath" useByScannerDiscovery="false" valueType="stringList">
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_LIB_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Lib&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.link.inputType.1341855953" superClass="org.eclipse.cdt.msvc.link.inputType"/>
 							</tool>
@@ -1833,13 +1848,16 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.1644908166" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.14745573" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.610612381" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.1342230007" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
+								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.871612860" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
 							</tool>
 							<tool id="org.eclipse.cdt.msvc.cl.dll.debug.220014624" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.includes.968331293" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_INCLUDE_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1172423194" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.69750088" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
@@ -1861,7 +1879,7 @@
 								</option>
 								<option id="org.eclipse.cdt.msvc.link.option.debug.1926559524" name="Generate Debug Info (/debug)" superClass="org.eclipse.cdt.msvc.link.option.debug" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.msvc.link.option.libpath.909082786" name="Additional Libpath (/libpath)" superClass="org.eclipse.cdt.msvc.link.option.libpath" useByScannerDiscovery="false" valueType="stringList">
-									<listOptionValue builtIn="false" value="&quot;${WINSDK_LIB_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Lib&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.link.inputType.1324847797" superClass="org.eclipse.cdt.msvc.link.inputType"/>
 							</tool>

@@ -9,6 +9,7 @@
 
 using Physics::Vector;
 using Physics::convertToPixels;
+using Physics::newVector;
 
 using fgeal::Event;
 using fgeal::EventQueue;
@@ -255,26 +256,26 @@ void InGameState::update(float delta)
 	if(not inGameMenuShowing and isKeyUpPressed and !jumping) {
 		Vector v = player->body->getVelocity();
 		if(v.y >= -2.0f) {
-			player->body->applyImpulse(Vector(0.0f, -playerJumpImpulse), Vector(player->body->getX(), player->body->getY()));
+			player->body->applyImpulse(newVector(0.0f, -playerJumpImpulse), newVector(player->body->getX(), player->body->getY()));
 			jumping = true;
 		}
 	}
 	if(not inGameMenuShowing and isKeyDownPressed) {
 		Vector v = player->body->getVelocity();
 		if(v.y <= 2.0f)
-			player->body->applyForceToCenter(Vector(0.0f, 0.2f));
+			player->body->applyForceToCenter(newVector(0.0f, 0.2f));
 	}
 	if(not inGameMenuShowing and isKeyRightPressed) {
 		player->animation->currentIndex = ANIM_PLAYER_WALK_RIGHT;
 		Vector v = player->body->getVelocity();
 		if(v.x <= 2.0f)
-			player->body->applyForceToCenter(Vector(playerWalkForce, 0.0f));
+			player->body->applyForceToCenter(newVector(playerWalkForce, 0.0f));
 	}
 	if(not inGameMenuShowing and isKeyLeftPressed) {
 		player->animation->currentIndex = ANIM_PLAYER_WALK_LEFT;
 		Vector v = player->body->getVelocity();
 		if(v.x >= -2.0f)
-			player->body->applyForceToCenter(Vector(-playerWalkForce, 0.0f));
+			player->body->applyForceToCenter(newVector(-playerWalkForce, 0.0f));
 	}
 
 	this->handleInput();
@@ -408,7 +409,7 @@ void InGameState::handleInput()
 				Entity* detatchedBlock = new Entity(new Animation(new Sprite(*iconBlockDirt)), detatchedBlockBody);
 				map->world->addBody(detatchedBlockBody);
 				detatchedBlockBody->setFixedRotation(false);
-				detatchedBlockBody->applyForceToCenter(Vector(0.0f, -playerJumpImpulse*0.5));
+				detatchedBlockBody->applyForceToCenter(newVector(0.0f, -playerJumpImpulse*0.5));
 				entities.push_back(detatchedBlock);
 				cout << "pooped block!" << endl;
 			}

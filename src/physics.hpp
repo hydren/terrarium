@@ -8,11 +8,13 @@
 #ifndef PHYSICS_HPP_
 #define PHYSICS_HPP_
 
-#include "vector2d.hpp"
+#include "fgeal/geometry.hpp"
 
 namespace Physics
 {
-	typedef Vector2D Vector;
+	typedef fgeal::Vector2D Vector;
+
+	Vector newVector(float x, float y);
 
 	float convertToMeters(float pixels);
 	float convertToPixels(float meters);

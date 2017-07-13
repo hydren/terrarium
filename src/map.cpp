@@ -21,7 +21,7 @@ using std::cout; using std::endl;
 
 using futil::ends_with;
 
-static Physics::Vector GRAVITY(0.0, 10.0);
+static Physics::Vector GRAVITY = {0.0, 10.0};
 
 Map::Map(InGameState* state, int columns, int lines)
 : state(*state), grid(), world(new Physics::World(GRAVITY))

@@ -89,7 +89,8 @@ namespace Physics
 	// Creates a new Vector from a b2Vec2
 	static Vector toVector(const b2Vec2& b2v)
 	{
-		return Vector(b2v.x, b2v.y);
+		Vector v = {b2v.x, b2v.y};
+		return v;
 	}
 
 	// Creates a new b2Vec2 from a Vector
@@ -103,6 +104,12 @@ namespace Physics
 
 	float convertToMeters(float pixels) { return 0.01f * pixels; }
 	float convertToPixels(float meters) { return 100.0f * meters;}
+
+	Vector newVector(float x, float y)
+	{
+		Vector v = {x, y};
+		return v;
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -210,7 +217,7 @@ namespace Physics
 
 	Vector Body::getPosition() const
 	{
-		return Vector(implementation->body->GetPosition().x - this->getWidth()/2, implementation->body->GetPosition().y - this->getHeight()/2);
+		return newVector(implementation->body->GetPosition().x - this->getWidth()/2, implementation->body->GetPosition().y - this->getHeight()/2);
 	}
 
 	double Body::getCenterX() const
@@ -225,7 +232,7 @@ namespace Physics
 
 	Vector Body::getCenter() const
 	{
-		return Vector(implementation->body->GetPosition().x, implementation->body->GetPosition().y);
+		return newVector(implementation->body->GetPosition().x, implementation->body->GetPosition().y);
 	}
 
 	double Body::getWidth() const

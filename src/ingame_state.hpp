@@ -39,7 +39,7 @@ class InGameState extends public fgeal::Game::State
 	// Default is a black background
 	Sprite* background;
 
-	fgeal::Font* font;
+	fgeal::Font* font, *fontInventory;
 
 	// block icons
 	Sprite* iconBlockDirt, *iconBlockStone;

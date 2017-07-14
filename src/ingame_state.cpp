@@ -109,6 +109,7 @@ void InGameState::initialize()
 
 	//loading font
 	font = new fgeal::Font(config.get("ingame.font.filename"), atoi(config.get("ingame.font.size").c_str()));
+	fontInventory = new fgeal::Font(config.get("ingame.inventory.font.filename"), atoi(config.get("ingame.inventory.font.size").c_str()));
 
 	//loading ingame menu
 	Rectangle menuSize = {visibleArea.w*0.5f-100, visibleArea.h*0.5f-32, 200, 64};
@@ -212,7 +213,7 @@ void InGameState::onEnter()
 		0.25f * display.getWidth(), 0.75f * display.getHeight() - 1.25f * BLOCK_SIZE,
 		0.5f  * display.getWidth(), 0.25f * display.getHeight()
 	};
-	inventory = new Inventory(inventoryBounds, new Item(ITEM_TYPE_BAG));
+	inventory = new Inventory(inventoryBounds, fontInventory, new Item(ITEM_TYPE_BAG));
 	inventoryVisible = false;
 }
 
@@ -220,11 +221,6 @@ void InGameState::onLeave()
 {
 	delete map;
 	map = null;
-
-	foreach(Item*, item, vector<Item*>, inventory->items())
-	{
-		delete item;
-	}
 
 	delete inventory;
 	inventory = null;
@@ -335,7 +331,7 @@ void InGameState::update(float delta)
 
 				if(entityItem != null)
 				{
-					inventory->items().push_back(entityItem);
+					inventory->add(entityItem);
 					entityItemMapping.erase(entity);
 				}
 			}

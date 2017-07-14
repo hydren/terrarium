@@ -8,6 +8,8 @@
 #include "inventory.hpp"
 #include "block.hpp"
 
+#include "futil/string_actions.hpp"
+
 static unsigned ITEM_TYPE_ID_LAST = 0;
 
 Item::Type::Type(unsigned stackLimit, float mass,
@@ -30,7 +32,7 @@ Item::Type::Type(unsigned stackLimit, float mass,
 static unsigned ITEM_ID_LAST = 0;
 
 Item::Item(const Type& type)
-: id(++ITEM_ID_LAST), type(type)
+: id(++ITEM_ID_LAST), type(type), amount(1)
 {}
 
 bool Item::canAdd(Item* item)
@@ -39,16 +41,50 @@ bool Item::canAdd(Item* item)
 	return item != null and items.size() < type.itemSlotCount;
 }
 
+using fgeal::Rectangle;
+using fgeal::Font;
+
 const fgeal::Color inventoryBgColor(50, 100, 150, 96);
 
-Inventory::Inventory(const fgeal::Rectangle& bounds, Item* container)
-: bounds(bounds), container(container)
+Inventory::Inventory(const Rectangle& bounds, Font* font, Item* container)
+: bounds(bounds), font(font), container(container)
 {}
+
+Inventory::~Inventory()
+{
+	foreach(Item*, item, vector<Item*>, items())
+	{
+		delete item;
+	}
+
+	delete container;
+	container = null;
+}
+
+void Inventory::add(Item* item)
+{
+	if(item->type.stackingLimit > 1)  // if can be stacked, attempt stacking
+	{
+		foreach(Item*, it, vector<Item*>, container->items)
+		{
+			if(it->type == item->type and it->amount < it->type.stackingLimit)
+			{
+				it->amount++;
+				delete item;
+				return;
+			}
+		}
+	}
+
+	// if we got here, then we couldn't stack the given item
+	container->items.push_back(item);
+}
 
 void Inventory::draw()
 {
 	using fgeal::Rectangle;
 	using fgeal::Image;
+	using fgeal::Color;
 	const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
 
 	Image::drawRectangle(inventoryBgColor, bounds.x, bounds.y, bounds.w, bounds.h);
@@ -61,7 +97,23 @@ void Inventory::draw()
 		const float y = bounds.y + inventorySlotSize.h * (i / slotsPerLine);
 		Image::drawRectangle(inventoryBgColor, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
 
-		if(i < container->items.size() and container->items[i]->type.icon != null)
-			container->items[i]->type.icon->draw(x, y);
+		if(i < container->items.size())
+		{
+			Item* item = container->items[i];
+
+			if(item->type.icon != null)
+				item->type.icon->draw(x + 0.5*(inventorySlotSize.w - item->type.icon->width),
+									  y + 0.5*(inventorySlotSize.h - item->type.icon->height));
+			else
+			{
+				Image::drawCircle(Color::GREY, x + 0.5*inventorySlotSize.w, y + 0.5*inventorySlotSize.h, 0.5*inventorySlotSize.h);
+				font->drawText(item->type.name, x, y, Color::BLACK);
+			}
+
+			if(item->amount > 1)
+				font->drawText(futil::to_string(item->amount),
+						x + 0.95*inventorySlotSize.w - font->getTextWidth(futil::to_string(item->amount)),
+						y + 0.95*inventorySlotSize.h - font->getFontHeight(), Color::BLACK);
+		}
 	}
 }

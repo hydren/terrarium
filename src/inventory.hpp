@@ -60,6 +60,8 @@ struct Item
 
 		/// returns true if this type of item is a container-type
 		inline bool isContainer() const { return itemSlotCount > 0; }
+
+		inline bool operator == (const Type& type) const { return this->id == type.id; }
 	};
 
 	/// the ID of this item
@@ -69,6 +71,9 @@ struct Item
 
 	/// this item's type (reference)
 	const Type& type;
+
+	/// the amount of this item. if it is bigger than 1, it means this item is a stack.
+	unsigned amount;
 
 	// ============================== CONTAINER PROPERTIES
 
@@ -81,18 +86,28 @@ struct Item
 
 	/// Returns true if it is possible to add this item to this inventory.
 	bool canAdd(Item* item);
+
+	inline bool isStack() { return amount > 1; }
 };
 
 struct Inventory
 {
 	fgeal::Rectangle bounds;
+	fgeal::Font* font;
 	Item* container;
 
-	Inventory(const fgeal::Rectangle& bounds, Item* container);
+	Inventory(const fgeal::Rectangle& bounds, fgeal::Font* font, Item* container);
+
+	~Inventory();
 
 	inline bool canAdd(Item* item) { return container->type.isContainer() and container->canAdd(item); }
 
 	inline std::vector<Item*>& items() { return container->items; }
+
+	/// Adds the given item to this inventory. CAUTION! THE GIVEN ITEM CAN BE DELETED AFTER THIS CALL (which means it was stacked).
+	void add(Item* item);
+
+	//todo a put method, which adds in a specific slot
 
 	/// Draws this inventory on screen
 	void draw();

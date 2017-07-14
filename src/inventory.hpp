@@ -76,9 +76,21 @@ struct Container extends Item
 
 	/// Returns true if it is possible to add this item to this inventory.
 	bool canAdd(Item* item);
+};
 
-	/// Draws this inventory on screen, with the specified bounds
-	void draw(float x = 0, float y = 0, float w = 0, float h = 0);
+struct Inventory
+{
+	fgeal::Rectangle bounds;
+	Container* container;
+
+	Inventory(const fgeal::Rectangle& bounds, Container* container);
+
+	inline bool canAdd(Item* item) { return container->canAdd(item); }
+
+	inline std::vector<Item*>& items() { return container->items; }
+
+	/// Draws this inventory on screen
+	void draw();
 };
 
 #endif /* INVENTORY_HPP_ */

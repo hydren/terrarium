@@ -71,7 +71,7 @@ class InGameState extends public fgeal::Game::State
 
 	float playerJumpImpulse, playerWalkForce;
 
-	Container* inventory;
+	Inventory* inventory;
 	bool inventoryVisible;
 
 	std::map<Entity*, Item*> entityItemMapping;

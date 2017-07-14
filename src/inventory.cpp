@@ -35,23 +35,27 @@ bool Container::canAdd(Item* item)
 
 const fgeal::Color inventoryBgColor(50, 100, 150, 96);
 
-void Container::draw(float pane_x, float pane_y, float pane_w, float pane_h)
+Inventory::Inventory(const fgeal::Rectangle& bounds, Container* container)
+: bounds(bounds), container(container)
+{}
+
+void Inventory::draw()
 {
 	using fgeal::Rectangle;
 	using fgeal::Image;
 	const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
 
-	Image::drawRectangle(inventoryBgColor, pane_x, pane_y, pane_w, pane_h);
-	Image::drawRectangle(inventoryBgColor, pane_x, pane_y, pane_w, pane_h);
+	Image::drawRectangle(inventoryBgColor, bounds.x, bounds.y, bounds.w, bounds.h);
+	Image::drawRectangle(inventoryBgColor, bounds.x, bounds.y, bounds.w, bounds.h);
 
-	const int slotsPerLine = (int) (pane_w / inventorySlotSize.w);
-	for(unsigned i = 0; i < type.itemSlotCount; i++)
+	const int slotsPerLine = (int) (bounds.w / inventorySlotSize.w);
+	for(unsigned i = 0; i < container->type.itemSlotCount; i++)
 	{
-		const float x = pane_x + inventorySlotSize.w * (i % slotsPerLine);
-		const float y = pane_y + inventorySlotSize.h * (i / slotsPerLine);
+		const float x = bounds.x + inventorySlotSize.w * (i % slotsPerLine);
+		const float y = bounds.y + inventorySlotSize.h * (i / slotsPerLine);
 		Image::drawRectangle(inventoryBgColor, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
 
-		if(i < items.size() and items[i]->type.icon != null)
-			items[i]->type.icon->draw(x, y);
+		if(i < container->items.size() and container->items[i]->type.icon != null)
+			container->items[i]->type.icon->draw(x, y);
 	}
 }

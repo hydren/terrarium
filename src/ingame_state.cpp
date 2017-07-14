@@ -191,6 +191,8 @@ void InGameState::initialize()
 
 void InGameState::onEnter()
 {
+	fgeal::Display& display = fgeal::Display::getInstance();
+
 	//setting flags
 	jumping = false;
 	inGameMenuShowing = false;
@@ -207,7 +209,11 @@ void InGameState::onEnter()
 	player->body->setFixedRotation();
 	player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
-	inventory = new Container(CONTAINER_TYPE_BAG);
+	const Rectangle inventoryBounds = {
+		0.25f * display.getWidth(), 0.75f * display.getHeight() - 1.25f * BLOCK_SIZE,
+		0.5f  * display.getWidth(), 0.25f * display.getHeight()
+	};
+	inventory = new Inventory(inventoryBounds, new Container(CONTAINER_TYPE_BAG));
 	inventoryVisible = false;
 }
 
@@ -216,7 +222,7 @@ void InGameState::onLeave()
 	delete map;
 	map = null;
 
-	foreach(Item*, item, vector<Item*>, inventory->items)
+	foreach(Item*, item, vector<Item*>, inventory->items())
 	{
 		delete item;
 	}
@@ -256,8 +262,7 @@ void InGameState::render()
 	}
 
 	if(inventoryVisible)
-		inventory->draw(0.25f * display.getWidth(), 0.75f * display.getHeight() - 1.25f * BLOCK_SIZE,
-						0.5f  * display.getWidth(), 0.25f * display.getHeight());
+		inventory->draw();
 
 	if(inGameMenuShowing)
 		inGameMenu->draw();
@@ -331,7 +336,7 @@ void InGameState::update(float delta)
 
 				if(entityItem != null)
 				{
-					inventory->items.push_back(entityItem);
+					inventory->items().push_back(entityItem);
 					entityItemMapping.erase(entity);
 				}
 			}

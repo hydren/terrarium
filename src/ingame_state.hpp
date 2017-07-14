@@ -21,6 +21,7 @@
 
 #include <cstdlib>
 #include <vector>
+#include <map>
 
 #include "block.hpp"
 #include "entity.hpp"
@@ -73,9 +74,13 @@ class InGameState extends public fgeal::Game::State
 	Container* inventory;
 	bool inventoryVisible;
 
+	std::map<Entity*, Item*> entityItemMapping;
+
 	int getId() { return TerrariumGame::INGAME_STATE_ID; }
 
 	void handleInput();
+
+	void spawnItemEntity(Item* type, float posx, float posy);
 
 	public:
 

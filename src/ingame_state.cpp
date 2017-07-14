@@ -9,6 +9,7 @@
 
 using Physics::Vector;
 using Physics::convertToPixels;
+using Physics::convertToMeters;
 using Physics::newVector;
 
 using fgeal::Event;
@@ -311,15 +312,13 @@ void InGameState::update(float delta)
 			const double distanceLength = distanceVector.length();
 			if(distanceLength < 0.1)
 			{
-				//fixme this code is trashing the block id sequence. an idead approach is to attack a single block item instance to each block entity instance
-				Item* dirtBlockItem = new Item(Item::Type::BLOCK_DIRT);
-				if(inventory->canAdd(dirtBlockItem))
+				Item* item = entityItemMapping[entity];
+				if(inventory->canAdd(item))
 				{
-					inventory->items.push_back(dirtBlockItem);
+					inventory->items.push_back(item);
+					entityItemMapping.erase(entity);
 					trash.push_back(entity);
 				}
-				else
-					delete dirtBlockItem;
 			}
 
 			else if(distanceLength < 0.8)
@@ -434,22 +433,40 @@ void InGameState::handleInput()
 				if(my < 0) my = 0; // safety
 				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
 					if (map->grid[mx][my] != NULL)
+					{
+						Item* item = null;
+						if(map->grid[mx][my]->typeID == 1 or map->grid[mx][my]->typeID == 4)
+							item = new Item(Item::Type::BLOCK_DIRT);
+						if(map->grid[mx][my]->typeID == 2)
+							item = new Item(Item::Type::BLOCK_STONE);
+
+						if(item != null)
+							this->spawnItemEntity(item, convertToMeters(mx*BLOCK_SIZE), convertToMeters(my*BLOCK_SIZE));
+
 						map->deleteBlock(mx, my);
+					}
 			}
 			else if (event.getEventMouseButton() == fgeal::Mouse::BUTTON_MIDDLE)
 			{
-				const float posx = Physics::convertToMeters(visibleArea.x + event.getEventMouseX()),
-							posy = Physics::convertToMeters(visibleArea.y + event.getEventMouseY()),
-							physicalBlockSize = Physics::convertToMeters(BLOCK_SIZE);
+				const float posx = convertToMeters(visibleArea.x + event.getEventMouseX()),
+							posy = convertToMeters(visibleArea.y + event.getEventMouseY());
 
-				Body* detatchedBlockBody = new Body(posx, posy, 0.5*physicalBlockSize, 0.5*physicalBlockSize, Body::Type::DROP);
-				Entity* detatchedBlock = new Entity(new Animation(new Sprite(*iconBlockDirt)), detatchedBlockBody);
-				map->world->addBody(detatchedBlockBody);
-				detatchedBlockBody->setFixedRotation(false);
-				detatchedBlockBody->applyForceToCenter(newVector(0.0f, -playerJumpImpulse*0.5));
-				entities.push_back(detatchedBlock);
-				cout << "pooped block!" << endl;
+				Item* dirtBlockItem = new Item(Item::Type::BLOCK_DIRT);
+				this->spawnItemEntity(dirtBlockItem, posx, posy);
 			}
 		}
 	}
+}
+
+void InGameState::spawnItemEntity(Item* item, float posx, float posy)
+{
+	const float physicalBlockSize = Physics::convertToMeters(BLOCK_SIZE);
+	Body* detatchedBlockBody = new Body(posx, posy, 0.5*physicalBlockSize, 0.5*physicalBlockSize, Body::Type::DROP);
+	Entity* detatchedBlock = new Entity(new Animation(new Sprite(*item->type.icon)), detatchedBlockBody);
+	map->world->addBody(detatchedBlockBody);
+	detatchedBlockBody->setFixedRotation(false);
+	detatchedBlockBody->applyForceToCenter(newVector(0.0f, -playerJumpImpulse*0.5));
+	entities.push_back(detatchedBlock);
+	entityItemMapping[detatchedBlock] = item;
+	cout << "pooped " << item->type.name << "!" << endl;
 }

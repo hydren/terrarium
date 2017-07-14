@@ -9,12 +9,15 @@
 
 using Physics::Vector;
 using Physics::convertToPixels;
+using Physics::convertToMeters;
 using Physics::newVector;
 
 using fgeal::Event;
 using fgeal::EventQueue;
 using fgeal::Color;
 using fgeal::Menu;
+using fgeal::Keyboard;
+using fgeal::Mouse;
 
 #include <cmath>
 
@@ -27,15 +30,26 @@ using futil::remove_element;
 #include <iostream>
 using std::cout; using std::endl;
 
+// xxx hardcoded item types should later be specified by a external file
+Item::Type
+	ITEM_TYPE_BLOCK_STONE (999, 20.0, "Dirt block",  "A dirt block is a dirt block. Get over it."),
+	ITEM_TYPE_BLOCK_DIRT  (999, 10.0, "Stone block", "A stone block is a stone block. Rolling Stones!"),
+	ITEM_TYPE_BAG         ( 50,  0.5, "Bag",         "A simple bag that can carry some items.");
+
+Container::Type
+	CONTAINER_TYPE_BAG(ITEM_TYPE_BAG, 32);
+
+// xxx hardcoded UI colors
+
 // xxx hardcoded player body dimensions
 const float player_body_width = Physics::convertToMeters(25);
 const float player_body_height = Physics::convertToMeters(81);
 
-// natty macros are natty
-#define isKeyUpPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_UP)
-#define isKeyDownPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_DOWN)
-#define isKeyRightPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_RIGHT)
-#define isKeyLeftPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_LEFT)
+// lazy as f****
+#define isKeyUpPressed    Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_UP)
+#define isKeyDownPressed  Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_DOWN)
+#define isKeyRightPressed Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_RIGHT)
+#define isKeyLeftPressed  Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_LEFT)
 
 enum AnimEnum
 {
@@ -156,9 +170,13 @@ void InGameState::initialize()
 	iconBlockDirt->scale.x = 0.5;
 	iconBlockDirt->scale.y = 0.5;
 
+	ITEM_TYPE_BLOCK_DIRT.icon = iconBlockDirt;
+
 	iconBlockStone = new Sprite(tilesetStone->sheet, BLOCK_SIZE, BLOCK_SIZE);
 	iconBlockStone->scale.x = 0.5;
 	iconBlockStone->scale.y = 0.5;
+
+	ITEM_TYPE_BLOCK_STONE.icon = iconBlockStone;
 
 	//load bg
 	Image* bgImg = new Image(config.get("ingame.bg.filename"));
@@ -188,17 +206,29 @@ void InGameState::onEnter()
 	map->world->addBody(player->body);
 	player->body->setFixedRotation();
 	player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
+
+	inventory = new Container(CONTAINER_TYPE_BAG);
+	inventoryVisible = false;
 }
 
 void InGameState::onLeave()
 {
 	delete map;
 	map = null;
+
+	foreach(Item*, item, vector<Item*>, inventory->items)
+	{
+		delete item;
+	}
+
+	delete inventory;
+	inventory = null;
 }
 
 void InGameState::render()
 {
-	fgeal::Display::getInstance().clear();
+	fgeal::Display& display = fgeal::Display::getInstance();
+	display.clear();
 
 	/* needs to draw HUD */
 
@@ -224,6 +254,10 @@ void InGameState::render()
 		font->drawText(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, fgeal::Color::WHITE);
 		font->drawText(string("FPS: ")+game.getFpsCount(), 0, 96, fgeal::Color::WHITE);
 	}
+
+	if(inventoryVisible)
+		inventory->draw(0.25f * display.getWidth(), 0.75f * display.getHeight() - 1.25f * BLOCK_SIZE,
+						0.5f  * display.getWidth(), 0.25f * display.getHeight());
 
 	if(inGameMenuShowing)
 		inGameMenu->draw();
@@ -289,8 +323,13 @@ void InGameState::update(float delta)
 			const double distanceLength = distanceVector.length();
 			if(distanceLength < 0.1)
 			{
-				trash.push_back(entity);
-				cout << "prop crush!" << endl;
+				Item* item = entityItemMapping[entity];
+				if(inventory->canAdd(item))
+				{
+					inventory->items.push_back(item);
+					entityItemMapping.erase(entity);
+					trash.push_back(entity);
+				}
 			}
 
 			else if(distanceLength < 0.8)
@@ -326,12 +365,15 @@ void InGameState::handleInput()
 				case fgeal::Keyboard::KEY_ARROW_UP:
 					jumping = false;
 					break;
+
 				case fgeal::Keyboard::KEY_ARROW_RIGHT:
 					player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 					break;
+
 				case fgeal::Keyboard::KEY_ARROW_LEFT:
 					player->animation->currentIndex = ANIM_PLAYER_STAND_LEFT;
 					break;
+
 				default:
 					break;
 			}
@@ -342,18 +384,18 @@ void InGameState::handleInput()
 			{
 				case fgeal::Keyboard::KEY_ARROW_UP:
 					if(inGameMenuShowing)
-						--*inGameMenu;
+						inGameMenu->cursorUp();
 					break;
+
 				case fgeal::Keyboard::KEY_ARROW_DOWN:
 					if(inGameMenuShowing)
-						++*inGameMenu;
+						inGameMenu->cursorDown();
 					break;
+
 				case fgeal::Keyboard::KEY_ESCAPE:
-					if(inGameMenuShowing)
-						inGameMenuShowing=false;
-					else
-						inGameMenuShowing=true;
+					inGameMenuShowing = !inGameMenuShowing;
 					break;
+
 				case fgeal::Keyboard::KEY_ENTER:
 					if(inGameMenuShowing)
 					{
@@ -373,6 +415,11 @@ void InGameState::handleInput()
 						}
 					}
 					break;
+
+				case fgeal::Keyboard::KEY_I:
+					inventoryVisible = !inventoryVisible;
+					break;
+
 				default:
 					break;
 			}
@@ -397,22 +444,40 @@ void InGameState::handleInput()
 				if(my < 0) my = 0; // safety
 				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
 					if (map->grid[mx][my] != NULL)
+					{
+						Item* item = null;
+						if(map->grid[mx][my]->typeID == 1 or map->grid[mx][my]->typeID == 4)
+							item = new Item(ITEM_TYPE_BLOCK_DIRT);
+						if(map->grid[mx][my]->typeID == 2)
+							item = new Item(ITEM_TYPE_BLOCK_STONE);
+
+						if(item != null)
+							this->spawnItemEntity(item, convertToMeters(mx*BLOCK_SIZE), convertToMeters(my*BLOCK_SIZE));
+
 						map->deleteBlock(mx, my);
+					}
 			}
 			else if (event.getEventMouseButton() == fgeal::Mouse::BUTTON_MIDDLE)
 			{
-				const float posx = Physics::convertToMeters(visibleArea.x + event.getEventMouseX()),
-							posy = Physics::convertToMeters(visibleArea.y + event.getEventMouseY()),
-							physicalBlockSize = Physics::convertToMeters(BLOCK_SIZE);
+				const float posx = convertToMeters(visibleArea.x + event.getEventMouseX()),
+							posy = convertToMeters(visibleArea.y + event.getEventMouseY());
 
-				Body* detatchedBlockBody = new Body(posx, posy, 0.5*physicalBlockSize, 0.5*physicalBlockSize, Body::Type::DROP);
-				Entity* detatchedBlock = new Entity(new Animation(new Sprite(*iconBlockDirt)), detatchedBlockBody);
-				map->world->addBody(detatchedBlockBody);
-				detatchedBlockBody->setFixedRotation(false);
-				detatchedBlockBody->applyForceToCenter(newVector(0.0f, -playerJumpImpulse*0.5));
-				entities.push_back(detatchedBlock);
-				cout << "pooped block!" << endl;
+				Item* dirtBlockItem = new Item(ITEM_TYPE_BLOCK_DIRT);
+				this->spawnItemEntity(dirtBlockItem, posx, posy);
 			}
 		}
 	}
+}
+
+void InGameState::spawnItemEntity(Item* item, float posx, float posy)
+{
+	const float physicalBlockSize = Physics::convertToMeters(BLOCK_SIZE);
+	Body* detatchedBlockBody = new Body(posx, posy, 0.5*physicalBlockSize, 0.5*physicalBlockSize, Body::Type::DROP);
+	Entity* detatchedBlock = new Entity(new Animation(new Sprite(*item->type.icon)), detatchedBlockBody);
+	map->world->addBody(detatchedBlockBody);
+	detatchedBlockBody->setFixedRotation(false);
+	detatchedBlockBody->applyForceToCenter(newVector(0.0f, -playerJumpImpulse*0.5));
+	entities.push_back(detatchedBlock);
+	entityItemMapping[detatchedBlock] = item;
+	cout << "pooped " << item->type.name << "!" << endl;
 }

@@ -319,20 +319,24 @@ void InGameState::update(float delta)
 	{
 		if(entity != player)
 		{
+			Item* entityItem = entityItemMapping[entity];
+			const bool isNotItemOrCanAdd = (entityItem == null or inventory->canAdd(entityItem));
+
 			const Physics::Vector distanceVector = player->body->getCenter() - entity->body->getCenter();
 			const double distanceLength = distanceVector.length();
-			if(distanceLength < 0.1)
+
+			if(distanceLength < 0.1 and isNotItemOrCanAdd)
 			{
-				Item* item = entityItemMapping[entity];
-				if(inventory->canAdd(item))
+				trash.push_back(entity);
+
+				if(entityItem != null)
 				{
-					inventory->items.push_back(item);
+					inventory->items.push_back(entityItem);
 					entityItemMapping.erase(entity);
-					trash.push_back(entity);
 				}
 			}
 
-			else if(distanceLength < 0.8)
+			else if(distanceLength < 0.8 and isNotItemOrCanAdd)
 			{
 				const double magnetude = 0.05*(1-1/(1+distanceLength));
 				entity->body->applyForceToCenter(distanceVector.unit().scale(magnetude));

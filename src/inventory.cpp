@@ -29,7 +29,8 @@ Container::Container(const Type& type)
 
 bool Container::canAdd(Item* item)
 {
-	return items.size() < type.itemSlotCount;
+	// fixme make Containter::canAdd() take into account the stackingLimit
+	return item != null and items.size() < type.itemSlotCount;
 }
 
 const fgeal::Color inventoryBgColor(50, 100, 150, 96);

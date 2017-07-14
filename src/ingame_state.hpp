@@ -25,6 +25,7 @@
 #include "block.hpp"
 #include "entity.hpp"
 #include "map.hpp"
+#include "inventory.hpp"
 
 class InGameState extends public fgeal::Game::State
 {
@@ -68,6 +69,8 @@ class InGameState extends public fgeal::Game::State
 	bool jumping, inGameMenuShowing;
 
 	float playerJumpImpulse, playerWalkForce;
+
+	Container* inventory;
 
 	int getId() { return TerrariumGame::INGAME_STATE_ID; }
 

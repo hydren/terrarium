@@ -188,6 +188,8 @@ void InGameState::onEnter()
 	map->world->addBody(player->body);
 	player->body->setFixedRotation();
 	player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
+
+	inventory = new Container(Container::Type::BAG);
 }
 
 void InGameState::onLeave()

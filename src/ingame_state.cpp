@@ -16,6 +16,8 @@ using fgeal::Event;
 using fgeal::EventQueue;
 using fgeal::Color;
 using fgeal::Menu;
+using fgeal::Keyboard;
+using fgeal::Mouse;
 
 #include <cmath>
 
@@ -28,17 +30,26 @@ using futil::remove_element;
 #include <iostream>
 using std::cout; using std::endl;
 
+// xxx hardcoded item types should later be specified by a external file
+Item::Type
+	ITEM_TYPE_BLOCK_STONE (999, 20.0, "Dirt block",  "A dirt block is a dirt block. Get over it."),
+	ITEM_TYPE_BLOCK_DIRT  (999, 10.0, "Stone block", "A stone block is a stone block. Rolling Stones!"),
+	ITEM_TYPE_BAG         ( 50,  0.5, "Bag",         "A simple bag that can carry some items.");
+
+Container::Type
+	CONTAINER_TYPE_BAG(ITEM_TYPE_BAG, 32);
+
 // xxx hardcoded UI colors
 
 // xxx hardcoded player body dimensions
 const float player_body_width = Physics::convertToMeters(25);
 const float player_body_height = Physics::convertToMeters(81);
 
-// natty macros are natty
-#define isKeyUpPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_UP)
-#define isKeyDownPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_DOWN)
-#define isKeyRightPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_RIGHT)
-#define isKeyLeftPressed fgeal::Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_LEFT)
+// lazy as f****
+#define isKeyUpPressed    Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_UP)
+#define isKeyDownPressed  Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_DOWN)
+#define isKeyRightPressed Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_RIGHT)
+#define isKeyLeftPressed  Keyboard::isKeyPressed(fgeal::Keyboard::KEY_ARROW_LEFT)
 
 enum AnimEnum
 {
@@ -159,13 +170,13 @@ void InGameState::initialize()
 	iconBlockDirt->scale.x = 0.5;
 	iconBlockDirt->scale.y = 0.5;
 
-	Item::Type::BLOCK_DIRT.icon = iconBlockDirt;
+	ITEM_TYPE_BLOCK_DIRT.icon = iconBlockDirt;
 
 	iconBlockStone = new Sprite(tilesetStone->sheet, BLOCK_SIZE, BLOCK_SIZE);
 	iconBlockStone->scale.x = 0.5;
 	iconBlockStone->scale.y = 0.5;
 
-	Item::Type::BLOCK_STONE.icon = iconBlockStone;
+	ITEM_TYPE_BLOCK_STONE.icon = iconBlockStone;
 
 	//load bg
 	Image* bgImg = new Image(config.get("ingame.bg.filename"));
@@ -196,7 +207,7 @@ void InGameState::onEnter()
 	player->body->setFixedRotation();
 	player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
-	inventory = new Container(Container::Type::BAG);
+	inventory = new Container(CONTAINER_TYPE_BAG);
 	inventoryVisible = false;
 }
 
@@ -436,9 +447,9 @@ void InGameState::handleInput()
 					{
 						Item* item = null;
 						if(map->grid[mx][my]->typeID == 1 or map->grid[mx][my]->typeID == 4)
-							item = new Item(Item::Type::BLOCK_DIRT);
+							item = new Item(ITEM_TYPE_BLOCK_DIRT);
 						if(map->grid[mx][my]->typeID == 2)
-							item = new Item(Item::Type::BLOCK_STONE);
+							item = new Item(ITEM_TYPE_BLOCK_STONE);
 
 						if(item != null)
 							this->spawnItemEntity(item, convertToMeters(mx*BLOCK_SIZE), convertToMeters(my*BLOCK_SIZE));
@@ -451,7 +462,7 @@ void InGameState::handleInput()
 				const float posx = convertToMeters(visibleArea.x + event.getEventMouseX()),
 							posy = convertToMeters(visibleArea.y + event.getEventMouseY());
 
-				Item* dirtBlockItem = new Item(Item::Type::BLOCK_DIRT);
+				Item* dirtBlockItem = new Item(ITEM_TYPE_BLOCK_DIRT);
 				this->spawnItemEntity(dirtBlockItem, posx, posy);
 			}
 		}

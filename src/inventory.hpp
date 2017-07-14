@@ -39,9 +39,6 @@ struct Item
 		fgeal::Sprite* icon;
 
 		Type(unsigned stackLimit, float mass, const std::string& name, const std::string& desc);
-
-		// xxx hardcoded item types should later be specified by a external file
-		static Type BLOCK_STONE, BLOCK_DIRT, BAG;
 	};
 
 	/// the ID of this item
@@ -67,9 +64,6 @@ struct Container extends Item
 		unsigned itemSlotCount;
 
 		Type(const Item::Type& itemType, unsigned slotCount);
-
-		// xxx hardcoded item types should later be specified by a external file
-		static Type BAG;
 	};
 
 	/// this container's type (reference)

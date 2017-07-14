@@ -94,6 +94,8 @@ struct Inventory
 {
 	fgeal::Rectangle bounds;
 	fgeal::Font* font;
+	fgeal::Color color;
+
 	Item* container;
 
 	Inventory(const fgeal::Rectangle& bounds, fgeal::Font* font, Item* container);

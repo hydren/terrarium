@@ -44,10 +44,8 @@ bool Item::canAdd(Item* item)
 using fgeal::Rectangle;
 using fgeal::Font;
 
-const fgeal::Color inventoryBgColor(50, 100, 150, 96);
-
 Inventory::Inventory(const Rectangle& bounds, Font* font, Item* container)
-: bounds(bounds), font(font), container(container)
+: bounds(bounds), font(font), color(128, 128, 128, 128), container(container)
 {}
 
 Inventory::~Inventory()
@@ -87,15 +85,15 @@ void Inventory::draw()
 	using fgeal::Color;
 	const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
 
-	Image::drawRectangle(inventoryBgColor, bounds.x, bounds.y, bounds.w, bounds.h);
-	Image::drawRectangle(inventoryBgColor, bounds.x, bounds.y, bounds.w, bounds.h);
+	Image::drawRectangle(color, bounds.x, bounds.y, bounds.w, bounds.h);
+	Image::drawRectangle(color, bounds.x, bounds.y, bounds.w, bounds.h);
 
 	const int slotsPerLine = (int) (bounds.w / inventorySlotSize.w);
 	for(unsigned i = 0; i < container->type.itemSlotCount; i++)
 	{
 		const float x = bounds.x + inventorySlotSize.w * (i % slotsPerLine);
 		const float y = bounds.y + inventorySlotSize.h * (i / slotsPerLine);
-		Image::drawRectangle(inventoryBgColor, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
+		Image::drawRectangle(color, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
 
 		if(i < container->items.size())
 		{

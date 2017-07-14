@@ -214,6 +214,7 @@ void InGameState::onEnter()
 		0.5f  * display.getWidth(), 0.25f * display.getHeight()
 	};
 	inventory = new Inventory(inventoryBounds, fontInventory, new Item(ITEM_TYPE_BAG));
+	inventory->color = Color(50, 100, 150, 96);
 	inventoryVisible = false;
 }
 

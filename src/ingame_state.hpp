@@ -71,6 +71,7 @@ class InGameState extends public fgeal::Game::State
 	float playerJumpImpulse, playerWalkForce;
 
 	Container* inventory;
+	bool inventoryVisible;
 
 	int getId() { return TerrariumGame::INGAME_STATE_ID; }
 

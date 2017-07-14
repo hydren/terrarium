@@ -27,6 +27,10 @@ using futil::remove_element;
 #include <iostream>
 using std::cout; using std::endl;
 
+// xxx hardcoded UI colors
+
+const Color inventoryBgColor(50, 100, 150, 96);
+
 // xxx hardcoded player body dimensions
 const float player_body_width = Physics::convertToMeters(25);
 const float player_body_height = Physics::convertToMeters(81);
@@ -190,17 +194,27 @@ void InGameState::onEnter()
 	player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
 	inventory = new Container(Container::Type::BAG);
+	inventoryVisible = false;
 }
 
 void InGameState::onLeave()
 {
 	delete map;
 	map = null;
+
+	foreach(Item*, item, vector<Item*>, inventory->items)
+	{
+		delete item;
+	}
+
+	delete inventory;
+	inventory = null;
 }
 
 void InGameState::render()
 {
-	fgeal::Display::getInstance().clear();
+	fgeal::Display& display = fgeal::Display::getInstance();
+	display.clear();
 
 	/* needs to draw HUD */
 
@@ -225,6 +239,32 @@ void InGameState::render()
 		font->drawText("SPEED", 0, 42, fgeal::Color::WHITE);
 		font->drawText(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, fgeal::Color::WHITE);
 		font->drawText(string("FPS: ")+game.getFpsCount(), 0, 96, fgeal::Color::WHITE);
+	}
+
+	if(inventoryVisible)
+	{
+		const Rectangle inventoryPaneBounds = {
+			0.25f * display.getWidth(),                       // x
+			0.75f * display.getHeight() - 1.25f * BLOCK_SIZE, // y
+			0.5f  * display.getWidth(),                       // w
+			0.25f * display.getHeight(),                      // h
+		};
+
+		const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
+
+		Image::drawRectangle(inventoryBgColor, inventoryPaneBounds.x, inventoryPaneBounds.y, inventoryPaneBounds.w, inventoryPaneBounds.h);
+		Image::drawRectangle(inventoryBgColor, inventoryPaneBounds.x, inventoryPaneBounds.y, inventoryPaneBounds.w, inventoryPaneBounds.h);
+
+		const int slotsPerLine = (int) (inventoryPaneBounds.w / inventorySlotSize.w);
+		for(unsigned i = 0; i < inventory->type.itemSlotCount; i++)
+		{
+			const float x = inventoryPaneBounds.x + inventorySlotSize.w * (i % slotsPerLine);
+			const float y = inventoryPaneBounds.y + inventorySlotSize.h * (i / slotsPerLine);
+			Image::drawRectangle(inventoryBgColor, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
+
+			if(i < inventory->items.size())
+				Image::drawRectangle(Color::BLUE, x, y, inventorySlotSize.w, inventorySlotSize.h);
+		}
 	}
 
 	if(inGameMenuShowing)
@@ -328,12 +368,15 @@ void InGameState::handleInput()
 				case fgeal::Keyboard::KEY_ARROW_UP:
 					jumping = false;
 					break;
+
 				case fgeal::Keyboard::KEY_ARROW_RIGHT:
 					player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 					break;
+
 				case fgeal::Keyboard::KEY_ARROW_LEFT:
 					player->animation->currentIndex = ANIM_PLAYER_STAND_LEFT;
 					break;
+
 				default:
 					break;
 			}
@@ -344,18 +387,18 @@ void InGameState::handleInput()
 			{
 				case fgeal::Keyboard::KEY_ARROW_UP:
 					if(inGameMenuShowing)
-						--*inGameMenu;
+						inGameMenu->cursorUp();
 					break;
+
 				case fgeal::Keyboard::KEY_ARROW_DOWN:
 					if(inGameMenuShowing)
-						++*inGameMenu;
+						inGameMenu->cursorDown();
 					break;
+
 				case fgeal::Keyboard::KEY_ESCAPE:
-					if(inGameMenuShowing)
-						inGameMenuShowing=false;
-					else
-						inGameMenuShowing=true;
+					inGameMenuShowing = !inGameMenuShowing;
 					break;
+
 				case fgeal::Keyboard::KEY_ENTER:
 					if(inGameMenuShowing)
 					{
@@ -375,6 +418,11 @@ void InGameState::handleInput()
 						}
 					}
 					break;
+
+				case fgeal::Keyboard::KEY_I:
+					inventoryVisible = !inventoryVisible;
+					break;
+
 				default:
 					break;
 			}

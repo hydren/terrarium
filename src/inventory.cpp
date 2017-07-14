@@ -9,25 +9,31 @@
 #include "block.hpp"
 
 static unsigned ITEM_TYPE_ID_LAST = 0;
-Item::Type::Type(unsigned stackLimit, float mass, const std::string& name, const std::string& desc)
-: id(++ITEM_TYPE_ID_LAST), stackingLimit(stackLimit), mass(mass), name(name), description(desc), icon(null)
+
+Item::Type::Type(unsigned stackLimit, float mass,
+				 const std::string& name, const std::string& desc)
+: id(++ITEM_TYPE_ID_LAST),
+  stackingLimit(stackLimit), mass(mass), icon(null),
+  itemSlotCount(0),
+  name(name), description(desc)
+{}
+
+Item::Type::Type(unsigned stackLimit, float mass,
+		 	 	 unsigned itemSlotCount,
+				 const std::string& name, const std::string& desc)
+: id(++ITEM_TYPE_ID_LAST),
+  stackingLimit(stackLimit), mass(mass), icon(null),
+  itemSlotCount(itemSlotCount),
+  name(name), description(desc)
 {}
 
 static unsigned ITEM_ID_LAST = 0;
+
 Item::Item(const Type& type)
 : id(++ITEM_ID_LAST), type(type)
 {}
 
-static unsigned CONTAINER_TYPE_ID_LAST = 0;
-Container::Type::Type(const Item::Type& itemType, unsigned slotCount)
-: id(++CONTAINER_TYPE_ID_LAST), itemType(itemType), itemSlotCount(slotCount)
-{}
-
-Container::Container(const Type& type)
-: Item(type.itemType), type(type), items()
-{}
-
-bool Container::canAdd(Item* item)
+bool Item::canAdd(Item* item)
 {
 	// fixme make Containter::canAdd() take into account the stackingLimit
 	return item != null and items.size() < type.itemSlotCount;
@@ -35,7 +41,7 @@ bool Container::canAdd(Item* item)
 
 const fgeal::Color inventoryBgColor(50, 100, 150, 96);
 
-Inventory::Inventory(const fgeal::Rectangle& bounds, Container* container)
+Inventory::Inventory(const fgeal::Rectangle& bounds, Item* container)
 : bounds(bounds), container(container)
 {}
 

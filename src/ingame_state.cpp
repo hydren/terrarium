@@ -32,12 +32,11 @@ using std::cout; using std::endl;
 
 // xxx hardcoded item types should later be specified by a external file
 Item::Type
-	ITEM_TYPE_BLOCK_STONE (999, 20.0, "Dirt block",  "A dirt block is a dirt block. Get over it."),
-	ITEM_TYPE_BLOCK_DIRT  (999, 10.0, "Stone block", "A stone block is a stone block. Rolling Stones!"),
-	ITEM_TYPE_BAG         ( 50,  0.5, "Bag",         "A simple bag that can carry some items.");
+	ITEM_TYPE_BLOCK_STONE (999, 20.0,     "Dirt block",  "A dirt block is a dirt block. Get over it."),
+	ITEM_TYPE_BLOCK_DIRT  (999, 10.0,     "Stone block", "A stone block is a stone block. Rolling Stones!"),
 
-Container::Type
-	CONTAINER_TYPE_BAG(ITEM_TYPE_BAG, 32);
+	// container types
+	ITEM_TYPE_BAG         ( 50,  0.5, 32, "Bag",         "A simple bag that can carry some items.");
 
 // xxx hardcoded UI colors
 
@@ -213,7 +212,7 @@ void InGameState::onEnter()
 		0.25f * display.getWidth(), 0.75f * display.getHeight() - 1.25f * BLOCK_SIZE,
 		0.5f  * display.getWidth(), 0.25f * display.getHeight()
 	};
-	inventory = new Inventory(inventoryBounds, new Container(CONTAINER_TYPE_BAG));
+	inventory = new Inventory(inventoryBounds, new Item(ITEM_TYPE_BAG));
 	inventoryVisible = false;
 }
 

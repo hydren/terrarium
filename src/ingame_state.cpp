@@ -29,8 +29,6 @@ using std::cout; using std::endl;
 
 // xxx hardcoded UI colors
 
-const Color inventoryBgColor(50, 100, 150, 96);
-
 // xxx hardcoded player body dimensions
 const float player_body_width = Physics::convertToMeters(25);
 const float player_body_height = Physics::convertToMeters(81);
@@ -246,30 +244,8 @@ void InGameState::render()
 	}
 
 	if(inventoryVisible)
-	{
-		const Rectangle inventoryPaneBounds = {
-			0.25f * display.getWidth(),                       // x
-			0.75f * display.getHeight() - 1.25f * BLOCK_SIZE, // y
-			0.5f  * display.getWidth(),                       // w
-			0.25f * display.getHeight(),                      // h
-		};
-
-		const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
-
-		Image::drawRectangle(inventoryBgColor, inventoryPaneBounds.x, inventoryPaneBounds.y, inventoryPaneBounds.w, inventoryPaneBounds.h);
-		Image::drawRectangle(inventoryBgColor, inventoryPaneBounds.x, inventoryPaneBounds.y, inventoryPaneBounds.w, inventoryPaneBounds.h);
-
-		const int slotsPerLine = (int) (inventoryPaneBounds.w / inventorySlotSize.w);
-		for(unsigned i = 0; i < inventory->type.itemSlotCount; i++)
-		{
-			const float x = inventoryPaneBounds.x + inventorySlotSize.w * (i % slotsPerLine);
-			const float y = inventoryPaneBounds.y + inventorySlotSize.h * (i / slotsPerLine);
-			Image::drawRectangle(inventoryBgColor, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
-
-			if(i < inventory->items.size())
-				inventory->items[i]->type.icon->draw(x, y);
-		}
-	}
+		inventory->draw(0.25f * display.getWidth(), 0.75f * display.getHeight() - 1.25f * BLOCK_SIZE,
+						0.5f  * display.getWidth(), 0.25f * display.getHeight());
 
 	if(inGameMenuShowing)
 		inGameMenu->draw();

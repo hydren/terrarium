@@ -82,6 +82,9 @@ struct Container extends Item
 
 	/// Returns true if it is possible to add this item to this inventory.
 	bool canAdd(Item* item);
+
+	/// Draws this inventory on screen, with the specified bounds
+	void draw(float x = 0, float y = 0, float w = 0, float h = 0);
 };
 
 #endif /* INVENTORY_HPP_ */

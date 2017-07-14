@@ -210,11 +210,11 @@ void InGameState::onEnter()
 	player->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
 	const Rectangle inventoryBounds = {
-		0.25f * display.getWidth(), 0.75f * display.getHeight() - 1.25f * BLOCK_SIZE,
+		0.25f * display.getWidth(), 1.25f * BLOCK_SIZE,
 		0.5f  * display.getWidth(), 0.25f * display.getHeight()
 	};
 	inventory = new Inventory(inventoryBounds, fontInventory, new Item(ITEM_TYPE_BAG));
-	inventory->color = Color(50, 100, 150, 96);
+	inventory->color = Color(150, 200, 250, 96);
 	inventoryVisible = false;
 }
 

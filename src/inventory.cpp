@@ -45,7 +45,7 @@ using fgeal::Rectangle;
 using fgeal::Font;
 
 Inventory::Inventory(const Rectangle& bounds, Font* font, Item* container)
-: bounds(bounds), font(font), color(128, 128, 128, 128), container(container)
+: bounds(bounds), font(font), color(128, 128, 128, 128), colorFont(fgeal::Color::BLACK), container(container)
 {}
 
 Inventory::~Inventory()
@@ -105,13 +105,13 @@ void Inventory::draw()
 			else
 			{
 				Image::drawCircle(Color::GREY, x + 0.5*inventorySlotSize.w, y + 0.5*inventorySlotSize.h, 0.5*inventorySlotSize.h);
-				font->drawText(item->type.name, x, y, Color::BLACK);
+				font->drawText(item->type.name, x, y, colorFont);
 			}
 
 			if(item->amount > 1)
 				font->drawText(futil::to_string(item->amount),
 						x + 0.95*inventorySlotSize.w - font->getTextWidth(futil::to_string(item->amount)),
-						y + 0.95*inventorySlotSize.h - font->getFontHeight(), Color::BLACK);
+						y + 0.95*inventorySlotSize.h - font->getFontHeight(), colorFont);
 		}
 	}
 }

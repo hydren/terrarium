@@ -160,9 +160,13 @@ void InGameState::initialize()
 	iconBlockDirt->scale.x = 0.5;
 	iconBlockDirt->scale.y = 0.5;
 
+	Item::Type::BLOCK_DIRT.icon = iconBlockDirt;
+
 	iconBlockStone = new Sprite(tilesetStone->sheet, BLOCK_SIZE, BLOCK_SIZE);
 	iconBlockStone->scale.x = 0.5;
 	iconBlockStone->scale.y = 0.5;
+
+	Item::Type::BLOCK_STONE.icon = iconBlockStone;
 
 	//load bg
 	Image* bgImg = new Image(config.get("ingame.bg.filename"));
@@ -263,7 +267,7 @@ void InGameState::render()
 			Image::drawRectangle(inventoryBgColor, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
 
 			if(i < inventory->items.size())
-				Image::drawRectangle(Color::BLUE, x, y, inventorySlotSize.w, inventorySlotSize.h);
+				inventory->items[i]->type.icon->draw(x, y);
 		}
 	}
 
@@ -331,8 +335,15 @@ void InGameState::update(float delta)
 			const double distanceLength = distanceVector.length();
 			if(distanceLength < 0.1)
 			{
-				trash.push_back(entity);
-				cout << "prop crush!" << endl;
+				//fixme this code is trashing the block id sequence. an idead approach is to attack a single block item instance to each block entity instance
+				Item* dirtBlockItem = new Item(Item::Type::BLOCK_DIRT);
+				if(inventory->canAdd(dirtBlockItem))
+				{
+					inventory->items.push_back(dirtBlockItem);
+					trash.push_back(entity);
+				}
+				else
+					delete dirtBlockItem;
 			}
 
 			else if(distanceLength < 0.8)

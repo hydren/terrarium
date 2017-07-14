@@ -9,6 +9,8 @@
 #define INVENTORY_HPP_
 #include <ciso646>
 
+#include "fgeal/extra/sprite.hpp"
+
 #include "futil/language.hpp"
 
 #include <vector>
@@ -32,6 +34,9 @@ struct Item
 
 		/// a human-readable description of this item type
 		const std::string description;
+
+		/// this item's icon
+		fgeal::Sprite* icon;
 
 		Type(unsigned stackLimit, float mass, const std::string& name, const std::string& desc);
 

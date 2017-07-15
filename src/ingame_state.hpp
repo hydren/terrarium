@@ -41,6 +41,8 @@ class InGameState extends public fgeal::Game::State
 
 	fgeal::Font* font, *fontInventory;
 
+	fgeal::Color inventoryColor, inventoryFontColor;
+
 	// block icons
 	Sprite* iconBlockDirt, *iconBlockStone;
 

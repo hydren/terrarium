@@ -24,8 +24,6 @@ using fgeal::Mouse;
 #include "futil/collection_actions.hpp"
 #include "futil/language.hpp"
 
-#include "util.hpp"
-
 using futil::remove_element;
 
 // xxx debug
@@ -187,8 +185,10 @@ void InGameState::initialize()
 	background->scale.y = fgeal::Display::getInstance().getHeight() / background->getCurrentFrame().h;
 
 	inventory = null;
-	inventoryColor = parseColorProperty(config.get("ingame.inventory.color"));
-	inventoryFontColor = parseColorProperty(config.get("ingame.inventory.font.color"));
+	inventoryColor = Color::parseCStr(config.get("ingame.inventory.color").c_str(), true);
+	inventoryColor.a = 128;
+	inventoryFontColor = Color::parseCStr(config.get("ingame.inventory.font.color").c_str(), true);
+	inventoryFontColor.a = 255;
 
 	map = null; // we need to nullify to know afterwards if there was initialization
 

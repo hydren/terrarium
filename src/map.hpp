@@ -44,7 +44,7 @@ struct Map
 
 	void retileNeighbourhood(unsigned gridX, unsigned gridY);
 
-	void addBlock(unsigned gridX, unsigned gridY);
+	void addBlock(unsigned gridX, unsigned gridY, unsigned typeId);
 
 	void deleteBlock(unsigned gridX, unsigned gridY);
 

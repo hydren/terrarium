@@ -257,12 +257,12 @@ void InGameState::render()
 
 	//DEBUG!!!
 	{
-		font->drawText("## DEBUG BUILD ##", 245, 0, fgeal::Color::RED);
-		font->drawText("POSITION", 0, 14, fgeal::Color::WHITE);
-		font->drawText(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, fgeal::Color::WHITE);
-		font->drawText("SPEED", 0, 42, fgeal::Color::WHITE);
-		font->drawText(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, fgeal::Color::WHITE);
-		font->drawText(string("FPS: ")+game.getFpsCount(), 0, 96, fgeal::Color::WHITE);
+		font->drawText("## DEBUG BUILD ##", 245, 0, Color::RED);
+		font->drawText("POSITION", 0, 14, Color::WHITE);
+		font->drawText(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, Color::WHITE);
+		font->drawText("SPEED", 0, 42, Color::WHITE);
+		font->drawText(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, Color::WHITE);
+		font->drawText(string("FPS: ")+game.getFpsCount(), 0, 96, Color::WHITE);
 	}
 
 	if(inventoryVisible)
@@ -272,7 +272,7 @@ void InGameState::render()
 		inGameMenu->draw();
 
 	if(cursorHeldItem != null)
-		cursorHeldItem->type.icon->draw(Mouse::getPositionX(), Mouse::getPositionY());
+		cursorHeldItem->draw(Mouse::getPositionX(), Mouse::getPositionY(), font, Color::BLACK);
 }
 
 void InGameState::update(float delta)
@@ -444,12 +444,12 @@ void InGameState::handleInput()
 		{
 			if(event.getEventMouseButton() == fgeal::Mouse::BUTTON_RIGHT)
 			{
-				unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
-				unsigned int my = (visibleArea.y + event.getEventMouseY())/BLOCK_SIZE;
-
-				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
-					if (map->grid[mx][my] == NULL)
-						map->addBlock(mx, my);
+//				unsigned int mx = (visibleArea.x + event.getEventMouseX())/BLOCK_SIZE;
+//				unsigned int my = (visibleArea.y + event.getEventMouseY())/BLOCK_SIZE;
+//
+//				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
+//					if (map->grid[mx][my] == NULL)
+//						map->addBlock(mx, my);
 			}
 			else if (event.getEventMouseButton() == fgeal::Mouse::BUTTON_LEFT)
 			{
@@ -469,22 +469,50 @@ void InGameState::handleInput()
 					cursorHeldItem = itemOnSlot;
 				}
 
-				else if(cursorHeldItem != null and cursorHeldItem->type.isDiggingTool  // if using a digging tool
-						and mx < map->grid.capacity() && my < map->grid[0].capacity()  // and you're not clicking outside the map
-						and map->grid[mx][my] != NULL)                                 // and you clicked an existing block
+				// if you're not clicking outside the map
+				else if(mx < map->grid.capacity() and my < map->grid[0].capacity())
 				{
-					if (map->grid[mx][my] != NULL)
+					Block* block = map->grid[mx][my];
+					if(cursorHeldItem != null)
 					{
-						Item* item = null;
-						if(map->grid[mx][my]->typeID == 1 or map->grid[mx][my]->typeID == 4)
-							item = new Item(ITEM_TYPE_BLOCK_DIRT);
-						if(map->grid[mx][my]->typeID == 2)
-							item = new Item(ITEM_TYPE_BLOCK_STONE);
+						if(cursorHeldItem->type.isPlaceable and block == null)  // if placing a placeable item
+						{
+							bool didPlaceIt = false;
+							if(cursorHeldItem->type == ITEM_TYPE_BLOCK_DIRT)
+							{
+								map->addBlock(mx, my, 1);
+								didPlaceIt = true;
+							}
+							if(cursorHeldItem->type == ITEM_TYPE_BLOCK_STONE)
+							{
+								map->addBlock(mx, my, 2);
+								didPlaceIt = true;
+							}
 
-						if(item != null)
-							this->spawnItemEntity(item, convertToMeters(mx*BLOCK_SIZE), convertToMeters(my*BLOCK_SIZE));
+							if(didPlaceIt)
+							{
+								if(cursorHeldItem->amount > 1)
+									cursorHeldItem->amount--;
+								else
+								{
+									delete cursorHeldItem;
+									cursorHeldItem = null;
+								}
+							}
+						}
+						else if(cursorHeldItem->type.isDiggingTool and block != null)  // if using a digging tool
+						{
+							Item* item = null;
+							if(block->typeID == 1 or block->typeID == 4)
+								item = new Item(ITEM_TYPE_BLOCK_DIRT);
+							if(block->typeID == 2)
+								item = new Item(ITEM_TYPE_BLOCK_STONE);
 
-						map->deleteBlock(mx, my);
+							if(item != null)
+								this->spawnItemEntity(item, convertToMeters(mx*BLOCK_SIZE), convertToMeters(my*BLOCK_SIZE));
+
+							map->deleteBlock(mx, my);
+						}
 					}
 				}
 			}

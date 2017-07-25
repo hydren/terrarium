@@ -34,7 +34,12 @@ struct Item
 		/// this item's icon
 		fgeal::Sprite* icon;
 
-		// ============================== DIGGER CHARACTERISTICS
+		// ============================== PLACEABLE CHARACTERISTICS
+
+		/// tells whether this item is world-placeable.
+		bool isPlaceable;
+
+		// ============================== TOOL CHARACTERISTICS
 
 		/// tells whether this item is a digging tool
 		bool isDiggingTool;
@@ -93,6 +98,9 @@ struct Item
 	bool canAdd(Item* item);
 
 	inline bool isStack() { return amount > 1; }
+
+	/// Draws this item on screen
+	void draw(float x, float y, fgeal::Font* font, fgeal::Color colorFont);
 };
 
 struct Inventory

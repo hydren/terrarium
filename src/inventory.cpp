@@ -34,6 +34,8 @@ Item::Type Item::Type::createBlockType(const std::string& name, const std::strin
 	t.mass = mass;
 	t.icon = null;
 
+	t.isPlaceable = true;
+
 	t.isDiggingTool = false;
 
 	t.itemSlotCount = 0;
@@ -51,6 +53,8 @@ Item::Type Item::Type::createToolType(const std::string& name, const std::string
 	t.stackingLimit = stackLimit;
 	t.mass = mass;
 	t.icon = null;
+
+	t.isPlaceable = false;
 
 	t.isDiggingTool = isDigger;
 
@@ -70,6 +74,8 @@ Item::Type Item::Type::createContainerType(const std::string& name, const std::s
 	t.mass = mass;
 	t.icon = null;
 
+	t.isPlaceable = false;
+
 	t.isDiggingTool = false;
 
 	t.itemSlotCount = itemSlotCount;
@@ -87,6 +93,17 @@ bool Item::canAdd(Item* item)
 {
 	// fixme make Containter::canAdd() take into account the stackingLimit
 	return item != null and items.size() < type.itemSlotCount;
+}
+
+void Item::draw(float x, float y, Font* font, Color colorFont)
+{
+	if(type.icon != null)
+		type.icon->draw(x, y);
+
+	if(amount > 1)
+		font->drawText(futil::to_string(amount),
+			x + 0.95*inventorySlotSize.w - font->getTextWidth(futil::to_string(amount)),
+			y + 0.95*inventorySlotSize.h - font->getFontHeight(), colorFont);
 }
 
 Inventory::Inventory(const Rectangle& bounds, Font* font, Item* container)
@@ -171,11 +188,6 @@ void Inventory::draw()
 			if(item->type.icon != null)
 				item->type.icon->draw(x + 0.5*(inventorySlotSize.w - item->type.icon->width),
 									  y + 0.5*(inventorySlotSize.h - item->type.icon->height));
-			else
-			{
-				Image::drawCircle(Color::LIGHT_GREY, x + 0.5*inventorySlotSize.w, y + 0.5*inventorySlotSize.h, 0.5*inventorySlotSize.h);
-				font->drawText(item->type.name, x, y, colorFont);
-			}
 
 			if(item->amount > 1)
 				font->drawText(futil::to_string(item->amount),

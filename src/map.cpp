@@ -154,9 +154,15 @@ Rectangle Map::computeDimensions()
 	return size;
 }
 
-void Map::addBlock(unsigned gridX, unsigned gridY)
+void Map::addBlock(unsigned gridX, unsigned gridY, unsigned typeId)
 {
-	grid[gridX][gridY] = new Block(new Animation(state.tilesetDirt), gridX, gridY, 1);
+	Animation* referenceAnim = null;
+	if(typeId == 1) referenceAnim = state.tilesetDirt;
+	if(typeId == 2) referenceAnim = state.tilesetStone;
+	if(typeId == 3) referenceAnim = state.tilesetWater;
+	if(typeId == 4) referenceAnim = state.tilesetGrass;
+
+	grid[gridX][gridY] = new Block(new Animation(referenceAnim), gridX, gridY, typeId);
 	world->addBody(grid[gridX][gridY]->body);
 	retile(grid[gridX][gridY]);
 }

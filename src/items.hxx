@@ -9,12 +9,12 @@
 Item::Type
 
 	// block items
-	ITEM_TYPE_BLOCK_STONE (999, 20.0, "Dirt block",  "A dirt block is a dirt block. Get over it."),
-	ITEM_TYPE_BLOCK_DIRT  (999, 10.0, "Stone block", "A stone block is a stone block. Rolling Stones!"),
+	ITEM_TYPE_BLOCK_STONE = Item::Type::createBlockType("Dirt block",  "A dirt block is a dirt block. Get over it.",      20.0, 999),
+	ITEM_TYPE_BLOCK_DIRT  = Item::Type::createBlockType("Stone block", "A stone block is a stone block. Rolling Stones!", 10.0, 999),
 
 	// tool items
 
-	ITEM_TYPE_PICKAXE_DEV (1, 50, "Banana pickaxe", "A special developer-only banana pickaxe. It can mine EVERYTHING."),
+	ITEM_TYPE_PICKAXE_DEV = Item::Type::createToolType("Banana pickaxe", "A special developer-only banana pickaxe. It can mine EVERYTHING.", 50.0, 1, true),
 
 	// container items
-	ITEM_TYPE_BAG         ( 50,  0.5, 32, "Bag", "A simple bag that can carry some items.");
+	ITEM_TYPE_BAG = Item::Type::createContainerType("Bag", "A simple bag that can carry some items.", 0.5, 50, 32);

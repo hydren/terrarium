@@ -469,7 +469,9 @@ void InGameState::handleInput()
 					cursorHeldItem = itemOnSlot;
 				}
 
-				else if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
+				else if(cursorHeldItem != null and cursorHeldItem->type.isDiggingTool  // if using a digging tool
+						and mx < map->grid.capacity() && my < map->grid[0].capacity()  // and you're not clicking outside the map
+						and map->grid[mx][my] != NULL)                                 // and you clicked an existing block
 				{
 					if (map->grid[mx][my] != NULL)
 					{

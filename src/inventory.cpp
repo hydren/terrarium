@@ -23,19 +23,59 @@ static unsigned ITEM_TYPE_ID_LAST = 0;
 
 static const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
 
-Item::Type::Type(unsigned stackLimit, float mass, const string& name, const string& desc)
-: id(++ITEM_TYPE_ID_LAST),
-  stackingLimit(stackLimit), mass(mass), icon(null),
-  itemSlotCount(0),
-  name(name), description(desc)
-{}
+Item::Type Item::Type::createBlockType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit)
+{
+	Type t;
+	t.id = ++ITEM_TYPE_ID_LAST;
+	t.name = name;
+	t.description = desc;
 
-Item::Type::Type(unsigned stackLimit, float mass, unsigned itemSlotCount, const string& name, const string& desc)
-: id(++ITEM_TYPE_ID_LAST),
-  stackingLimit(stackLimit), mass(mass), icon(null),
-  itemSlotCount(itemSlotCount),
-  name(name), description(desc)
-{}
+	t.stackingLimit = stackLimit;
+	t.mass = mass;
+	t.icon = null;
+
+	t.isDiggingTool = false;
+
+	t.itemSlotCount = 0;
+
+	return t;
+}
+
+Item::Type Item::Type::createToolType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit, bool isDigger)
+{
+	Type t;
+	t.id = ++ITEM_TYPE_ID_LAST;
+	t.name = name;
+	t.description = desc;
+
+	t.stackingLimit = stackLimit;
+	t.mass = mass;
+	t.icon = null;
+
+	t.isDiggingTool = isDigger;
+
+	t.itemSlotCount = 0;
+
+	return t;
+}
+
+Item::Type Item::Type::createContainerType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit, unsigned itemSlotCount)
+{
+	Type t;
+	t.id = ++ITEM_TYPE_ID_LAST;
+	t.name = name;
+	t.description = desc;
+
+	t.stackingLimit = stackLimit;
+	t.mass = mass;
+	t.icon = null;
+
+	t.isDiggingTool = false;
+
+	t.itemSlotCount = itemSlotCount;
+
+	return t;
+}
 
 static unsigned ITEM_ID_LAST = 0;
 

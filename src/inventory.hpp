@@ -21,42 +21,47 @@ struct Item
 	struct Type
 	{
 		/// this ID of this type
-		const unsigned id;
+		unsigned id;
 
-		// ============================== GENERAL CHARACTESTICS
+		// ============================== GENERAL CHARACTERISTICS
 
 		/// the maximum amount of items of this type that can be stacked.
-		const unsigned stackingLimit;
+		unsigned stackingLimit;
 
 		/// the mass of a item of this type
-		const float mass;
+		float mass;
 
 		/// this item's icon
 		fgeal::Sprite* icon;
 
-		// ============================== CONTAINER CHARACTESTICS
+		// ============================== DIGGER CHARACTERISTICS
+
+		/// tells whether this item is a digging tool
+		bool isDiggingTool;
+
+		// ============================== CONTAINER CHARACTERISTICS
 
 		/// the amount of item slots this type of item has, if this type of item is a container-type
-		const unsigned itemSlotCount;
+		unsigned itemSlotCount;
 
-		// ============================== NON-POD CHARACTESTICS (END OF STRUCT)
+		// ============================== NON-POD CHARACTERISTICS (END OF STRUCT)
 
 		/// a human-readable name of this item type
-		const std::string name;
+		std::string name;
 
 		/// a human-readable description of this item type
-		const std::string description;
+		std::string description;
 
 		// ============================================================
 
-		/// constructor for non-containers types
-		Type(unsigned stackLimit, float mass,
-			 const std::string& name, const std::string& desc);
+		/// constructor for block types
+		static Type createBlockType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit);
+
+		/// constructor for tool types
+		static Type createToolType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit, bool isDigger);
 
 		/// constructor for containers types
-		Type(unsigned stackLimit, float mass,
-			 unsigned itemSlotCount,
-			 const std::string& name, const std::string& desc);
+		static Type createContainerType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit, unsigned itemSlotCount);
 
 		/// returns true if this type of item is a container-type
 		inline bool isContainer() const { return itemSlotCount > 0; }

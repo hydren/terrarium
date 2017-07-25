@@ -86,14 +86,14 @@ void Inventory::draw()
 	const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
 
 	Image::drawRectangle(color, bounds.x, bounds.y, bounds.w, bounds.h);
-	Image::drawRectangle(color, bounds.x, bounds.y, bounds.w, bounds.h);
+	Image::drawRectangle(Color::GREY, bounds.x, bounds.y, bounds.w, bounds.h, false);
 
 	const int slotsPerLine = (int) (bounds.w / inventorySlotSize.w);
 	for(unsigned i = 0; i < container->type.itemSlotCount; i++)
 	{
-		const float x = bounds.x + inventorySlotSize.w * (i % slotsPerLine);
-		const float y = bounds.y + inventorySlotSize.h * (i / slotsPerLine);
-		Image::drawRectangle(color, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
+		const float x = bounds.x + inventorySlotSize.w * (i % slotsPerLine) + 1;
+		const float y = bounds.y + inventorySlotSize.h * (i / slotsPerLine) + 1;
+		Image::drawRectangle(Color::LIGHT_GREY, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
 
 		if(i < container->items.size())
 		{
@@ -104,7 +104,7 @@ void Inventory::draw()
 									  y + 0.5*(inventorySlotSize.h - item->type.icon->height));
 			else
 			{
-				Image::drawCircle(Color::GREY, x + 0.5*inventorySlotSize.w, y + 0.5*inventorySlotSize.h, 0.5*inventorySlotSize.h);
+				Image::drawCircle(Color::LIGHT_GREY, x + 0.5*inventorySlotSize.w, y + 0.5*inventorySlotSize.h, 0.5*inventorySlotSize.h);
 				font->drawText(item->type.name, x, y, colorFont);
 			}
 

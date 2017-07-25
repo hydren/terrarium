@@ -9,20 +9,28 @@
 #include "block.hpp"
 
 #include "futil/string_actions.hpp"
+#include "futil/collection_actions.hpp"
+
+using fgeal::Rectangle;
+using fgeal::Image;
+using fgeal::Color;
+using fgeal::Font;
+using fgeal::Point;
+using std::string;
+using futil::remove_element;
 
 static unsigned ITEM_TYPE_ID_LAST = 0;
 
-Item::Type::Type(unsigned stackLimit, float mass,
-				 const std::string& name, const std::string& desc)
+static const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
+
+Item::Type::Type(unsigned stackLimit, float mass, const string& name, const string& desc)
 : id(++ITEM_TYPE_ID_LAST),
   stackingLimit(stackLimit), mass(mass), icon(null),
   itemSlotCount(0),
   name(name), description(desc)
 {}
 
-Item::Type::Type(unsigned stackLimit, float mass,
-		 	 	 unsigned itemSlotCount,
-				 const std::string& name, const std::string& desc)
+Item::Type::Type(unsigned stackLimit, float mass, unsigned itemSlotCount, const string& name, const string& desc)
 : id(++ITEM_TYPE_ID_LAST),
   stackingLimit(stackLimit), mass(mass), icon(null),
   itemSlotCount(itemSlotCount),
@@ -41,11 +49,8 @@ bool Item::canAdd(Item* item)
 	return item != null and items.size() < type.itemSlotCount;
 }
 
-using fgeal::Rectangle;
-using fgeal::Font;
-
 Inventory::Inventory(const Rectangle& bounds, Font* font, Item* container)
-: bounds(bounds), font(font), color(128, 128, 128, 128), colorFont(fgeal::Color::BLACK), container(container)
+: bounds(bounds), font(font), color(128, 128, 128, 128), colorFont(Color::BLACK), container(container)
 {}
 
 Inventory::~Inventory()
@@ -78,13 +83,37 @@ void Inventory::add(Item* item)
 	container->items.push_back(item);
 }
 
+bool Inventory::isPointWithin(float ptx, float pty)
+{
+	return ptx > bounds.x and ptx < bounds.x + bounds.w
+	   and pty > bounds.y and pty < bounds.y + bounds.h;
+}
+
+Item* Inventory::getItemInSlotPointedBy(float ptx, float pty)
+{
+	if(isPointWithin(ptx, pty))
+	{
+		const int slotsPerLine = (int) (bounds.w / inventorySlotSize.w);
+		for(unsigned i = 0; i < container->type.itemSlotCount; i++)
+		{
+			const float x = bounds.x + inventorySlotSize.w * (i % slotsPerLine) + 1;
+			const float y = bounds.y + inventorySlotSize.h * (i / slotsPerLine) + 1;
+
+			if(ptx > x and ptx < x + inventorySlotSize.w and
+			   pty > y and pty < y + inventorySlotSize.h and
+			   i < container->items.size())
+			{
+				Item* item = container->items[i];
+				remove_element(container->items, item);
+				return item;
+			}
+		}
+	}
+	return null;
+}
+
 void Inventory::draw()
 {
-	using fgeal::Rectangle;
-	using fgeal::Image;
-	using fgeal::Color;
-	const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
-
 	Image::drawRectangle(color, bounds.x, bounds.y, bounds.w, bounds.h);
 	Image::drawRectangle(Color::GREY, bounds.x, bounds.y, bounds.w, bounds.h, false);
 

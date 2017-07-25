@@ -111,6 +111,10 @@ struct Inventory
 
 	//todo a put method, which adds in a specific slot
 
+	bool isPointWithin(float ptx, float pty);
+
+	Item* getItemInSlotPointedBy(float ptx, float pty);
+
 	/// Draws this inventory on screen
 	void draw();
 };

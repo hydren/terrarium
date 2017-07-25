@@ -75,6 +75,7 @@ class InGameState extends public fgeal::Game::State
 
 	Inventory* inventory;
 	bool inventoryVisible;
+	Item* cursorHeldItem;
 
 	std::map<Entity*, Item*> entityItemMapping;
 

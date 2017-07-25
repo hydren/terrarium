@@ -219,9 +219,11 @@ void InGameState::onEnter()
 	inventory->color = inventoryColor;
 	inventory->colorFont = inventoryFontColor;
 	inventoryVisible = false;
+	cursorHeldItem = null;
 
 	// add pickaxe to player
 	inventory->add(new Item(ITEM_TYPE_PICKAXE_DEV));
+
 }
 
 void InGameState::onLeave()
@@ -268,6 +270,9 @@ void InGameState::render()
 
 	if(inGameMenuShowing)
 		inGameMenu->draw();
+
+	if(cursorHeldItem != null)
+		cursorHeldItem->type.icon->draw(Mouse::getPositionX(), Mouse::getPositionY());
 }
 
 void InGameState::update(float delta)
@@ -453,7 +458,19 @@ void InGameState::handleInput()
 
 				if(mx < 0) mx = 0; // safety
 				if(my < 0) my = 0; // safety
-				if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
+
+				if(inventoryVisible and inventory->isPointWithin(event.getEventMouseX(), event.getEventMouseY()))
+				{
+					Item* itemOnSlot = inventory->getItemInSlotPointedBy(event.getEventMouseX(), event.getEventMouseY());
+
+					if(cursorHeldItem != null)
+						inventory->add(cursorHeldItem);
+
+					cursorHeldItem = itemOnSlot;
+				}
+
+				else if(mx < map->grid.capacity() && my < map->grid[0].capacity()) // in case you click outside the map
+				{
 					if (map->grid[mx][my] != NULL)
 					{
 						Item* item = null;
@@ -467,6 +484,7 @@ void InGameState::handleInput()
 
 						map->deleteBlock(mx, my);
 					}
+				}
 			}
 			else if (event.getEventMouseButton() == fgeal::Mouse::BUTTON_MIDDLE)
 			{

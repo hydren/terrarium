@@ -83,7 +83,8 @@ InGameState::~InGameState()
 	delete font;
 	delete inGameMenu;
 
-	delete background;
+	delete backgroundDay;
+	delete backgroundNight;
 
 	//may be null after calling dispose()
 	if(map != null) delete map;
@@ -175,10 +176,15 @@ void InGameState::initialize()
 	ITEM_TYPE_PICKAXE_DEV.icon = iconPickaxeDev;
 
 	//load bg
-	Image* bgImg = new Image(config.get("ingame.bg.filename"));
-	background = new Sprite(bgImg, bgImg->getWidth(), bgImg->getHeight(), -1, -1, 0, 0, true);
-	background->scale.x = fgeal::Display::getInstance().getWidth()  / background->getCurrentFrame().w;
-	background->scale.y = fgeal::Display::getInstance().getHeight() / background->getCurrentFrame().h;
+	Image* bgImgDay = new Image(config.get("ingame.bg_day.filename"));
+	backgroundDay = new Sprite(bgImgDay, bgImgDay->getWidth(), bgImgDay->getHeight(), -1, -1, 0, 0, true);
+	backgroundDay->scale.x = fgeal::Display::getInstance().getWidth()  / backgroundDay->getCurrentFrame().w;
+	backgroundDay->scale.y = fgeal::Display::getInstance().getHeight() / backgroundDay->getCurrentFrame().h;
+
+	Image* bgImgNight = new Image(config.get("ingame.bg_night.filename"));
+	backgroundNight = new Sprite(bgImgNight, bgImgNight->getWidth(), bgImgNight->getHeight(), -1, -1, 0, 0, true);
+	backgroundNight->scale.x = fgeal::Display::getInstance().getWidth()  / backgroundNight->getCurrentFrame().w;
+	backgroundNight->scale.y = fgeal::Display::getInstance().getHeight() / backgroundNight->getCurrentFrame().h;
 
 	inventory = null;
 	inventoryColor = Color::parseCStr(config.get("ingame.inventory.color").c_str(), true);
@@ -224,6 +230,7 @@ void InGameState::onEnter()
 	// add pickaxe to player
 	inventory->add(new Item(ITEM_TYPE_PICKAXE_DEV));
 
+	ingameTime = 0;
 }
 
 void InGameState::onLeave()
@@ -242,7 +249,13 @@ void InGameState::render()
 
 	/* needs to draw HUD */
 
-	background->draw();
+	const float period = 20, timeOfDay = fmod(ingameTime, period);
+
+	if(timeOfDay < 0.5*period)
+		backgroundDay->draw();
+	else
+		backgroundNight->draw();
+
 	map->draw();
 
 	/* drawing others entities */
@@ -252,6 +265,13 @@ void InGameState::render()
 	}
 
 	map->drawOverlay();
+
+	if(timeOfDay >= 0.4*period and timeOfDay < 0.9*period)
+	{
+		const float proportion = (timeOfDay/period - 0.4)*2;
+		Color darkFilterColor(0, 0, 0, 500*(proportion-proportion*proportion));
+		Image::drawRectangle(darkFilterColor, 0, 0, display.getWidth(), display.getHeight());
+	}
 
 	/* later should be a character class */
 
@@ -326,6 +346,8 @@ void InGameState::update(float delta)
 
 	this->handleInput();
 	map->world->step(delta, 6, 2);
+	ingameTime += delta;
+
 	vector<Entity*> trash;
 	foreach(Entity*, entity, vector<Entity*>, entities)
 	{

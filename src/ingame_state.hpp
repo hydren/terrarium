@@ -37,7 +37,7 @@ class InGameState extends public fgeal::Game::State
 	// ==== assets
 
 	// Default is a black background
-	Sprite* background;
+	Sprite* backgroundDay, *backgroundNight;
 
 	fgeal::Font* font, *fontInventory;
 
@@ -78,6 +78,8 @@ class InGameState extends public fgeal::Game::State
 	Item* cursorHeldItem;
 
 	std::map<Entity*, Item*> entityItemMapping;
+
+	double ingameTime;
 
 	int getId() { return TerrariumGame::INGAME_STATE_ID; }
 

@@ -30,15 +30,7 @@ using futil::remove_element;
 #include <iostream>
 using std::cout; using std::endl;
 
-// xxx hardcoded item types should later be specified by a external file
-Item::Type
-	ITEM_TYPE_BLOCK_STONE (999, 20.0,     "Dirt block",  "A dirt block is a dirt block. Get over it."),
-	ITEM_TYPE_BLOCK_DIRT  (999, 10.0,     "Stone block", "A stone block is a stone block. Rolling Stones!"),
-
-	// container types
-	ITEM_TYPE_BAG         ( 50,  0.5, 32, "Bag",         "A simple bag that can carry some items.");
-
-// xxx hardcoded UI colors
+#include "items.hxx"
 
 // xxx hardcoded player body dimensions
 const float player_body_width = Physics::convertToMeters(25);
@@ -178,6 +170,10 @@ void InGameState::initialize()
 
 	ITEM_TYPE_BLOCK_STONE.icon = iconBlockStone;
 
+	images.push_back(new Image("resources/banana_pickaxe.png"));
+	iconPickaxeDev = new Sprite(images.back(), 24, 24);
+	ITEM_TYPE_PICKAXE_DEV.icon = iconPickaxeDev;
+
 	//load bg
 	Image* bgImg = new Image(config.get("ingame.bg.filename"));
 	background = new Sprite(bgImg, bgImg->getWidth(), bgImg->getHeight(), -1, -1, 0, 0, true);
@@ -223,6 +219,9 @@ void InGameState::onEnter()
 	inventory->color = inventoryColor;
 	inventory->colorFont = inventoryFontColor;
 	inventoryVisible = false;
+
+	// add pickaxe to player
+	inventory->add(new Item(ITEM_TYPE_PICKAXE_DEV));
 }
 
 void InGameState::onLeave()

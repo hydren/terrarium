@@ -44,7 +44,7 @@ class InGameState extends public fgeal::Game::State
 	fgeal::Color inventoryColor, inventoryFontColor;
 
 	// block icons
-	Sprite* iconBlockDirt, *iconBlockStone;
+	Sprite* iconBlockDirt, *iconBlockStone, *iconPickaxeDev;
 
 	// vector to keep track of images to delete them later
 	std::vector<fgeal::Image*> images;

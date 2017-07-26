@@ -8,9 +8,6 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include src_libs/futil/string/subdir.mk
--include src_libs/futil/math/subdir.mk
--include src_libs/futil/general/subdir.mk
 -include src_libs/futil/subdir.mk
 -include src_libs/fgeal/extra/subdir.mk
 -include src_libs/fgeal/adapters/sfml1.6/subdir.mk
@@ -61,6 +58,5 @@ clean:
 	-@echo ' '
 
 .PHONY: all clean dependents
-.SECONDARY:
 
 -include ../makefile.targets

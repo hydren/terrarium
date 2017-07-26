@@ -28,7 +28,4 @@ src_libs/fgeal/adapters/sdl1.2 \
 src_libs/fgeal \
 src_libs/fgeal/extra \
 src_libs/futil \
-src_libs/futil/general \
-src_libs/futil/math \
-src_libs/futil/string \
 

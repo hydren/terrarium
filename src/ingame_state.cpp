@@ -249,9 +249,9 @@ void InGameState::render()
 
 	/* needs to draw HUD */
 
-	const float period = 20, timeOfDay = fmod(ingameTime, period);
+	const float period = 1440, timeOfDay = fmod(ingameTime, period);
 
-	if(timeOfDay < 0.5*period)
+	if(timeOfDay < 0.625*period)
 		backgroundDay->draw();
 	else
 		backgroundNight->draw();
@@ -266,7 +266,7 @@ void InGameState::render()
 
 	map->drawOverlay();
 
-	if(timeOfDay >= 0.4*period and timeOfDay < 0.9*period)
+	if(timeOfDay >= 0.5*period and timeOfDay < 0.9*period)
 	{
 		const float proportion = (timeOfDay/period - 0.4)*2;
 		Color darkFilterColor(0, 0, 0, 500*(proportion-proportion*proportion));
@@ -282,6 +282,7 @@ void InGameState::render()
 		font->drawText(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, Color::WHITE);
 		font->drawText("SPEED", 0, 42, Color::WHITE);
 		font->drawText(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, Color::WHITE);
+		font->drawText(string("Time: ")+(5+(int)(24*timeOfDay/period))+":00", 0, 72, Color::WHITE);
 		font->drawText(string("FPS: ")+game.getFpsCount(), 0, 96, Color::WHITE);
 	}
 

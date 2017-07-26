@@ -249,7 +249,7 @@ void InGameState::render()
 
 	/* needs to draw HUD */
 
-	const float period = 1440, timeOfDay = fmod(ingameTime, period);
+	const float period = 1440, timeOfDay = fmod(ingameTime, (double) period);
 
 	if(timeOfDay < 0.625*period)
 		backgroundDay->draw();

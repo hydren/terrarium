@@ -34,10 +34,8 @@ const string VERSION = "0.1.7";
 int main(int argc, char** argv)
 {
 	srand(time(null));
-	string title = "Project Terrarium";
-	title += " (v"; title += VERSION; title += ")";
-
 	int screenWidth = 640, screenHeight = 480;
+	bool fullscreen = false, centered=false;
 	for(int i = 0; i < argc; i++)
 	{
 		if(starts_with(string(argv[i]), "-r"))
@@ -61,15 +59,30 @@ int main(int argc, char** argv)
 			}
 			else cout << "Missing argument to -r parameter" << endl;
 		}
+
+		if(string(argv[i]) == "-f" or string(argv[i]) == "--fullscreen")
+			fullscreen = true;
+
+		if(string(argv[i]) == "-c" or string(argv[i]) == "--centered")
+			centered = true;
 	}
 
 	try
 	{
+		string title = "Project Terrarium";
+		title += " (v"; title += VERSION; title += ")";
+
 		TerrariumGame::CONFIG.load("config.properties");
 		fgeal::initialize();
 
 		// only need to instantiate, engine will delete it when finalizing
-		fgeal::Display::create(screenWidth, screenHeight, false, title);
+		fgeal::Display::Options options;
+		options.title = title;
+		options.fullscreen = fullscreen;
+		options.width = screenWidth;
+		options.height = screenHeight;
+		if(centered) options.positioning = fgeal::Display::Options::POSITION_CENTERED;
+		fgeal::Display::create(options);
 
 		// loading splash
 		Image* loading_image = new Image("./resources/loading.png");

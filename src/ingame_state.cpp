@@ -12,6 +12,7 @@ using Physics::convertToPixels;
 using Physics::convertToMeters;
 using Physics::newVector;
 
+using fgeal::Image;
 using fgeal::Event;
 using fgeal::EventQueue;
 using fgeal::Color;
@@ -270,7 +271,7 @@ void InGameState::render()
 	{
 		const float proportion = (timeOfDay/period - 0.4)*2;
 		Color darkFilterColor(0, 0, 0, 500*(proportion-proportion*proportion));
-		Image::drawRectangle(darkFilterColor, 0, 0, display.getWidth(), display.getHeight());
+		Image::drawFilledRectangle(0, 0, display.getWidth(), display.getHeight(), darkFilterColor);
 	}
 
 	/* later should be a character class */

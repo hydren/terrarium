@@ -14,9 +14,10 @@
 const int
 TerrariumGame::MAIN_MENU_STATE_ID = 0,
 TerrariumGame::INGAME_STATE_ID = 1,
-TerrariumGame::LOADING_STATE_ID = 2;
+TerrariumGame::LOADING_STATE_ID = 2,
+TerrariumGame::OPTIONS_STATE_ID = 3;
 
-Properties TerrariumGame::CONFIG;
+futil::Properties TerrariumGame::CONFIG;
 
 void TerrariumGame::initializeStatesList()
 {

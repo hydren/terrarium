@@ -16,6 +16,7 @@ using futil::split;
 using futil::starts_with;
 
 #include <cstdlib>
+#include <ctime>
 #include <stdexcept>
 
 #include <iostream>
@@ -32,6 +33,7 @@ const string VERSION = "0.1.7";
 
 int main(int argc, char** argv)
 {
+	srand(time(null));
 	string title = "Project Terrarium";
 	title += " (v"; title += VERSION; title += ")";
 
@@ -67,7 +69,7 @@ int main(int argc, char** argv)
 		fgeal::initialize();
 
 		// only need to instantiate, engine will delete it when finalizing
-		fgeal::Display::create(screenWidth, screenHeight, title);
+		fgeal::Display::create(screenWidth, screenHeight, false, title);
 
 		// loading splash
 		Image* loading_image = new Image("./resources/loading.png");

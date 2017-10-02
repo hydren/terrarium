@@ -30,10 +30,12 @@ class MainMenuState extends public fgeal::Game::State, public LoadingState::Load
 
 	bool wasInit;
 
-	fgeal::Image* background;
+	fgeal::Image* background, *imgCloud, *imgSun;
 	fgeal::Font* mainFont, *minorFont, *miniFont, *devFont;
 
 	Menu* mainMenu, *fileMenu;
+
+	std::vector<fgeal::Rectangle> cloudies;
 
 	bool chooseFile;
 

@@ -18,7 +18,7 @@ using futil::Properties;
 class TerrariumGame extends public fgeal::Game
 {
 	public:
-	static const int MAIN_MENU_STATE_ID, INGAME_STATE_ID, LOADING_STATE_ID;
+	static const int MAIN_MENU_STATE_ID, INGAME_STATE_ID, LOADING_STATE_ID, OPTIONS_STATE_ID;
 
 	static Properties CONFIG;
 

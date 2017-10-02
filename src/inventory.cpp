@@ -103,7 +103,7 @@ void Item::draw(float x, float y, Font* font, Color colorFont)
 	if(amount > 1)
 		font->drawText(futil::to_string(amount),
 			x + 0.95*inventorySlotSize.w - font->getTextWidth(futil::to_string(amount)),
-			y + 0.95*inventorySlotSize.h - font->getFontHeight(), colorFont);
+			y + 0.95*inventorySlotSize.h - font->getHeight(), colorFont);
 }
 
 Inventory::Inventory(const Rectangle& bounds, Font* font, Item* container)
@@ -171,15 +171,15 @@ Item* Inventory::getItemInSlotPointedBy(float ptx, float pty)
 
 void Inventory::draw()
 {
-	Image::drawRectangle(color, bounds.x, bounds.y, bounds.w, bounds.h);
-	Image::drawRectangle(Color::GREY, bounds.x, bounds.y, bounds.w, bounds.h, false);
+	Image::drawFilledRectangle(bounds.x, bounds.y, bounds.w, bounds.h, color);
+	Image::drawRectangle(bounds.x, bounds.y, bounds.w, bounds.h, Color::GREY);
 
 	const int slotsPerLine = (int) (bounds.w / inventorySlotSize.w);
 	for(unsigned i = 0; i < container->type.itemSlotCount; i++)
 	{
 		const float x = bounds.x + inventorySlotSize.w * (i % slotsPerLine) + 1;
 		const float y = bounds.y + inventorySlotSize.h * (i / slotsPerLine) + 1;
-		Image::drawRectangle(Color::LIGHT_GREY, x, y, inventorySlotSize.w, inventorySlotSize.h, false);
+		Image::drawRectangle(x, y, inventorySlotSize.w, inventorySlotSize.h, Color::LIGHT_GREY);
 
 		if(i < container->items.size())
 		{
@@ -192,7 +192,7 @@ void Inventory::draw()
 			if(item->amount > 1)
 				font->drawText(futil::to_string(item->amount),
 						x + 0.95*inventorySlotSize.w - font->getTextWidth(futil::to_string(item->amount)),
-						y + 0.95*inventorySlotSize.h - font->getFontHeight(), colorFont);
+						y + 0.95*inventorySlotSize.h - font->getHeight(), colorFont);
 		}
 	}
 }

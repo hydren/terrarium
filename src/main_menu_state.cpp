@@ -7,12 +7,17 @@
 
 #include "main_menu_state.hpp"
 
+#include "futil/random.h"
+
 #include <algorithm>
 
 using std::vector;
 using std::string;
 
 using fgeal::Event;
+using fgeal::Font;
+using fgeal::Menu;
+using fgeal::Image;
 using fgeal::EventQueue;
 using fgeal::Rectangle;
 using fgeal::Color;
@@ -41,7 +46,10 @@ void MainMenuState::initialize()
 	minorFont = new Font("resources/liberation.ttf", 24);
 	miniFont = new Font("resources/jack.ttf", 16);
 	devFont = new Font("resources/liberation.ttf", 14);
-	background = new Image("resources/title_proto.jpg");
+
+	background = new Image("resources/bg-day-clear.jpg");
+	imgCloud = new Image("resources/cloud.png");
+	imgSun = new Image("resources/sun.png");
 
 	fgeal::Display& display = fgeal::Display::getInstance();
 	const float sw = display.getWidth(), sh = display.getHeight();
@@ -61,7 +69,7 @@ void MainMenuState::onEnter()
 	const float sw = display.getWidth(), sh = display.getHeight();
 	vector<string> dirs = fgeal::filesystem::getFilenamesWithinDirectory("./resources/maps");
 
-	const float fileMenuHeight = std::min(sh, (dirs.size()+3) * miniFont->getFontHeight());
+	const float fileMenuHeight = std::min(sh, (dirs.size()+3) * miniFont->getHeight());
 
 	Rectangle size = {0.25f*sw, 0.5f*(sh-fileMenuHeight), 0.5f*sw, fileMenuHeight};
 
@@ -75,6 +83,16 @@ void MainMenuState::onEnter()
 	fileMenu->addEntry("< Cancel >");
 
 	chooseFile = false;
+
+	cloudies.clear();
+	cloudies.resize(16);
+	for(unsigned i = 0; i < cloudies.size(); i++)
+	{
+		cloudies[i].x = futil::random_between_decimal(0.1, 0.9)*sw;
+		cloudies[i].y = futil::random_between_decimal(0.1, 0.9)*sh;
+		cloudies[i].w = futil::random_between_decimal(0.1, 0.2)*sw/imgCloud->getWidth();
+		cloudies[i].h = futil::random_between(-1, 2);
+	}
 }
 
 void MainMenuState::onLeave() {}
@@ -86,12 +104,18 @@ void MainMenuState::render()
 
 	display.clear();
 	background->drawScaled(0, 0, sw/background->getWidth(), sh/background->getHeight());
+	imgSun->drawScaled(0.75*sw, 0.25*sh, 0.125*sw/imgSun->getWidth(), 0.125*sw/imgSun->getHeight());
+	for(unsigned i = 0; i < cloudies.size(); i++)
+		imgCloud->drawScaled(cloudies[i].x, cloudies[i].y,
+							 cloudies[i].w, cloudies[i].w,
+							 (cloudies[i].h < 0? Image::FLIP_HORIZONTAL : cloudies[i].h > 0? Image::FLIP_VERTICAL : Image::FLIP_NONE));
+
 	mainFont->drawText("Project Terrarium", sw*0.125, sh*0.05, Color::ORANGE);
 	mainMenu->draw();
 	if(chooseFile)
 		fileMenu->draw();
 
-	devFont->drawText(string("Using fgeal v")+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, fgeal::Display::getInstance().getHeight() - devFont->getFontHeight(), Color::CREAM);
+	devFont->drawText(string("Using fgeal v")+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, fgeal::Display::getInstance().getHeight() - devFont->getHeight(), Color::CREAM);
 }
 
 void MainMenuState::update(float delta)
@@ -164,6 +188,9 @@ void MainMenuState::update(float delta)
 			}
 		}
 	}
+
+	for(int i = 0; i < 4; i++)
+		cloudies[i].x += cloudies[i].h * 2.0 * delta;
 }
 
 void MainMenuState::loadDuringLoadingScreen()

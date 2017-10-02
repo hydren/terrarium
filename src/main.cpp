@@ -29,7 +29,7 @@ using std::string;
 #include <vector>
 using std::vector;
 
-const string VERSION = "0.1.7";
+const string VERSION = "0.1.8";
 
 int main(int argc, char** argv)
 {

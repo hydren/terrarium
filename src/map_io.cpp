@@ -20,7 +20,7 @@
 #include <iostream>
 using std::cout; using std::endl;
 
-static void transpose(vector< vector<int> >& matrix)
+void Map::transpose(vector< vector<int> >& matrix)
 {
 	//if empty, do nothing
 	if(matrix.size() == 0)
@@ -148,5 +148,6 @@ void Map::saveGridToFileTxt(const vector< vector<int> >& grid, const string& fil
 			stream << ":\n";
 		}
 	}
+	else throw std::runtime_error("Could not save map to txt file \""+filename+"\"");
 	stream.close();
 }

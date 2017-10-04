@@ -7,9 +7,18 @@
 
 #include "main_menu_state.hpp"
 
+#include "map.hpp"
+
+#include "libgeramun/generators.hpp"
+
+#include "fgeal/filesystem.hpp"
+
 #include "futil/random.h"
 
 #include <algorithm>
+#include <iostream>
+
+#include <cstdio>
 
 using std::vector;
 using std::string;
@@ -83,6 +92,7 @@ void MainMenuState::onEnter()
 	fileMenu->addEntry("< Cancel >");
 
 	chooseFile = false;
+	mapGenerationRequested = false;
 
 	cloudies.clear();
 	cloudies.resize(16);
@@ -170,6 +180,11 @@ void MainMenuState::update(float delta)
 					}
 					else switch(mainMenu->getSelectedIndex()) //this isn't elegant...
 					{
+						case 0:
+							mapGenerationRequested = true;
+							static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
+							game.enterState(TerrariumGame::LOADING_STATE_ID);
+
 						case 1:
 							chooseFile = true;
 							break;
@@ -193,9 +208,41 @@ void MainMenuState::update(float delta)
 		cloudies[i].x += cloudies[i].h * 2.0 * delta;
 }
 
+static string createRandomFilename()
+{
+	static const char alphanum[] =
+			"0123456789"
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			"abcdefghijklmnopqrstuvwxyz";
+
+	string name;
+	for (int i = 0; i < 32; ++i)
+		name += (alphanum[rand() % (sizeof(alphanum) - 1)]);
+
+	return name;
+}
+
 void MainMenuState::loadDuringLoadingScreen()
 {
 	TerrariumGame& game = static_cast<TerrariumGame&>(this->game);
-	game.stageFilename = fileMenu->getSelectedEntry().label;
+
+	if(mapGenerationRequested)
+	{
+		string randomFilename;
+		do randomFilename = fgeal::filesystem::getCurrentWorkingDirectory() + "/resources/maps/" + createRandomFilename() + ".txt";
+		while(fgeal::filesystem::isFilenameArchive(randomFilename) or fgeal::filesystem::isFilenameDirectory(randomFilename));
+
+		std::cout << "generating " << randomFilename << "..." << std::endl;
+		Grid grid = createGrid(256, 128);
+		generator5(grid);
+		Map::transpose(grid);
+		Map::saveGridToFileTxt(grid, randomFilename);
+		game.stageFilename = randomFilename;
+	}
+	else
+	{
+		game.stageFilename = fileMenu->getSelectedEntry().label;
+	}
+
 	game.enterState(TerrariumGame::INGAME_STATE_ID);
 }

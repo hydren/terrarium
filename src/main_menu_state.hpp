@@ -37,7 +37,7 @@ class MainMenuState extends public fgeal::Game::State, public LoadingState::Load
 
 	std::vector<fgeal::Rectangle> cloudies;
 
-	bool chooseFile;
+	bool chooseFile, mapGenerationRequested;
 
 	MainMenuState(TerrariumGame* game);
 	~MainMenuState();

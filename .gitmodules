@@ -7,3 +7,6 @@
 [submodule "src_libs/rapidxml"]
 	path = src_libs/rapidxml
 	url = https://github.com/hydren/rapidxml
+[submodule "src_libs/libgeramun"]
+	path = src_libs/libgeramun
+	url = https://github.com/hydren/libgeramun

@@ -30,14 +30,23 @@ using fgeal::Image;
 using fgeal::EventQueue;
 using fgeal::Rectangle;
 using fgeal::Color;
+using fgeal::Keyboard;
 
-MainMenuState::MainMenuState(TerrariumGame* game)  // @suppress("Class members should be properly initialized")
-:	State(*game), wasInit(false), fileMenu(null)
+MainMenuState::MainMenuState(TerrariumGame* game)
+: State(*game), wasInit(false),
+  background(null), imgCloud(null), imgSun(null),
+  mainFont(null), minorFont(null), miniFont(null), devFont(null),
+  mainMenu(null), fileMenu(null),
+  cloudies(), onMapFileSelectionDialog(), onMapCreationDialog(), mapGenerationRequested()
 {}
 
 MainMenuState::~MainMenuState()
 {
 	if(not wasInit) return;
+
+	delete background;
+	delete imgCloud;
+	delete imgSun;
 
 	delete mainFont;
 	delete minorFont;
@@ -91,8 +100,9 @@ void MainMenuState::onEnter()
 		fileMenu->addEntry(*it);
 	fileMenu->addEntry("< Cancel >");
 
-	chooseFile = false;
+	onMapFileSelectionDialog = false;
 	mapGenerationRequested = false;
+	onMapCreationDialog = false;
 
 	cloudies.clear();
 	cloudies.resize(16);
@@ -122,13 +132,26 @@ void MainMenuState::render()
 
 	mainFont->drawText("Project Terrarium", sw*0.125, sh*0.05, Color::ORANGE);
 	mainMenu->draw();
-	if(chooseFile)
+	if(onMapFileSelectionDialog)
 		fileMenu->draw();
+
+	if(onMapCreationDialog)
+	{
+		Image::drawFilledRectangle(0.25*sw, 0.4*sh, 0.5*sw, 0.3*sh, fileMenu->bgColor);
+	}
 
 	devFont->drawText(string("Using fgeal v")+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, fgeal::Display::getInstance().getHeight() - devFont->getHeight(), Color::CREAM);
 }
 
 void MainMenuState::update(float delta)
+{
+	handleInput();
+
+	for(int i = 0; i < 4; i++)
+		cloudies[i].x += cloudies[i].h * 2.0 * delta;
+}
+
+void MainMenuState::handleInput()
 {
 	Event ev;
 	EventQueue& eventQueue = EventQueue::getInstance();
@@ -137,75 +160,99 @@ void MainMenuState::update(float delta)
 		eventQueue.waitNextEvent(&ev);
 
 		if(ev.getEventType() == fgeal::Event::TYPE_DISPLAY_CLOSURE)
-		{
 			game.running = false;
-		}
-		else if(ev.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
+
+		else
 		{
-			switch(ev.getEventKeyCode())
-			{
-				case fgeal::Keyboard::KEY_ARROW_UP:
-					if(chooseFile)
-						fileMenu->cursorUp();
-					else
-						mainMenu->cursorUp();
-
-					break;
-
-				case fgeal::Keyboard::KEY_ARROW_DOWN:
-					if(chooseFile)
-						fileMenu->cursorDown();
-					else
-						mainMenu->cursorDown();
-
-					break;
-
-				case fgeal::Keyboard::KEY_ARROW_RIGHT:
-					break;
-
-				case fgeal::Keyboard::KEY_ARROW_LEFT:
-					break;
-
-				case fgeal::Keyboard::KEY_ENTER:
-
-					if(chooseFile == true)
-					{
-						if(fileMenu->getSelectedIndex() == fileMenu->getNumberOfEntries()-1)
-							chooseFile = false;
-						else
-						{
-							static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
-							game.enterState(TerrariumGame::LOADING_STATE_ID);
-						}
-					}
-					else switch(mainMenu->getSelectedIndex()) //this isn't elegant...
-					{
-						case 0:
-							mapGenerationRequested = true;
-							static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
-							game.enterState(TerrariumGame::LOADING_STATE_ID);
-
-						case 1:
-							chooseFile = true;
-							break;
-
-						case 3:
-							game.running = false;
-							break;
-
-						default:
-							break;
-					}
-					break;
-
-				default:
-					break;
-			}
+			if(onMapFileSelectionDialog)
+				handleInputOnMapFileSelectionDialog(ev);
+			else if(onMapCreationDialog)
+				handleInputOnMapCreationDialog(ev);
+			else
+				handleInputOnMainMenu(ev);
 		}
 	}
+}
 
-	for(int i = 0; i < 4; i++)
-		cloudies[i].x += cloudies[i].h * 2.0 * delta;
+void MainMenuState::handleInputOnMainMenu(Event& ev)
+{
+	if(ev.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
+	{
+		switch(ev.getEventKeyCode())
+		{
+			case fgeal::Keyboard::KEY_ARROW_UP:
+				mainMenu->cursorUp();
+				break;
+
+			case fgeal::Keyboard::KEY_ARROW_DOWN:
+				mainMenu->cursorDown();
+				break;
+
+			case fgeal::Keyboard::KEY_ENTER:
+				switch(mainMenu->getSelectedIndex()) //this isn't elegant...
+				{
+					case 0:
+						mapGenerationRequested = true;
+						static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
+						game.enterState(TerrariumGame::LOADING_STATE_ID);
+						break;
+
+					case 1:
+						onMapFileSelectionDialog = true;
+						break;
+
+					case 3:
+						game.running = false;
+						break;
+
+					default:
+						break;
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
+}
+
+void MainMenuState::handleInputOnMapFileSelectionDialog(Event& ev)
+{
+	if(ev.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
+	{
+		switch(ev.getEventKeyCode())
+		{
+			case fgeal::Keyboard::KEY_ARROW_UP:
+				fileMenu->cursorUp();
+				break;
+
+			case fgeal::Keyboard::KEY_ARROW_DOWN:
+				fileMenu->cursorDown();
+				break;
+
+			case fgeal::Keyboard::KEY_ENTER:
+				if(fileMenu->getSelectedIndex() == fileMenu->getNumberOfEntries()-1)
+					onMapFileSelectionDialog = false;
+				else
+				{
+					static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
+					game.enterState(TerrariumGame::LOADING_STATE_ID);
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
+}
+
+void MainMenuState::handleInputOnMapCreationDialog(Event& ev)
+{
+	if(ev.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
+	{
+		if(ev.getEventKeyCode() == Keyboard::KEY_ESCAPE)
+			onMapCreationDialog = false;
+	}
 }
 
 static string createRandomFilename()

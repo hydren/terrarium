@@ -19,8 +19,6 @@ using std::cout; using std::endl;
 #include "terrarium_game.hpp"
 #include "ingame_state.hpp"
 
-using futil::ends_with;
-
 static Physics::Vector GRAVITY = {0.0, 10.0};
 
 Map::Map(InGameState* state, int columns, int lines)
@@ -34,7 +32,7 @@ Map::Map(InGameState* state, const string filename)
 {
 	vector< vector<int> > file_grid;
 
-	(ends_with(filename, ".tmx")? parseGridFromFileTmx : parseGridFromFileTxt)(file_grid, filename);
+	(futil::ends_with(filename, ".tmx")? parseGridFromFileTmx : parseGridFromFileTxt)(file_grid, filename);
 
 	cout << "map size (in blocks): " << file_grid.size() << "x" << file_grid[0].size() << endl;
 
@@ -102,7 +100,10 @@ void Map::saveToFile(const string& filename)
 		}
 	}
 
-	saveGridToFileTxt(idGrid, filename);
+	if(not futil::ends_with(filename, ".txt"))
+		saveGridToFileTxt(idGrid, filename + ".txt");
+	else
+		saveGridToFileTxt(idGrid, filename);
 }
 
 void Map::retileNeighbourhood(unsigned gridX, unsigned gridY)

@@ -398,7 +398,14 @@ void InGameState::handleInput()
 		{
 			game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 		}
-		else if(event.getEventType() == fgeal::Event::TYPE_KEY_RELEASE)
+
+		if(inGameMenuShowing)
+		{
+			handleInputOnInGameMenu(event);
+			continue;
+		}
+
+		if(event.getEventType() == fgeal::Event::TYPE_KEY_RELEASE)
 		{
 			switch(event.getEventKeyCode())
 			{
@@ -422,38 +429,8 @@ void InGameState::handleInput()
 		{
 			switch(event.getEventKeyCode())
 			{
-				case fgeal::Keyboard::KEY_ARROW_UP:
-					if(inGameMenuShowing)
-						inGameMenu->cursorUp();
-					break;
-
-				case fgeal::Keyboard::KEY_ARROW_DOWN:
-					if(inGameMenuShowing)
-						inGameMenu->cursorDown();
-					break;
-
 				case fgeal::Keyboard::KEY_ESCAPE:
-					inGameMenuShowing = !inGameMenuShowing;
-					break;
-
-				case fgeal::Keyboard::KEY_ENTER:
-					if(inGameMenuShowing)
-					{
-						switch(inGameMenu->getSelectedIndex())
-						{
-							case 0:
-								inGameMenuShowing=false;
-								break;
-							case 1:
-								// todo create a dialog to choose file name
-								map->saveToFile("resources/maps/saved_map.txt");
-								game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
-								break;
-							case 2:
-								game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
-								break;
-						}
-					}
+					inGameMenuShowing = true;
 					break;
 
 				case fgeal::Keyboard::KEY_I:
@@ -548,6 +525,48 @@ void InGameState::handleInput()
 				Item* dirtBlockItem = new Item(ITEM_TYPE_BLOCK_DIRT);
 				this->spawnItemEntity(dirtBlockItem, posx, posy);
 			}
+		}
+	}
+}
+
+void InGameState::handleInputOnInGameMenu(Event& event)
+{
+	if(event.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
+	{
+		switch(event.getEventKeyCode())
+		{
+			case fgeal::Keyboard::KEY_ARROW_UP:
+				inGameMenu->cursorUp();
+				break;
+
+			case fgeal::Keyboard::KEY_ARROW_DOWN:
+				inGameMenu->cursorDown();
+				break;
+
+			case fgeal::Keyboard::KEY_ESCAPE:
+				inGameMenuShowing = false;
+				break;
+
+			case fgeal::Keyboard::KEY_ENTER:
+			{
+				TerrariumGame& game = static_cast<TerrariumGame&>(this->game);
+				switch(inGameMenu->getSelectedIndex())
+				{
+					case 0:
+						inGameMenuShowing=false;
+						break;
+					case 1:
+						map->saveToFile(game.stageFilename);
+						game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
+						break;
+					case 2:
+						game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
+						break;
+				}
+			}
+			break;
+
+			default:break;
 		}
 	}
 }

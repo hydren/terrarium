@@ -84,6 +84,7 @@ class InGameState extends public fgeal::Game::State
 	int getId() { return TerrariumGame::INGAME_STATE_ID; }
 
 	void handleInput();
+	void handleInputOnInGameMenu(fgeal::Event&);
 
 	void spawnItemEntity(Item* type, float posx, float posy);
 

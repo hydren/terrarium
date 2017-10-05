@@ -159,22 +159,22 @@ void MainMenuState::render()
 	if(onMapCreationDialog)
 	{
 		// draw dialog bg
-		Image::drawFilledRectangle(0.25*sw, 0.4*sh, 0.5*sw, minorFont->getHeight()*5, fileMenu->bgColor);
+		Image::drawFilledRectangle(0.25*sw, 0.39*sh, 0.5*sw, 4*minorFont->getHeight(), fileMenu->bgColor);
 
-		minorFont->drawText("Name:", 0.275*sw, 0.4*sh, Color::WHITE);
+		minorFont->drawText("Map name:", 0.275*sw, 0.4*sh, Color::WHITE);
 
 		// draw name text field bg
-		Image::drawFilledRectangle(0.275*sw, 0.4*sh + minorFont->getHeight(), 0.4*sw, minorFont->getHeight(), fileMenu->bgColor);
+		Image::drawFilledRectangle(0.275*sw, 0.4*sh + 1.1*minorFont->getHeight(), 0.4*sw, minorFont->getHeight(), fileMenu->bgColor);
 
 		// draw cursor
 		if(((int) (fgeal::uptime()*2))%2 == 0)
-		Image::drawFilledRectangle(0.275*sw + minorFont->getTextWidth(mapCreationFilename), 0.4*sh + minorFont->getHeight(), 0.005*sw, minorFont->getHeight(), Color::WHITE);
+		Image::drawFilledRectangle(0.275*sw + minorFont->getTextWidth(mapCreationFilename), 0.4*sh + 1.1*minorFont->getHeight(), 0.005*sw, minorFont->getHeight(), Color::WHITE);
 
 		if(not mapCreationFilename.empty())
 			minorFont->drawText(mapCreationFilename, 0.275*sw, 0.4*sh + minorFont->getHeight(), Color::WHITE);
 
 		if(isMapCreationFilenameAlreadyExisting)
-			minorFont->drawText("Filename already exists!", 0.275*sw, 0.4*sh + 2*minorFont->getHeight(), Color::RED);
+			minorFont->drawText("Filename already exists!", 0.275*sw, 0.4*sh + 2.25*minorFont->getHeight(), Color::RED);
 
 		// Ok button
 //		Image::drawFilledEllipse(0.5*sw, 0.4*sh + minorFont->getHeight()*4 , 1.25*minorFont->getTextWidth("Ok"), minorFont->getHeight(), Color::ORANGE);

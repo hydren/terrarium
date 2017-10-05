@@ -41,8 +41,7 @@ class MainMenuState extends public fgeal::Game::State, public LoadingState::Load
 
 	int caret;
 	std::string mapCreationFilename;
-
-	bool mapGenerationRequested;
+	bool isMapGenerationRequested, isMapCreationFilenameAlreadyExisting;
 
 	MainMenuState(TerrariumGame* game);
 	~MainMenuState();

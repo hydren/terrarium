@@ -14,6 +14,7 @@
 #include "fgeal/filesystem.hpp"
 
 #include "futil/random.h"
+#include "futil/string_actions.hpp"
 
 #include <algorithm>
 #include <iostream>
@@ -34,13 +35,27 @@ using fgeal::Display;
 using fgeal::Keyboard;
 using fgeal::Mouse;
 
+static string createRandomFilename()
+{
+	static const char alphanum[] =
+			"0123456789"
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			"abcdefghijklmnopqrstuvwxyz";
+
+	string name;
+	for (int i = 0; i < 32; ++i)
+		name += (alphanum[rand() % (sizeof(alphanum) - 1)]);
+
+	return name;
+}
+
 MainMenuState::MainMenuState(TerrariumGame* game)
 : State(*game), wasInit(false),
   background(null), imgCloud(null), imgSun(null),
   mainFont(null), minorFont(null), miniFont(null), devFont(null),
   mainMenu(null), fileMenu(null),
   cloudies(), onMapFileSelectionDialog(), onMapCreationDialog(),
-  caret(), mapCreationFilename(), mapGenerationRequested()
+  caret(), mapCreationFilename(), isMapGenerationRequested(), isMapCreationFilenameAlreadyExisting()
 {}
 
 MainMenuState::~MainMenuState()
@@ -104,9 +119,10 @@ void MainMenuState::onEnter()
 	fileMenu->addEntry("< Cancel >");
 
 	onMapFileSelectionDialog = false;
-	mapGenerationRequested = false;
+	isMapGenerationRequested = false;
 	onMapCreationDialog = false;
 	mapCreationFilename.clear();
+	isMapCreationFilenameAlreadyExisting = false;
 	caret = 0;
 
 	cloudies.clear();
@@ -156,6 +172,9 @@ void MainMenuState::render()
 
 		if(not mapCreationFilename.empty())
 			minorFont->drawText(mapCreationFilename, 0.275*sw, 0.4*sh + minorFont->getHeight(), Color::WHITE);
+
+		if(isMapCreationFilenameAlreadyExisting)
+			minorFont->drawText("Filename already exists!", 0.275*sw, 0.4*sh + 2*minorFont->getHeight(), Color::RED);
 
 		// Ok button
 //		Image::drawFilledEllipse(0.5*sw, 0.4*sh + minorFont->getHeight()*4 , 1.25*minorFont->getTextWidth("Ok"), minorFont->getHeight(), Color::ORANGE);
@@ -262,9 +281,33 @@ void MainMenuState::handleInputOnMapCreationDialog(Event& ev)
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		{
-			mapGenerationRequested = true;
-			static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
-			game.enterState(TerrariumGame::LOADING_STATE_ID);
+			string filename;
+
+			if(futil::trim(mapCreationFilename).empty())
+			{
+				do filename = fgeal::filesystem::getCurrentWorkingDirectory() + "/resources/maps/" + createRandomFilename() + ".txt";
+				while(fgeal::filesystem::isFilenameArchive(filename) or fgeal::filesystem::isFilenameDirectory(filename));
+				mapCreationFilename = filename;
+			}
+			else
+			{
+				filename = fgeal::filesystem::getCurrentWorkingDirectory() + "/resources/maps/" + mapCreationFilename;
+				if(not futil::ends_with(filename, ".txt"))
+					filename += ".txt";
+
+				if(fgeal::filesystem::isFilenameArchive(filename) or fgeal::filesystem::isFilenameDirectory(filename))
+					isMapCreationFilenameAlreadyExisting = true;
+
+				else
+					mapCreationFilename = filename;
+			}
+
+			if(not isMapCreationFilenameAlreadyExisting)
+			{
+				isMapGenerationRequested = true;
+				static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
+				game.enterState(TerrariumGame::LOADING_STATE_ID);
+			}
 		}
 
 		char typed = '\n';
@@ -334,6 +377,7 @@ void MainMenuState::handleInputOnMapCreationDialog(Event& ev)
 
 		if(typed == '<' and not mapCreationFilename.empty() and caret > 0)
 		{
+			isMapCreationFilenameAlreadyExisting = false;
 			mapCreationFilename.erase(mapCreationFilename.begin() + caret-1);
 			caret--;
 		}
@@ -345,42 +389,30 @@ void MainMenuState::handleInputOnMapCreationDialog(Event& ev)
 			or Keyboard::isKeyPressed(Keyboard::KEY_RIGHT_SHIFT))
 				typed -= 32;
 
+			if(typed == '-')
+			if(Keyboard::isKeyPressed(Keyboard::KEY_LEFT_SHIFT)
+			or Keyboard::isKeyPressed(Keyboard::KEY_RIGHT_SHIFT))
+				typed = '_';
+
+			isMapCreationFilenameAlreadyExisting = false;
 			mapCreationFilename.insert(mapCreationFilename.begin() + caret, 1, typed);
 			caret++;
 		}
 	}
 }
 
-static string createRandomFilename()
-{
-	static const char alphanum[] =
-			"0123456789"
-			"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-			"abcdefghijklmnopqrstuvwxyz";
-
-	string name;
-	for (int i = 0; i < 32; ++i)
-		name += (alphanum[rand() % (sizeof(alphanum) - 1)]);
-
-	return name;
-}
-
 void MainMenuState::loadDuringLoadingScreen()
 {
 	TerrariumGame& game = static_cast<TerrariumGame&>(this->game);
 
-	if(mapGenerationRequested)
+	if(isMapGenerationRequested)
 	{
-		string randomFilename;
-		do randomFilename = fgeal::filesystem::getCurrentWorkingDirectory() + "/resources/maps/" + createRandomFilename() + ".txt";
-		while(fgeal::filesystem::isFilenameArchive(randomFilename) or fgeal::filesystem::isFilenameDirectory(randomFilename));
-
-		std::cout << "generating " << randomFilename << "..." << std::endl;
+		std::cout << "generating " << mapCreationFilename << "..." << std::endl;
 		Grid grid = createGrid(256, 128);
 		generator5(grid);
 		Map::transpose(grid);
-		Map::saveGridToFileTxt(grid, randomFilename);
-		game.stageFilename = randomFilename;
+		Map::saveGridToFileTxt(grid, mapCreationFilename);
+		game.stageFilename = mapCreationFilename;
 	}
 	else
 	{

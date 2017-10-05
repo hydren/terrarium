@@ -28,4 +28,5 @@ src_libs/fgeal/adapters/sfml1.6 \
 src_libs/fgeal \
 src_libs/fgeal/extra \
 src_libs/futil \
+src_libs/libgeramun \
 

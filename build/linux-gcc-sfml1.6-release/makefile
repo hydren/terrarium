@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include src_libs/libgeramun/subdir.mk
 -include src_libs/futil/subdir.mk
 -include src_libs/fgeal/extra/subdir.mk
 -include src_libs/fgeal/adapters/sfml1.6/subdir.mk
@@ -48,7 +49,7 @@ all: terrarium
 terrarium: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -o "terrarium" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -o "terrarium" $(OBJS) $(USER_OBJS) $(LIBS) -L/home/carlosfaruolo/Codigos/SFML-1.6/lib
 	@echo 'Finished building target: $@'
 	@echo ' '
 

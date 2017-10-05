@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include src_libs/libgeramun/subdir.mk
 -include src_libs/futil/subdir.mk
 -include src_libs/fgeal/extra/subdir.mk
 -include src_libs/fgeal/adapters/sfml2.0/subdir.mk

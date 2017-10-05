@@ -28,4 +28,5 @@ src_libs/fgeal/adapters/allegro5.0 \
 src_libs/fgeal \
 src_libs/fgeal/extra \
 src_libs/futil \
+src_libs/libgeramun \
 

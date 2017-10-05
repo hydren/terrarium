@@ -15,6 +15,7 @@ CPP_SRCS += \
 ../src/map.cpp \
 ../src/map_io.cpp \
 ../src/physics.cpp \
+../src/resolutions.cpp \
 ../src/terrarium_game.cpp 
 
 OBJS += \
@@ -29,6 +30,7 @@ OBJS += \
 ./src/map.o \
 ./src/map_io.o \
 ./src/physics.o \
+./src/resolutions.o \
 ./src/terrarium_game.o 
 
 CPP_DEPS += \
@@ -43,6 +45,7 @@ CPP_DEPS += \
 ./src/map.d \
 ./src/map_io.d \
 ./src/physics.d \
+./src/resolutions.d \
 ./src/terrarium_game.d 
 
 

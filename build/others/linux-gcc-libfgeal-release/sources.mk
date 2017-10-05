@@ -25,7 +25,5 @@ C_DEPS :=
 SUBDIRS := \
 src \
 src_libs/futil \
-src_libs/futil/general \
-src_libs/futil/math \
-src_libs/futil/string \
+src_libs/libgeramun \
 

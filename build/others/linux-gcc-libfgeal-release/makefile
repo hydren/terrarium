@@ -8,9 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include src_libs/futil/string/subdir.mk
--include src_libs/futil/math/subdir.mk
--include src_libs/futil/general/subdir.mk
+-include src_libs/libgeramun/subdir.mk
 -include src_libs/futil/subdir.mk
 -include src/subdir.mk
 -include subdir.mk
@@ -58,6 +56,5 @@ clean:
 	-@echo ' '
 
 .PHONY: all clean dependents
-.SECONDARY:
 
 -include ../makefile.targets

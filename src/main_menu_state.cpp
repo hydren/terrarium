@@ -30,14 +30,17 @@ using fgeal::Image;
 using fgeal::EventQueue;
 using fgeal::Rectangle;
 using fgeal::Color;
+using fgeal::Display;
 using fgeal::Keyboard;
+using fgeal::Mouse;
 
 MainMenuState::MainMenuState(TerrariumGame* game)
 : State(*game), wasInit(false),
   background(null), imgCloud(null), imgSun(null),
   mainFont(null), minorFont(null), miniFont(null), devFont(null),
   mainMenu(null), fileMenu(null),
-  cloudies(), onMapFileSelectionDialog(), onMapCreationDialog(), mapGenerationRequested()
+  cloudies(), onMapFileSelectionDialog(), onMapCreationDialog(),
+  caret(), mapCreationFilename(), mapGenerationRequested()
 {}
 
 MainMenuState::~MainMenuState()
@@ -69,7 +72,7 @@ void MainMenuState::initialize()
 	imgCloud = new Image("resources/cloud.png");
 	imgSun = new Image("resources/sun.png");
 
-	fgeal::Display& display = fgeal::Display::getInstance();
+	Display& display = Display::getInstance();
 	const float sw = display.getWidth(), sh = display.getHeight();
 	Rectangle size = {0.1f*sw, 0.225f*sh, 0.5f*sw, 0.25f*sh};
 	mainMenu = new Menu(size, minorFont, Color::ORANGE);
@@ -83,7 +86,7 @@ void MainMenuState::initialize()
 
 void MainMenuState::onEnter()
 {
-	fgeal::Display& display = fgeal::Display::getInstance();
+	Display& display = Display::getInstance();
 	const float sw = display.getWidth(), sh = display.getHeight();
 	vector<string> dirs = fgeal::filesystem::getFilenamesWithinDirectory("./resources/maps");
 
@@ -103,6 +106,8 @@ void MainMenuState::onEnter()
 	onMapFileSelectionDialog = false;
 	mapGenerationRequested = false;
 	onMapCreationDialog = false;
+	mapCreationFilename.clear();
+	caret = 0;
 
 	cloudies.clear();
 	cloudies.resize(16);
@@ -119,7 +124,7 @@ void MainMenuState::onLeave() {}
 
 void MainMenuState::render()
 {
-	fgeal::Display& display = fgeal::Display::getInstance();
+	Display& display = Display::getInstance();
 	const float sw = display.getWidth(), sh = display.getHeight();
 
 	display.clear();
@@ -137,10 +142,27 @@ void MainMenuState::render()
 
 	if(onMapCreationDialog)
 	{
-		Image::drawFilledRectangle(0.25*sw, 0.4*sh, 0.5*sw, 0.3*sh, fileMenu->bgColor);
+		// draw dialog bg
+		Image::drawFilledRectangle(0.25*sw, 0.4*sh, 0.5*sw, minorFont->getHeight()*5, fileMenu->bgColor);
+
+		minorFont->drawText("Name:", 0.275*sw, 0.4*sh, Color::WHITE);
+
+		// draw name text field bg
+		Image::drawFilledRectangle(0.275*sw, 0.4*sh + minorFont->getHeight(), 0.4*sw, minorFont->getHeight(), fileMenu->bgColor);
+
+		// draw cursor
+		if(((int) (fgeal::uptime()*2))%2 == 0)
+		Image::drawFilledRectangle(0.275*sw + minorFont->getTextWidth(mapCreationFilename), 0.4*sh + minorFont->getHeight(), 0.005*sw, minorFont->getHeight(), Color::WHITE);
+
+		if(not mapCreationFilename.empty())
+			minorFont->drawText(mapCreationFilename, 0.275*sw, 0.4*sh + minorFont->getHeight(), Color::WHITE);
+
+		// Ok button
+//		Image::drawFilledEllipse(0.5*sw, 0.4*sh + minorFont->getHeight()*4 , 1.25*minorFont->getTextWidth("Ok"), minorFont->getHeight(), Color::ORANGE);
+//		minorFont->drawText("Ok", 0.5*(sw-minorFont->getTextWidth("Ok")), 0.4*sh + minorFont->getHeight()*3.5, Color::WHITE);
 	}
 
-	devFont->drawText(string("Using fgeal v")+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, fgeal::Display::getInstance().getHeight() - devFont->getHeight(), Color::CREAM);
+	devFont->drawText(string("Using fgeal v")+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, Display::getInstance().getHeight() - devFont->getHeight(), Color::CREAM);
 }
 
 void MainMenuState::update(float delta)
@@ -176,38 +198,27 @@ void MainMenuState::handleInput()
 
 void MainMenuState::handleInputOnMainMenu(Event& ev)
 {
-	if(ev.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
+	if(ev.getEventType() == Event::TYPE_KEY_PRESS)
 	{
-		switch(ev.getEventKeyCode())
+		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_UP)
+			mainMenu->cursorUp();
+
+		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_DOWN)
+			mainMenu->cursorDown();
+
+		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
+		switch(mainMenu->getSelectedIndex())  // this isn't exactly elegant...
 		{
-			case fgeal::Keyboard::KEY_ARROW_UP:
-				mainMenu->cursorUp();
+			case 0:
+				onMapCreationDialog = true;
 				break;
 
-			case fgeal::Keyboard::KEY_ARROW_DOWN:
-				mainMenu->cursorDown();
+			case 1:
+				onMapFileSelectionDialog = true;
 				break;
 
-			case fgeal::Keyboard::KEY_ENTER:
-				switch(mainMenu->getSelectedIndex()) //this isn't elegant...
-				{
-					case 0:
-						mapGenerationRequested = true;
-						static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
-						game.enterState(TerrariumGame::LOADING_STATE_ID);
-						break;
-
-					case 1:
-						onMapFileSelectionDialog = true;
-						break;
-
-					case 3:
-						game.running = false;
-						break;
-
-					default:
-						break;
-				}
+			case 3:
+				game.running = false;
 				break;
 
 			default:
@@ -218,40 +229,125 @@ void MainMenuState::handleInputOnMainMenu(Event& ev)
 
 void MainMenuState::handleInputOnMapFileSelectionDialog(Event& ev)
 {
-	if(ev.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
+	if(ev.getEventType() == Event::TYPE_KEY_PRESS)
 	{
-		switch(ev.getEventKeyCode())
+		if(ev.getEventKeyCode() == Keyboard::KEY_ESCAPE)
+			onMapFileSelectionDialog = false;
+
+		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_UP)
+			fileMenu->cursorUp();
+
+		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_DOWN)
+			fileMenu->cursorDown();
+
+		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		{
-			case fgeal::Keyboard::KEY_ARROW_UP:
-				fileMenu->cursorUp();
-				break;
-
-			case fgeal::Keyboard::KEY_ARROW_DOWN:
-				fileMenu->cursorDown();
-				break;
-
-			case fgeal::Keyboard::KEY_ENTER:
-				if(fileMenu->getSelectedIndex() == fileMenu->getNumberOfEntries()-1)
-					onMapFileSelectionDialog = false;
-				else
-				{
-					static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
-					game.enterState(TerrariumGame::LOADING_STATE_ID);
-				}
-				break;
-
-			default:
-				break;
+			if(fileMenu->getSelectedIndex() == fileMenu->getNumberOfEntries()-1)
+				onMapFileSelectionDialog = false;
+			else
+			{
+				static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
+				game.enterState(TerrariumGame::LOADING_STATE_ID);
+			}
 		}
 	}
 }
 
 void MainMenuState::handleInputOnMapCreationDialog(Event& ev)
 {
-	if(ev.getEventType() == fgeal::Event::TYPE_KEY_PRESS)
+	if(ev.getEventType() == Event::TYPE_KEY_PRESS)
 	{
 		if(ev.getEventKeyCode() == Keyboard::KEY_ESCAPE)
 			onMapCreationDialog = false;
+
+		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
+		{
+			mapGenerationRequested = true;
+			static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
+			game.enterState(TerrariumGame::LOADING_STATE_ID);
+		}
+
+		char typed = '\n';
+		switch(ev.getEventKeyCode())
+		{
+			case Keyboard::KEY_A: typed = 'a'; break;
+			case Keyboard::KEY_B: typed = 'b'; break;
+			case Keyboard::KEY_C: typed = 'c'; break;
+			case Keyboard::KEY_D: typed = 'd'; break;
+			case Keyboard::KEY_E: typed = 'e'; break;
+			case Keyboard::KEY_F: typed = 'f'; break;
+			case Keyboard::KEY_G: typed = 'g'; break;
+			case Keyboard::KEY_H: typed = 'h'; break;
+			case Keyboard::KEY_I: typed = 'i'; break;
+			case Keyboard::KEY_J: typed = 'j'; break;
+			case Keyboard::KEY_K: typed = 'k'; break;
+			case Keyboard::KEY_L: typed = 'l'; break;
+			case Keyboard::KEY_M: typed = 'm'; break;
+			case Keyboard::KEY_N: typed = 'n'; break;
+			case Keyboard::KEY_O: typed = 'o'; break;
+			case Keyboard::KEY_P: typed = 'p'; break;
+			case Keyboard::KEY_Q: typed = 'q'; break;
+			case Keyboard::KEY_R: typed = 'r'; break;
+			case Keyboard::KEY_S: typed = 's'; break;
+			case Keyboard::KEY_T: typed = 't'; break;
+			case Keyboard::KEY_U: typed = 'u'; break;
+			case Keyboard::KEY_V: typed = 'v'; break;
+			case Keyboard::KEY_W: typed = 'w'; break;
+			case Keyboard::KEY_X: typed = 'x'; break;
+			case Keyboard::KEY_Y: typed = 'y'; break;
+			case Keyboard::KEY_Z: typed = 'z'; break;
+			case Keyboard::KEY_NUMPAD_0:
+			case Keyboard::KEY_0:       typed = '0'; break;
+			case Keyboard::KEY_NUMPAD_1:
+			case Keyboard::KEY_1:       typed = '1'; break;
+			case Keyboard::KEY_NUMPAD_2:
+			case Keyboard::KEY_2:       typed = '2'; break;
+			case Keyboard::KEY_NUMPAD_3:
+			case Keyboard::KEY_3:       typed = '3'; break;
+			case Keyboard::KEY_NUMPAD_4:
+			case Keyboard::KEY_4:       typed = '4'; break;
+			case Keyboard::KEY_NUMPAD_5:
+			case Keyboard::KEY_5:       typed = '5'; break;
+			case Keyboard::KEY_NUMPAD_6:
+			case Keyboard::KEY_6:       typed = '6'; break;
+			case Keyboard::KEY_NUMPAD_7:
+			case Keyboard::KEY_7:       typed = '7'; break;
+			case Keyboard::KEY_NUMPAD_8:
+			case Keyboard::KEY_8:       typed = '8'; break;
+			case Keyboard::KEY_NUMPAD_9:
+			case Keyboard::KEY_9:       typed = '9'; break;
+			case Keyboard::KEY_SPACE:   typed = ' '; break;
+			case Keyboard::KEY_PERIOD:  typed = '.'; break;
+			case Keyboard::KEY_MINUS:   typed = '-'; break;
+			case Keyboard::KEY_BACKSPACE: typed = '<'; break;
+
+			// caret
+			case Keyboard::KEY_ARROW_LEFT:
+				if(caret > 0) caret--;
+				break;
+
+			case Keyboard::KEY_ARROW_RIGHT:
+				if(caret < (int) mapCreationFilename.size()) caret++;
+				break;
+			default:break;
+		}
+
+		if(typed == '<' and not mapCreationFilename.empty() and caret > 0)
+		{
+			mapCreationFilename.erase(mapCreationFilename.begin() + caret-1);
+			caret--;
+		}
+
+		else if(typed != '\n' and typed != '<')
+		{
+			if(typed >= 'a' and typed <= 'z')
+			if(Keyboard::isKeyPressed(Keyboard::KEY_LEFT_SHIFT)
+			or Keyboard::isKeyPressed(Keyboard::KEY_RIGHT_SHIFT))
+				typed -= 32;
+
+			mapCreationFilename.insert(mapCreationFilename.begin() + caret, 1, typed);
+			caret++;
+		}
 	}
 }
 

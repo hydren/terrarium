@@ -56,7 +56,7 @@ void OptionsMenuState::initialize()
 	menuMain->bgColor = Color(0, 0, 0, 96);
 	menuMain->borderColor = Color::_TRANSPARENT;
 	menuMain->addEntry("Resolution");
-	menuMain->addEntry("Aspect ratio");
+	menuMain->addEntry("Aspect ratio: all");
 	menuMain->addEntry("Fullscreen");
 	menuMain->addEntry("Exit");
 
@@ -178,7 +178,6 @@ void OptionsMenuState::updateLabels()
 {
 	Display& display = game.getDisplay();
 	menuMain->at(0).label = string("Resolution: ") + futil::to_string(display.getWidth()) + "x" + futil::to_string(display.getHeight());
-	menuMain->at(1).label = string("Aspect ratio: ") + ("4:3");
 	menuMain->at(2).label = string("Fullscreen: ") + (display.isFullscreen()? " yes" : " no");
 }
 
@@ -202,7 +201,31 @@ void OptionsMenuState::updateOnAspectRatioMenu()
 					break;
 				case Keyboard::KEY_ENTER:
 				{
-					// set aspect ratio filter
+					menuResolution->setSelectedIndex(0);
+
+					for(unsigned i = 0; i < menuResolution->getEntryCount(); i++)
+						menuResolution->removeEntry(i);
+
+					if(menuAspectRatio->getSelectedIndex() == 0)
+					{
+						for(unsigned i = 0; i < Resolution::get().size(); i++)
+						{
+							Resolution resolution = Resolution::get()[i];
+							menuResolution->addEntry(futil::to_string(resolution.width)+"x"+futil::to_string(resolution.height));
+						}
+						menuMain->at(1).label = string("Aspect ratio: all");
+					}
+					else
+					{
+						const std::pair<unsigned, unsigned> aspectRatio = Resolution::getAspects()[menuAspectRatio->getSelectedIndex()-1];
+						for(unsigned i = 0; i < Resolution::get(aspectRatio).size(); i++)
+						{
+							Resolution resolution = Resolution::get(aspectRatio)[i];
+							menuResolution->addEntry(futil::to_string(resolution.width)+"x"+futil::to_string(resolution.height));
+						}
+						menuMain->at(1).label = string("Aspect ratio: ") + futil::to_string(aspectRatio.first) + ":" + futil::to_string(aspectRatio.second);
+					}
+
 					isAspectRatioMenuActive = false;
 					break;
 				}

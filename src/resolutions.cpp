@@ -144,6 +144,5 @@ vector< pair<unsigned, unsigned> > Resolution::getAspects()
 	aspects.push_back(aspectRatio(3, 2));
 	aspects.push_back(aspectRatio(5, 3));
 	aspects.push_back(aspectRatio(5, 4));
-	aspects.push_back(aspectRatio(4, 3));
 	return aspects;
 }

@@ -23,6 +23,8 @@ struct Resolution
 
 	static std::vector<Resolution>
 	get(std::pair<unsigned, unsigned> aspect=std::make_pair(0, 0));
+
+	static std::vector< std::pair<unsigned, unsigned> > getAspects();
 };
 
 #endif /* RESOLUTIONS_HPP_ */

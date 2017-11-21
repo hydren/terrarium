@@ -29,7 +29,7 @@ class OptionsMenuState extends public fgeal::Game::State
 
 	fgeal::Menu* menuMain, *menuAspectRatio, *menuResolution;
 
-	bool onAspectRatioMenu, onResolutionMenu;
+	bool isAspectRatioMenuActive, isResolutionMenuActive;
 
 	OptionsMenuState(TerrariumGame* game);
 	~OptionsMenuState();
@@ -42,7 +42,9 @@ class OptionsMenuState extends public fgeal::Game::State
 	void update(float delta);
 
 	private:
-	void onMenuSelect();
+	void updateOnAspectRatioMenu();
+	void updateOnResolutionMenu();
+
 	void updateLabels();
 };
 

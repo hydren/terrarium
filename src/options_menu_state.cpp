@@ -7,6 +7,7 @@
 
 #include "options_menu_state.hpp"
 #include "futil/string_actions.hpp"
+#include "resolutions.hpp"
 
 using fgeal::Display;
 using fgeal::Event;
@@ -26,7 +27,7 @@ OptionsMenuState::OptionsMenuState(TerrariumGame* game)
   imgBackground(null),
   fntTitle(null), fntMenu(null), fntDev(null),
   menuMain(null), menuAspectRatio(null), menuResolution(null),
-  onAspectRatioMenu(), onResolutionMenu()
+  isAspectRatioMenuActive(), isResolutionMenuActive()
 {}
 
 OptionsMenuState::~OptionsMenuState()
@@ -51,19 +52,38 @@ void OptionsMenuState::initialize()
 
 	imgBackground = new Image("resources/options.jpg");
 
-	const float sw = display.getWidth(), sh = display.getHeight();
-	Rectangle size = {0.1f*sw, 0.225f*sh, 0.5f*sw, 0.25f*sh};
-	menuMain = new Menu(size, fntMenu, Color::ORANGE);
+	menuMain = new Menu(Rectangle(), fntMenu, Color::ORANGE);
 	menuMain->bgColor = Color(0, 0, 0, 96);
 	menuMain->borderColor = Color::_TRANSPARENT;
 	menuMain->addEntry("Resolution");
 	menuMain->addEntry("Aspect ratio");
 	menuMain->addEntry("Fullscreen");
 	menuMain->addEntry("Exit");
+
+	menuAspectRatio = new Menu(Rectangle(), fntMenu, Color::OLIVE);
+	menuAspectRatio->bgColor = Color(0, 0, 0, 96);
+	menuAspectRatio->borderColor = Color::_TRANSPARENT;
+	menuAspectRatio->addEntry("all");
+	for(unsigned i = 0; i < Resolution::getAspects().size(); i++)
+	{
+		const std::pair<unsigned, unsigned> aspectRatio = Resolution::getAspects()[i];
+		menuAspectRatio->addEntry(futil::to_string(aspectRatio.first)+":"+futil::to_string(aspectRatio.second));
+	}
+
+	menuResolution = new Menu(Rectangle(), fntMenu, Color::PURPLE);
+	menuResolution->bgColor = Color(0, 0, 0, 96);
+	menuResolution->borderColor = Color::_TRANSPARENT;
+	for(unsigned i = 0; i < Resolution::get().size(); i++)
+	{
+		Resolution resolution = Resolution::get()[i];
+		menuResolution->addEntry(futil::to_string(resolution.width)+"x"+futil::to_string(resolution.height));
+	}
 }
 
 void OptionsMenuState::onEnter()
-{}
+{
+	isAspectRatioMenuActive = isResolutionMenuActive = false;
+}
 
 void OptionsMenuState::onLeave()
 {}
@@ -75,18 +95,94 @@ void OptionsMenuState::render()
 	imgBackground->drawScaled(0, 0, display.getWidth()/(float) imgBackground->getWidth(), display.getHeight()/(float) imgBackground->getHeight());
 
 	// update menu bounds
+	menuAspectRatio->bounds.x = 0.25f*display.getWidth();
+	menuAspectRatio->bounds.y = 0.25f*display.getHeight();
+	menuAspectRatio->bounds.w = display.getWidth() - 2*menuAspectRatio->bounds.x;
+	menuAspectRatio->bounds.h = 0.5f*display.getHeight();
+
+	menuResolution->bounds.x = 0.25f*display.getWidth();
+	menuResolution->bounds.y = 0.25f*display.getHeight();
+	menuResolution->bounds.w = display.getWidth() - 2*menuResolution->bounds.x;
+	menuResolution->bounds.h = 0.5f*display.getHeight();
+
 	menuMain->bounds.x = 0.25f*display.getWidth();
 	menuMain->bounds.y = 0.25f*display.getHeight();
 	menuMain->bounds.w = display.getWidth() - 2*menuMain->bounds.x;
 	menuMain->bounds.h = 0.5f*display.getHeight();
 
 	updateLabels();
-	menuMain->draw();
+
+	if(isAspectRatioMenuActive)
+		menuAspectRatio->draw();
+	else if(isResolutionMenuActive)
+		menuResolution->draw();
+	else
+		menuMain->draw();
 
 	fntTitle->drawText("Options", 0.125*display.getWidth(), 0.0625*display.getHeight(), Color::WHITE);
 }
 
 void OptionsMenuState::update(float delta)
+{
+	if(isAspectRatioMenuActive) updateOnAspectRatioMenu();
+	else if(isResolutionMenuActive) updateOnResolutionMenu();
+	else
+	{
+		Event event;
+		EventQueue& eventQueue = EventQueue::getInstance();
+		while(eventQueue.hasEvents())
+		{
+			eventQueue.getNextEvent(&event);
+			if(event.getEventType() == Event::TYPE_DISPLAY_CLOSURE)
+			{
+				game.running = false;
+			}
+			else if(event.getEventType() == Event::TYPE_KEY_PRESS)
+			{
+				switch(event.getEventKeyCode())
+				{
+					case Keyboard::KEY_ESCAPE:
+						game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
+						break;
+					case Keyboard::KEY_ENTER:
+					{
+						if(menuMain->getSelectedIndex() == 0)
+							isResolutionMenuActive = true;
+
+						if(menuMain->getSelectedIndex() == 1)
+							isAspectRatioMenuActive = true;
+
+						if(menuMain->getSelectedIndex() == 2)
+							game.getDisplay().setFullscreen(!game.getDisplay().isFullscreen());
+
+						if(menuMain->getSelectedIndex() == menuMain->getEntryCount()-1)
+							game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
+
+						break;
+					}
+					case Keyboard::KEY_ARROW_UP:
+						menuMain->cursorUp();
+						break;
+					case Keyboard::KEY_ARROW_DOWN:
+						menuMain->cursorDown();
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	}
+}
+
+void OptionsMenuState::updateLabels()
+{
+	Display& display = game.getDisplay();
+	menuMain->at(0).label = string("Resolution: ") + futil::to_string(display.getWidth()) + "x" + futil::to_string(display.getHeight());
+	menuMain->at(1).label = string("Aspect ratio: ") + ("4:3");
+	menuMain->at(2).label = string("Fullscreen: ") + (display.isFullscreen()? " yes" : " no");
+}
+
+void OptionsMenuState::updateOnAspectRatioMenu()
 {
 	Event event;
 	EventQueue& eventQueue = EventQueue::getInstance();
@@ -102,16 +198,19 @@ void OptionsMenuState::update(float delta)
 			switch(event.getEventKeyCode())
 			{
 				case Keyboard::KEY_ESCAPE:
-					game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
+					isAspectRatioMenuActive = false;
 					break;
 				case Keyboard::KEY_ENTER:
-					this->onMenuSelect();
+				{
+					// set aspect ratio filter
+					isAspectRatioMenuActive = false;
 					break;
+				}
 				case Keyboard::KEY_ARROW_UP:
-					menuMain->cursorUp();
+					menuAspectRatio->cursorUp();
 					break;
 				case Keyboard::KEY_ARROW_DOWN:
-					menuMain->cursorDown();
+					menuAspectRatio->cursorDown();
 					break;
 				default:
 					break;
@@ -120,19 +219,46 @@ void OptionsMenuState::update(float delta)
 	}
 }
 
-void OptionsMenuState::onMenuSelect()
+void OptionsMenuState::updateOnResolutionMenu()
 {
-	if(menuMain->getSelectedIndex() == 2)
-		game.getDisplay().setFullscreen(!game.getDisplay().isFullscreen());
+	Event event;
+	EventQueue& eventQueue = EventQueue::getInstance();
+	while(eventQueue.hasEvents())
+	{
+		eventQueue.getNextEvent(&event);
+		if(event.getEventType() == Event::TYPE_DISPLAY_CLOSURE)
+		{
+			game.running = false;
+		}
+		else if(event.getEventType() == Event::TYPE_KEY_PRESS)
+		{
+			switch(event.getEventKeyCode())
+			{
+				case Keyboard::KEY_ESCAPE:
+					isResolutionMenuActive = false;
+					break;
+				case Keyboard::KEY_ENTER:
+				{
+					Resolution resolution = (menuAspectRatio->getSelectedIndex() == 0)? Resolution::get()[menuResolution->getSelectedIndex()]
+					: Resolution::get(Resolution::getAspects()[menuAspectRatio->getSelectedIndex()-1])[menuResolution->getSelectedIndex()];
 
-	if(menuMain->getSelectedIndex() == menuMain->getEntryCount()-1)
-		game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
-}
+					game.getDisplay().setSize(resolution.width, resolution.height);
 
-void OptionsMenuState::updateLabels()
-{
-	Display& display = game.getDisplay();
-	menuMain->at(0).label = string("Resolution: ") + futil::to_string(display.getWidth()) + "x" + futil::to_string(display.getHeight());
-	menuMain->at(1).label = string("Aspect ratio: ") + ("4:3");
-	menuMain->at(2).label = string("Fullscreen: ") + (display.isFullscreen()? " yes" : " no");
+					delete fntTitle;
+					fntTitle = new Font("resources/jack.ttf", resolution.height*(44.0/480.0));
+
+					isResolutionMenuActive = false;
+					break;
+				}
+				case Keyboard::KEY_ARROW_UP:
+					menuResolution->cursorUp();
+					break;
+				case Keyboard::KEY_ARROW_DOWN:
+					menuResolution->cursorDown();
+					break;
+				default:
+					break;
+			}
+		}
+	}
 }

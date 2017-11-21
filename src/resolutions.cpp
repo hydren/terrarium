@@ -132,11 +132,18 @@ vector<Resolution> Resolution::get(pair<unsigned, unsigned> requestedAspect)
 		resolutions.push_back(Resolution(10240, 4320, aspectRatio(21, 9), "UW10K"));
 	}
 
-	aspect = std::make_pair(0, 0);
-	if(aspect == requestedAspect or requestedAspect == undecidedAspect)
-	{
-		resolutions.push_back(Resolution(0000, 0000, aspect, ""));
-	}
-
 	return resolutions;
+}
+
+vector< pair<unsigned, unsigned> > Resolution::getAspects()
+{
+	vector< pair<unsigned, unsigned> > aspects;
+	aspects.push_back(aspectRatio(4, 3));
+	aspects.push_back(aspectRatio(16, 9));
+	aspects.push_back(aspectRatio(16, 10));
+	aspects.push_back(aspectRatio(3, 2));
+	aspects.push_back(aspectRatio(5, 3));
+	aspects.push_back(aspectRatio(5, 4));
+	aspects.push_back(aspectRatio(4, 3));
+	return aspects;
 }

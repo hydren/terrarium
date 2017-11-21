@@ -93,20 +93,14 @@ InGameState::~InGameState()
 
 void InGameState::initialize()
 {
-	fgeal::Display& display = fgeal::Display::getInstance();
 	Properties& config = TerrariumGame::CONFIG;
-
-	visibleArea.x = 0;
-	visibleArea.y = 0;
-	visibleArea.w = display.getWidth();
-	visibleArea.h = display.getHeight();
 
 	//loading font
 	font = new fgeal::Font(config.get("ingame.font.filename"), atoi(config.get("ingame.font.size").c_str()));
 	fontInventory = new fgeal::Font(config.get("ingame.inventory.font.filename"), atoi(config.get("ingame.inventory.font.size").c_str()));
 
 	//loading ingame menu
-	Rectangle menuSize = {visibleArea.w*0.5f-100, visibleArea.h*0.5f-32, 200, 64};
+	Rectangle menuSize = {0, 0, 200, 64};
 	inGameMenu = new Menu(menuSize, font, Color::ORANGE);
 	inGameMenu->addEntry("Resume");
 	inGameMenu->addEntry("Save and exit");
@@ -179,13 +173,9 @@ void InGameState::initialize()
 	//load bg
 	Image* bgImgDay = new Image(config.get("ingame.bg_day.filename"));
 	backgroundDay = new Sprite(bgImgDay, bgImgDay->getWidth(), bgImgDay->getHeight(), -1, -1, 0, 0, true);
-	backgroundDay->scale.x = fgeal::Display::getInstance().getWidth()  / backgroundDay->getCurrentFrame().w;
-	backgroundDay->scale.y = fgeal::Display::getInstance().getHeight() / backgroundDay->getCurrentFrame().h;
 
 	Image* bgImgNight = new Image(config.get("ingame.bg_night.filename"));
 	backgroundNight = new Sprite(bgImgNight, bgImgNight->getWidth(), bgImgNight->getHeight(), -1, -1, 0, 0, true);
-	backgroundNight->scale.x = fgeal::Display::getInstance().getWidth()  / backgroundNight->getCurrentFrame().w;
-	backgroundNight->scale.y = fgeal::Display::getInstance().getHeight() / backgroundNight->getCurrentFrame().h;
 
 	inventory = null;
 	inventoryColor = Color::parseCStr(config.get("ingame.inventory.color").c_str(), true);
@@ -201,6 +191,20 @@ void InGameState::initialize()
 void InGameState::onEnter()
 {
 	fgeal::Display& display = fgeal::Display::getInstance();
+
+	visibleArea.x = 0;
+	visibleArea.y = 0;
+	visibleArea.w = display.getWidth();
+	visibleArea.h = display.getHeight();
+
+	inGameMenu->bounds.x = 0.5f*(visibleArea.w - inGameMenu->bounds.w);
+	inGameMenu->bounds.y = 0.5f*(visibleArea.h - inGameMenu->bounds.h);
+
+	backgroundDay->scale.x = display.getWidth()  / backgroundDay->getCurrentFrame().w;
+	backgroundDay->scale.y = display.getHeight() / backgroundDay->getCurrentFrame().h;
+
+	backgroundNight->scale.x = display.getWidth()  / backgroundNight->getCurrentFrame().w;
+	backgroundNight->scale.y = display.getHeight() / backgroundNight->getCurrentFrame().h;
 
 	//setting flags
 	jumping = false;

@@ -10,6 +10,7 @@
 #include "main_menu_state.hpp"
 #include "ingame_state.hpp"
 #include "loading_state.hpp"
+#include "options_menu_state.hpp"
 
 const int
 TerrariumGame::MAIN_MENU_STATE_ID = 0,
@@ -24,6 +25,7 @@ void TerrariumGame::initializeStatesList()
 	this->addState(new MainMenuState(this));  // set initial by position
 	this->addState(new InGameState(this));
 	this->addState(new LoadingState(this));
+	this->addState(new OptionsMenuState(this));
 }
 
 TerrariumGame::TerrariumGame()

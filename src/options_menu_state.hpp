@@ -41,9 +41,9 @@ class OptionsMenuState extends public fgeal::Game::State
 	void render();
 	void update(float delta);
 
-	void handleInput();
-	void handleInputOnAspectRatioMenu(fgeal::Event&);
-	void handleInputOnResolutionMenu(fgeal::Event&);
+	private:
+	void onMenuSelect();
+	void updateLabels();
 };
 
 #endif /* OPTIONS_MENU_STATE_HPP_ */

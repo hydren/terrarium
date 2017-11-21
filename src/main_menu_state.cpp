@@ -236,6 +236,10 @@ void MainMenuState::handleInputOnMainMenu(Event& ev)
 				onMapFileSelectionDialog = true;
 				break;
 
+			case 2:
+				game.enterState(TerrariumGame::OPTIONS_STATE_ID);
+				break;
+
 			case 3:
 				game.running = false;
 				break;

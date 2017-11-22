@@ -19,6 +19,7 @@ using fgeal::Image;
 using fgeal::Font;
 using fgeal::Menu;
 using std::string;
+using std::vector;
 
 int OptionsMenuState::getId() { return TerrariumGame::OPTIONS_STATE_ID; }
 
@@ -26,8 +27,8 @@ OptionsMenuState::OptionsMenuState(TerrariumGame* game)
 : State(*game), wasInit(false),
   imgBackground(null),
   fntTitle(null), fntMenu(null), fntDev(null),
-  menuMain(null), menuAspectRatio(null), menuResolution(null),
-  isAspectRatioMenuActive(), isResolutionMenuActive()
+  menuMain(null), menuResolution(null),
+  isResolutionMenuActive()
 {}
 
 OptionsMenuState::~OptionsMenuState()
@@ -39,7 +40,6 @@ OptionsMenuState::~OptionsMenuState()
 	delete fntMenu;
 	delete fntDev;
 	delete menuMain;
-	delete menuAspectRatio;
 	delete menuResolution;
 }
 
@@ -56,33 +56,24 @@ void OptionsMenuState::initialize()
 	menuMain->bgColor = Color(0, 0, 0, 96);
 	menuMain->borderColor = Color::_TRANSPARENT;
 	menuMain->addEntry("Resolution");
-	menuMain->addEntry("Aspect ratio: all");
 	menuMain->addEntry("Fullscreen");
 	menuMain->addEntry("Exit");
 
-	menuAspectRatio = new Menu(Rectangle(), fntMenu, Color::OLIVE);
-	menuAspectRatio->bgColor = Color(0, 0, 0, 96);
-	menuAspectRatio->borderColor = Color::_TRANSPARENT;
-	menuAspectRatio->addEntry("all");
-	for(unsigned i = 0; i < Resolution::getAspects().size(); i++)
-	{
-		const std::pair<unsigned, unsigned> aspectRatio = Resolution::getAspects()[i];
-		menuAspectRatio->addEntry(futil::to_string(aspectRatio.first)+":"+futil::to_string(aspectRatio.second));
-	}
-
-	menuResolution = new Menu(Rectangle(), fntMenu, Color::PURPLE);
+	menuResolution = new Menu(Rectangle(), fntDev, Color::ORANGE);
 	menuResolution->bgColor = Color(0, 0, 0, 96);
 	menuResolution->borderColor = Color::_TRANSPARENT;
 	for(unsigned i = 0; i < Resolution::get().size(); i++)
 	{
 		Resolution resolution = Resolution::get()[i];
-		menuResolution->addEntry(futil::to_string(resolution.width)+"x"+futil::to_string(resolution.height));
+		menuResolution->addEntry(futil::to_string(resolution.width)+"x"+futil::to_string(resolution.height)
+			+ " ("+futil::to_string(resolution.aspect.first)+":"+futil::to_string(resolution.aspect.second)+")"
+			+ (resolution.description.empty()? "" : " ("+resolution.description+")"));
 	}
 }
 
 void OptionsMenuState::onEnter()
 {
-	isAspectRatioMenuActive = isResolutionMenuActive = false;
+	isResolutionMenuActive = false;
 }
 
 void OptionsMenuState::onLeave()
@@ -95,26 +86,19 @@ void OptionsMenuState::render()
 	imgBackground->drawScaled(0, 0, display.getWidth()/(float) imgBackground->getWidth(), display.getHeight()/(float) imgBackground->getHeight());
 
 	// update menu bounds
-	menuAspectRatio->bounds.x = 0.25f*display.getWidth();
-	menuAspectRatio->bounds.y = 0.25f*display.getHeight();
-	menuAspectRatio->bounds.w = display.getWidth() - 2*menuAspectRatio->bounds.x;
-	menuAspectRatio->bounds.h = 0.5f*display.getHeight();
+	menuMain->bounds.x = 0.25f*display.getWidth();
+	menuMain->bounds.y = 0.25f*display.getHeight();
+	menuMain->bounds.w = display.getWidth() - 2*menuMain->bounds.x;
+	menuMain->bounds.h = 0.5f*display.getHeight();
 
 	menuResolution->bounds.x = 0.25f*display.getWidth();
 	menuResolution->bounds.y = 0.25f*display.getHeight();
 	menuResolution->bounds.w = display.getWidth() - 2*menuResolution->bounds.x;
 	menuResolution->bounds.h = 0.5f*display.getHeight();
 
-	menuMain->bounds.x = 0.25f*display.getWidth();
-	menuMain->bounds.y = 0.25f*display.getHeight();
-	menuMain->bounds.w = display.getWidth() - 2*menuMain->bounds.x;
-	menuMain->bounds.h = 0.5f*display.getHeight();
-
 	updateLabels();
 
-	if(isAspectRatioMenuActive)
-		menuAspectRatio->draw();
-	else if(isResolutionMenuActive)
+	if(isResolutionMenuActive)
 		menuResolution->draw();
 	else
 		menuMain->draw();
@@ -124,8 +108,7 @@ void OptionsMenuState::render()
 
 void OptionsMenuState::update(float delta)
 {
-	if(isAspectRatioMenuActive) updateOnAspectRatioMenu();
-	else if(isResolutionMenuActive) updateOnResolutionMenu();
+	if(isResolutionMenuActive) updateOnResolutionMenu();
 	else
 	{
 		Event event;
@@ -150,9 +133,6 @@ void OptionsMenuState::update(float delta)
 							isResolutionMenuActive = true;
 
 						if(menuMain->getSelectedIndex() == 1)
-							isAspectRatioMenuActive = true;
-
-						if(menuMain->getSelectedIndex() == 2)
 							game.getDisplay().setFullscreen(!game.getDisplay().isFullscreen());
 
 						if(menuMain->getSelectedIndex() == menuMain->getEntryCount()-1)
@@ -178,68 +158,7 @@ void OptionsMenuState::updateLabels()
 {
 	Display& display = game.getDisplay();
 	menuMain->at(0).label = string("Resolution: ") + futil::to_string(display.getWidth()) + "x" + futil::to_string(display.getHeight());
-	menuMain->at(2).label = string("Fullscreen: ") + (display.isFullscreen()? " yes" : " no");
-}
-
-void OptionsMenuState::updateOnAspectRatioMenu()
-{
-	Event event;
-	EventQueue& eventQueue = EventQueue::getInstance();
-	while(eventQueue.hasEvents())
-	{
-		eventQueue.getNextEvent(&event);
-		if(event.getEventType() == Event::TYPE_DISPLAY_CLOSURE)
-		{
-			game.running = false;
-		}
-		else if(event.getEventType() == Event::TYPE_KEY_PRESS)
-		{
-			switch(event.getEventKeyCode())
-			{
-				case Keyboard::KEY_ESCAPE:
-					isAspectRatioMenuActive = false;
-					break;
-				case Keyboard::KEY_ENTER:
-				{
-					menuResolution->setSelectedIndex(0);
-
-					for(unsigned i = 0; i < menuResolution->getEntryCount(); i++)
-						menuResolution->removeEntry(i);
-
-					if(menuAspectRatio->getSelectedIndex() == 0)
-					{
-						for(unsigned i = 0; i < Resolution::get().size(); i++)
-						{
-							Resolution resolution = Resolution::get()[i];
-							menuResolution->addEntry(futil::to_string(resolution.width)+"x"+futil::to_string(resolution.height));
-						}
-						menuMain->at(1).label = string("Aspect ratio: all");
-					}
-					else
-					{
-						const std::pair<unsigned, unsigned> aspectRatio = Resolution::getAspects()[menuAspectRatio->getSelectedIndex()-1];
-						for(unsigned i = 0; i < Resolution::get(aspectRatio).size(); i++)
-						{
-							Resolution resolution = Resolution::get(aspectRatio)[i];
-							menuResolution->addEntry(futil::to_string(resolution.width)+"x"+futil::to_string(resolution.height));
-						}
-						menuMain->at(1).label = string("Aspect ratio: ") + futil::to_string(aspectRatio.first) + ":" + futil::to_string(aspectRatio.second);
-					}
-
-					isAspectRatioMenuActive = false;
-					break;
-				}
-				case Keyboard::KEY_ARROW_UP:
-					menuAspectRatio->cursorUp();
-					break;
-				case Keyboard::KEY_ARROW_DOWN:
-					menuAspectRatio->cursorDown();
-					break;
-				default:
-					break;
-			}
-		}
-	}
+	menuMain->at(1).label = string("Fullscreen: ") + (display.isFullscreen()? " yes" : " no");
 }
 
 void OptionsMenuState::updateOnResolutionMenu()
@@ -262,8 +181,7 @@ void OptionsMenuState::updateOnResolutionMenu()
 					break;
 				case Keyboard::KEY_ENTER:
 				{
-					Resolution resolution = (menuAspectRatio->getSelectedIndex() == 0)? Resolution::get()[menuResolution->getSelectedIndex()]
-					: Resolution::get(Resolution::getAspects()[menuAspectRatio->getSelectedIndex()-1])[menuResolution->getSelectedIndex()];
+					Resolution resolution = Resolution::get()[menuResolution->getSelectedIndex()];
 
 					game.getDisplay().setSize(resolution.width, resolution.height);
 

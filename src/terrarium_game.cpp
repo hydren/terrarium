@@ -12,14 +12,6 @@
 #include "loading_state.hpp"
 #include "options_menu_state.hpp"
 
-const int
-TerrariumGame::MAIN_MENU_STATE_ID = 0,
-TerrariumGame::INGAME_STATE_ID = 1,
-TerrariumGame::LOADING_STATE_ID = 2,
-TerrariumGame::OPTIONS_STATE_ID = 3;
-
-futil::Properties TerrariumGame::CONFIG;
-
 void TerrariumGame::initializeStatesList()
 {
 	this->addState(new MainMenuState(this));  // set initial by position

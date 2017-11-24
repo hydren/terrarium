@@ -93,7 +93,7 @@ InGameState::~InGameState()
 
 void InGameState::initialize()
 {
-	Properties& config = TerrariumGame::CONFIG;
+	Properties& config = static_cast<TerrariumGame&>(game).logic.config;  // @suppress("Field cannot be resolved")
 
 	//loading font
 	font = new fgeal::Font(config.get("ingame.font.filename"), atoi(config.get("ingame.font.size").c_str()));
@@ -212,7 +212,7 @@ void InGameState::onEnter()
 
 	//loading map in world
 	TerrariumGame& game = *static_cast<TerrariumGame*>(&this->game);
-	map = new Map(this, game.stageFilename);
+	map = new Map(this, game.logic.stageFilename);  // @suppress("Field cannot be resolved")
 	cout << "map size (in pixels): " << map->computeDimensions().w << "x" << map->computeDimensions().h << endl;
 
 	//create player body for the newly created world and reset sprite animation
@@ -560,7 +560,7 @@ void InGameState::handleInputOnInGameMenu(Event& event)
 						inGameMenuShowing=false;
 						break;
 					case 1:
-						map->saveToFile(game.stageFilename);
+						map->saveToFile(game.logic.stageFilename);  // @suppress("Field cannot be resolved") @suppress("Invalid arguments")
 						game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 						break;
 					case 2:

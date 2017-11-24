@@ -416,11 +416,11 @@ void MainMenuState::loadDuringLoadingScreen()
 		generator5(grid);
 		Map::transpose(grid);
 		Map::saveGridToFileTxt(grid, mapCreationFilename);
-		game.stageFilename = mapCreationFilename;
+		game.logic.stageFilename = mapCreationFilename;  // @suppress("Field cannot be resolved")
 	}
 	else
 	{
-		game.stageFilename = fileMenu->getSelectedEntry().label;
+		game.logic.stageFilename = fileMenu->getSelectedEntry().label;  // @suppress("Field cannot be resolved")
 	}
 
 	game.enterState(TerrariumGame::INGAME_STATE_ID);

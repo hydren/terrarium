@@ -72,7 +72,6 @@ int main(int argc, char** argv)
 		string title = "Project Terrarium";
 		title += " (v"; title += VERSION; title += ")";
 
-		TerrariumGame::CONFIG.load("config.properties");
 		fgeal::initialize();
 
 		// only need to instantiate, engine will delete it when finalizing

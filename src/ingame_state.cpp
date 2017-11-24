@@ -32,8 +32,6 @@ using futil::remove_element;
 #include <iostream>
 using std::cout; using std::endl;
 
-#include "items.hxx"
-
 // xxx hardcoded player body dimensions
 const float player_body_width = Physics::convertToMeters(25);
 const float player_body_height = Physics::convertToMeters(81);
@@ -148,10 +146,9 @@ void InGameState::initialize()
 	playerJumpImpulse = player_body_width*player_body_height * 0.5;
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
 
-
 	//loading tilesets
 	tilesets.push_back(null);  // null tileset (id 0)
-	for(unsigned i = 0; i < 1024; i++)	//xxx hardcoded limit for tilesets IDs
+	for(unsigned i = 1; i < 1024; i++)	//xxx hardcoded limit for tilesets IDs
 	{
 		const string baseKey = "ingame.tileset"+futil::to_string(i), filenameKey = baseKey+".sprite.filename";
 		if(config.containsKey(filenameKey))
@@ -164,22 +161,70 @@ void InGameState::initialize()
 		}
 	}
 
+	//loading items
+	itemType.push_back(Item::Type());  // null item type (id 0)
+	for(unsigned i = 1; i < 1024; i++)	//xxx hardcoded limit for item type IDs
+	{
+		const string baseKey = "item_type"+futil::to_string(i), nameKey = baseKey+".name";
+		if(config.containsKey(nameKey))
+		{
+			cout << "loading item type as specified by " << baseKey << " (\"" << config.get(nameKey) << "\")..." << endl;
+			Item::Type type;
+			type.id = i;
+			type.name = config.get(nameKey);
+			type.description = config.get(baseKey+".description");
+
+			type.stackingLimit = config.getParsedCStr<int, atoi>(baseKey+".stacking_limit", 1);
+			type.mass = config.getParsedCStr<double, atof>(baseKey+".mass");
+			type.isPlaceable = config.get(baseKey+".placeability", "none") == "ground";
+			type.isDiggingTool = config.get(baseKey+".usable_action", "none") == "mining";
+			type.itemSlotCount = config.getParsedCStr<int, atoi>(baseKey+".capaciousness", 0);
+			type.isStartupItem = config.get(baseKey+".is_startup_item", "false") == "true";
+			type.placedBlockTypeId = config.getParsedCStr<int, atoi>(baseKey+".placed_block_type_id", 0);
+
+			string iconKey = baseKey + ".icon.filename";
+			if(config.containsKey(iconKey))
+			{
+				type.icon = new Sprite(
+					new Image(config.get(iconKey)),
+					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.width", DEFAULT_ICON_SIZE),
+					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.heigh", DEFAULT_ICON_SIZE),
+					config.getParsedCStrAllowDefault<double, atof>(baseKey+".icon.frame_duration", -1.0),
+					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.raw_frame_count", -1),
+					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.raw_offset.x", 0),
+					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.raw_offset.y", 0),
+					true);
+
+				// default scale
+				if(type.icon->width  != DEFAULT_ICON_SIZE) type.icon->scale.x = DEFAULT_ICON_SIZE/(float)type.icon->width;
+				if(type.icon->height != DEFAULT_ICON_SIZE) type.icon->scale.y = DEFAULT_ICON_SIZE/(float)type.icon->height;
+
+				// optional scale
+				type.icon->scale.x = config.getParsedCStr<double, atof>(baseKey+".icon.scale.x", type.icon->scale.x);
+				type.icon->scale.y = config.getParsedCStr<double, atof>(baseKey+".icon.scale.y", type.icon->scale.y);
+			}
+			else type.icon = null;
+
+			itemType.push_back(type);
+		}
+	}
+
 	//loading some icons
-	iconBlockDirt = new Sprite(tilesets[1]->sheet, BLOCK_SIZE, BLOCK_SIZE);
-	iconBlockDirt->scale.x = 0.5;
-	iconBlockDirt->scale.y = 0.5;
-
-	ITEM_TYPE_BLOCK_DIRT.icon = iconBlockDirt;
-
-	iconBlockStone = new Sprite(tilesets[2]->sheet, BLOCK_SIZE, BLOCK_SIZE);
-	iconBlockStone->scale.x = 0.5;
-	iconBlockStone->scale.y = 0.5;
-
-	ITEM_TYPE_BLOCK_STONE.icon = iconBlockStone;
-
-	images.push_back(new Image("resources/banana_pickaxe.png"));
-	iconPickaxeDev = new Sprite(images.back(), 24, 24);
-	ITEM_TYPE_PICKAXE_DEV.icon = iconPickaxeDev;
+//	iconBlockDirt = new Sprite(tilesets[1]->sheet, BLOCK_SIZE, BLOCK_SIZE);
+//	iconBlockDirt->scale.x = 0.5;
+//	iconBlockDirt->scale.y = 0.5;
+//
+//	ITEM_TYPE_BLOCK_DIRT.icon = iconBlockDirt;
+//
+//	iconBlockStone = new Sprite(tilesets[2]->sheet, BLOCK_SIZE, BLOCK_SIZE);
+//	iconBlockStone->scale.x = 0.5;
+//	iconBlockStone->scale.y = 0.5;
+//
+//	ITEM_TYPE_BLOCK_STONE.icon = iconBlockStone;
+//
+//	images.push_back(new Image("resources/banana_pickaxe.png"));
+//	iconPickaxeDev = new Sprite(images.back(), 24, 24);
+//	ITEM_TYPE_PICKAXE_DEV.icon = iconPickaxeDev;
 
 	//load bg
 	Image* bgImgDay = new Image(config.get("ingame.bg_day.filename"));
@@ -244,14 +289,27 @@ void InGameState::onEnter()
 		0.25f * display.getWidth(), 1.25f * BLOCK_SIZE,
 		0.5f  * display.getWidth(), 0.25f * display.getHeight()
 	};
-	inventory = new Inventory(inventoryBounds, fontInventory, new Item(ITEM_TYPE_BAG));
+
+	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.name = "inventory";
+	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.description = "the player's inventory";
+	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.stackingLimit = 1;
+	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.mass = 0.5;
+	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.icon = null;
+	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.isPlaceable = false;
+	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.isDiggingTool = false;
+	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.itemSlotCount = 32;
+	inventory = new Inventory(inventoryBounds, fontInventory, new Item(Inventory::GLOBAL_INVENTORY_ITEM_TYPE));
 	inventory->color = inventoryColor;
 	inventory->colorFont = inventoryFontColor;
 	inventoryVisible = false;
 	cursorHeldItem = null;
 
-	// add pickaxe to player
-	inventory->add(new Item(ITEM_TYPE_PICKAXE_DEV));
+	// add startup items to player
+	for(unsigned i = 0; i < itemType.size(); i++)
+	{
+		if(itemType[i].isStartupItem)
+			inventory->add(new Item(itemType[i]));
+	}
 
 	ingameTime = 0;
 }
@@ -501,14 +559,10 @@ void InGameState::handleInput()
 						if(cursorHeldItem->type.isPlaceable and block == null)  // if placing a placeable item
 						{
 							bool didPlaceIt = false;
-							if(cursorHeldItem->type == ITEM_TYPE_BLOCK_DIRT)
+
+							if(map->isBlockTypeIdExistent(cursorHeldItem->type.placedBlockTypeId))
 							{
-								map->addBlock(mx, my, 1);
-								didPlaceIt = true;
-							}
-							if(cursorHeldItem->type == ITEM_TYPE_BLOCK_STONE)
-							{
-								map->addBlock(mx, my, 2);
+								map->addBlock(mx, my, cursorHeldItem->type.placedBlockTypeId);
 								didPlaceIt = true;
 							}
 
@@ -526,10 +580,19 @@ void InGameState::handleInput()
 						else if(cursorHeldItem->type.isDiggingTool and block != null)  // if using a digging tool
 						{
 							Item* item = null;
-							if(block->typeID == 1 or block->typeID == 4)
-								item = new Item(ITEM_TYPE_BLOCK_DIRT);
-							if(block->typeID == 2)
-								item = new Item(ITEM_TYPE_BLOCK_STONE);
+
+							//fixme CUMBERSOME CODE BLOCK
+							/* Needs to store the detatched item type id of each block to retrieve it later
+							 * Loading from properties is cumbersome!!! */
+							bool isMinerable = static_cast<TerrariumGame&>(game).logic.config.get("block_type"+futil::to_string(block->typeID)+".minerable_by", "none") == "pickaxe";
+							if(isMinerable)
+							{
+								int itemId = static_cast<TerrariumGame&>(game).logic.config.getParsedCStr<int, atoi>("block_type"+futil::to_string(block->typeID)+".detatched_item_type_id", 0);
+								if(itemId != 0 or itemId < (int) itemType.size())
+								{
+									item = new Item(itemType[itemId]);
+								}
+							}
 
 							if(item != null)
 								this->spawnItemEntity(item, convertToMeters(mx*BLOCK_SIZE), convertToMeters(my*BLOCK_SIZE));
@@ -538,14 +601,6 @@ void InGameState::handleInput()
 						}
 					}
 				}
-			}
-			else if (event.getEventMouseButton() == fgeal::Mouse::BUTTON_MIDDLE)
-			{
-				const float posx = convertToMeters(visibleArea.x + event.getEventMouseX()),
-							posy = convertToMeters(visibleArea.y + event.getEventMouseY());
-
-				Item* dirtBlockItem = new Item(ITEM_TYPE_BLOCK_DIRT);
-				this->spawnItemEntity(dirtBlockItem, posx, posy);
 			}
 		}
 	}

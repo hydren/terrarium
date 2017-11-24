@@ -19,74 +19,10 @@ using fgeal::Point;
 using std::string;
 using futil::remove_element;
 
-static unsigned ITEM_TYPE_ID_LAST = 0;
-
 static const Rectangle inventorySlotSize = {0, 0, BLOCK_SIZE * 1.5, BLOCK_SIZE * 1.5};
 
-Item::Type Item::Type::createBlockType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit)
-{
-	Type t;
-	t.id = ++ITEM_TYPE_ID_LAST;
-	t.name = name;
-	t.description = desc;
-
-	t.stackingLimit = stackLimit;
-	t.mass = mass;
-	t.icon = null;
-
-	t.isPlaceable = true;
-
-	t.isDiggingTool = false;
-
-	t.itemSlotCount = 0;
-
-	return t;
-}
-
-Item::Type Item::Type::createToolType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit, bool isDigger)
-{
-	Type t;
-	t.id = ++ITEM_TYPE_ID_LAST;
-	t.name = name;
-	t.description = desc;
-
-	t.stackingLimit = stackLimit;
-	t.mass = mass;
-	t.icon = null;
-
-	t.isPlaceable = false;
-
-	t.isDiggingTool = isDigger;
-
-	t.itemSlotCount = 0;
-
-	return t;
-}
-
-Item::Type Item::Type::createContainerType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit, unsigned itemSlotCount)
-{
-	Type t;
-	t.id = ++ITEM_TYPE_ID_LAST;
-	t.name = name;
-	t.description = desc;
-
-	t.stackingLimit = stackLimit;
-	t.mass = mass;
-	t.icon = null;
-
-	t.isPlaceable = false;
-
-	t.isDiggingTool = false;
-
-	t.itemSlotCount = itemSlotCount;
-
-	return t;
-}
-
-static unsigned ITEM_ID_LAST = 0;
-
 Item::Item(const Type& type)
-: id(++ITEM_ID_LAST), type(type), amount(1)
+: id(type.id), type(type), amount(1)
 {}
 
 bool Item::canAdd(Item* item)
@@ -105,6 +41,8 @@ void Item::draw(float x, float y, Font* font, Color colorFont)
 			x + 0.95*inventorySlotSize.w - font->getTextWidth(futil::to_string(amount)),
 			y + 0.95*inventorySlotSize.h - font->getHeight(), colorFont);
 }
+
+Item::Type Inventory::GLOBAL_INVENTORY_ITEM_TYPE;
 
 Inventory::Inventory(const Rectangle& bounds, Font* font, Item* container)
 : bounds(bounds), font(font), color(128, 128, 128, 128), colorFont(Color::BLACK), container(container)

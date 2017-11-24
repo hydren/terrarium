@@ -53,6 +53,9 @@ class InGameState extends public fgeal::Game::State
 	// vector to record track of tileset animations to delete them later
 	std::vector<StackedSingleSheetAnimation*> tilesets;
 
+	// spec. of item types
+	std::vector<Item::Type> itemType;
+
 	// ==== entities
 
 	std::vector<Entity*> entities;

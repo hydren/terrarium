@@ -16,6 +16,8 @@
 #include <vector>
 #include <string>
 
+#define DEFAULT_ICON_SIZE 24
+
 struct Item
 {
 	struct Type
@@ -31,6 +33,9 @@ struct Item
 		/// the mass of a item of this type
 		float mass;
 
+		/// indicates whether this item should be at the player's initial inventory
+		bool isStartupItem;
+
 		/// this item's icon
 		fgeal::Sprite* icon;
 
@@ -38,6 +43,9 @@ struct Item
 
 		/// tells whether this item is world-placeable.
 		bool isPlaceable;
+
+		/// if placeable, reports the block id placed by this object
+		int placedBlockTypeId;
 
 		// ============================== TOOL CHARACTERISTICS
 
@@ -58,15 +66,6 @@ struct Item
 		std::string description;
 
 		// ============================================================
-
-		/// constructor for block types
-		static Type createBlockType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit);
-
-		/// constructor for tool types
-		static Type createToolType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit, bool isDigger);
-
-		/// constructor for containers types
-		static Type createContainerType(const std::string& name, const std::string& desc, float mass, unsigned stackLimit, unsigned itemSlotCount);
 
 		/// returns true if this type of item is a container-type
 		inline bool isContainer() const { return itemSlotCount > 0; }
@@ -130,6 +129,9 @@ struct Inventory
 
 	/// Draws this inventory on screen
 	void draw();
+
+	// fixme we should not rely on a global inventory type. instead there should be a single player slot (held slot) and a by-default-added bag to the player.
+	static Item::Type GLOBAL_INVENTORY_ITEM_TYPE;
 };
 
 #endif /* INVENTORY_HPP_ */

@@ -190,6 +190,14 @@ void InGameState::initialize()
 
 void InGameState::onEnter()
 {
+	if(stageFilename.empty())
+	{
+		// todo throw a proper exception here
+		cout << "no stage filename specified!" << endl;
+		game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
+		return;
+	}
+
 	fgeal::Display& display = fgeal::Display::getInstance();
 
 	visibleArea.x = 0;
@@ -211,8 +219,7 @@ void InGameState::onEnter()
 	inGameMenuShowing = false;
 
 	//loading map in world
-	TerrariumGame& game = *static_cast<TerrariumGame*>(&this->game);
-	map = new Map(this, game.logic.stageFilename);  // @suppress("Field cannot be resolved")
+	map = new Map(this, stageFilename);
 	cout << "map size (in pixels): " << map->computeDimensions().w << "x" << map->computeDimensions().h << endl;
 
 	//create player body for the newly created world and reset sprite animation
@@ -560,7 +567,7 @@ void InGameState::handleInputOnInGameMenu(Event& event)
 						inGameMenuShowing=false;
 						break;
 					case 1:
-						map->saveToFile(game.logic.stageFilename);  // @suppress("Field cannot be resolved") @suppress("Invalid arguments")
+						map->saveToFile(stageFilename);
 						game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 						break;
 					case 2:

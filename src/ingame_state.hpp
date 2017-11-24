@@ -31,6 +31,7 @@
 class InGameState extends public fgeal::Game::State
 {
 	friend class Map;
+	friend class TerrariumGame::Logic;
 
 	bool wasInit;
 
@@ -62,6 +63,8 @@ class InGameState extends public fgeal::Game::State
 	Entity* player;
 
 	// ==== logic
+
+	std::string stageFilename;
 
 	Map* map;
 

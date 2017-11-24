@@ -6,9 +6,17 @@
  */
 
 #include "terrarium_game.hpp"
+#include "ingame_state.hpp"
 
-TerrariumGame::Logic::Logic()
-: config(), stageFilename()
+using std::string;
+
+TerrariumGame::Logic::Logic(TerrariumGame& game)
+: game(game), config()
 {
 	config.load("config.properties");
+}
+
+void TerrariumGame::Logic::setIngameStateStageFilename(string filename)
+{
+	static_cast<InGameState*>(game.getState(TerrariumGame::INGAME_STATE_ID))->stageFilename = filename;
 }

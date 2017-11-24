@@ -6,11 +6,16 @@
  */
 
 /** Class to wrap together all between-states game logic. */
-struct Logic
+class Logic
 {
-	Logic();
+	friend class TerrariumGame;
 
+	TerrariumGame& game;
+
+	Logic(TerrariumGame&);
+
+	public:
 	Properties config;
 
-	std::string stageFilename;
+	void setIngameStateStageFilename(std::string filename);
 };

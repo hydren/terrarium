@@ -21,6 +21,7 @@ void TerrariumGame::initializeStatesList()
 }
 
 TerrariumGame::TerrariumGame()
+: Game(), logic(*this)
 {
 	maxFps = 60;
 }

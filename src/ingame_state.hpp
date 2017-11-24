@@ -50,8 +50,6 @@ class InGameState extends public fgeal::Game::State
 	// vector to keep track of images to delete them later
 	std::vector<fgeal::Image*> images;
 
-	StackedSingleSheetAnimation* tilesetDirt, *tilesetStone, *tilesetWater, *tilesetGrass;
-
 	// vector to record track of tileset animations to delete them later
 	std::vector<StackedSingleSheetAnimation*> tilesets;
 

@@ -44,25 +44,25 @@ Map::Map(InGameState* state, const string filename)
 		{
 			if(file_grid[i][j] == 1)
 			{
-				grid[i][j] = new Block(new Animation(state->tilesetDirt), i, j, 1);
+				grid[i][j] = new Block(new Animation(state->tilesets[1]), i, j, 1);
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}
 			else if(file_grid[i][j] == 2)
 			{
-				grid[i][j] = new Block(new Animation(state->tilesetStone), i, j, 2);
+				grid[i][j] = new Block(new Animation(state->tilesets[2]), i, j, 2);
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}
 			else if(file_grid[i][j] == 3)
 			{
-				grid[i][j] = new Block(new Animation(state->tilesetWater), i, j, 3, true);
+				grid[i][j] = new Block(new Animation(state->tilesets[3]), i, j, 3, true);
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}
 			else if(file_grid[i][j] == 4)
 			{
-				grid[i][j] = new Block(new Animation(state->tilesetGrass), i, j, 4);
+				grid[i][j] = new Block(new Animation(state->tilesets[4]), i, j, 4);
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}
@@ -157,13 +157,7 @@ Rectangle Map::computeDimensions()
 
 void Map::addBlock(unsigned gridX, unsigned gridY, unsigned typeId)
 {
-	Animation* referenceAnim = null;
-	if(typeId == 1) referenceAnim = state.tilesetDirt;
-	if(typeId == 2) referenceAnim = state.tilesetStone;
-	if(typeId == 3) referenceAnim = state.tilesetWater;
-	if(typeId == 4) referenceAnim = state.tilesetGrass;
-
-	grid[gridX][gridY] = new Block(new Animation(referenceAnim), gridX, gridY, typeId);
+	grid[gridX][gridY] = new Block(new Animation(state.tilesets[typeId]), gridX, gridY, typeId);
 	world->addBody(grid[gridX][gridY]->body);
 	retile(grid[gridX][gridY]);
 }

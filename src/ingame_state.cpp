@@ -24,6 +24,7 @@ using fgeal::Mouse;
 
 #include "futil/collection_actions.hpp"
 #include "futil/language.hpp"
+#include "futil/string_actions.hpp"
 
 using futil::remove_element;
 
@@ -147,20 +148,30 @@ void InGameState::initialize()
 	playerJumpImpulse = player_body_width*player_body_height * 0.5;
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
 
+
 	//loading tilesets
-	tilesets.push_back(tilesetDirt =  Block::createBlockAnimationSet(new Image("resources/tileset-dirt.png")));
-	tilesets.push_back(tilesetStone = Block::createBlockAnimationSet(new Image("resources/tileset-stone.png")));
-	tilesets.push_back(tilesetWater = Block::createBlockAnimationSet(new Image("resources/tileset-water.png"), 3, 1.0));
-	tilesets.push_back(tilesetGrass = Block::createBlockAnimationSet(new Image("resources/tileset-grass.png")));
+	tilesets.push_back(null);  // null tileset (id 0)
+	for(unsigned i = 0; i < 1024; i++)	//xxx hardcoded limit for tilesets IDs
+	{
+		const string baseKey = "ingame.tileset"+futil::to_string(i), filenameKey = baseKey+".sprite.filename";
+		if(config.containsKey(filenameKey))
+		{
+			cout << "loading tileset as specified by " << baseKey << " (\"" << config.get(filenameKey) << "\")..." << endl;
+			tilesets.push_back(Block::createBlockAnimationSet(
+				new Image(config.get(filenameKey)),
+				config.getParsedCStrAllowDefault<int, atoi>(baseKey+".sprite.frame_count", 1),
+				config.getParsedCStrAllowDefault<double, atof>(baseKey+".sprite.frame_duration", -1.0)));
+		}
+	}
 
 	//loading some icons
-	iconBlockDirt = new Sprite(tilesetDirt->sheet, BLOCK_SIZE, BLOCK_SIZE);
+	iconBlockDirt = new Sprite(tilesets[1]->sheet, BLOCK_SIZE, BLOCK_SIZE);
 	iconBlockDirt->scale.x = 0.5;
 	iconBlockDirt->scale.y = 0.5;
 
 	ITEM_TYPE_BLOCK_DIRT.icon = iconBlockDirt;
 
-	iconBlockStone = new Sprite(tilesetStone->sheet, BLOCK_SIZE, BLOCK_SIZE);
+	iconBlockStone = new Sprite(tilesets[2]->sheet, BLOCK_SIZE, BLOCK_SIZE);
 	iconBlockStone->scale.x = 0.5;
 	iconBlockStone->scale.y = 0.5;
 

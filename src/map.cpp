@@ -42,29 +42,16 @@ Map::Map(InGameState* state, const string filename)
 	{
 		for(unsigned int j = 0; j < file_grid[0].size() ; j++)
 		{
-			if(file_grid[i][j] == 1)
+			const int typeId = file_grid[i][j];
+			if(typeId != 0 and isBlockTypeIdExistent(typeId))
 			{
-				grid[i][j] = new Block(new Animation(state->tilesets[1]), i, j, 1);
+				grid[i][j] = new Block(new Animation(state->tilesets[typeId]), i, j, typeId, isBlockTypeIdPassable(typeId));
 				world->addBody(grid[i][j]->body);
 				retile(grid[i][j]);
 			}
-			else if(file_grid[i][j] == 2)
+			else if(typeId != 0)  // a non-registered non-zero type id is supposed to be wrong, so alert
 			{
-				grid[i][j] = new Block(new Animation(state->tilesets[2]), i, j, 2);
-				world->addBody(grid[i][j]->body);
-				retile(grid[i][j]);
-			}
-			else if(file_grid[i][j] == 3)
-			{
-				grid[i][j] = new Block(new Animation(state->tilesets[3]), i, j, 3, true);
-				world->addBody(grid[i][j]->body);
-				retile(grid[i][j]);
-			}
-			else if(file_grid[i][j] == 4)
-			{
-				grid[i][j] = new Block(new Animation(state->tilesets[4]), i, j, 4);
-				world->addBody(grid[i][j]->body);
-				retile(grid[i][j]);
+				cout << "at [" << i << ", " << j << "]: type id (" << typeId << ") not registered! ignoring..." << endl;
 			}
 		}
 	}
@@ -78,8 +65,10 @@ Map::~Map()
 		foreach(Block*, b, vector<Block*>, v)
 		{
 			if(b != null)
-				cout << string("deleting block ") + b->gridX + ", "+b->gridY << endl;;
-			delete b;
+			{
+//				cout << string("deleting block ") + b->gridX + ", "+b->gridY << endl;;
+				delete b;
+			}
 		}
 	}
 
@@ -157,7 +146,7 @@ Rectangle Map::computeDimensions()
 
 void Map::addBlock(unsigned gridX, unsigned gridY, unsigned typeId)
 {
-	grid[gridX][gridY] = new Block(new Animation(state.tilesets[typeId]), gridX, gridY, typeId);
+	grid[gridX][gridY] = new Block(new Animation(state.tilesets[typeId]), gridX, gridY, typeId, isBlockTypeIdPassable(typeId));
 	world->addBody(grid[gridX][gridY]->body);
 	retile(grid[gridX][gridY]);
 }
@@ -238,4 +227,14 @@ void Map::drawOverlay()
 				grid[i][j]->draw(visibleArea);
 			}
 		}
+}
+
+bool Map::isBlockTypeIdExistent(int id)
+{
+	return static_cast<TerrariumGame&>(state.game).logic.config.containsKey("block_type"+futil::to_string(id)+".name");
+}
+
+bool Map::isBlockTypeIdPassable(int id)
+{
+	return static_cast<TerrariumGame&>(state.game).logic.config.get("block_type"+futil::to_string(id)+".passability", "none") == "full";
 }

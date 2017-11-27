@@ -1,6 +1,12 @@
 # todo
 
 - Create player inventory.
+- Improve block precipitation algorithm.
 - Create jumping animations.
 - Check it out the Chipmunk Physics library as a replacement to Box2D.
 - Change the tile management scheme to only create tiles in chunks, as opposed to all of them. The int grid will be fully loaded but entity instances will be created only for those tiles near the players.
+
+
+# links
+
+http://www.jgallant.com/2d-liquid-simulator-with-cellular-automaton-in-unity/

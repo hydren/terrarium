@@ -268,21 +268,37 @@ void Map::updatePrecipitables()
 					deleteBlock(i, j);
 				}
 
-				else if(i+1 <= finish_i_index and grid[i+1][j] == null  // free to the right
-						and j > 0 and grid[i][j-1] != null and grid[i][j-1]->typeID == typeId)  // have more of it above
+				else if(j+1 <= finish_j_index and i > 0 and grid[i-1][j+1] == null   // If there’s an empty space down and to the left
+						and (grid[i-1][j] == null or grid[i][j+1]->typeID == typeId))  // avoids inadequate diagonal passing
 				{
-					// send block above to the right
-					addBlock(i+1, j, typeId);
-					deleteBlock(i, j-1);
+					// send this block down and to the left
+					addBlock(i-1, j+1, typeId);
+					deleteBlock(i, j);
 				}
 
-				else if(i > 0 and grid[i-1][j] == null  // free to the left
-						and j > 0 and grid[i][j-1] != null and grid[i][j-1]->typeID == typeId)  // have more of it above
+				else if(j+1 <= finish_j_index and i+1 <= finish_i_index and grid[i+1][j+1] == null   // If there’s an empty space down and to the right
+						and (grid[i+1][j] == null or grid[i][j+1]->typeID == typeId))  // avoids inadequate diagonal passing
 				{
-					// send block above to the right
-					addBlock(i-1, j, typeId);
-					deleteBlock(i, j-1);
+					// send this block down and to the right
+					addBlock(i+1, j+1, typeId);
+					deleteBlock(i, j);
 				}
+
+//				else if(i+1 <= finish_i_index and grid[i+1][j] == null  // free to the right
+//						and j > 0 and grid[i][j-1] != null and grid[i][j-1]->typeID == typeId)  // have more of it above
+//				{
+//					// send block above to the right
+//					addBlock(i+1, j, typeId);
+//					deleteBlock(i, j-1);
+//				}
+//
+//				else if(i > 0 and grid[i-1][j] == null  // free to the left
+//						and j > 0 and grid[i][j-1] != null and grid[i][j-1]->typeID == typeId)  // have more of it above
+//				{
+//					// send block above to the right
+//					addBlock(i-1, j, typeId);
+//					deleteBlock(i, j-1);
+//				}
 
 				//todo make cases for side sliping liquidous movement
 			}

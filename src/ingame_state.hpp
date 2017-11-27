@@ -86,7 +86,7 @@ class InGameState extends public fgeal::Game::State
 
 	std::map<Entity*, Item*> entityItemMapping;
 
-	double ingameTime;
+	double ingameTime, hourDuration;
 
 	Item* inventoryItemHovered;
 	double inventoryItemHoverTime;

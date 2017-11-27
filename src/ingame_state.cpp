@@ -98,6 +98,8 @@ void InGameState::initialize()
 	font = new fgeal::Font(config.get("ingame.font.filename"), atoi(config.get("ingame.font.size").c_str()));
 	fontInventory = new fgeal::Font(config.get("ingame.inventory.font.filename"), atoi(config.get("ingame.inventory.font.size").c_str()));
 
+	hourDuration = config.getParsedCStrAllowDefault<double, atof>("ingame.hour_duration", 1);
+
 	//loading ingame menu
 	Rectangle menuSize = {0, 0, 200, 64};
 	inGameMenu = new Menu(menuSize, font, Color::ORANGE);
@@ -320,7 +322,7 @@ void InGameState::onEnter()
 			inventory->add(new Item(itemTypeInfo[i]));
 	}
 
-	ingameTime = 0;
+	ingameTime = 7*hourDuration*60;
 	inventoryItemHovered = null;
 	inventoryItemHoverTime = 0;
 }
@@ -341,9 +343,9 @@ void InGameState::render()
 
 	/* needs to draw HUD */
 
-	const float period = 1440, timeOfDay = fmod(ingameTime, (double) period);
+	const float period = 24*hourDuration*60, timeOfDay = fmod(ingameTime, (double) period);
 
-	if(timeOfDay < 0.625*period)
+	if(timeOfDay > 0.25*period and timeOfDay < 0.75*period)
 		backgroundDay->draw();
 	else
 		backgroundNight->draw();
@@ -358,12 +360,23 @@ void InGameState::render()
 
 	map->drawOverlay();
 
-	if(timeOfDay >= 0.5*period and timeOfDay < 0.9*period)
+	Color darkFilterColor(0, 0, 0, 0);
+
+	// sunset
+	if(timeOfDay > 0.7*period)
 	{
-		const float proportion = (timeOfDay/period - 0.4)*2;
-		Color darkFilterColor(0, 0, 0, 500*(proportion-proportion*proportion));
-		Image::drawFilledRectangle(0, 0, display.getWidth(), display.getHeight(), darkFilterColor);
+		const float proportion = (timeOfDay/period - 0.7)*(3.333);
+		darkFilterColor.a = 256 * 0.75 * proportion;
 	}
+
+	// dawn
+	else if(timeOfDay < 0.3*period)
+	{
+		const float proportion = (0.3 - timeOfDay/period)*(3.333);
+		darkFilterColor.a = 256 * 0.75 * proportion;
+	}
+
+	Image::drawFilledRectangle(0, 0, display.getWidth(), display.getHeight(), darkFilterColor);
 
 	/* later should be a character class */
 
@@ -374,7 +387,7 @@ void InGameState::render()
 		font->drawText(string("x: ")+player->body->getX()+" y:"+player->body->getY(), 0, 28, Color::WHITE);
 		font->drawText("SPEED", 0, 42, Color::WHITE);
 		font->drawText(string("x: ")+player->body->getVelocity().x+" y: "+player->body->getVelocity().y, 0, 56, Color::WHITE);
-		font->drawText(string("Time: ")+(5+(int)(24*timeOfDay/period))+":00", 0, 72, Color::WHITE);
+		font->drawText(string("Time: ")+((int)(24*timeOfDay/period))+":00", 0, 72, Color::WHITE);
 		font->drawText(string("FPS: ")+game.getFpsCount(), 0, 96, Color::WHITE);
 	}
 

@@ -208,22 +208,23 @@ void InGameState::initialize()
 		}
 	}
 
-	//loading some icons
-//	iconBlockDirt = new Sprite(tilesets[1]->sheet, BLOCK_SIZE, BLOCK_SIZE);
-//	iconBlockDirt->scale.x = 0.5;
-//	iconBlockDirt->scale.y = 0.5;
-//
-//	ITEM_TYPE_BLOCK_DIRT.icon = iconBlockDirt;
-//
-//	iconBlockStone = new Sprite(tilesets[2]->sheet, BLOCK_SIZE, BLOCK_SIZE);
-//	iconBlockStone->scale.x = 0.5;
-//	iconBlockStone->scale.y = 0.5;
-//
-//	ITEM_TYPE_BLOCK_STONE.icon = iconBlockStone;
-//
-//	images.push_back(new Image("resources/banana_pickaxe.png"));
-//	iconPickaxeDev = new Sprite(images.back(), 24, 24);
-//	ITEM_TYPE_PICKAXE_DEV.icon = iconPickaxeDev;
+	// loading block types
+	blockTypeInfo.push_back(Block::Type());  // null block type (id 0)
+	for(unsigned i = 1; i < 1024; i++)	//xxx hardcoded limit for block type IDs
+	{
+		const string baseKey = "block_type"+futil::to_string(i), nameKey = baseKey+".name";
+		if(config.containsKey(nameKey))
+		{
+			cout << "loading block type as specified by " << baseKey << " (\"" << config.get(nameKey) << "\")..." << endl;
+			blockTypeInfo.push_back(Block::Type());
+			Block::Type& type = blockTypeInfo.back();
+			type.id = i;
+			type.name = config.get(nameKey);
+			type.description = config.get(baseKey+".description");
+			type.pickaxeMinerable = (config.get(baseKey+".minerable_by", "none") == "pickaxe");
+			type.detatchedItemTypeId = config.getParsedCStr<int, atoi>(baseKey+".detatched_item_type_id", 0);
+		}
+	}
 
 	//load bg
 	Image* bgImgDay = new Image(config.get("ingame.bg_day.filename"));
@@ -580,23 +581,17 @@ void InGameState::handleInput()
 						{
 							Item* item = null;
 
-							//fixme CUMBERSOME CODE BLOCK
-							/* Needs to store the detatched item type id of each block to retrieve it later
-							 * Loading from properties is cumbersome!!! */
-							bool isMinerable = static_cast<TerrariumGame&>(game).logic.config.get("block_type"+futil::to_string(block->typeID)+".minerable_by", "none") == "pickaxe";
-							if(isMinerable)
+							if(block->typeID > 0 and block->typeID < (int) blockTypeInfo.size() and blockTypeInfo[block->typeID].pickaxeMinerable)
 							{
-								int itemId = static_cast<TerrariumGame&>(game).logic.config.getParsedCStr<int, atoi>("block_type"+futil::to_string(block->typeID)+".detatched_item_type_id", 0);
-								if(itemId != 0 or itemId < (int) itemType.size())
-								{
-									item = new Item(itemType[itemId]);
-								}
+								int detatchedItemTypeId = blockTypeInfo[block->typeID].detatchedItemTypeId;
+								if(detatchedItemTypeId > 0 and detatchedItemTypeId < (int) itemType.size())
+									item = new Item(itemType[detatchedItemTypeId]);
+
+								map->deleteBlock(mx, my);
 							}
 
 							if(item != null)
 								this->spawnItemEntity(item, convertToMeters(mx*BLOCK_SIZE), convertToMeters(my*BLOCK_SIZE));
-
-							map->deleteBlock(mx, my);
 						}
 					}
 				}

@@ -56,6 +56,9 @@ class InGameState extends public fgeal::Game::State
 	// spec. of item types
 	std::vector<Item::Type> itemType;
 
+	// spec. of block types
+	std::vector<Block::Type> blockTypeInfo;
+
 	// ==== entities
 
 	std::vector<Entity*> entities;

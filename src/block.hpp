@@ -54,6 +54,15 @@ class Block extends public Entity
 			FULL_FREE
 		};
 	};
+
+	// holds some logic information about a type ID
+	struct Type
+	{
+		unsigned id;
+		std::string name, description;
+		bool pickaxeMinerable;
+		int detatchedItemTypeId;
+	};
 };
 
 #endif /* BLOCK_HPP_ */

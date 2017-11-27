@@ -88,6 +88,9 @@ class InGameState extends public fgeal::Game::State
 
 	double ingameTime;
 
+	Item* inventoryItemHovered;
+	double inventoryItemHoverTime;
+
 	int getId() { return TerrariumGame::INGAME_STATE_ID; }
 
 	void handleInput();

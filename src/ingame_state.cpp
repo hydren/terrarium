@@ -312,6 +312,8 @@ void InGameState::onEnter()
 	}
 
 	ingameTime = 0;
+	inventoryItemHovered = null;
+	inventoryItemHoverTime = 0;
 }
 
 void InGameState::onLeave()
@@ -370,11 +372,14 @@ void InGameState::render()
 	if(inventoryVisible)
 		inventory->draw();
 
-	if(inGameMenuShowing)
-		inGameMenu->draw();
-
 	if(cursorHeldItem != null)
 		cursorHeldItem->draw(Mouse::getPositionX(), Mouse::getPositionY(), font, Color::BLACK);
+
+	if(inventoryItemHovered != null and (fgeal::uptime() - inventoryItemHoverTime) > 1.0)
+		font->drawText(itemTypeInfo[inventoryItemHovered->type.id].name, Mouse::getPositionX(), Mouse::getPositionY() - font->getHeight(), Color::BLACK);
+
+	if(inGameMenuShowing)
+		inGameMenu->draw();
 }
 
 void InGameState::update(float delta)
@@ -447,6 +452,8 @@ void InGameState::update(float delta)
 
 				if(entityItem != null)
 				{
+					cout << itemTypeInfo[entityItem->id].name << " eaten" << endl;
+
 					inventory->add(entityItem);
 					entityItemMapping.erase(entity);
 				}
@@ -515,6 +522,11 @@ void InGameState::handleInput()
 
 				case fgeal::Keyboard::KEY_I:
 					inventoryVisible = !inventoryVisible;
+					if(not inventoryVisible)
+					{
+						inventoryItemHovered = null;
+						inventoryItemHoverTime = fgeal::uptime();
+					}
 					break;
 
 				default:
@@ -543,9 +555,12 @@ void InGameState::handleInput()
 				if(inventoryVisible and inventory->isPointWithin(event.getEventMouseX(), event.getEventMouseY()))
 				{
 					Item* itemOnSlot = inventory->getItemInSlotPointedBy(event.getEventMouseX(), event.getEventMouseY());
+					remove_element(inventory->container->items, itemOnSlot);
 
 					if(cursorHeldItem != null)
+					{
 						inventory->add(cursorHeldItem);
+					}
 
 					cursorHeldItem = itemOnSlot;
 				}
@@ -595,6 +610,17 @@ void InGameState::handleInput()
 						}
 					}
 				}
+			}
+		}
+
+		else if(event.getEventType() == fgeal::Event::TYPE_MOUSE_MOTION)
+		{
+			if(inventoryVisible and inventory->isPointWithin(event.getEventMouseX(), event.getEventMouseY()))
+				inventoryItemHovered = inventory->getItemInSlotPointedBy(event.getEventMouseX(), event.getEventMouseY());
+			else
+			{
+				inventoryItemHovered = null;
+				inventoryItemHoverTime = fgeal::uptime();
 			}
 		}
 	}

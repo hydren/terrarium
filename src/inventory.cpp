@@ -97,11 +97,7 @@ Item* Inventory::getItemInSlotPointedBy(float ptx, float pty)
 			if(ptx > x and ptx < x + inventorySlotSize.w and
 			   pty > y and pty < y + inventorySlotSize.h and
 			   i < container->items.size())
-			{
-				Item* item = container->items[i];
-				remove_element(container->items, item);
-				return item;
-			}
+				return container->items[i];
 		}
 	}
 	return null;

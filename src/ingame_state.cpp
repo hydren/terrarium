@@ -169,7 +169,8 @@ void InGameState::initialize()
 		if(config.containsKey(nameKey))
 		{
 			cout << "loading item type as specified by " << baseKey << " (\"" << config.get(nameKey) << "\")..." << endl;
-			Item::Type type;
+			itemType.push_back(Item::Type());
+			Item::Type& type = itemType.back();
 			type.id = i;
 			type.name = config.get(nameKey);
 			type.description = config.get(baseKey+".description");
@@ -188,7 +189,7 @@ void InGameState::initialize()
 				type.icon = new Sprite(
 					new Image(config.get(iconKey)),
 					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.width", DEFAULT_ICON_SIZE),
-					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.heigh", DEFAULT_ICON_SIZE),
+					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.height", DEFAULT_ICON_SIZE),
 					config.getParsedCStrAllowDefault<double, atof>(baseKey+".icon.frame_duration", -1.0),
 					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.raw_frame_count", -1),
 					config.getParsedCStrAllowDefault<int, atoi>(baseKey+".icon.raw_offset.x", 0),
@@ -204,8 +205,6 @@ void InGameState::initialize()
 				type.icon->scale.y = config.getParsedCStr<double, atof>(baseKey+".icon.scale.y", type.icon->scale.y);
 			}
 			else type.icon = null;
-
-			itemType.push_back(type);
 		}
 	}
 
@@ -652,11 +651,14 @@ void InGameState::spawnItemEntity(Item* item, float posx, float posy)
 {
 	const float physicalBlockSize = Physics::convertToMeters(BLOCK_SIZE);
 	Body* detatchedBlockBody = new Body(posx, posy, 0.5*physicalBlockSize, 0.5*physicalBlockSize, Body::Type::DROP);
-	Entity* detatchedBlock = new Entity(new Animation(new Sprite(*item->type.icon)), detatchedBlockBody);
+	Sprite* detatchedBlockSprite = new Sprite(item->type.icon->image, item->type.icon->width, item->type.icon->height, item->type.icon->duration,
+												item->type.icon->numberOfFrames, item->type.icon->rawOffsetX, item->type.icon->rawOffsetY, false);  // MUST PASS FALSE!!!
+	detatchedBlockSprite->scale = item->type.icon->scale;
+	Entity* detatchedBlock = new Entity(new Animation(detatchedBlockSprite), detatchedBlockBody);
 	map->world->addBody(detatchedBlockBody);
 	detatchedBlockBody->setFixedRotation(false);
 	detatchedBlockBody->applyForceToCenter(newVector(0.0f, -playerJumpImpulse*0.5));
 	entities.push_back(detatchedBlock);
 	entityItemMapping[detatchedBlock] = item;
-	cout << "pooped " << item->type.name << "!" << endl;
+	cout << "pooped out " << item->type.name << "!" << endl;
 }

@@ -162,15 +162,15 @@ void InGameState::initialize()
 	}
 
 	//loading items
-	itemType.push_back(Item::Type());  // null item type (id 0)
+	itemTypeInfo.push_back(Item::Type());  // null item type (id 0)
 	for(unsigned i = 1; i < 1024; i++)	//xxx hardcoded limit for item type IDs
 	{
 		const string baseKey = "item_type"+futil::to_string(i), nameKey = baseKey+".name";
 		if(config.containsKey(nameKey))
 		{
 			cout << "loading item type as specified by " << baseKey << " (\"" << config.get(nameKey) << "\")..." << endl;
-			itemType.push_back(Item::Type());
-			Item::Type& type = itemType.back();
+			itemTypeInfo.push_back(Item::Type());
+			Item::Type& type = itemTypeInfo.back();
 			type.id = i;
 			type.name = config.get(nameKey);
 			type.description = config.get(baseKey+".description");
@@ -305,10 +305,10 @@ void InGameState::onEnter()
 	cursorHeldItem = null;
 
 	// add startup items to player
-	for(unsigned i = 0; i < itemType.size(); i++)
+	for(unsigned i = 0; i < itemTypeInfo.size(); i++)
 	{
-		if(itemType[i].isStartupItem)
-			inventory->add(new Item(itemType[i]));
+		if(itemTypeInfo[i].isStartupItem)
+			inventory->add(new Item(itemTypeInfo[i]));
 	}
 
 	ingameTime = 0;
@@ -584,8 +584,8 @@ void InGameState::handleInput()
 							if(block->typeID > 0 and block->typeID < (int) blockTypeInfo.size() and blockTypeInfo[block->typeID].pickaxeMinerable)
 							{
 								int detatchedItemTypeId = blockTypeInfo[block->typeID].detatchedItemTypeId;
-								if(detatchedItemTypeId > 0 and detatchedItemTypeId < (int) itemType.size())
-									item = new Item(itemType[detatchedItemTypeId]);
+								if(detatchedItemTypeId > 0 and detatchedItemTypeId < (int) itemTypeInfo.size())
+									item = new Item(itemTypeInfo[detatchedItemTypeId]);
 
 								map->deleteBlock(mx, my);
 							}

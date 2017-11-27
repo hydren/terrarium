@@ -54,7 +54,7 @@ class InGameState extends public fgeal::Game::State
 	std::vector<StackedSingleSheetAnimation*> tilesets;
 
 	// spec. of item types
-	std::vector<Item::Type> itemType;
+	std::vector<Item::Type> itemTypeInfo;
 
 	// spec. of block types
 	std::vector<Block::Type> blockTypeInfo;

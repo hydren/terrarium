@@ -67,7 +67,7 @@ void Inventory::add(Item* item)
 		{
 			if(it->type == item->type and it->amount < it->type.stackingLimit)
 			{
-				it->amount++;
+				it->amount += item->amount;
 				delete item;
 				return;
 			}

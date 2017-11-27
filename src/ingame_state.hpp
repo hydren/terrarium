@@ -98,6 +98,12 @@ class InGameState extends public fgeal::Game::State
 
 	void spawnItemEntity(Item* type, float posx, float posy);
 
+	bool isItemTypeIdExistant(int id);
+
+	// block type id info methods
+	bool isBlockTypeIdExistent(int id);
+	bool isBlockTypeIdPassable(int id);  // todo improve this check to allow a more refined passability
+
 	public:
 
 	InGameState(TerrariumGame* game);

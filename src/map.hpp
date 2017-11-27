@@ -54,9 +54,7 @@ struct Map
 	/** Draws all the blocks that foregrounds the player */
 	void drawOverlay();
 
-	// block type id info methods
-	bool isBlockTypeIdExistent(int id);
-	bool isBlockTypeIdPassable(int id);  // todo improve this check to allow a more refined passability
+	void updatePrecipitables();
 
 	Rectangle computeDimensions();
 

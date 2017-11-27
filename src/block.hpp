@@ -62,6 +62,14 @@ class Block extends public Entity
 		std::string name, description;
 		bool pickaxeMinerable;
 		int detatchedItemTypeId;
+
+		enum Passability { PASSABILITY_NONE, PASSABILITY_FULL } passability;
+
+		enum Precipitability {
+			PRECIPITABILITY_NONE,
+			PRECIPITABILITY_LIQUIDOUS,
+			PRECIPITABILITY_ARENACEOUS
+		} precipitability;
 	};
 };
 

@@ -223,6 +223,15 @@ void InGameState::initialize()
 			type.description = config.get(baseKey+".description");
 			type.pickaxeMinerable = (config.get(baseKey+".minerable_by", "none") == "pickaxe");
 			type.detatchedItemTypeId = config.getParsedCStr<int, atoi>(baseKey+".detatched_item_type_id", 0);
+
+			string valueTxt = config.get(baseKey+".passability", "none");
+			if(valueTxt == "full") type.passability = Block::Type::PASSABILITY_FULL;
+			else type.passability = Block::Type::PASSABILITY_NONE;
+
+			valueTxt = config.get(baseKey+".precipitability", "none");
+			if(valueTxt == "liquidous") type.precipitability = Block::Type::PRECIPITABILITY_LIQUIDOUS;
+			else if(valueTxt == "arenaceous") type.precipitability = Block::Type::PRECIPITABILITY_ARENACEOUS;
+			else type.precipitability = Block::Type::PRECIPITABILITY_NONE;
 		}
 	}
 
@@ -433,6 +442,7 @@ void InGameState::update(float delta)
 
 	this->handleInput();
 	map->world->step(delta, 6, 2);
+	map->updatePrecipitables();
 	ingameTime += delta;
 
 	vector<Entity*> trash;
@@ -575,7 +585,7 @@ void InGameState::handleInput()
 						{
 							bool didPlaceIt = false;
 
-							if(map->isBlockTypeIdExistent(cursorHeldItem->type.placedBlockTypeId))
+							if(isBlockTypeIdExistent(cursorHeldItem->type.placedBlockTypeId))
 							{
 								map->addBlock(mx, my, cursorHeldItem->type.placedBlockTypeId);
 								didPlaceIt = true;
@@ -596,10 +606,10 @@ void InGameState::handleInput()
 						{
 							Item* item = null;
 
-							if(block->typeID > 0 and block->typeID < (int) blockTypeInfo.size() and blockTypeInfo[block->typeID].pickaxeMinerable)
+							if(isBlockTypeIdExistent(block->typeID) and blockTypeInfo[block->typeID].pickaxeMinerable)
 							{
 								int detatchedItemTypeId = blockTypeInfo[block->typeID].detatchedItemTypeId;
-								if(detatchedItemTypeId > 0 and detatchedItemTypeId < (int) itemTypeInfo.size())
+								if(isBlockTypeIdExistent(detatchedItemTypeId))
 									item = new Item(itemTypeInfo[detatchedItemTypeId]);
 
 								map->deleteBlock(mx, my);
@@ -682,4 +692,19 @@ void InGameState::spawnItemEntity(Item* item, float posx, float posy)
 	entities.push_back(detatchedBlock);
 	entityItemMapping[detatchedBlock] = item;
 	cout << "pooped out " << item->type.name << "!" << endl;
+}
+
+bool InGameState::isBlockTypeIdExistent(int id)
+{
+	return id > 0 and id < (int) blockTypeInfo.size();
+}
+
+bool InGameState::isBlockTypeIdPassable(int id)
+{
+	return blockTypeInfo[id].passability == Block::Type::PASSABILITY_FULL;
+}
+
+bool InGameState::isItemTypeIdExistant(int id)
+{
+	return id > 0 and id < (int) itemTypeInfo.size();
 }

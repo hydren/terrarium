@@ -22,7 +22,7 @@ class Block extends public Entity
 	// grid position of this block
 	const unsigned gridX, gridY;
 
-	//constructors
+	// constructors
 	Block(Animation* anim, unsigned gridX, unsigned gridY, int typeID, bool ignoreCollision=false);
 
 	void draw(const Rectangle& visibleArea);

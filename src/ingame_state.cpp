@@ -7,11 +7,23 @@
 
 #include "ingame_state.hpp"
 
+#include "futil/collection_actions.hpp"
+#include "futil/language.hpp"
+#include "futil/string_actions.hpp"
+
+#include <cmath>
+#include <climits>
+
+// xxx debug
+#include <iostream>
+using std::cout;
+using std::endl;
+// xxx debug
+
 using Physics::Vector;
 using Physics::convertToPixels;
 using Physics::convertToMeters;
 using Physics::newVector;
-
 using fgeal::Image;
 using fgeal::Event;
 using fgeal::EventQueue;
@@ -19,18 +31,7 @@ using fgeal::Color;
 using fgeal::Menu;
 using fgeal::Keyboard;
 using fgeal::Mouse;
-
-#include <cmath>
-
-#include "futil/collection_actions.hpp"
-#include "futil/language.hpp"
-#include "futil/string_actions.hpp"
-
 using futil::remove_element;
-
-// xxx debug
-#include <iostream>
-using std::cout; using std::endl;
 
 // xxx hardcoded player body dimensions
 const float player_body_width = Physics::convertToMeters(25);
@@ -360,20 +361,21 @@ void InGameState::render()
 
 	map->drawOverlay();
 
+	const float maxDarkening = 0.75;
 	Color darkFilterColor(0, 0, 0, 0);
 
 	// sunset
 	if(timeOfDay > 0.7*period)
 	{
-		const float proportion = (timeOfDay/period - 0.7)*(3.333);
-		darkFilterColor.a = 256 * 0.75 * proportion;
+		const float proportion = (timeOfDay/period - 0.7)*(1/0.3);
+		darkFilterColor.a = UCHAR_MAX * maxDarkening * proportion;
 	}
 
 	// dawn
 	else if(timeOfDay < 0.3*period)
 	{
-		const float proportion = (0.3 - timeOfDay/period)*(3.333);
-		darkFilterColor.a = 256 * 0.75 * proportion;
+		const float proportion = (0.3 - timeOfDay/period)*(1/0.3);
+		darkFilterColor.a = UCHAR_MAX * maxDarkening * proportion;
 	}
 
 	Image::drawFilledRectangle(0, 0, display.getWidth(), display.getHeight(), darkFilterColor);

@@ -7,8 +7,12 @@
 
 #ifndef PHYSICS_HPP_
 #define PHYSICS_HPP_
+#include <ciso646>
 
 #include "fgeal/geometry.hpp"
+
+//#include "physics_chipmunk.hxx"
+#include "physics_box2d.hxx"
 
 namespace Physics
 {
@@ -27,8 +31,7 @@ namespace Physics
 	{
 		friend class World;
 
-		struct Implementation;
-		Implementation* implementation;
+		library_specific_body_class_fields_definition();
 
 		public:
 
@@ -78,8 +81,7 @@ namespace Physics
 	/** Represents the world */
 	class World
 	{
-		struct Implementation;
-		Implementation* implementation;
+		library_specific_world_class_fields_definition();
 
 		public:
 

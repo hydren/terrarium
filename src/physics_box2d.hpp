@@ -1,9 +1,13 @@
 /*
- * physics_box2d.hxx
+ * physics_box2d.hpp
  *
  *  Created on: 28 de nov de 2017
  *      Author: carlosfaruolo
  */
+
+#ifndef PHYSICS_BOX2D_HPP_
+#define PHYSICS_BOX2D_HPP_
+#include <ciso646>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Implementation using Box2D library
@@ -24,3 +28,5 @@ struct Box2DPhysicsWorldImpl
 
 typedef Box2DPhysicsBodyImpl BodyImpl;
 typedef Box2DPhysicsWorldImpl WorldImpl;
+
+#endif /* PHYSICS_BOX2D_HPP_ */

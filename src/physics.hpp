@@ -7,13 +7,13 @@
 
 #ifndef PHYSICS_HPP_
 #define PHYSICS_HPP_
+#include <physics_box2d.hpp>
 #include <ciso646>
 
 #include "fgeal/core.hpp"
 #include "fgeal/geometry.hpp"
 
 //#include "physics_chipmunk.hxx"
-#include "physics_box2d.hxx"
 
 namespace Physics
 {

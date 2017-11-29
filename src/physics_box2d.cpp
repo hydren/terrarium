@@ -1,5 +1,5 @@
 /*
- * physics_box2d.cxx
+ * physics_box2d.cpp
  *
  *  Created on: 28 de nov de 2017
  *      Author: carlosfaruolo

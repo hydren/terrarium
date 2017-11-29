@@ -87,7 +87,6 @@ namespace Physics
 	/// Body class
 
 	Body::Body(double x, double y, double width, double height, int type, bool ignoreCollisions)
-	: body(null)
 	{
 		if(type == Type::BLOCK)
 		{

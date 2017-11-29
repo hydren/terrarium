@@ -9,6 +9,7 @@
 #define PHYSICS_HPP_
 #include <ciso646>
 
+#include "fgeal/core.hpp"
 #include "fgeal/geometry.hpp"
 
 //#include "physics_chipmunk.hxx"
@@ -27,11 +28,9 @@ namespace Physics
 	class World;
 
 	/** Represents a physical body. Note that almost all methods will crash if called when the body is detatched. */
-	class Body
+	class Body extends BodyImpl
 	{
 		friend class World;
-
-		library_specific_body_class_fields_definition();
 
 		public:
 
@@ -79,10 +78,8 @@ namespace Physics
 	};
 
 	/** Represents the world */
-	class World
+	class World extends WorldImpl
 	{
-		library_specific_world_class_fields_definition();
-
 		public:
 
 		World(Vector gravityAcceleration);

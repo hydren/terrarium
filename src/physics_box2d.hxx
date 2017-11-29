@@ -10,10 +10,17 @@
 
 #include <Box2D/Box2D.h>
 
-#define library_specific_body_class_fields_definition()\
-		b2Body* body;\
-		b2BodyDef* bodyDef;\
-		float* tmpPos
+struct Box2DPhysicsBodyImpl
+{
+	b2Body* body;
+	b2BodyDef* bodyDef;
+	float* tmpPos;
+};
 
-#define library_specific_world_class_fields_definition()\
-		b2World* b2world
+struct Box2DPhysicsWorldImpl
+{
+	b2World* b2world;
+};
+
+typedef Box2DPhysicsBodyImpl BodyImpl;
+typedef Box2DPhysicsWorldImpl WorldImpl;

@@ -88,6 +88,9 @@ namespace Physics
 
 	Body::Body(double x, double y, double width, double height, int type, bool ignoreCollisions)
 	{
+		// signal that this block wasn't attatched to any world yet
+		body = null;
+
 		if(type == Type::BLOCK)
 		{
 			if(width != height)

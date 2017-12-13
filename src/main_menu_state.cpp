@@ -181,7 +181,7 @@ void MainMenuState::render()
 //		minorFont->drawText("Ok", 0.5*(sw-minorFont->getTextWidth("Ok")), 0.4*sh + minorFont->getHeight()*3.5, Color::WHITE);
 	}
 
-	devFont->drawText(string("Using fgeal v")+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, Display::getInstance().getHeight() - devFont->getHeight(), Color::CREAM);
+	devFont->drawText(string("v")+VERSION+", using fgeal v"+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, Display::getInstance().getHeight() - devFont->getHeight(), Color::CREAM);
 }
 
 void MainMenuState::update(float delta)

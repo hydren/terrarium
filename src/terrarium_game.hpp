@@ -15,6 +15,8 @@
 
 using futil::Properties;
 
+extern const std::string VERSION;
+
 class TerrariumGame extends public fgeal::Game
 {
 	public:

@@ -69,14 +69,11 @@ int main(int argc, char** argv)
 
 	try
 	{
-		string title = "Project Terrarium";
-		title += " (v"; title += VERSION; title += ")";
-
 		fgeal::initialize();
 
 		// only need to instantiate, engine will delete it when finalizing
 		fgeal::Display::Options options;
-		options.title = title;
+		options.title = "terrarium";
 		options.fullscreen = fullscreen;
 		options.width = screenWidth;
 		options.height = screenHeight;

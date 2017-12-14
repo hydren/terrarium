@@ -26,7 +26,8 @@ struct Box2DPhysicsWorldImpl
 	b2World* b2world;
 };
 
-typedef Box2DPhysicsBodyImpl BodyImpl;
-typedef Box2DPhysicsWorldImpl WorldImpl;
+#define BodyImpl Box2DPhysicsBodyImpl
+#define WorldImpl Box2DPhysicsWorldImpl
+#define USING_PHYSICS_BOX2D
 
 #endif /* PHYSICS_BOX2D_HPP_ */

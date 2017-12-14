@@ -9,16 +9,25 @@
 #define PHYSICS_CHIPMUNK_HPP_
 #include <ciso646>
 
+#include <vector>
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Implementation using Box2D library
+
 #include <chipmunk/chipmunk.h>
 
 struct ChipmunkBodyImpl
 {
-	cpBody* body;
+	cpBody* cpbody;
 };
 
 struct ChipmunkWorldImpl
 {
-	cpSpace* world;
+	cpSpace* cpspace;
 };
+
+#define BodyImpl ChipmunkBodyImpl
+#define WorldImpl ChipmunkWorldImpl
+#define USING_PHYSICS_CHIPMUNK
 
 #endif /* PHYSICS_CHIPMUNK_HPP_ */

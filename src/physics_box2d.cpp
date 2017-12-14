@@ -7,6 +7,8 @@
 
 #include "physics.hpp"
 
+#ifdef USING_PHYSICS_BOX2D
+
 #include "futil/language.hpp"
 
 #include <vector>
@@ -320,3 +322,5 @@ namespace Physics
  		b2world->Step(timeStep, velocityIterations, positionIterations);
  	}
 }
+
+#endif //USING_PHYSICS_BOX2D

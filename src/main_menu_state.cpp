@@ -53,8 +53,8 @@ MainMenuState::MainMenuState(TerrariumGame* game)
 : State(*game), wasInit(false),
   background(null), imgCloud(null), imgSun(null),
   mainFont(null), minorFont(null), miniFont(null), devFont(null),
-  mainMenu(null), fileMenu(null),
-  cloudies(), onMapFileSelectionDialog(), onMapCreationDialog(),
+  mainMenu(null), fileMenu(null), charMenu(null),
+  cloudies(), onMapFileSelectionDialog(), onMapCreationDialog(), onCharacterSelectionDialog(),
   caret(), mapCreationFilename(), isMapGenerationRequested(), isMapCreationFilenameAlreadyExisting()
 {}
 
@@ -74,6 +74,7 @@ MainMenuState::~MainMenuState()
 
 	delete mainMenu;
 	delete fileMenu;
+	delete charMenu;
 }
 
 void MainMenuState::initialize()
@@ -103,9 +104,10 @@ void MainMenuState::onEnter()
 {
 	Display& display = Display::getInstance();
 	const float sw = display.getWidth(), sh = display.getHeight();
-	vector<string> dirs = fgeal::filesystem::getFilenamesWithinDirectory("./resources/maps");
+	vector<string> worldFilenames = fgeal::filesystem::getFilenamesWithinDirectory("./resources/maps"),
+				   charFilenames = fgeal::filesystem::getFilenamesWithinDirectory("./resources/chars");
 
-	const float fileMenuHeight = std::min(sh, (dirs.size()+3) * miniFont->getHeight());
+	const float fileMenuHeight = std::min(sh, (worldFilenames.size()+3) * miniFont->getHeight());
 
 	Rectangle size = {0.25f*sw, 0.5f*(sh-fileMenuHeight), 0.5f*sw, fileMenuHeight};
 
@@ -114,13 +116,24 @@ void MainMenuState::onEnter()
 	fileMenu->focusedEntryFontColor = Color::AZURE;
 	fileMenu->titleColor = Color::WHITE;
 	fileMenu->bgColor = Color(0, 0, 0, 128);
-	for(vector<string>::iterator it = dirs.begin(); it != dirs.end() ; ++it)
-		fileMenu->addEntry(*it);
+	for(unsigned i = 0; i < worldFilenames.size(); i++)
+		fileMenu->addEntry(worldFilenames[i]);
 	fileMenu->addEntry("< Cancel >");
+
+	if(charMenu != null) delete charMenu;
+	charMenu = new Menu(size, miniFont, Color::YELLOW, "Select char");
+	charMenu->focusedEntryFontColor = fileMenu->focusedEntryFontColor;
+	charMenu->titleColor = fileMenu->titleColor;
+	charMenu->bgColor = fileMenu->bgColor;
+	charMenu->addEntry("< New >");
+	for(unsigned i = 0; i < charFilenames.size(); i++)
+		charMenu->addEntry(charFilenames[i]);
+	charMenu->addEntry("< Cancel >");
 
 	onMapFileSelectionDialog = false;
 	isMapGenerationRequested = false;
 	onMapCreationDialog = false;
+	onCharacterSelectionDialog = false;
 	mapCreationFilename.clear();
 	isMapCreationFilenameAlreadyExisting = false;
 	caret = 0;
@@ -181,6 +194,9 @@ void MainMenuState::render()
 //		minorFont->drawText("Ok", 0.5*(sw-minorFont->getTextWidth("Ok")), 0.4*sh + minorFont->getHeight()*3.5, Color::WHITE);
 	}
 
+	if(onCharacterSelectionDialog)
+		charMenu->draw();
+
 	devFont->drawText(string("v")+VERSION+", using fgeal v"+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, Display::getInstance().getHeight() - devFont->getHeight(), Color::CREAM);
 }
 
@@ -209,6 +225,8 @@ void MainMenuState::handleInput()
 				handleInputOnMapFileSelectionDialog(ev);
 			else if(onMapCreationDialog)
 				handleInputOnMapCreationDialog(ev);
+			else if(onCharacterSelectionDialog)
+				handleInputOnCharSelectionDialog(ev);
 			else
 				handleInputOnMainMenu(ev);
 		}
@@ -270,7 +288,8 @@ void MainMenuState::handleInputOnMapFileSelectionDialog(Event& ev)
 			else
 			{
 				static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
-				game.enterState(TerrariumGame::LOADING_STATE_ID);
+				onCharacterSelectionDialog = true;
+				onMapFileSelectionDialog = false;
 			}
 		}
 	}
@@ -310,7 +329,8 @@ void MainMenuState::handleInputOnMapCreationDialog(Event& ev)
 			{
 				isMapGenerationRequested = true;
 				static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
-				game.enterState(TerrariumGame::LOADING_STATE_ID);
+				onCharacterSelectionDialog = true;
+				onMapCreationDialog = false;
 			}
 		}
 
@@ -405,6 +425,36 @@ void MainMenuState::handleInputOnMapCreationDialog(Event& ev)
 	}
 }
 
+void MainMenuState::handleInputOnCharSelectionDialog(fgeal::Event& ev)
+{
+	if(ev.getEventType() == Event::TYPE_KEY_PRESS)
+	{
+		if(ev.getEventKeyCode() == Keyboard::KEY_ESCAPE)
+			onCharacterSelectionDialog = false;
+
+		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_UP)
+			charMenu->cursorUp();
+
+		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_DOWN)
+			charMenu->cursorDown();
+
+		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
+		{
+			if(charMenu->getSelectedIndex() == charMenu->getNumberOfEntries()-1)
+				onCharacterSelectionDialog = false;
+			else if(charMenu->getSelectedIndex() == 0)
+			{
+				// todo create new
+				game.enterState(TerrariumGame::LOADING_STATE_ID);
+			}
+			else
+			{
+				game.enterState(TerrariumGame::LOADING_STATE_ID);
+			}
+		}
+	}
+}
+
 void MainMenuState::loadDuringLoadingScreen()
 {
 	TerrariumGame& game = static_cast<TerrariumGame&>(this->game);
@@ -416,11 +466,11 @@ void MainMenuState::loadDuringLoadingScreen()
 		generator5(grid);
 		Map::transpose(grid);
 		Map::saveGridToFileTxt(grid, mapCreationFilename);
-		game.logic.setIngameStateStageFilename(mapCreationFilename);
+		game.logic.setIngameStateStageFilename(mapCreationFilename);  //@suppress("Method cannot be resolved")
 	}
 	else
 	{
-		game.logic.setIngameStateStageFilename(fileMenu->getSelectedEntry().label);
+		game.logic.setIngameStateStageFilename(fileMenu->getSelectedEntry().label);  //@suppress("Method cannot be resolved")
 	}
 
 	game.enterState(TerrariumGame::INGAME_STATE_ID);

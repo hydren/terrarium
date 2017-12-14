@@ -18,4 +18,5 @@ class Logic
 	Properties config;
 
 	void setIngameStateStageFilename(std::string filename);
+	void setIngameCharacterFilename(std::string filename);
 };

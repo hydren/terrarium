@@ -33,11 +33,11 @@ class MainMenuState extends public fgeal::Game::State, public LoadingState::Load
 	fgeal::Image* background, *imgCloud, *imgSun;
 	fgeal::Font* mainFont, *minorFont, *miniFont, *devFont;
 
-	Menu* mainMenu, *fileMenu;
+	Menu* mainMenu, *fileMenu, *charMenu;
 
 	std::vector<fgeal::Rectangle> cloudies;
 
-	bool onMapFileSelectionDialog, onMapCreationDialog;
+	bool onMapFileSelectionDialog, onMapCreationDialog, onCharacterSelectionDialog;
 
 	int caret;
 	std::string mapCreationFilename;
@@ -57,6 +57,7 @@ class MainMenuState extends public fgeal::Game::State, public LoadingState::Load
 	void handleInputOnMainMenu(fgeal::Event&);
 	void handleInputOnMapCreationDialog(fgeal::Event&);
 	void handleInputOnMapFileSelectionDialog(fgeal::Event&);
+	void handleInputOnCharSelectionDialog(fgeal::Event&);
 
 	// to be called by loading state
 	void loadDuringLoadingScreen();

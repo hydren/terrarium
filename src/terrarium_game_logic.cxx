@@ -20,3 +20,8 @@ void TerrariumGame::Logic::setIngameStateStageFilename(string filename)
 {
 	static_cast<InGameState*>(game.getState(TerrariumGame::INGAME_STATE_ID))->stageFilename = filename;
 }
+
+void TerrariumGame::Logic::setIngameCharacterFilename(std::string filename)
+{
+	static_cast<InGameState*>(game.getState(TerrariumGame::INGAME_STATE_ID))->characterFilename = filename;
+}

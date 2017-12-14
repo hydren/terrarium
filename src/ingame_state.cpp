@@ -32,6 +32,7 @@ using fgeal::Menu;
 using fgeal::Keyboard;
 using fgeal::Mouse;
 using futil::remove_element;
+using futil::Properties;
 
 // xxx hardcoded player body dimensions
 const float player_body_width = Physics::convertToMeters(25);

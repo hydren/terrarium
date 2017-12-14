@@ -9,11 +9,10 @@
 #define TERRARIUM_GAME_HPP_
 #include <ciso646>
 
+#include "terrarium_game_logic.hpp"
+
 #include "futil/language.hpp"
 #include "fgeal/extra/game.hpp"
-#include "futil/properties.hpp"
-
-using futil::Properties;
 
 extern const std::string VERSION;
 
@@ -31,8 +30,7 @@ class TerrariumGame extends public fgeal::Game
 	TerrariumGame();
 	void initializeStatesList();
 
-	#include "terrarium_game_logic.hxx"
-	Logic logic;  // @suppress("Type cannot be resolved")
+	TerrariumGameLogic logic;
 };
 
 #endif /* TERRARIUM_GAME_HPP_ */

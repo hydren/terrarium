@@ -31,7 +31,7 @@
 class InGameState extends public fgeal::Game::State
 {
 	friend class Map;
-	friend class TerrariumGame::Logic;
+	friend class TerrariumGameLogic;
 
 	bool wasInit;
 

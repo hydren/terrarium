@@ -77,7 +77,7 @@ int main(int argc, char** argv)
 		options.fullscreen = fullscreen;
 		options.width = screenWidth;
 		options.height = screenHeight;
-		options.iconFilename = "resources/sun.png";  // todo choose a proper icon
+		options.iconFilename = "resources/terrarium.png";  // todo choose a proper icon
 		if(centered) options.positioning = fgeal::Display::Options::POSITION_CENTERED;
 		fgeal::Display::create(options);
 

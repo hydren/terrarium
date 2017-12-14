@@ -317,11 +317,35 @@ void InGameState::onEnter()
 	inventoryVisible = false;
 	cursorHeldItem = null;
 
-	// add startup items to player
-	for(unsigned i = 0; i < itemTypeInfo.size(); i++)
+	if(fgeal::filesystem::isFilenameArchive(characterFilename))
 	{
-		if(itemTypeInfo[i].isStartupItem)
-			inventory->add(new Item(itemTypeInfo[i]));
+		Properties charProp;
+		charProp.load(characterFilename);
+		for(unsigned i = 0; i < inventory->container->type.itemSlotCount; i++)
+		{
+			const string baseKey = string("item") + futil::to_string(i),
+					     idKey = baseKey + "_id";
+
+			if(charProp.containsKey(idKey))
+			{
+				unsigned typeId = charProp.getParsedCStr<int, atoi>(idKey);
+				if(typeId != 0)
+				{
+					Item* item = new Item(itemTypeInfo[typeId]);
+					item->amount = charProp.getParsedCStr<int, atoi>(baseKey+"_amount", 1);
+					inventory->add(item);
+				}
+			}
+		}
+	}
+	else
+	{
+		// add startup items to player
+		for(unsigned i = 0; i < itemTypeInfo.size(); i++)
+		{
+			if(itemTypeInfo[i].isStartupItem)
+				inventory->add(new Item(itemTypeInfo[i]));
+		}
 	}
 
 	ingameTime = 7*hourDuration*60;

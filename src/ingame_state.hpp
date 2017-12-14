@@ -68,7 +68,8 @@ class InGameState extends public fgeal::Game::State
 
 	// ==== logic
 
-	std::string stageFilename, characterFilename;
+	std::string playerName, stageFilename, characterFilename;
+	float playerHp;
 
 	Map* map;
 

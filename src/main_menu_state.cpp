@@ -466,12 +466,13 @@ void MainMenuState::loadDuringLoadingScreen()
 		generator5(grid);
 		Map::transpose(grid);
 		Map::saveGridToFileTxt(grid, mapCreationFilename);
-		game.logic.setIngameStateStageFilename(mapCreationFilename);  //@suppress("Method cannot be resolved")
+		game.logic.setIngameStateStageFilename(mapCreationFilename);
 	}
 	else
 	{
-		game.logic.setIngameStateStageFilename(fileMenu->getSelectedEntry().label);  //@suppress("Method cannot be resolved")
+		game.logic.setIngameStateStageFilename(fileMenu->getSelectedEntry().label);
 	}
 
+	game.logic.setIngameCharacterFilename(fileMenu->getSelectedEntry().label);
 	game.enterState(TerrariumGame::INGAME_STATE_ID);
 }

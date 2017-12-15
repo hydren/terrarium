@@ -284,7 +284,10 @@ void MainMenuState::handleInputOnMapFileSelectionDialog(Event& ev)
 		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		{
 			if(fileMenu->getSelectedIndex() == fileMenu->getNumberOfEntries()-1)
+			{
 				onMapFileSelectionDialog = false;
+				fileMenu->setSelectedIndex(0);
+			}
 			else
 			{
 				static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
@@ -447,8 +450,9 @@ void MainMenuState::handleInputOnCharSelectionDialog(fgeal::Event& ev)
 				// todo create new
 				game.enterState(TerrariumGame::LOADING_STATE_ID);
 			}
-			else
+			else  // selected cancel
 			{
+				charMenu->setSelectedIndex(0);
 				game.enterState(TerrariumGame::LOADING_STATE_ID);
 			}
 		}

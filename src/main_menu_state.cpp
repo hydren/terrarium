@@ -473,6 +473,6 @@ void MainMenuState::loadDuringLoadingScreen()
 		game.logic.setIngameStateStageFilename(fileMenu->getSelectedEntry().label);
 	}
 
-	game.logic.setIngameCharacterFilename(fileMenu->getSelectedEntry().label);
+	game.logic.setIngameCharacterFilename(charMenu->getSelectedEntry().label);
 	game.enterState(TerrariumGame::INGAME_STATE_ID);
 }

@@ -101,6 +101,8 @@ class InGameState extends public fgeal::Game::State
 
 	bool isItemTypeIdExistant(int id);
 
+	void saveCharacterData();
+
 	// block type id info methods
 	bool isBlockTypeIdExistent(int id);
 	bool isBlockTypeIdPassable(int id);  // todo improve this check to allow a more refined passability

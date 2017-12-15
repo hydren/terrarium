@@ -37,11 +37,13 @@ class MainMenuState extends public fgeal::Game::State, public LoadingState::Load
 
 	std::vector<fgeal::Rectangle> cloudies;
 
-	bool onMapFileSelectionDialog, onMapCreationDialog, onCharacterSelectionDialog;
+	bool onMapFileSelectionDialog, onMapCreationDialog,
+		 onCharacterSelectionDialog, onCharacterCreationDialog;
 
 	int caret;
-	std::string mapCreationFilename;
-	bool isMapGenerationRequested, isMapCreationFilenameAlreadyExisting;
+	std::string mapCreationFilename, charCreationFilename, charCreationName;
+	bool isMapGenerationRequested, isMapCreationFilenameAlreadyExisting,
+		 isCharCreationPending, isCharCreationFilenameAlreadyExisting;
 
 	MainMenuState(TerrariumGame* game);
 	~MainMenuState();
@@ -58,6 +60,7 @@ class MainMenuState extends public fgeal::Game::State, public LoadingState::Load
 	void handleInputOnMapCreationDialog(fgeal::Event&);
 	void handleInputOnMapFileSelectionDialog(fgeal::Event&);
 	void handleInputOnCharSelectionDialog(fgeal::Event&);
+	void handleInputOnCharCreationDialog(fgeal::Event&);
 
 	// to be called by loading state
 	void loadDuringLoadingScreen();

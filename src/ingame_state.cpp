@@ -317,36 +317,39 @@ void InGameState::onEnter()
 	inventoryVisible = false;
 	cursorHeldItem = null;
 
-	if(fgeal::filesystem::isFilenameArchive(characterFilename))
-	{
-		Properties charProp;
-		charProp.load(characterFilename);
-		for(unsigned i = 0; i < inventory->container->type.itemSlotCount; i++)
-		{
-			const string baseKey = string("item") + futil::to_string(i),
-					     idKey = baseKey + "_id";
+	if(not fgeal::filesystem::isFilenameArchive(characterFilename))
+		throw std::logic_error("character filename is not a valid file");
 
-			if(charProp.containsKey(idKey))
-			{
-				unsigned typeId = charProp.getParsedCStr<int, atoi>(idKey);
-				if(typeId != 0)
-				{
-					Item* item = new Item(itemTypeInfo[typeId]);
-					item->amount = charProp.getParsedCStr<int, atoi>(baseKey+"_amount", 1);
-					inventory->add(item);
-				}
-			}
-		}
-	}
-	else
+	Properties charProp;
+	charProp.load(characterFilename);
+
+	if(charProp.containsKey("new") and charProp.get("new") == "true")
 	{
-		// add startup items to player
+		// add startup items to freshly created character
 		for(unsigned i = 0; i < itemTypeInfo.size(); i++)
 		{
 			if(itemTypeInfo[i].isStartupItem)
 				inventory->add(new Item(itemTypeInfo[i]));
 		}
 	}
+	else for(unsigned i = 0; i < inventory->container->type.itemSlotCount; i++)
+	{
+		const string baseKey = string("item") + futil::to_string(i),
+					 idKey = baseKey + "_id";
+
+		if(charProp.containsKey(idKey))
+		{
+			unsigned typeId = charProp.getParsedCStr<int, atoi>(idKey);
+			if(typeId != 0)
+			{
+				Item* item = new Item(itemTypeInfo[typeId]);
+				item->amount = charProp.getParsedCStr<int, atoi>(baseKey+"_amount", 1);
+				inventory->add(item);
+			}
+		}
+	}
+
+	playerName = charProp.get("name", "unamed");
 
 	ingameTime = 7*hourDuration*60;
 	inventoryItemHovered = null;
@@ -704,6 +707,7 @@ void InGameState::handleInputOnInGameMenu(Event& event)
 						break;
 					case 1:
 						map->saveToFile(stageFilename);
+						saveCharacterData();
 						game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 						break;
 					case 2:
@@ -747,4 +751,22 @@ bool InGameState::isBlockTypeIdPassable(int id)
 bool InGameState::isItemTypeIdExistant(int id)
 {
 	return id > 0 and id < (int) itemTypeInfo.size();
+}
+
+void InGameState::saveCharacterData()
+{
+	Properties charProp;
+	charProp.put("name", playerName);
+	for(unsigned i = 0; i < inventory->container->items.size(); i++)
+	{
+		Item* item = inventory->container->items[i];
+		if(item != null)
+		{
+			const string baseKey = string("item") + futil::to_string(i);
+			charProp.put(baseKey + "_id", futil::to_string(item->type.id));
+			charProp.put(baseKey + "_amount", futil::to_string(item->amount));
+		}
+	}
+
+	charProp.store(characterFilename);
 }

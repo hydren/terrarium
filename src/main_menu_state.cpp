@@ -35,6 +35,8 @@ using fgeal::Display;
 using fgeal::Keyboard;
 using fgeal::Mouse;
 
+static const string CHAR_EXTENSION = ".char.properties";
+
 static string createRandomFilename()
 {
 	static const char alphanum[] =
@@ -49,13 +51,85 @@ static string createRandomFilename()
 	return name;
 }
 
+static char parseKeyStroke(Event& ev)
+{
+	char typed;
+	switch(ev.getEventKeyCode())
+	{
+		default: typed = '\n'; break;
+		case Keyboard::KEY_A: typed = 'a'; break;
+		case Keyboard::KEY_B: typed = 'b'; break;
+		case Keyboard::KEY_C: typed = 'c'; break;
+		case Keyboard::KEY_D: typed = 'd'; break;
+		case Keyboard::KEY_E: typed = 'e'; break;
+		case Keyboard::KEY_F: typed = 'f'; break;
+		case Keyboard::KEY_G: typed = 'g'; break;
+		case Keyboard::KEY_H: typed = 'h'; break;
+		case Keyboard::KEY_I: typed = 'i'; break;
+		case Keyboard::KEY_J: typed = 'j'; break;
+		case Keyboard::KEY_K: typed = 'k'; break;
+		case Keyboard::KEY_L: typed = 'l'; break;
+		case Keyboard::KEY_M: typed = 'm'; break;
+		case Keyboard::KEY_N: typed = 'n'; break;
+		case Keyboard::KEY_O: typed = 'o'; break;
+		case Keyboard::KEY_P: typed = 'p'; break;
+		case Keyboard::KEY_Q: typed = 'q'; break;
+		case Keyboard::KEY_R: typed = 'r'; break;
+		case Keyboard::KEY_S: typed = 's'; break;
+		case Keyboard::KEY_T: typed = 't'; break;
+		case Keyboard::KEY_U: typed = 'u'; break;
+		case Keyboard::KEY_V: typed = 'v'; break;
+		case Keyboard::KEY_W: typed = 'w'; break;
+		case Keyboard::KEY_X: typed = 'x'; break;
+		case Keyboard::KEY_Y: typed = 'y'; break;
+		case Keyboard::KEY_Z: typed = 'z'; break;
+		case Keyboard::KEY_NUMPAD_0:
+		case Keyboard::KEY_0:       typed = '0'; break;
+		case Keyboard::KEY_NUMPAD_1:
+		case Keyboard::KEY_1:       typed = '1'; break;
+		case Keyboard::KEY_NUMPAD_2:
+		case Keyboard::KEY_2:       typed = '2'; break;
+		case Keyboard::KEY_NUMPAD_3:
+		case Keyboard::KEY_3:       typed = '3'; break;
+		case Keyboard::KEY_NUMPAD_4:
+		case Keyboard::KEY_4:       typed = '4'; break;
+		case Keyboard::KEY_NUMPAD_5:
+		case Keyboard::KEY_5:       typed = '5'; break;
+		case Keyboard::KEY_NUMPAD_6:
+		case Keyboard::KEY_6:       typed = '6'; break;
+		case Keyboard::KEY_NUMPAD_7:
+		case Keyboard::KEY_7:       typed = '7'; break;
+		case Keyboard::KEY_NUMPAD_8:
+		case Keyboard::KEY_8:       typed = '8'; break;
+		case Keyboard::KEY_NUMPAD_9:
+		case Keyboard::KEY_9:       typed = '9'; break;
+		case Keyboard::KEY_SPACE:   typed = ' '; break;
+		case Keyboard::KEY_PERIOD:  typed = '.'; break;
+		case Keyboard::KEY_MINUS:   typed = '-'; break;
+	}
+
+	if(typed >= 'a' and typed <= 'z')
+	if(Keyboard::isKeyPressed(Keyboard::KEY_LEFT_SHIFT)
+	or Keyboard::isKeyPressed(Keyboard::KEY_RIGHT_SHIFT))
+		typed -= 32;
+
+	if(typed == '-')
+	if(Keyboard::isKeyPressed(Keyboard::KEY_LEFT_SHIFT)
+	or Keyboard::isKeyPressed(Keyboard::KEY_RIGHT_SHIFT))
+		typed = '_';
+
+	return typed;
+}
+
 MainMenuState::MainMenuState(TerrariumGame* game)
 : State(*game), wasInit(false),
   background(null), imgCloud(null), imgSun(null),
   mainFont(null), minorFont(null), miniFont(null), devFont(null),
   mainMenu(null), fileMenu(null), charMenu(null),
-  cloudies(), onMapFileSelectionDialog(), onMapCreationDialog(), onCharacterSelectionDialog(),
-  caret(), mapCreationFilename(), isMapGenerationRequested(), isMapCreationFilenameAlreadyExisting()
+  cloudies(), onMapFileSelectionDialog(), onMapCreationDialog(), onCharacterSelectionDialog(), onCharacterCreationDialog(),
+  caret(), mapCreationFilename(), charCreationFilename(), charCreationName(),
+  isMapGenerationRequested(), isMapCreationFilenameAlreadyExisting(),
+  isCharCreationPending(), isCharCreationFilenameAlreadyExisting()
 {}
 
 MainMenuState::~MainMenuState()
@@ -127,15 +201,20 @@ void MainMenuState::onEnter()
 	charMenu->bgColor = fileMenu->bgColor;
 	charMenu->addEntry("< New >");
 	for(unsigned i = 0; i < charFilenames.size(); i++)
-		charMenu->addEntry(charFilenames[i]);
+		if(futil::ends_with(charFilenames[i], CHAR_EXTENSION))
+			charMenu->addEntry(charFilenames[i]);
 	charMenu->addEntry("< Cancel >");
 
 	onMapFileSelectionDialog = false;
 	isMapGenerationRequested = false;
 	onMapCreationDialog = false;
 	onCharacterSelectionDialog = false;
+	onCharacterCreationDialog = false;
+	isCharCreationPending = false;
 	mapCreationFilename.clear();
+	charCreationFilename.clear();
 	isMapCreationFilenameAlreadyExisting = false;
+	isCharCreationFilenameAlreadyExisting = false;
 	caret = 0;
 
 	cloudies.clear();
@@ -197,6 +276,31 @@ void MainMenuState::render()
 	if(onCharacterSelectionDialog)
 		charMenu->draw();
 
+	if(onCharacterCreationDialog)
+	{
+		// draw dialog bg
+		Image::drawFilledRectangle(0.25*sw, 0.39*sh, 0.5*sw, 4*minorFont->getHeight(), fileMenu->bgColor);
+
+		minorFont->drawText("Char name:", 0.275*sw, 0.4*sh, Color::WHITE);
+
+		// draw name text field bg
+		Image::drawFilledRectangle(0.275*sw, 0.4*sh + 1.1*minorFont->getHeight(), 0.4*sw, minorFont->getHeight(), fileMenu->bgColor);
+
+		// draw cursor
+		if(((int) (fgeal::uptime()*2))%2 == 0)
+		Image::drawFilledRectangle(0.275*sw + minorFont->getTextWidth(charCreationFilename), 0.4*sh + 1.1*minorFont->getHeight(), 0.005*sw, minorFont->getHeight(), Color::WHITE);
+
+		if(not charCreationFilename.empty())
+			minorFont->drawText(charCreationFilename, 0.275*sw, 0.4*sh + minorFont->getHeight(), Color::WHITE);
+
+		if(isCharCreationFilenameAlreadyExisting)
+			minorFont->drawText("Filename already exists!", 0.275*sw, 0.4*sh + 2.25*minorFont->getHeight(), Color::RED);
+
+		// Ok button
+//		Image::drawFilledEllipse(0.5*sw, 0.4*sh + minorFont->getHeight()*4 , 1.25*minorFont->getTextWidth("Ok"), minorFont->getHeight(), Color::ORANGE);
+//		minorFont->drawText("Ok", 0.5*(sw-minorFont->getTextWidth("Ok")), 0.4*sh + minorFont->getHeight()*3.5, Color::WHITE);
+	}
+
 	devFont->drawText(string("v")+VERSION+", using fgeal v"+fgeal::VERSION+" on "+fgeal::ADAPTED_LIBRARY_NAME+" v"+fgeal::ADAPTED_LIBRARY_VERSION, 4, Display::getInstance().getHeight() - devFont->getHeight(), Color::CREAM);
 }
 
@@ -227,6 +331,8 @@ void MainMenuState::handleInput()
 				handleInputOnMapCreationDialog(ev);
 			else if(onCharacterSelectionDialog)
 				handleInputOnCharSelectionDialog(ev);
+			else if(onCharacterCreationDialog)
+				handleInputOnCharCreationDialog(ev);
 			else
 				handleInputOnMainMenu(ev);
 		}
@@ -248,6 +354,8 @@ void MainMenuState::handleInputOnMainMenu(Event& ev)
 		{
 			case 0:
 				onMapCreationDialog = true;
+				mapCreationFilename.clear();
+				caret = 0;
 				break;
 
 			case 1:
@@ -300,26 +408,26 @@ void MainMenuState::handleInputOnMapFileSelectionDialog(Event& ev)
 
 void MainMenuState::handleInputOnMapCreationDialog(Event& ev)
 {
+	const string mapDir = "/resources/maps/", mapExtension = ".txt";
 	if(ev.getEventType() == Event::TYPE_KEY_PRESS)
 	{
 		if(ev.getEventKeyCode() == Keyboard::KEY_ESCAPE)
 			onMapCreationDialog = false;
 
-		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
+		else if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		{
 			string filename;
-
 			if(futil::trim(mapCreationFilename).empty())
 			{
-				do filename = fgeal::filesystem::getCurrentWorkingDirectory() + "/resources/maps/" + createRandomFilename() + ".txt";
+				do filename = fgeal::filesystem::getCurrentWorkingDirectory() + mapDir + createRandomFilename() + mapExtension;
 				while(fgeal::filesystem::isFilenameArchive(filename) or fgeal::filesystem::isFilenameDirectory(filename));
 				mapCreationFilename = filename;
 			}
 			else
 			{
-				filename = fgeal::filesystem::getCurrentWorkingDirectory() + "/resources/maps/" + mapCreationFilename;
-				if(not futil::ends_with(filename, ".txt"))
-					filename += ".txt";
+				filename = fgeal::filesystem::getCurrentWorkingDirectory() + mapDir + mapCreationFilename;
+				if(not futil::ends_with(filename, mapExtension))
+					filename += mapExtension;
 
 				if(fgeal::filesystem::isFilenameArchive(filename) or fgeal::filesystem::isFilenameDirectory(filename))
 					isMapCreationFilenameAlreadyExisting = true;
@@ -336,94 +444,34 @@ void MainMenuState::handleInputOnMapCreationDialog(Event& ev)
 				onMapCreationDialog = false;
 			}
 		}
-
-		char typed = '\n';
-		switch(ev.getEventKeyCode())
+		else if(ev.getEventKeyCode() == Keyboard::KEY_BACKSPACE)
 		{
-			case Keyboard::KEY_A: typed = 'a'; break;
-			case Keyboard::KEY_B: typed = 'b'; break;
-			case Keyboard::KEY_C: typed = 'c'; break;
-			case Keyboard::KEY_D: typed = 'd'; break;
-			case Keyboard::KEY_E: typed = 'e'; break;
-			case Keyboard::KEY_F: typed = 'f'; break;
-			case Keyboard::KEY_G: typed = 'g'; break;
-			case Keyboard::KEY_H: typed = 'h'; break;
-			case Keyboard::KEY_I: typed = 'i'; break;
-			case Keyboard::KEY_J: typed = 'j'; break;
-			case Keyboard::KEY_K: typed = 'k'; break;
-			case Keyboard::KEY_L: typed = 'l'; break;
-			case Keyboard::KEY_M: typed = 'm'; break;
-			case Keyboard::KEY_N: typed = 'n'; break;
-			case Keyboard::KEY_O: typed = 'o'; break;
-			case Keyboard::KEY_P: typed = 'p'; break;
-			case Keyboard::KEY_Q: typed = 'q'; break;
-			case Keyboard::KEY_R: typed = 'r'; break;
-			case Keyboard::KEY_S: typed = 's'; break;
-			case Keyboard::KEY_T: typed = 't'; break;
-			case Keyboard::KEY_U: typed = 'u'; break;
-			case Keyboard::KEY_V: typed = 'v'; break;
-			case Keyboard::KEY_W: typed = 'w'; break;
-			case Keyboard::KEY_X: typed = 'x'; break;
-			case Keyboard::KEY_Y: typed = 'y'; break;
-			case Keyboard::KEY_Z: typed = 'z'; break;
-			case Keyboard::KEY_NUMPAD_0:
-			case Keyboard::KEY_0:       typed = '0'; break;
-			case Keyboard::KEY_NUMPAD_1:
-			case Keyboard::KEY_1:       typed = '1'; break;
-			case Keyboard::KEY_NUMPAD_2:
-			case Keyboard::KEY_2:       typed = '2'; break;
-			case Keyboard::KEY_NUMPAD_3:
-			case Keyboard::KEY_3:       typed = '3'; break;
-			case Keyboard::KEY_NUMPAD_4:
-			case Keyboard::KEY_4:       typed = '4'; break;
-			case Keyboard::KEY_NUMPAD_5:
-			case Keyboard::KEY_5:       typed = '5'; break;
-			case Keyboard::KEY_NUMPAD_6:
-			case Keyboard::KEY_6:       typed = '6'; break;
-			case Keyboard::KEY_NUMPAD_7:
-			case Keyboard::KEY_7:       typed = '7'; break;
-			case Keyboard::KEY_NUMPAD_8:
-			case Keyboard::KEY_8:       typed = '8'; break;
-			case Keyboard::KEY_NUMPAD_9:
-			case Keyboard::KEY_9:       typed = '9'; break;
-			case Keyboard::KEY_SPACE:   typed = ' '; break;
-			case Keyboard::KEY_PERIOD:  typed = '.'; break;
-			case Keyboard::KEY_MINUS:   typed = '-'; break;
-			case Keyboard::KEY_BACKSPACE: typed = '<'; break;
-
-			// caret
-			case Keyboard::KEY_ARROW_LEFT:
-				if(caret > 0) caret--;
-				break;
-
-			case Keyboard::KEY_ARROW_RIGHT:
-				if(caret < (int) mapCreationFilename.size()) caret++;
-				break;
-			default:break;
+			if(not mapCreationFilename.empty() and caret > 0)
+			{
+				isMapCreationFilenameAlreadyExisting = false;
+				mapCreationFilename.erase(mapCreationFilename.begin() + caret-1);
+				caret--;
+			}
 		}
-
-		if(typed == '<' and not mapCreationFilename.empty() and caret > 0)
+		else if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_LEFT)
 		{
-			isMapCreationFilenameAlreadyExisting = false;
-			mapCreationFilename.erase(mapCreationFilename.begin() + caret-1);
-			caret--;
+			if(caret > 0)
+				caret--;
 		}
-
-		else if(typed != '\n' and typed != '<')
+		else if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_RIGHT)
 		{
-			if(typed >= 'a' and typed <= 'z')
-			if(Keyboard::isKeyPressed(Keyboard::KEY_LEFT_SHIFT)
-			or Keyboard::isKeyPressed(Keyboard::KEY_RIGHT_SHIFT))
-				typed -= 32;
-
-			if(typed == '-')
-			if(Keyboard::isKeyPressed(Keyboard::KEY_LEFT_SHIFT)
-			or Keyboard::isKeyPressed(Keyboard::KEY_RIGHT_SHIFT))
-				typed = '_';
-
-			isMapCreationFilenameAlreadyExisting = false;
-			mapCreationFilename.insert(mapCreationFilename.begin() + caret, 1, typed);
-			caret++;
+			if(caret < (int) mapCreationFilename.size())
+				caret++;
+		}
+		else
+		{
+			const char typed = parseKeyStroke(ev);
+			if(typed != '\n')
+			{
+				isMapCreationFilenameAlreadyExisting = false;
+				mapCreationFilename.insert(mapCreationFilename.begin() + caret, 1, typed);
+				caret++;
+			}
 		}
 	}
 }
@@ -444,16 +492,101 @@ void MainMenuState::handleInputOnCharSelectionDialog(fgeal::Event& ev)
 		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		{
 			if(charMenu->getSelectedIndex() == charMenu->getNumberOfEntries()-1)
+			{
+				// selected cancel
+				charMenu->setSelectedIndex(0);
 				onCharacterSelectionDialog = false;
+			}
 			else if(charMenu->getSelectedIndex() == 0)
 			{
-				// todo create new
+				// create new char
+				onCharacterCreationDialog = true;
+				onCharacterSelectionDialog = false;
+				charCreationFilename.clear();
+				charCreationName.clear();
+				caret = 0;
+			}
+			else
+			{
+				// select char
+				static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
+				onCharacterSelectionDialog = false;
+				isCharCreationPending = false;
 				game.enterState(TerrariumGame::LOADING_STATE_ID);
 			}
-			else  // selected cancel
+		}
+	}
+}
+
+void MainMenuState::handleInputOnCharCreationDialog(fgeal::Event& ev)
+{
+	const string charsDir = "/resources/chars/";
+	if(ev.getEventType() == Event::TYPE_KEY_PRESS)
+	{
+		if(ev.getEventKeyCode() == Keyboard::KEY_ESCAPE)
+			onCharacterCreationDialog = false;
+
+		else if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
+		{
+			string filename;
+			if(futil::trim(charCreationFilename).empty())
 			{
-				charMenu->setSelectedIndex(0);
+				do filename = fgeal::filesystem::getCurrentWorkingDirectory() + charsDir + createRandomFilename() + CHAR_EXTENSION;
+				while(fgeal::filesystem::isFilenameArchive(filename) or fgeal::filesystem::isFilenameDirectory(filename));
+				charCreationFilename = filename;
+				charCreationName = charCreationFilename.substr(0, charCreationFilename.length() - CHAR_EXTENSION.size());
+			}
+			else
+			{
+				filename = fgeal::filesystem::getCurrentWorkingDirectory() + charsDir + charCreationFilename;
+				if(not futil::ends_with(filename, CHAR_EXTENSION))
+					filename += CHAR_EXTENSION;
+
+				if(fgeal::filesystem::isFilenameArchive(filename) or fgeal::filesystem::isFilenameDirectory(filename))
+					isCharCreationFilenameAlreadyExisting = true;
+
+				else
+				{
+					charCreationName = charCreationFilename;
+					charCreationFilename = filename;
+				}
+			}
+
+			if(not isCharCreationFilenameAlreadyExisting)
+			{
+				static_cast<LoadingState*>(game.getState(TerrariumGame::LOADING_STATE_ID))->reset(this);
+				onCharacterCreationDialog = false;
+				isCharCreationPending = true;
 				game.enterState(TerrariumGame::LOADING_STATE_ID);
+			}
+		}
+		else if(ev.getEventKeyCode() == Keyboard::KEY_BACKSPACE)
+		{
+			if(not charCreationFilename.empty() and caret > 0)
+			{
+				isCharCreationFilenameAlreadyExisting = false;
+				charCreationFilename.erase(charCreationFilename.begin() + caret-1);
+				caret--;
+			}
+		}
+		else if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_LEFT)
+		{
+			if(caret > 0)
+				caret--;
+		}
+		else if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_RIGHT)
+		{
+			if(caret < (int) charCreationFilename.size())
+				caret++;
+		}
+		else
+		{
+			const char typed = parseKeyStroke(ev);
+			if(typed != '\n')
+			{
+				isCharCreationFilenameAlreadyExisting = false;
+				charCreationFilename.insert(charCreationFilename.begin() + caret, 1, typed);
+				caret++;
 			}
 		}
 	}
@@ -477,6 +610,19 @@ void MainMenuState::loadDuringLoadingScreen()
 		game.logic.setIngameStateStageFilename(fileMenu->getSelectedEntry().label);
 	}
 
-	game.logic.setIngameCharacterFilename(charMenu->getSelectedEntry().label);
+	if(isCharCreationPending)
+	{
+		std::cout << "creating character " << charCreationFilename << "(" << charCreationName << ")" << std::endl;
+		futil::Properties charProp;
+		charProp.put("name", charCreationName);
+		charProp.put("new", "true");
+		charProp.store(charCreationFilename);
+		game.logic.setIngameCharacterFilename(charCreationFilename);
+	}
+	else
+	{
+		game.logic.setIngameCharacterFilename(charMenu->getSelectedEntry().label);
+	}
+
 	game.enterState(TerrariumGame::INGAME_STATE_ID);
 }

@@ -7,7 +7,6 @@
 
 #include "options_menu_state.hpp"
 #include "futil/string_actions.hpp"
-#include "resolutions.hpp"
 
 using fgeal::Display;
 using fgeal::Event;
@@ -62,9 +61,9 @@ void OptionsMenuState::initialize()
 	menuResolution = new Menu(Rectangle(), fntDev, Color::ORANGE);
 	menuResolution->bgColor = Color(0, 0, 0, 96);
 	menuResolution->borderColor = Color::_TRANSPARENT;
-	for(unsigned i = 0; i < Resolution::get().size(); i++)
+	for(unsigned i = 0; i < Display::Resolution::getList().size(); i++)
 	{
-		Resolution resolution = Resolution::get()[i];
+		Display::Resolution resolution = Display::Resolution::getList()[i];
 		menuResolution->addEntry(futil::to_string(resolution.width)+"x"+futil::to_string(resolution.height)
 			+ " ("+futil::to_string(resolution.aspect.first)+":"+futil::to_string(resolution.aspect.second)+")"
 			+ (resolution.description.empty()? "" : " ("+resolution.description+")"));
@@ -181,7 +180,7 @@ void OptionsMenuState::updateOnResolutionMenu()
 					break;
 				case Keyboard::KEY_ENTER:
 				{
-					Resolution resolution = Resolution::get()[menuResolution->getSelectedIndex()];
+					Display::Resolution resolution = Display::Resolution::getList()[menuResolution->getSelectedIndex()];
 
 					game.getDisplay().setSize(resolution.width, resolution.height);
 

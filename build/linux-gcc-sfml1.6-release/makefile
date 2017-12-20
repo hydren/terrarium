@@ -49,7 +49,7 @@ all: terrarium
 terrarium: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -o "terrarium" $(OBJS) $(USER_OBJS) $(LIBS) -L/home/carlosfaruolo/Codigos/SFML-1.6/lib
+	g++ -o "terrarium" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

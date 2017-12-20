@@ -61,7 +61,7 @@ src_libs/futil/%.o: ../src_libs/futil/%.c
 src_libs/futil/%.o: ../src_libs/futil/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -I"BUILD_PATH/src" -I"BUILD_PATH/src_libs" -I/home/carlosfaruolo/Codigos/SFML-1.6/include -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -I"BUILD_PATH/src" -I"BUILD_PATH/src_libs" -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

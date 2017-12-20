@@ -195,7 +195,7 @@ void MainMenuState::onEnter()
 	fileMenu->addEntry("< Cancel >");
 
 	if(charMenu != null) delete charMenu;
-	charMenu = new Menu(size, miniFont, Color::YELLOW, "Select char");
+	charMenu = new Menu(size, miniFont, Color::YELLOW, "Select character");
 	charMenu->focusedEntryFontColor = fileMenu->focusedEntryFontColor;
 	charMenu->titleColor = fileMenu->titleColor;
 	charMenu->bgColor = fileMenu->bgColor;

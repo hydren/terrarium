@@ -14,9 +14,12 @@ CPP_SRCS += \
 ../src/main_menu_state.cpp \
 ../src/map.cpp \
 ../src/map_io.cpp \
+../src/options_menu_state.cpp \
 ../src/physics.cpp \
-../src/resolutions.cpp \
-../src/terrarium_game.cpp 
+../src/physics_box2d.cpp \
+../src/physics_chipmunk.cpp \
+../src/terrarium_game.cpp \
+../src/terrarium_game_logic.cpp 
 
 OBJS += \
 ./src/animation.o \
@@ -29,9 +32,12 @@ OBJS += \
 ./src/main_menu_state.o \
 ./src/map.o \
 ./src/map_io.o \
+./src/options_menu_state.o \
 ./src/physics.o \
-./src/resolutions.o \
-./src/terrarium_game.o 
+./src/physics_box2d.o \
+./src/physics_chipmunk.o \
+./src/terrarium_game.o \
+./src/terrarium_game_logic.o 
 
 CPP_DEPS += \
 ./src/animation.d \
@@ -44,9 +50,12 @@ CPP_DEPS += \
 ./src/main_menu_state.d \
 ./src/map.d \
 ./src/map_io.d \
+./src/options_menu_state.d \
 ./src/physics.d \
-./src/resolutions.d \
-./src/terrarium_game.d 
+./src/physics_box2d.d \
+./src/physics_chipmunk.d \
+./src/terrarium_game.d \
+./src/terrarium_game_logic.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -8,3 +8,5 @@ is in a Eclipse CDT project. Previously CodeLite and QtCreator were used, so the
 branches using their project structure (but again, the code is mostly oudated).
 
 See [BUILDING.md](https://github.com/hydren/terrarium/blob/master/BUILDING.md) for information about building the code.
+
+![screenshot](https://github.com/hydren/terrarium/blob/wiki/screenshots/0.1.9/screenshot.jpg)

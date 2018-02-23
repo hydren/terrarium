@@ -25,6 +25,7 @@
 
 #include "block.hpp"
 #include "entity.hpp"
+#include "actor.hpp"
 #include "map.hpp"
 #include "inventory.hpp"
 
@@ -64,11 +65,11 @@ class InGameState extends public fgeal::Game::State
 	std::vector<Entity*> entities;
 
 	// the player, a separate entity
-	Entity* player;
+	Actor* player;
 
 	// ==== logic
 
-	std::string playerName, stageFilename, characterFilename;
+	std::string stageFilename, characterFilename;
 	float playerHp;
 
 	Map* map;

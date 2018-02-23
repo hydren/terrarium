@@ -145,7 +145,7 @@ void InGameState::initialize()
 	anim.currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
 	//loading player
-	entities.push_back(player = new Entity(&anim, null));
+	entities.push_back(player = new Actor(&anim, null, "player"));
 
 	playerJumpImpulse = player_body_width*player_body_height * 0.5;
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
@@ -349,7 +349,8 @@ void InGameState::onEnter()
 		}
 	}
 
-	playerName = charProp.get("name", "unamed");
+
+	player->label = charProp.get("name", "unamed");
 
 	ingameTime = 7*hourDuration*60;
 	inventoryItemHovered = null;
@@ -756,7 +757,7 @@ bool InGameState::isItemTypeIdExistant(int id)
 void InGameState::saveCharacterData()
 {
 	Properties charProp;
-	charProp.put("name", playerName);
+	charProp.put("name", player->label);
 	for(unsigned i = 0; i < inventory->container->items.size(); i++)
 	{
 		Item* item = inventory->container->items[i];

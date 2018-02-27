@@ -10,5 +10,5 @@
 Actor::Actor(Animation* anim, Body *body, string label)
 : Entity(anim, body),
   label(label),
-  statuses()
+  currentHp(), maxHp()
 {}

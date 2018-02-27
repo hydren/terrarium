@@ -9,6 +9,7 @@
 #define ACTOR_HPP_
 
 #include "entity.hpp"
+#include "inventory.hpp"
 
 class Actor extends public Entity
 {
@@ -16,7 +17,9 @@ class Actor extends public Entity
 	string label;
 
 	// todo parametrize these fields
-	unsigned hp, mp;
+	unsigned currentHp, maxHp;
+
+	Item* containerItem, *equipHead, *equipTorso, *equipLegs, *equipArms;
 
 	Actor(Animation* anim=null, Body *body=null, string label=string());
 };

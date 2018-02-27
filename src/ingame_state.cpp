@@ -311,7 +311,10 @@ void InGameState::onEnter()
 	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.isPlaceable = false;
 	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.isDiggingTool = false;
 	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.itemSlotCount = 32;
-	inventory = new Inventory(inventoryBounds, fontInventory, new Item(Inventory::GLOBAL_INVENTORY_ITEM_TYPE));
+
+	player->containerItem = new Item(Inventory::GLOBAL_INVENTORY_ITEM_TYPE);
+
+	inventory = new Inventory(inventoryBounds, fontInventory, player->containerItem);
 	inventory->color = inventoryColor;
 	inventory->colorFont = inventoryFontColor;
 	inventoryVisible = false;
@@ -421,6 +424,13 @@ void InGameState::render()
 		font->drawText(string("Time: ")+((int)(24*timeOfDay/period))+":00", 0, 72, Color::WHITE);
 		font->drawText(string("FPS: ")+game.getFpsCount(), 0, 96, Color::WHITE);
 	}
+
+	if     (player->currentHp >= 1.00 * player->maxHp) font->drawText("Unharmed", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::CYAN);
+	else if(player->currentHp >  0.75 * player->maxHp) font->drawText("Good", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::GREEN);
+	else if(player->currentHp >  0.50 * player->maxHp) font->drawText("Injured", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::YELLOW);
+	else if(player->currentHp >  0.25 * player->maxHp) font->drawText("Badly Injured", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::ORANGE);
+	else if(player->currentHp >  0.00 * player->maxHp) font->drawText("Near death", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::RED);
+	else 										       font->drawText("Dead", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::MAROON);
 
 	if(inventoryVisible)
 		inventory->draw();

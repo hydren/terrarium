@@ -9,13 +9,14 @@
 #define ACTOR_HPP_
 
 #include "entity.hpp"
-#include "statuses.hpp"
 
 class Actor extends public Entity
 {
 	public:
 	string label;
-	vector<Status> statuses;
+
+	// todo parametrize these fields
+	unsigned hp, mp;
 
 	Actor(Animation* anim=null, Body *body=null, string label=string());
 };

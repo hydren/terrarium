@@ -10,6 +10,7 @@
 #include "futil/collection_actions.hpp"
 #include "futil/language.hpp"
 #include "futil/string_actions.hpp"
+#include "futil/random.h"
 
 #include <cmath>
 #include <climits>
@@ -67,6 +68,12 @@ InGameState::~InGameState()
 	}
 
 	cout << "game stuff destructor..." << endl;
+
+	foreach(Actor*, a, vector<Actor*>, actors)
+	{
+		delete a;
+	}
+
 	foreach(Entity*, e, vector<Entity*>, entities)
 	{
 		delete e;
@@ -145,7 +152,7 @@ void InGameState::initialize()
 	anim.currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
 	//loading player
-	entities.push_back(player = new Entity(&anim, null));
+	actors.push_back(player = new Actor(&anim, null, "player"));
 
 	playerJumpImpulse = player_body_width*player_body_height * 0.5;
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
@@ -311,7 +318,10 @@ void InGameState::onEnter()
 	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.isPlaceable = false;
 	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.isDiggingTool = false;
 	Inventory::GLOBAL_INVENTORY_ITEM_TYPE.itemSlotCount = 32;
-	inventory = new Inventory(inventoryBounds, fontInventory, new Item(Inventory::GLOBAL_INVENTORY_ITEM_TYPE));
+
+	player->containerItem = new Item(Inventory::GLOBAL_INVENTORY_ITEM_TYPE);
+
+	inventory = new Inventory(inventoryBounds, fontInventory, player->containerItem);
 	inventory->color = inventoryColor;
 	inventory->colorFont = inventoryFontColor;
 	inventoryVisible = false;
@@ -349,7 +359,8 @@ void InGameState::onEnter()
 		}
 	}
 
-	playerName = charProp.get("name", "unamed");
+
+	player->label = charProp.get("name", "unamed");
 
 	ingameTime = 7*hourDuration*60;
 	inventoryItemHovered = null;
@@ -380,6 +391,12 @@ void InGameState::render()
 		backgroundNight->draw();
 
 	map->draw();
+
+	/* drawing others entities */
+	foreach(Actor*, actor, vector<Actor*>, actors)
+	{
+		actor->draw(visibleArea);
+	}
 
 	/* drawing others entities */
 	foreach(Entity*, entity, vector<Entity*>, entities)
@@ -420,6 +437,13 @@ void InGameState::render()
 		font->drawText(string("Time: ")+((int)(24*timeOfDay/period))+":00", 0, 72, Color::WHITE);
 		font->drawText(string("FPS: ")+game.getFpsCount(), 0, 96, Color::WHITE);
 	}
+
+	if     (player->currentHp >= 1.00 * player->maxHp) font->drawText("Unharmed", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::CYAN);
+	else if(player->currentHp >  0.75 * player->maxHp) font->drawText("Good", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::GREEN);
+	else if(player->currentHp >  0.50 * player->maxHp) font->drawText("Injured", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::YELLOW);
+	else if(player->currentHp >  0.25 * player->maxHp) font->drawText("Badly Injured", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::ORANGE);
+	else if(player->currentHp >  0.00 * player->maxHp) font->drawText("Near death", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::RED);
+	else 										       font->drawText("Dead", 0.8*display.getWidth(), 1.1*font->getHeight(), Color::MAROON);
 
 	if(inventoryVisible)
 		inventory->draw();
@@ -488,35 +512,41 @@ void InGameState::update(float delta)
 	map->updatePrecipitables();
 	ingameTime += delta;
 
+	/*
+	// todo spawn dummy enemies
+	if(actors.size() < 2 and futil::random_between(0, 100) == 0)
+	{
+		actors.push_back(new Actor());
+	}
+	*/
+
+	// trashing out stuff
 	vector<Entity*> trash;
 	foreach(Entity*, entity, vector<Entity*>, entities)
 	{
-		if(entity != player)
+		Item* entityItem = entityItemMapping[entity];
+		const bool isNotItemOrCanAdd = (entityItem == null or inventory->canAdd(entityItem));
+
+		const Physics::Vector distanceVector = player->body->getCenter() - entity->body->getCenter();
+		const double distanceLength = distanceVector.length();
+
+		if(distanceLength < 0.1 and isNotItemOrCanAdd)
 		{
-			Item* entityItem = entityItemMapping[entity];
-			const bool isNotItemOrCanAdd = (entityItem == null or inventory->canAdd(entityItem));
+			trash.push_back(entity);
 
-			const Physics::Vector distanceVector = player->body->getCenter() - entity->body->getCenter();
-			const double distanceLength = distanceVector.length();
-
-			if(distanceLength < 0.1 and isNotItemOrCanAdd)
+			if(entityItem != null)
 			{
-				trash.push_back(entity);
+				cout << itemTypeInfo[entityItem->id].name << " eaten" << endl;
 
-				if(entityItem != null)
-				{
-					cout << itemTypeInfo[entityItem->id].name << " eaten" << endl;
-
-					inventory->add(entityItem);
-					entityItemMapping.erase(entity);
-				}
+				inventory->add(entityItem);
+				entityItemMapping.erase(entity);
 			}
+		}
 
-			else if(distanceLength < 0.8 and isNotItemOrCanAdd)
-			{
-				const double magnetude = 0.05*(1-1/(1+distanceLength));
-				entity->body->applyForceToCenter(distanceVector.unit().scale(magnetude));
-			}
+		else if(distanceLength < 0.8 and isNotItemOrCanAdd)
+		{
+			const double magnetude = 0.05*(1-1/(1+distanceLength));
+			entity->body->applyForceToCenter(distanceVector.unit().scale(magnetude));
 		}
 	}
 	foreach(Entity*, entity, vector<Entity*>, trash)
@@ -756,7 +786,7 @@ bool InGameState::isItemTypeIdExistant(int id)
 void InGameState::saveCharacterData()
 {
 	Properties charProp;
-	charProp.put("name", playerName);
+	charProp.put("name", player->label);
 	for(unsigned i = 0; i < inventory->container->items.size(); i++)
 	{
 		Item* item = inventory->container->items[i];

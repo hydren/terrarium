@@ -10,6 +10,7 @@
 #include "futil/collection_actions.hpp"
 #include "futil/language.hpp"
 #include "futil/string_actions.hpp"
+#include "futil/random.h"
 
 #include <cmath>
 #include <climits>
@@ -67,6 +68,12 @@ InGameState::~InGameState()
 	}
 
 	cout << "game stuff destructor..." << endl;
+
+	foreach(Actor*, a, vector<Actor*>, actors)
+	{
+		delete a;
+	}
+
 	foreach(Entity*, e, vector<Entity*>, entities)
 	{
 		delete e;
@@ -145,7 +152,7 @@ void InGameState::initialize()
 	anim.currentIndex = ANIM_PLAYER_STAND_RIGHT;
 
 	//loading player
-	entities.push_back(player = new Actor(&anim, null, "player"));
+	actors.push_back(player = new Actor(&anim, null, "player"));
 
 	playerJumpImpulse = player_body_width*player_body_height * 0.5;
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
@@ -499,35 +506,41 @@ void InGameState::update(float delta)
 	map->updatePrecipitables();
 	ingameTime += delta;
 
+	/*
+	// todo spawn dummy enemies
+	if(actors.size() < 2 and futil::random_between(0, 100) == 0)
+	{
+		actors.push_back(new Actor());
+	}
+	*/
+
+	// trashing out stuff
 	vector<Entity*> trash;
 	foreach(Entity*, entity, vector<Entity*>, entities)
 	{
-		if(entity != player)
+		Item* entityItem = entityItemMapping[entity];
+		const bool isNotItemOrCanAdd = (entityItem == null or inventory->canAdd(entityItem));
+
+		const Physics::Vector distanceVector = player->body->getCenter() - entity->body->getCenter();
+		const double distanceLength = distanceVector.length();
+
+		if(distanceLength < 0.1 and isNotItemOrCanAdd)
 		{
-			Item* entityItem = entityItemMapping[entity];
-			const bool isNotItemOrCanAdd = (entityItem == null or inventory->canAdd(entityItem));
+			trash.push_back(entity);
 
-			const Physics::Vector distanceVector = player->body->getCenter() - entity->body->getCenter();
-			const double distanceLength = distanceVector.length();
-
-			if(distanceLength < 0.1 and isNotItemOrCanAdd)
+			if(entityItem != null)
 			{
-				trash.push_back(entity);
+				cout << itemTypeInfo[entityItem->id].name << " eaten" << endl;
 
-				if(entityItem != null)
-				{
-					cout << itemTypeInfo[entityItem->id].name << " eaten" << endl;
-
-					inventory->add(entityItem);
-					entityItemMapping.erase(entity);
-				}
+				inventory->add(entityItem);
+				entityItemMapping.erase(entity);
 			}
+		}
 
-			else if(distanceLength < 0.8 and isNotItemOrCanAdd)
-			{
-				const double magnetude = 0.05*(1-1/(1+distanceLength));
-				entity->body->applyForceToCenter(distanceVector.unit().scale(magnetude));
-			}
+		else if(distanceLength < 0.8 and isNotItemOrCanAdd)
+		{
+			const double magnetude = 0.05*(1-1/(1+distanceLength));
+			entity->body->applyForceToCenter(distanceVector.unit().scale(magnetude));
 		}
 	}
 	foreach(Entity*, entity, vector<Entity*>, trash)

@@ -64,8 +64,11 @@ class InGameState extends public fgeal::Game::State
 
 	std::vector<Entity*> entities;
 
-	// the player, a separate entity
+	// a pointer to the player actor
 	Actor* player;
+
+	// all actors, including the player, NPCs and enemies
+	std::vector<Actor*> actors;
 
 	// ==== logic
 

@@ -393,6 +393,12 @@ void InGameState::render()
 	map->draw();
 
 	/* drawing others entities */
+	foreach(Actor*, actor, vector<Actor*>, actors)
+	{
+		actor->draw(visibleArea);
+	}
+
+	/* drawing others entities */
 	foreach(Entity*, entity, vector<Entity*>, entities)
 	{
 		entity->draw(visibleArea);

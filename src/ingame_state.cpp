@@ -153,6 +153,7 @@ void InGameState::initialize()
 
 	//loading player
 	actors.push_back(player = new Actor(&anim, null, "player"));
+	player->typeID = 0;
 
 	playerJumpImpulse = player_body_width*player_body_height * 0.5;
 	playerWalkForce =   player_body_width*player_body_height * 1.2;
@@ -576,12 +577,20 @@ void InGameState::update(float delta)
 	if(actors.size() < 2 and futil::random_between(0, 500) == 0)
 	{
 		cout << "adding dummy mob..." << endl;
-		Actor* enemy = new Actor(actorTypeInfo[1].animation, null, actorTypeInfo[1].name);
+		const int typeId = 1;  // xxx hardcoded type id
+		Actor* enemy = new Actor(actorTypeInfo[typeId].animation, null, actorTypeInfo[typeId].name);
+		enemy->typeID = typeId;
 		enemy->body = new Body(1, 1, Physics::convertToMeters(enemy->animation->current().width), Physics::convertToMeters(enemy->animation->current().height));
 		map->world->addBody(enemy->body);
 		enemy->body->setFixedRotation();
 		enemy->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
 		actors.push_back(enemy);
+	}
+
+	foreach(Actor*, actor, vector<Actor*>, actors)
+	{
+		if(actor->typeID != 0)
+			actor->behave(delta);
 	}
 
 	// trashing out stuff

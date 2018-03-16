@@ -30,9 +30,29 @@ class Actor extends public Entity
 		std::string name, description, faction;
 		unsigned maxHp, contactDamageFactor;
 		Animation* animation;
+
+		// todo move behavior class to here
 	};
 
+	struct Behavior
+	{
+		enum Type
+		{
+			TYPE_DUMMY_STAND,
+			TYPE_DUMMY_WALK,
+			/* ... */
+		};
+
+		Type type;
+
+		// behavior vars
+		long lastTimeWalked;
+	}
+	behavior;
+
 	Actor(Animation* anim=null, Body *body=null, string label=string());
+
+	void behave(float timestep);
 };
 
 #endif /* ACTOR_HPP_ */

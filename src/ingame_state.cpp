@@ -172,7 +172,66 @@ void InGameState::initialize()
 		}
 	}
 
-	//loading items
+	//loading actor types
+	actorTypeInfo.push_back(Actor::Type());  // null actor type (id 0)
+	for(unsigned i = 1; i < 1024; i++)	//xxx hardcoded limit for item type IDs
+	{
+		const string baseKey = "actor_type"+futil::to_string(i), nameKey = baseKey+".name";
+		if(config.containsKey(nameKey))
+		{
+			cout << "loading actor type as specified by " << baseKey << " (\"" << config.get(nameKey) << "\")..." << endl;
+			actorTypeInfo.push_back(Actor::Type());
+			Actor::Type& type = actorTypeInfo.back();
+			type.id = i;
+			type.name = config.get(nameKey);
+			type.description = config.get(baseKey+".description");
+
+			type.faction = config.get(baseKey+".faction");
+
+			type.maxHp = config.getParsedCStr<int, atoi>(baseKey+".max_hp", 1);
+//			type.mass = config.getParsedCStr<double, atof>(baseKey+".mass");
+			type.contactDamageFactor = config.getParsedCStr<int, atoi>(baseKey+".contact_damage_factor", 0);
+
+			string spriteFilenameKey = baseKey + ".sprite.filename";
+			if(config.containsKey(spriteFilenameKey))
+			{
+				StackedSingleSheetAnimation& actorAnim = *new StackedSingleSheetAnimation(new Image(config.get(spriteFilenameKey)));
+
+				const unsigned actorSpriteWidth = atoi(config.get(baseKey+".sprite.width").c_str());
+				const unsigned actorSpriteHeight = atoi(config.get(baseKey+".sprite.height").c_str());
+
+				const unsigned actorAnimStandLeftFrameCount = atoi(config.get(baseKey+".sprite.anim.stand_left.frame_count").c_str());
+				const float actorAnimStandLeftFrameDuration = atof(config.get(baseKey+".sprite.anim.stand_left.frame_duration").c_str());
+				actorAnim.addSprite(actorSpriteWidth, actorSpriteHeight, actorAnimStandLeftFrameCount, actorAnimStandLeftFrameDuration);
+
+				const unsigned actorAnimStandRightFrameCount = atoi(config.get(baseKey+".sprite.anim.stand_right.frame_count").c_str());
+				const float actorAnimStandRightFrameDuration = atof(config.get(baseKey+".sprite.anim.stand_right.frame_duration").c_str());
+				actorAnim.addSprite(actorSpriteWidth, actorSpriteHeight, actorAnimStandRightFrameCount, actorAnimStandRightFrameDuration);
+
+				const unsigned actorAnimWalkLeftFrameCount = atoi(config.get(baseKey+".sprite.anim.walk_left.frame_count").c_str());
+				const float actorAnimWalkLeftFrameDuration = atof(config.get(baseKey+".sprite.anim.walk_left.frame_duration").c_str());
+				actorAnim.addSprite(actorSpriteWidth, actorSpriteHeight, actorAnimWalkLeftFrameCount, actorAnimWalkLeftFrameDuration);
+
+				const unsigned actorAnimWalkRightFrameCount = atoi(config.get(baseKey+".sprite.anim.walk_right.frame_count").c_str());
+				const float actorAnimWalkRightFrameDuration = atof(config.get(baseKey+".sprite.anim.walk_right.frame_duration").c_str());
+
+				actorAnim.addSprite(actorSpriteWidth, actorSpriteHeight, actorAnimWalkRightFrameCount, actorAnimWalkRightFrameDuration);
+
+				const unsigned actorSpriteReferencePixelX = atoi(config.get(baseKey+".sprite.reference_pixel.x").c_str());
+				const unsigned actorSpriteReferencePixelY = atoi(config.get(baseKey+".sprite.reference_pixel.y").c_str());
+				for(unsigned i = 0; i < actorAnim.sprites.size(); i++)
+				{
+					actorAnim[i].referencePixelX = actorSpriteReferencePixelX;
+					actorAnim[i].referencePixelY = actorSpriteReferencePixelY;
+				}
+
+				type.animation = &actorAnim;
+			}
+			else type.animation = null;
+		}
+	}
+
+	//loading items types
 	itemTypeInfo.push_back(Item::Type());  // null item type (id 0)
 	for(unsigned i = 1; i < 1024; i++)	//xxx hardcoded limit for item type IDs
 	{
@@ -512,13 +571,18 @@ void InGameState::update(float delta)
 	map->updatePrecipitables();
 	ingameTime += delta;
 
-	/*
+
 	// todo spawn dummy enemies
-	if(actors.size() < 2 and futil::random_between(0, 100) == 0)
+	if(actors.size() < 2 and futil::random_between(0, 500) == 0)
 	{
-		actors.push_back(new Actor());
+		cout << "adding dummy mob..." << endl;
+		Actor* enemy = new Actor(actorTypeInfo[1].animation, null, actorTypeInfo[1].name);
+		enemy->body = new Body(1, 1, Physics::convertToMeters(enemy->animation->current().width), Physics::convertToMeters(enemy->animation->current().height));
+		map->world->addBody(enemy->body);
+		enemy->body->setFixedRotation();
+		enemy->animation->currentIndex = ANIM_PLAYER_STAND_RIGHT;
+		actors.push_back(enemy);
 	}
-	*/
 
 	// trashing out stuff
 	vector<Entity*> trash;

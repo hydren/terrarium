@@ -14,12 +14,23 @@
 class Actor extends public Entity
 {
 	public:
-	string label;
+	std::string label;
+
+	// id of the actor type
+	int typeID;
 
 	// todo parametrize these fields
 	unsigned currentHp, maxHp;
 
 	Item* containerItem, *equipHead, *equipTorso, *equipLegs, *equipArms;
+
+	struct Type
+	{
+		unsigned id;
+		std::string name, description, faction;
+		unsigned maxHp, contactDamageFactor;
+		Animation* animation;
+	};
 
 	Actor(Animation* anim=null, Body *body=null, string label=string());
 };

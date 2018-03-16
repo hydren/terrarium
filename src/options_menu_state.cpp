@@ -140,10 +140,10 @@ void OptionsMenuState::update(float delta)
 						break;
 					}
 					case Keyboard::KEY_ARROW_UP:
-						menuMain->cursorUp();
+						menuMain->moveCursorUp();
 						break;
 					case Keyboard::KEY_ARROW_DOWN:
-						menuMain->cursorDown();
+						menuMain->moveCursorDown();
 						break;
 					default:
 						break;
@@ -191,10 +191,10 @@ void OptionsMenuState::updateOnResolutionMenu()
 					break;
 				}
 				case Keyboard::KEY_ARROW_UP:
-					menuResolution->cursorUp();
+					menuResolution->moveCursorUp();
 					break;
 				case Keyboard::KEY_ARROW_DOWN:
-					menuResolution->cursorDown();
+					menuResolution->moveCursorDown();
 					break;
 				default:
 					break;

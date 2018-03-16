@@ -344,10 +344,10 @@ void MainMenuState::handleInputOnMainMenu(Event& ev)
 	if(ev.getEventType() == Event::TYPE_KEY_PRESS)
 	{
 		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_UP)
-			mainMenu->cursorUp();
+			mainMenu->moveCursorUp();
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_DOWN)
-			mainMenu->cursorDown();
+			mainMenu->moveCursorDown();
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		switch(mainMenu->getSelectedIndex())  // this isn't exactly elegant...
@@ -384,10 +384,10 @@ void MainMenuState::handleInputOnMapFileSelectionDialog(Event& ev)
 			onMapFileSelectionDialog = false;
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_UP)
-			fileMenu->cursorUp();
+			fileMenu->moveCursorUp();
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_DOWN)
-			fileMenu->cursorDown();
+			fileMenu->moveCursorDown();
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		{
@@ -484,10 +484,10 @@ void MainMenuState::handleInputOnCharSelectionDialog(fgeal::Event& ev)
 			onCharacterSelectionDialog = false;
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_UP)
-			charMenu->cursorUp();
+			charMenu->moveCursorUp();
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ARROW_DOWN)
-			charMenu->cursorDown();
+			charMenu->moveCursorDown();
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		{

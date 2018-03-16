@@ -716,11 +716,11 @@ void InGameState::handleInputOnInGameMenu(Event& event)
 		switch(event.getEventKeyCode())
 		{
 			case fgeal::Keyboard::KEY_ARROW_UP:
-				inGameMenu->cursorUp();
+				inGameMenu->moveCursorUp();
 				break;
 
 			case fgeal::Keyboard::KEY_ARROW_DOWN:
-				inGameMenu->cursorDown();
+				inGameMenu->moveCursorDown();
 				break;
 
 			case fgeal::Keyboard::KEY_ESCAPE:

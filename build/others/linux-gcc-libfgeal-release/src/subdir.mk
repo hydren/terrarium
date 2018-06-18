@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/actor.cpp \
 ../src/animation.cpp \
 ../src/block.cpp \
 ../src/entity.cpp \
@@ -22,6 +23,7 @@ CPP_SRCS += \
 ../src/terrarium_game_logic.cpp 
 
 OBJS += \
+./src/actor.o \
 ./src/animation.o \
 ./src/block.o \
 ./src/entity.o \
@@ -40,6 +42,7 @@ OBJS += \
 ./src/terrarium_game_logic.o 
 
 CPP_DEPS += \
+./src/actor.d \
 ./src/animation.d \
 ./src/block.d \
 ./src/entity.d \

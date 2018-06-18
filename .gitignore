@@ -56,4 +56,6 @@ spec.i
 /win32-msvc-sfml2.0-debug/
 /win32-msvc-sfml2.0-release/
 
-
+# Eclipse build folders (Allegro 4.4/4.2)
+/linux-gcc-allegro4.4-debug/
+/linux-gcc-allegro4.4-release/

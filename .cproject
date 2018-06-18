@@ -167,8 +167,8 @@
 									<listOptionValue builtIn="false" value="Box2D"/>
 									<listOptionValue builtIn="false" value="fgeal"/>
 								</option>
-								<option id="gnu.cpp.link.option.paths.1369534558" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/fgeal/libs}&quot;"/>
+								<option id="gnu.cpp.link.option.paths.1369534558" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc}/fgeal/${config_name:fgeal}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.855693063" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -371,7 +371,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -434,7 +434,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0|fgeal/adapters/sdl2.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0|fgeal/adapters/sdl2.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -497,7 +497,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -562,7 +562,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -625,7 +625,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -688,7 +688,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -813,7 +813,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -877,7 +877,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -941,7 +941,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1005,7 +1005,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1069,7 +1069,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1133,7 +1133,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl1.2|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1196,7 +1196,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0|fgeal/adapters/sdl2.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0|fgeal/adapters/sdl2.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1259,7 +1259,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1322,7 +1322,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sdl1.2|fgeal/futil|fgeal/adapters/allegro5.0|fgeal/adapters/sdl2.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sdl1.2|fgeal/futil|fgeal/adapters/allegro5.0|fgeal/adapters/sdl2.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1385,7 +1385,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sfml2.0|fgeal/adapters/sdl1.2|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sfml2.0|fgeal/adapters/sdl1.2|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1447,7 +1447,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1509,7 +1509,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1532,7 +1532,7 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.461964071" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1160872411" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.179623145" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.includes.862294368" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.862294368" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.508680482" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
@@ -1571,7 +1571,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1594,7 +1594,7 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.366895450" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.844284040" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1050851492" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.includes.1854759110" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.1854759110" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.37146553" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
@@ -1635,7 +1635,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl2.0|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl2.0|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1658,7 +1658,7 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.1366963320" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.462356143" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.261161710" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.includes.870347594" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.870347594" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.1385419453" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
@@ -1699,7 +1699,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl2.0|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl2.0|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1722,7 +1722,7 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.1502552431" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.262387046" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1733933318" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.includes.796686454" superClass="org.eclipse.cdt.msvc.cl.option.includes" useByScannerDiscovery="false" valueType="includePath">
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.796686454" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.214048621" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
@@ -1761,7 +1761,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl1.2|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1784,7 +1784,7 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.1812695359" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1170462115" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.891347695" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.includes.2129361604" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.2129361604" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.958353329" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
@@ -1825,7 +1825,7 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl1.2|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1848,7 +1848,7 @@
 							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.1644908166" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
 								<option id="org.eclipse.cdt.msvc.cl.option.optimization.14745573" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.optimization.2" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.610612381" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" useByScannerDiscovery="false" value="org.eclipse.cdt.msvc.cl.option.debugFormat.none" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.includes.1342230007" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+								<option id="org.eclipse.cdt.msvc.cl.option.includes.1342230007" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${WindowsSdkDir}/Include&quot;"/>
 								</option>
 								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.871612860" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
@@ -1889,7 +1889,72 @@
 					<sourceEntries>
 						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="fgeal/adapters/sdl1.2|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+						<entry excluding="fgeal/adapters/allegro4.4|fgeal/adapters/sdl1.2|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/allegro5.0" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.1762329327.1248564761.1221575171">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.1762329327.1248564761.1221575171" moduleId="org.eclipse.cdt.core.settings" name="linux-gcc-allegro4.4-debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.1762329327.1248564761.1221575171" name="linux-gcc-allegro4.4-debug" parent="cdt.managedbuild.config.gnu.cross.exe.debug">
+					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1346649268.665838812.1762329327.1248564761.1221575171." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1986692584" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.gnu.platform.base.1661440970" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
+							<builder buildPath="${workspace_loc:/terrarium}/Debug Linux" id="cdt.managedbuild.target.gnu.builder.base.342587286" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.2087869311" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1697742260" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
+								<option id="gnu.cpp.compiler.option.optimization.level.985147741" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.795065388" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.include.paths.49167109" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src_libs}&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1125913954" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1925998936" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1836362924" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.2073836245" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.60558312" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.26798521" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.2095504676" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
+								<option id="gnu.cpp.link.option.libs.1156378690" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="Box2D"/>
+									<listOptionValue builtIn="false" value="alleg"/>
+									<listOptionValue builtIn="false" value="loadpng"/>
+									<listOptionValue builtIn="false" value="jpgalleg"/>
+									<listOptionValue builtIn="false" value="algif"/>
+									<listOptionValue builtIn="false" value="logg"/>
+									<listOptionValue builtIn="false" value="almp3"/>
+									<listOptionValue builtIn="false" value="alttf"/>
+								</option>
+								<option id="gnu.cpp.link.option.paths.1733125850" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.13382881" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.56977726" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.162134279" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="build|src_libs|include|_prototype|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="fgeal/adapters/allegro5.0|fgeal/adapters/sfml2.0|fgeal/adapters/sfml1.6|fgeal/futil|fgeal/adapters/sdl2.0|fgeal/adapters/sdl1.2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src_libs"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

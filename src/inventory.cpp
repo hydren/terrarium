@@ -13,6 +13,7 @@
 
 using fgeal::Rectangle;
 using fgeal::Image;
+using fgeal::Graphics;
 using fgeal::Color;
 using fgeal::Font;
 using fgeal::Point;
@@ -105,15 +106,15 @@ Item* Inventory::getItemInSlotPointedBy(float ptx, float pty)
 
 void Inventory::draw()
 {
-	Image::drawFilledRectangle(bounds.x, bounds.y, bounds.w, bounds.h, color);
-	Image::drawRectangle(bounds.x, bounds.y, bounds.w, bounds.h, Color::GREY);
+	Graphics::drawFilledRectangle(bounds.x, bounds.y, bounds.w, bounds.h, color);
+	Graphics::drawRectangle(bounds.x, bounds.y, bounds.w, bounds.h, Color::GREY);
 
 	const int slotsPerLine = (int) (bounds.w / inventorySlotSize.w);
 	for(unsigned i = 0; i < container->type.itemSlotCount; i++)
 	{
 		const float x = bounds.x + inventorySlotSize.w * (i % slotsPerLine) + 1;
 		const float y = bounds.y + inventorySlotSize.h * (i / slotsPerLine) + 1;
-		Image::drawRectangle(x, y, inventorySlotSize.w, inventorySlotSize.h, Color::LIGHT_GREY);
+		Graphics::drawRectangle(x, y, inventorySlotSize.w, inventorySlotSize.h, Color::LIGHT_GREY);
 
 		if(i < container->items.size())
 		{

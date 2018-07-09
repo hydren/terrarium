@@ -26,6 +26,7 @@ using Physics::convertToPixels;
 using Physics::convertToMeters;
 using Physics::newVector;
 using fgeal::Image;
+using fgeal::Graphics;
 using fgeal::Event;
 using fgeal::EventQueue;
 using fgeal::Color;
@@ -483,7 +484,7 @@ void InGameState::render()
 		darkFilterColor.a = UCHAR_MAX * maxDarkening * proportion;
 	}
 
-	Image::drawFilledRectangle(0, 0, display.getWidth(), display.getHeight(), darkFilterColor);
+	Graphics::drawFilledRectangle(0, 0, display.getWidth(), display.getHeight(), darkFilterColor);
 
 	/* later should be a character class */
 

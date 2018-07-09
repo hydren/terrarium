@@ -28,6 +28,7 @@ using fgeal::Event;
 using fgeal::Font;
 using fgeal::Menu;
 using fgeal::Image;
+using fgeal::Graphics;
 using fgeal::EventQueue;
 using fgeal::Rectangle;
 using fgeal::Color;
@@ -251,16 +252,16 @@ void MainMenuState::render()
 	if(onMapCreationDialog)
 	{
 		// draw dialog bg
-		Image::drawFilledRectangle(0.25*sw, 0.39*sh, 0.5*sw, 4*minorFont->getHeight(), fileMenu->bgColor);
+		Graphics::drawFilledRectangle(0.25*sw, 0.39*sh, 0.5*sw, 4*minorFont->getHeight(), fileMenu->bgColor);
 
 		minorFont->drawText("Map name:", 0.275*sw, 0.4*sh, Color::WHITE);
 
 		// draw name text field bg
-		Image::drawFilledRectangle(0.275*sw, 0.4*sh + 1.1*minorFont->getHeight(), 0.4*sw, minorFont->getHeight(), fileMenu->bgColor);
+		Graphics::drawFilledRectangle(0.275*sw, 0.4*sh + 1.1*minorFont->getHeight(), 0.4*sw, minorFont->getHeight(), fileMenu->bgColor);
 
 		// draw cursor
 		if(((int) (fgeal::uptime()*2))%2 == 0)
-		Image::drawFilledRectangle(0.275*sw + minorFont->getTextWidth(mapCreationFilename), 0.4*sh + 1.1*minorFont->getHeight(), 0.005*sw, minorFont->getHeight(), Color::WHITE);
+		Graphics::drawFilledRectangle(0.275*sw + minorFont->getTextWidth(mapCreationFilename), 0.4*sh + 1.1*minorFont->getHeight(), 0.005*sw, minorFont->getHeight(), Color::WHITE);
 
 		if(not mapCreationFilename.empty())
 			minorFont->drawText(mapCreationFilename, 0.275*sw, 0.4*sh + minorFont->getHeight(), Color::WHITE);
@@ -269,7 +270,7 @@ void MainMenuState::render()
 			minorFont->drawText("Filename already exists!", 0.275*sw, 0.4*sh + 2.25*minorFont->getHeight(), Color::RED);
 
 		// Ok button
-//		Image::drawFilledEllipse(0.5*sw, 0.4*sh + minorFont->getHeight()*4 , 1.25*minorFont->getTextWidth("Ok"), minorFont->getHeight(), Color::ORANGE);
+//		Graphics::drawFilledEllipse(0.5*sw, 0.4*sh + minorFont->getHeight()*4 , 1.25*minorFont->getTextWidth("Ok"), minorFont->getHeight(), Color::ORANGE);
 //		minorFont->drawText("Ok", 0.5*(sw-minorFont->getTextWidth("Ok")), 0.4*sh + minorFont->getHeight()*3.5, Color::WHITE);
 	}
 
@@ -279,16 +280,16 @@ void MainMenuState::render()
 	if(onCharacterCreationDialog)
 	{
 		// draw dialog bg
-		Image::drawFilledRectangle(0.25*sw, 0.39*sh, 0.5*sw, 4*minorFont->getHeight(), fileMenu->bgColor);
+		Graphics::drawFilledRectangle(0.25*sw, 0.39*sh, 0.5*sw, 4*minorFont->getHeight(), fileMenu->bgColor);
 
 		minorFont->drawText("Char name:", 0.275*sw, 0.4*sh, Color::WHITE);
 
 		// draw name text field bg
-		Image::drawFilledRectangle(0.275*sw, 0.4*sh + 1.1*minorFont->getHeight(), 0.4*sw, minorFont->getHeight(), fileMenu->bgColor);
+		Graphics::drawFilledRectangle(0.275*sw, 0.4*sh + 1.1*minorFont->getHeight(), 0.4*sw, minorFont->getHeight(), fileMenu->bgColor);
 
 		// draw cursor
 		if(((int) (fgeal::uptime()*2))%2 == 0)
-		Image::drawFilledRectangle(0.275*sw + minorFont->getTextWidth(charCreationFilename), 0.4*sh + 1.1*minorFont->getHeight(), 0.005*sw, minorFont->getHeight(), Color::WHITE);
+		Graphics::drawFilledRectangle(0.275*sw + minorFont->getTextWidth(charCreationFilename), 0.4*sh + 1.1*minorFont->getHeight(), 0.005*sw, minorFont->getHeight(), Color::WHITE);
 
 		if(not charCreationFilename.empty())
 			minorFont->drawText(charCreationFilename, 0.275*sw, 0.4*sh + minorFont->getHeight(), Color::WHITE);
@@ -297,7 +298,7 @@ void MainMenuState::render()
 			minorFont->drawText("Filename already exists!", 0.275*sw, 0.4*sh + 2.25*minorFont->getHeight(), Color::RED);
 
 		// Ok button
-//		Image::drawFilledEllipse(0.5*sw, 0.4*sh + minorFont->getHeight()*4 , 1.25*minorFont->getTextWidth("Ok"), minorFont->getHeight(), Color::ORANGE);
+//		Graphics::drawFilledEllipse(0.5*sw, 0.4*sh + minorFont->getHeight()*4 , 1.25*minorFont->getTextWidth("Ok"), minorFont->getHeight(), Color::ORANGE);
 //		minorFont->drawText("Ok", 0.5*(sw-minorFont->getTextWidth("Ok")), 0.4*sh + minorFont->getHeight()*3.5, Color::WHITE);
 	}
 

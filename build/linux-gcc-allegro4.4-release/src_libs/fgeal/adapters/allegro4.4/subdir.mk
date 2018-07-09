@@ -8,6 +8,7 @@ CPP_SRCS += \
 ../src_libs/fgeal/adapters/allegro4.4/display.cpp \
 ../src_libs/fgeal/adapters/allegro4.4/event.cpp \
 ../src_libs/fgeal/adapters/allegro4.4/font.cpp \
+../src_libs/fgeal/adapters/allegro4.4/graphics.cpp \
 ../src_libs/fgeal/adapters/allegro4.4/image.cpp \
 ../src_libs/fgeal/adapters/allegro4.4/input.cpp \
 ../src_libs/fgeal/adapters/allegro4.4/sound.cpp 
@@ -17,6 +18,7 @@ OBJS += \
 ./src_libs/fgeal/adapters/allegro4.4/display.o \
 ./src_libs/fgeal/adapters/allegro4.4/event.o \
 ./src_libs/fgeal/adapters/allegro4.4/font.o \
+./src_libs/fgeal/adapters/allegro4.4/graphics.o \
 ./src_libs/fgeal/adapters/allegro4.4/image.o \
 ./src_libs/fgeal/adapters/allegro4.4/input.o \
 ./src_libs/fgeal/adapters/allegro4.4/sound.o 
@@ -26,6 +28,7 @@ CPP_DEPS += \
 ./src_libs/fgeal/adapters/allegro4.4/display.d \
 ./src_libs/fgeal/adapters/allegro4.4/event.d \
 ./src_libs/fgeal/adapters/allegro4.4/font.d \
+./src_libs/fgeal/adapters/allegro4.4/graphics.d \
 ./src_libs/fgeal/adapters/allegro4.4/image.d \
 ./src_libs/fgeal/adapters/allegro4.4/input.d \
 ./src_libs/fgeal/adapters/allegro4.4/sound.d 

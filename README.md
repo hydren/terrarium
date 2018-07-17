@@ -9,4 +9,6 @@ branches using their project structure (but again, the code is mostly oudated).
 
 See [BUILDING.md](https://gitlab.com/hydren/terrarium/blob/master/BUILDING.md) for information about building the code.
 
-![screenshot](https://gitlab.com/hydren/terrarium/blob/wiki/screenshots/0.1.9/screenshot.jpg)
+[screenshot](https://gitlab.com/hydren/terrarium/blob/wiki/screenshots/0.1.9/screenshot.jpg)
+
+[screenshot2](https://gitlab.com/hydren/terrarium/blob/wiki/screenshots/0.1.9/terrarium%200.1.9%20on%20ubuntu%206.06.png)

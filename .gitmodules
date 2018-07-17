@@ -1,12 +1,12 @@
 [submodule "src_libs/futil"]
 	path = src_libs/futil
-	url = https://github.com/hydren/futil
+	url = https://gitlab.com/hydren/futil
 [submodule "src_libs/fgeal"]
 	path = src_libs/fgeal
-	url = https://github.com/hydren/fgeal
+	url = https://gitlab.com/hydren/fgeal
 [submodule "src_libs/rapidxml"]
 	path = src_libs/rapidxml
 	url = https://github.com/hydren/rapidxml
 [submodule "src_libs/libgeramun"]
 	path = src_libs/libgeramun
-	url = https://github.com/hydren/libgeramun
+	url = https://gitlab.com/hydren/libgeramun

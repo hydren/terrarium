@@ -24,7 +24,7 @@ Assuming you are on Linux, you can build it using 'make':
 * Execute the configure script: `./configure.sh`.
 * If the previous script ended ok, build using the makefile: `make` 
 
-> Make sure that the submodules are included in the source folder (currently [futil](https://gitlab.com/hydren/futil.git), [fgeal](https://gitlab.com/hydren/fgeal.git) and [rapidxml](https://gitlab.com/hydren/rapidxml.git), all in the `src_libs` folder). If you cloned the repository without the `--recursive` option, they are probably absent.
+> Make sure that the submodules are included in the source folder (currently [futil](https://gitlab.com/hydren/futil.git), [fgeal](https://gitlab.com/hydren/fgeal.git) and [rapidxml](https://github.com/hydren/rapidxml.git), all in the `src_libs` folder). If you cloned the repository without the `--recursive` option, they are probably absent.
 
 ### Dependencies
 
@@ -78,9 +78,9 @@ You can also use eclipse to build the project (tested to work with MinGW and Lin
 
 ### Instructions:
 - Clone the code from [this](https://gitlab.com/hydren/terrarium.git) repository (make sure to use the `--recursive` options)
-- If you simply downloaded, you'll probably need to download the submodules as well ([futil](https://gitlab.com/hydren/futil.git), [fgeal](https://gitlab.com/hydren/fgeal.git) and [rapidxml](https://gitlab.com/hydren/rapidxml.git))
+- If you simply downloaded, you'll probably need to download the submodules as well ([futil](https://gitlab.com/hydren/futil.git), [fgeal](https://gitlab.com/hydren/fgeal.git) and [rapidxml](https://github.com/hydren/rapidxml.git))
 - Import the project using the [Import Projects wizard](http://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.platform.doc.user%2Ftasks%2Ftasks-importproject.htm).
-- If you want to clone from Eclipse, select workspace and on the projects pane left-click and select `Import -> Projects from git`. Choose `Clone URI`. On the URI field, paste the repository adress https://gitlab.com/hydren/terrarium.git. Click next and the choose `master` and next. Wait for the download and then select `Import existing projects` and then next and finish. *Note that this method does not download the submodules automatically*.  
+- If you want to clone from Eclipse, select workspace and on the projects pane left-click and select `Import -> Projects from git`. Choose `Clone URI`. On the URI field, paste the repository address https://gitlab.com/hydren/terrarium.git. Click next and the choose `master` and next. Wait for the download and then select `Import existing projects` and then next and finish. *Note that this method does not download the submodules automatically*.  
 - Left-click project and select build configuration according to your environment (i.e. `linux-gcc-sdl1.2-release` for *Linux* with *SDL 1.2* backend, `win32-mingw-allegro5.0-release` for *Windows* with *Allegro 5.0* backend) and then build.
 - Any problems indicates that something probably went wrong with previous steps (missing/wrongly installed libraries, missing/wrongly installed submodules)
 - If something wents wrong because of some cross-gcc stuff, install the `C/C++ GCC Cross Compiler Support` plugin on Eclipse via `Install new software` option on Eclipse.

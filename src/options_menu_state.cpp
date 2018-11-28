@@ -134,7 +134,7 @@ void OptionsMenuState::update(float delta)
 						if(menuMain->getSelectedIndex() == 1)
 							game.getDisplay().setFullscreen(!game.getDisplay().isFullscreen());
 
-						if(menuMain->getSelectedIndex() == menuMain->getEntryCount()-1)
+						if(menuMain->getSelectedIndex() == menuMain->getEntries().size()-1)
 							game.enterState(TerrariumGame::MAIN_MENU_STATE_ID);
 
 						break;
@@ -156,8 +156,8 @@ void OptionsMenuState::update(float delta)
 void OptionsMenuState::updateLabels()
 {
 	Display& display = game.getDisplay();
-	menuMain->at(0).label = string("Resolution: ") + futil::to_string(display.getWidth()) + "x" + futil::to_string(display.getHeight());
-	menuMain->at(1).label = string("Fullscreen: ") + (display.isFullscreen()? " yes" : " no");
+	menuMain->getEntryAt(0).label = string("Resolution: ") + futil::to_string(display.getWidth()) + "x" + futil::to_string(display.getHeight());
+	menuMain->getEntryAt(1).label = string("Fullscreen: ") + (display.isFullscreen()? " yes" : " no");
 }
 
 void OptionsMenuState::updateOnResolutionMenu()

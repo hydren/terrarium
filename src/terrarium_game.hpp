@@ -28,7 +28,7 @@ class TerrariumGame extends public fgeal::Game
 	};
 
 	TerrariumGame();
-	void initializeStatesList();
+	virtual void initialize();
 
 	TerrariumGameLogic logic;
 };

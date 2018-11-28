@@ -9,6 +9,7 @@
 #define INVENTORY_HPP_
 #include <ciso646>
 
+#include "fgeal/colors.hpp"
 #include "fgeal/extra/sprite.hpp"
 
 #include "futil/language.hpp"

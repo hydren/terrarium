@@ -393,7 +393,7 @@ void MainMenuState::handleInputOnMapFileSelectionDialog(Event& ev)
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		{
-			if(fileMenu->getSelectedIndex() == fileMenu->getNumberOfEntries()-1)
+			if(fileMenu->getSelectedIndex() == fileMenu->getEntries().size()-1)
 			{
 				onMapFileSelectionDialog = false;
 				fileMenu->setSelectedIndex(0);
@@ -493,7 +493,7 @@ void MainMenuState::handleInputOnCharSelectionDialog(fgeal::Event& ev)
 
 		if(ev.getEventKeyCode() == Keyboard::KEY_ENTER)
 		{
-			if(charMenu->getSelectedIndex() == charMenu->getNumberOfEntries()-1)
+			if(charMenu->getSelectedIndex() == charMenu->getEntries().size()-1)
 			{
 				// selected cancel
 				charMenu->setSelectedIndex(0);
